@@ -747,11 +747,12 @@
             border: 1px solid var(--card-border);
             border-radius: 20px;
             padding: 24px;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
             animation: fadeInUp 0.5s ease both;
+            will-change: transform;
         }
 
         .resource-card::before {
@@ -971,6 +972,13 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
         }
 
         .modal-content {
@@ -984,7 +992,12 @@
             animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             max-height: 85vh;
             overflow-y: auto;
-            transition: all 0.5s ease;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
         }
 
         .modal-header {
@@ -1200,30 +1213,128 @@
 
         @media (max-width: 768px) {
             .nav-container {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 12px 15px;
+                align-items: center;
+            }
+
+            .time-container {
+                font-size: 0.85rem;
+                order: 1;
+            }
+
+            .logo {
+                font-size: 1rem;
+                order: 2;
+                flex: 1;
+                text-align: center;
             }
 
             .search-container {
                 width: 100%;
+                order: 3;
+                margin-top: 5px;
+            }
+
+            .search-box {
+                font-size: 0.9rem;
+            }
+
+            .site-banner {
+                font-size: 0.8rem;
+                padding: 8px 15px;
             }
 
             .resource-grid {
                 grid-template-columns: 1fr;
+                gap: 12px;
             }
 
             .category-tabs {
-                justify-content: center;
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 10px;
             }
 
-            .daily-quote {
-                flex-direction: column;
+            .category-tab {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+                flex: 1 1 auto;
+                min-width: calc(50% - 4px);
                 text-align: center;
             }
 
-            .time-container {
-                order: -1;
+            .resource-count {
+                display: inline-block;
+                font-size: 0.7rem;
+                padding: 1px 6px;
+                margin-left: 4px;
+            }
+
+            .daily-quote {
+                padding: 15px;
+                margin: 10px 15px;
+            }
+
+            .quote-icon {
+                font-size: 1.5rem;
+            }
+
+            .quote-text {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+
+            .theme-toggle, .donate-btn, .back-to-top {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
+
+            .theme-toggle {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 75px;
+            }
+
+            .donate-btn {
+                bottom: 80px;
+                right: 20px;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 85vh;
+                margin: 10vh auto;
+            }
+
+            .link-input-wrapper {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .copy-btn {
+                position: static;
+                width: 100%;
+                transform: none;
+            }
+
+            .copy-btn:hover {
+                transform: scale(1.02);
+            }
+
+            .particle {
+                display: none;
+            }
+
+            .particle.star {
+                display: block;
             }
         }
     </style>
@@ -1452,7 +1563,7 @@
         function createParticles() {
             const container = document.getElementById('particles');
             
-            const starCount = 120;
+            const starCount = 60;
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'particle star';
@@ -1471,22 +1582,22 @@
                 container.appendChild(star);
             }
             
-            const nebulaCount = 15;
+            const nebulaCount = 8;
             for (let i = 0; i < nebulaCount; i++) {
                 const nebula = document.createElement('div');
                 nebula.style.position = 'absolute';
                 nebula.style.left = Math.random() * 100 + '%';
                 nebula.style.top = Math.random() * 100 + '%';
-                nebula.style.width = (Math.random() * 400 + 200) + 'px';
-                nebula.style.height = (Math.random() * 400 + 200) + 'px';
-                nebula.style.background = `radial-gradient(circle, rgba(${Math.random()*100+100}, ${Math.random()*100+150}, 255, 0.15) 0%, transparent 70%)`;
+                nebula.style.width = (Math.random() * 300 + 150) + 'px';
+                nebula.style.height = (Math.random() * 300 + 150) + 'px';
+                nebula.style.background = `radial-gradient(circle, rgba(${Math.random()*100+100}, ${Math.random()*100+150}, 255, 0.12) 0%, transparent 70%)`;
                 nebula.style.filter = 'blur(40px)';
                 nebula.style.animation = `float ${Math.random() * 20 + 30}s ease-in-out infinite`;
                 nebula.style.animationDelay = Math.random() * 10 + 's';
                 container.appendChild(nebula);
             }
             
-            const shootingCount = 5;
+            const shootingCount = 3;
             for (let i = 0; i < shootingCount; i++) {
                 const shooting = document.createElement('div');
                 shooting.className = 'particle shooting-star';
@@ -1634,12 +1745,12 @@
                 subFilesSection.style.display = 'none';
             }
             
-            modal.style.display = 'flex';
+            modal.classList.add('active');
         }
 
         function closeModal() {
             const modal = document.getElementById('resourceModal');
-            modal.style.display = 'none';
+            modal.classList.remove('active');
         }
 
         document.getElementById('closeModal').addEventListener('click', closeModal);
