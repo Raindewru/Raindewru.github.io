@@ -1640,6 +1640,28 @@
                     }
                 }
                 
+                // 加载 detailed_files.json 并匹配二级目录
+                try {
+                    const detailedResponse = await fetch('resource/detailed_files.json');
+                    if (detailedResponse.ok) {
+                        const detailedData = await detailedResponse.json();
+                        
+                        // 匹配二级目录
+                        allResources = allResources.filter(resource => {
+                            const resourceName = resource['文件名'];
+                            if (detailedData[resourceName]) {
+                                resource['二级文件'] = detailedData[resourceName]['二级文件'];
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
+                } catch (e) {
+                    console.warn('加载 detailed_files.json 失败:', e);
+                    // 如果加载失败，清空资源列表
+                    allResources = [];
+                }
+                
                 if (allResources.length === 0) {
                     throw new Error('No resources loaded');
                 }
