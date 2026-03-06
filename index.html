@@ -3,21 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>资源分享平台</title>
+    <title>免费资源宝库 - 考研考公资料分享</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-mid: #16213e;
+            --bg-gradient-end: #0f3460;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --card-bg: rgba(255, 255, 255, 0.12);
+            --card-bg-hover: rgba(255, 255, 255, 0.18);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --card-border-hover: rgba(0, 212, 255, 0.3);
+            --nav-bg: rgba(255, 255, 255, 0.08);
+            --nav-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --input-border: rgba(255, 255, 255, 0.15);
+            --input-focus-border: #00d4ff;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #7c3aed;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --glow-color: rgba(0, 212, 255, 0.1);
+            --particle-color: rgba(255, 255, 255, 0.15);
+            --modal-bg: linear-gradient(145deg, #1e2a4a 0%, #0f1729 100%);
+        }
+
+        [data-theme="light"] {
+            --bg-gradient-start: #a8edea 0%;
+            --bg-gradient-mid: #fed6e3 50%;
+            --bg-gradient-end: #d299c2 100%;
+            --text-primary: #1a202c;
+            --text-secondary: #2d3748;
+            --text-muted: #4a5568;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-bg-hover: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(255, 255, 255, 0.5);
+            --card-border-hover: rgba(139, 92, 246, 0.5);
+            --nav-bg: rgba(255, 255, 255, 0.75);
+            --nav-border: rgba(255, 255, 255, 0.5);
+            --input-bg: rgba(255, 255, 255, 0.7);
+            --input-border: rgba(255, 255, 255, 0.5);
+            --input-focus-border: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --shadow-color: rgba(139, 92, 246, 0.15);
+            --glow-color: rgba(139, 92, 246, 0.25);
+            --particle-color: rgba(139, 92, 246, 0.2);
+            --modal-bg: linear-gradient(145deg, #ffffff 0%, #f3e8ff 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
             min-height: 100vh;
             overflow-x: hidden;
+            color: var(--text-primary);
+            transition: background 0.5s ease;
         }
-        
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--accent-cyan);
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 4px 20px var(--shadow-color);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 8px 30px var(--glow-color);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 100px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--accent-purple);
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.1);
+            border-color: var(--accent-purple);
+            box-shadow: 0 8px 30px var(--glow-color);
+        }
+
+        .donate-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 100px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #fff;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .donate-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .modal-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .donate-qr-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .donate-qr {
+            text-align: center;
+        }
+
+        .donate-qr img {
+            width: 160px;
+            height: 160px;
+            border-radius: 12px;
+            border: 2px solid var(--card-border);
+            background: #fff;
+            padding: 8px;
+        }
+
+        .donate-qr-label {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .donate-thanks {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 40px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .disclaimer {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .contact-item a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            opacity: 0.8;
+        }
+
         .particles {
             position: fixed;
             top: 0;
@@ -26,222 +321,642 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
+            overflow: hidden;
         }
-        
+
         .particle {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            animation: float 6s ease-in-out infinite;
+            background: radial-gradient(circle, var(--particle-color) 0%, transparent 70%);
+            animation: twinkle var(--duration, 8s) ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+            transition: background 0.5s ease;
         }
-        
+
+        .particle.star {
+            box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.4);
+        }
+
+        .particle.shooting-star {
+            width: 80px !important;
+            height: 2px !important;
+            background: linear-gradient(90deg, rgba(255,255,255,0.9), transparent);
+            animation: shoot 2s ease-out infinite;
+            animation-delay: var(--shoot-delay, 0s);
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.3;
+                box-shadow: 0 0 4px var(--particle-color);
+            }
+            50% { 
+                transform: scale(1.2); 
+                opacity: 1;
+                box-shadow: 0 0 12px var(--particle-color), 0 0 20px var(--particle-color);
+            }
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-45deg);
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+            }
+            30% {
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(300px) translateY(300px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        .click-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 1.5rem;
+            animation: heartFloat 1.5s ease-out forwards;
+        }
+
+        @keyframes heartFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-150px) scale(0.5) rotate(20deg);
+            }
+        }
+
+        .scroll-surprise {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            box-shadow: 0 10px 40px var(--shadow-color);
+            z-index: 998;
+            animation: surprisePop 0.5s ease;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-surprise:hover {
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 15px 50px var(--glow-color);
+        }
+
+        @keyframes surprisePop {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(30px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        .shortcut-tooltip {
+            position: fixed;
+            background: var(--modal-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px 25px;
+            z-index: 1001;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+            animation: tooltipPop 0.3s ease;
+        }
+
+        @keyframes tooltipPop {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .shortcut-tooltip h4 {
+            margin: 0 0 12px 0;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .shortcut-tooltip p {
+            margin: 6px 0;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .shortcut-tooltip kbd {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-family: monospace;
+            color: var(--accent-cyan);
+            margin-right: 8px;
+        }
+
+        [data-theme="light"] .particle {
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.5) 0%, transparent 70%),
+                        radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, transparent 70%);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
+            animation: float 6s ease-in-out infinite, twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
         @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-20px) rotate(180deg);
-            }
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.3; }
+            25% { transform: translateY(-40px) translateX(20px) scale(1.1); opacity: 0.7; }
+            50% { transform: translateY(-60px) translateX(-15px) scale(0.9); opacity: 0.5; }
+            75% { transform: translateY(-30px) translateX(25px) scale(1.05); opacity: 0.8; }
+            100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.3; }
         }
-        
-        /* 导航栏 */
+
+        @keyframes sparkle {
+            0%, 100% { box-shadow: 0 0 20px var(--glow-color); }
+            50% { box-shadow: 0 0 35px var(--glow-color), 0 0 50px var(--glow-color); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--nav-border);
             position: sticky;
             top: 0;
             z-index: 1000;
+            transition: all 0.5s ease;
         }
-        
+
+        .site-banner {
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+            border-bottom: 1px solid var(--card-border);
+            padding: 12px 30px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            animation: bannerFadeIn 0.8s ease;
+        }
+
+        @keyframes bannerFadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .site-banner i {
+            color: var(--accent-cyan);
+            margin-right: 8px;
+        }
+
+        .site-banner strong {
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+
         .nav-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 15px 20px;
+            padding: 18px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
-        
+
         .time-container {
-            font-size: 1.1rem;
-            color: #333;
-            font-weight: 600;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
         }
-        
+
+        .time-icon {
+            font-size: 1.4rem;
+            color: var(--accent-cyan);
+        }
+
         .current-time {
-            font-family: 'Courier New', Courier, monospace;
-            letter-spacing: 1px;
+            font-size: 1.35rem;
+            font-weight: 600;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px var(--glow-color);
         }
-        
+
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            color: #667eea;
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-decoration: none;
+            letter-spacing: -0.5px;
         }
-        
-        .search-container {
-            max-width: 400px;
-        }
-        
+
         .search-container {
             position: relative;
+            width: 380px;
         }
-        
+
         .search-box {
             width: 100%;
-            padding: 10px 40px 10px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 25px;
-            font-size: 1rem;
+            padding: 14px 50px 14px 20px;
+            border: 2px solid var(--input-border);
+            border-radius: 50px;
+            font-size: 0.95rem;
+            background: var(--input-bg);
+            color: var(--text-primary);
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
+        .search-box::placeholder {
+            color: var(--text-muted);
+        }
+
         .search-box:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--accent-cyan);
+            background: var(--card-bg-hover);
+            box-shadow: 0 0 30px var(--glow-color);
         }
-        
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
         .clear-btn {
             position: absolute;
-            right: 10px;
+            right: 45px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
-            font-size: 1.5rem;
-            color: #999;
+            font-size: 1.2rem;
+            color: var(--text-muted);
             cursor: pointer;
             padding: 0;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
         }
-        
+
         .clear-btn.visible {
             opacity: 1;
         }
-        
+
         .clear-btn:hover {
-            color: #666;
+            color: var(--text-primary);
+            transform: translateY(-50%) scale(1.1);
         }
-        
-        .daily-quote {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-        }
-        
-        .quote-icon {
-            font-size: 2rem;
-            margin-top: -5px;
-        }
-        
-        .quote-text {
-            flex: 1;
-            margin: 0;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #333;
-            font-style: italic;
-        }
-        
-        .category-nav {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .category-btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-        
-        .category-btn:hover {
-            background: #667eea;
-            color: white;
-        }
-        
-        .category-btn.active {
-            background: #667eea;
-            color: white;
-        }
-        
-        /* 主容器 */
+
         .main-container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 30px;
             position: relative;
             z-index: 1;
         }
-        
-        .section-title {
-            font-size: 2rem;
-            color: white;
-            margin-bottom: 30px;
-            text-align: center;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .daily-quote {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 28px 32px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            animation: fadeInUp 0.6s ease;
+            transition: all 0.5s ease;
         }
-        
-        /* 资源列表 */
+
+        .quote-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .quote-text {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        .category-tab {
+            padding: 12px 24px;
+            border: 2px solid var(--input-border);
+            border-radius: 50px;
+            background: var(--card-bg);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-tab:hover {
+            background: var(--card-bg-hover);
+            border-color: var(--card-border-hover);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 15px var(--glow-color);
+            transition: all 0.3s ease;
+        }
+
+        .resource-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-left: 6px;
+            font-weight: 600;
+        }
+
+        .category-tab:not(.active) .resource-count {
+            background: var(--accent-cyan);
+            color: #fff;
+        }
+
         .resource-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 24px;
             margin-bottom: 40px;
+            transition: opacity 0.2s ease, transform 0.2s ease;
         }
-        
+
         .resource-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
             transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease both;
         }
-        
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.5s ease;
+            pointer-events: none;
+        }
+
+        .resource-card:hover::before {
+            left: 100%;
+        }
+
         .resource-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px);
+            background: var(--card-bg-hover);
+            border-color: var(--card-border-hover);
+            box-shadow: 0 15px 40px var(--shadow-color), 0 0 25px var(--glow-color);
+            transition: all 0.4s ease;
         }
-        
+
+        .resource-card[data-category="考研初试"] {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.12);
+        }
+
+        .resource-card[data-category="考研初试"]:hover {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.18) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-color: rgba(99, 102, 241, 0.35);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.2), 0 0 20px rgba(99, 102, 241, 0.12);
+        }
+
+        .resource-card[data-category="考研复试"] {
+            background: linear-gradient(145deg, rgba(236, 72, 153, 0.1) 0%, rgba(244, 63, 94, 0.05) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.12);
+        }
+
+        .resource-card[data-category="考研复试"]:hover {
+            background: linear-gradient(145deg, rgba(236, 72, 153, 0.18) 0%, rgba(244, 63, 94, 0.1) 100%);
+            border-color: rgba(236, 72, 153, 0.35);
+            box-shadow: 0 12px 35px rgba(236, 72, 153, 0.2), 0 0 20px rgba(236, 72, 153, 0.12);
+        }
+
+        .resource-card[data-category="考公"] {
+            background: linear-gradient(145deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 1px solid rgba(34, 197, 94, 0.12);
+        }
+
+        .resource-card[data-category="考公"]:hover {
+            background: linear-gradient(145deg, rgba(34, 197, 94, 0.18) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border-color: rgba(34, 197, 94, 0.35);
+            box-shadow: 0 12px 35px rgba(34, 197, 94, 0.2), 0 0 20px rgba(34, 197, 94, 0.12);
+        }
+
+        .resource-card[data-category="四六级"] {
+            background: linear-gradient(145deg, rgba(59, 130, 246, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.12);
+        }
+
+        .resource-card[data-category="四六级"]:hover {
+            background: linear-gradient(145deg, rgba(59, 130, 246, 0.18) 0%, rgba(6, 182, 212, 0.1) 100%);
+            border-color: rgba(59, 130, 246, 0.35);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.2), 0 0 20px rgba(59, 130, 246, 0.12);
+        }
+
+        .resource-card[data-category="考证"] {
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.12);
+        }
+
+        .resource-card[data-category="考证"]:hover {
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.18) 0%, rgba(249, 115, 22, 0.1) 100%);
+            border-color: rgba(245, 158, 11, 0.35);
+            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.2), 0 0 20px rgba(245, 158, 11, 0.12);
+        }
+
+        .resource-card[data-category="其他"] {
+            background: linear-gradient(145deg, rgba(107, 114, 128, 0.1) 0%, rgba(75, 85, 99, 0.05) 100%);
+            border: 1px solid rgba(107, 114, 128, 0.12);
+        }
+
+        .resource-card[data-category="其他"]:hover {
+            background: linear-gradient(145deg, rgba(107, 114, 128, 0.18) 0%, rgba(75, 85, 99, 0.1) 100%);
+            border-color: rgba(107, 114, 128, 0.35);
+            box-shadow: 0 12px 35px rgba(107, 114, 128, 0.2), 0 0 20px rgba(107, 114, 128, 0.12);
+        }
+
+        [data-theme="light"] .resource-card[data-category="考研初试"] {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.08) 100%);
+            border-color: rgba(99, 102, 241, 0.15);
+        }
+
+        [data-theme="light"] .resource-card[data-category="考研初试"]:hover {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.15) 100%);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.25), 0 0 20px rgba(99, 102, 241, 0.15);
+        }
+
+        [data-theme="light"] .resource-card[data-category="考研复试"] {
+            background: linear-gradient(145deg, rgba(236, 72, 153, 0.15) 0%, rgba(244, 63, 94, 0.08) 100%);
+            border-color: rgba(236, 72, 153, 0.15);
+        }
+
+        [data-theme="light"] .resource-card[data-category="考研复试"]:hover {
+            background: linear-gradient(145deg, rgba(236, 72, 153, 0.25) 0%, rgba(244, 63, 94, 0.15) 100%);
+            border-color: rgba(236, 72, 153, 0.4);
+            box-shadow: 0 12px 35px rgba(236, 72, 153, 0.25), 0 0 20px rgba(236, 72, 153, 0.15);
+        }
+
+        [data-theme="light"] .resource-card[data-category="考公"] {
+            background: linear-gradient(145deg, rgba(34, 197, 94, 0.15) 0%, rgba(16, 185, 129, 0.08) 100%);
+            border-color: rgba(34, 197, 94, 0.15);
+        }
+
+        [data-theme="light"] .resource-card[data-category="考公"]:hover {
+            background: linear-gradient(145deg, rgba(34, 197, 94, 0.25) 0%, rgba(16, 185, 129, 0.15) 100%);
+            border-color: rgba(34, 197, 94, 0.4);
+            box-shadow: 0 12px 35px rgba(34, 197, 94, 0.25), 0 0 20px rgba(34, 197, 94, 0.15);
+        }
+
+        [data-theme="light"] .resource-card[data-category="四六级"] {
+            background: linear-gradient(145deg, rgba(59, 130, 246, 0.15) 0%, rgba(6, 182, 212, 0.08) 100%);
+            border-color: rgba(59, 130, 246, 0.15);
+        }
+
+        [data-theme="light"] .resource-card[data-category="四六级"]:hover {
+            background: linear-gradient(145deg, rgba(59, 130, 246, 0.25) 0%, rgba(6, 182, 212, 0.15) 100%);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.25), 0 0 20px rgba(59, 130, 246, 0.15);
+        }
+
+        [data-theme="light"] .resource-card[data-category="考证"] {
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.15) 0%, rgba(249, 115, 22, 0.08) 100%);
+            border-color: rgba(245, 158, 11, 0.15);
+        }
+
+        [data-theme="light"] .resource-card[data-category="考证"]:hover {
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.25) 0%, rgba(249, 115, 22, 0.15) 100%);
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.25), 0 0 20px rgba(245, 158, 11, 0.15);
+        }
+
+        [data-theme="light"] .resource-card[data-category="其他"] {
+            background: linear-gradient(145deg, rgba(107, 114, 128, 0.15) 0%, rgba(75, 85, 99, 0.08) 100%);
+            border-color: rgba(107, 114, 128, 0.15);
+        }
+
+        [data-theme="light"] .resource-card[data-category="其他"]:hover {
+            background: linear-gradient(145deg, rgba(107, 114, 128, 0.25) 0%, rgba(75, 85, 99, 0.15) 100%);
+            border-color: rgba(107, 114, 128, 0.4);
+            box-shadow: 0 12px 35px rgba(107, 114, 128, 0.25), 0 0 20px rgba(107, 114, 128, 0.15);
+        }
+
         .resource-title {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-            line-height: 1.4;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
-        
+
         .resource-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 0.85rem;
-            color: #666;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
-        
-        /* 模态框 */
+
+        .resource-category {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        [data-theme="light"] .resource-category {
+            background: rgba(139, 92, 246, 0.15);
+            color: #7c3aed;
+        }
+
+        .has-subfiles {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--accent-purple);
+            font-size: 0.8rem;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -249,634 +964,923 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 2000;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
-        
+
         .modal-content {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
+            background: var(--modal-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 35px;
+            max-width: 600px;
+            width: 100%;
             position: relative;
-            animation: fadeInUp 0.3s ease;
+            animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 85vh;
+            overflow-y: auto;
+            transition: all 0.5s ease;
         }
-        
+
         .modal-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--card-border);
         }
-        
+
         .modal-title {
             font-size: 1.3rem;
             font-weight: 600;
-            color: #333;
+            color: var(--text-primary);
+            line-height: 1.4;
+            flex: 1;
+            padding-right: 15px;
         }
-        
+
         .close-btn {
-            background: none;
+            background: var(--card-bg);
             border: none;
-            font-size: 1.5rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.2rem;
             cursor: pointer;
-            color: #666;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
         }
-        
-        .link-container {
-            margin: 20px 0;
+
+        .close-btn:hover {
+            background: var(--card-bg-hover);
+            color: var(--text-primary);
+            transform: rotate(90deg);
         }
-        
+
+        .link-section {
+            margin: 25px 0;
+        }
+
         .link-label {
             font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-            display: block;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
+
+        .link-label i {
+            color: var(--accent-cyan);
+        }
+
+        .link-input-wrapper {
+            position: relative;
+        }
+
         .link-input {
             width: 100%;
-            padding: 10px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            margin-bottom: 15px;
+            padding: 14px 80px 14px 16px;
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s ease;
         }
-        
+
+        .link-input:focus {
+            border-color: var(--accent-cyan);
+            background: var(--card-bg-hover);
+        }
+
         .copy-btn {
-            background: #667eea;
-            color: white;
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 8px 16px;
             border: none;
-            padding: 10px 20px;
             border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
         }
-        
+
         .copy-btn:hover {
-            background: #764ba2;
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 5px 20px var(--glow-color);
         }
-        
+
         .copy-btn.copied {
-            background: #4caf50;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
-        
-        /* 二级文件样式 */
-        .sub-files-container {
-            margin-top: 20px;
-            border-top: 1px solid #e0e0e0;
-            padding-top: 20px;
-            display: none;
+
+        .sub-files-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--card-border);
         }
-        
-        .sub-files-container h3 {
+
+        .sub-files-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
             margin-bottom: 15px;
-            color: #333;
-            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
+
+        .sub-files-title i {
+            color: var(--accent-purple);
+        }
+
         .sub-files-list {
             list-style: none;
             max-height: 300px;
             overflow-y: auto;
         }
-        
+
         .sub-file-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #f0f0f0;
-            transition: background-color 0.3s ease;
-        }
-        
-        .sub-file-item:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .sub-file-name {
-            flex: 1;
-            font-size: 0.9rem;
-            color: #333;
-        }
-        
-        .sub-file-size {
-            margin: 0 15px;
-            font-size: 0.85rem;
-            color: #666;
-        }
-        
-        .sub-file-type {
-            font-size: 0.85rem;
-            color: #999;
-            padding: 2px 8px;
+            padding: 12px 15px;
+            background: var(--card-bg);
             border-radius: 10px;
-            background-color: #f0f0f0;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
         }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .sub-file-item:hover {
+            background: var(--card-bg-hover);
         }
-        
-        /* 响应式设计 */
+
+        .sub-file-name {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            flex: 1;
+        }
+
+        .sub-file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sub-file-type {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            background: rgba(124, 58, 237, 0.2);
+            color: #a78bfa;
+            border-radius: 20px;
+        }
+
+        .sub-file-size {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: 'SF Mono', monospace;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .loading i {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent-cyan);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: var(--card-bg);
+            border-radius: 3px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: var(--card-border);
+            border-radius: 3px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: var(--card-bg-hover);
+        }
+
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
                 gap: 15px;
                 padding: 15px;
             }
-            
+
             .search-container {
                 width: 100%;
-                max-width: none;
-                margin: 0;
             }
-            
-            .category-nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
+
             .resource-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .section-title {
-                font-size: 1.5rem;
+
+            .category-tabs {
+                justify-content: center;
             }
-        }
-        
-        /* 加载动画 */
-        .loading {
-            text-align: center;
-            padding: 50px;
-            color: white;
-            font-size: 1.2rem;
-        }
-        
-        .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+
+            .daily-quote {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .time-container {
+                order: -1;
+            }
         }
     </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
     
-    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="time-container">
-                <span id="currentTime" class="current-time"></span>
+                <i class="fas fa-clock time-icon"></i>
+                <span class="current-time" id="currentTime"></span>
             </div>
-            
+            <a href="/" class="logo">
+                <i class="fas fa-gem"></i> 免费资源宝库
+            </a>
             <div class="search-container">
-                <input type="text" class="search-box" placeholder="搜索资源..." id="searchInput">
+                <input type="text" class="search-box" id="searchBox" placeholder="搜索资源名称或二级文件...">
+                <i class="fas fa-search search-icon"></i>
                 <button class="clear-btn" id="clearBtn">×</button>
             </div>
         </div>
     </nav>
-    
-    <!-- 主容器 -->
+
+    <div class="site-banner">
+        <i class="fas fa-bookmark"></i>
+        <span>收藏本站 <strong>https://freefile.me</strong> 永久免费，资源持续更新中～</span>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" title="切换主题">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <button class="back-to-top" id="backToTop" title="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <button class="donate-btn" id="donateBtn" title="打赏支持">
+        <i class="fas fa-heart"></i>
+    </button>
+
+    <div class="modal-overlay" id="donateModal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <h2 class="modal-title">☕ 一杯奶茶的温度</h2>
+            <p class="modal-subtitle">
+                从考研到考证，从初试到复试，这些资料都是我和朋友一点点搜集整理的，有些还是自掏腰包购买的。<br><br>
+                网站的域名和服务器需要持续投入，我愿意把所有资源免费分享给大家，只希望这份整理能帮到更多追梦的人。<br><br>
+                <strong>如果1元也能让你我之间的距离更近一步，我将无比感恩。☕</strong><br><br>
+                <em>打赏时留下你想要备注的资源，我会优先整理更新~</em>
+            </p>
+            <div class="donate-qr-container">
+                <div class="donate-qr">
+                    <img src="wx支付.png" alt="微信支付">
+                    <div class="donate-qr-label">微信扫码打赏</div>
+                </div>
+            </div>
+            <div class="donate-thanks">
+                <i class="fas fa-heart"></i> 每一份支持，都是对我最大的鼓励！
+            </div>
+        </div>
+    </div>
+
     <div class="main-container">
-        <h1 class="section-title">资源分享</h1>
-        
         <div class="daily-quote">
-            <span class="quote-icon">📝</span>
-            <p id="dailyQuote" class="quote-text"></p>
+            <i class="fas fa-quote-left quote-icon" style="color: #00d4ff;"></i>
+            <p class="quote-text" id="dailyQuote"></p>
         </div>
-        
-        <div class="category-nav">
-            <button class="category-btn active" data-category="all">全部</button>
-            <button class="category-btn" data-category="考研初试">考研初试</button>
-            <button class="category-btn" data-category="考研复试">考研复试</button>
-            <button class="category-btn" data-category="考公">考公</button>
-            <button class="category-btn" data-category="四六级">四六级</button>
-            <button class="category-btn" data-category="考证">考证</button>
-            <button class="category-btn" data-category="其他">其他</button>
+
+        <div class="category-tabs" id="categoryTabs">
+            <div class="category-tab active" data-category="all">全部资源 <span class="resource-count" id="totalCount">0</span></div>
+            <div class="category-tab" data-category="考研初试">考研初试 <span class="resource-count" id="考研初试Count">0</span></div>
+            <div class="category-tab" data-category="考研复试">考研复试 <span class="resource-count" id="考研复试Count">0</span></div>
+            <div class="category-tab" data-category="考公">考公 <span class="resource-count" id="考公Count">0</span></div>
+            <div class="category-tab" data-category="四六级">四六级 <span class="resource-count" id="四六级Count">0</span></div>
+            <div class="category-tab" data-category="考证">考证 <span class="resource-count" id="考证Count">0</span></div>
+            <div class="category-tab" data-category="其他">其他 <span class="resource-count" id="其他Count">0</span></div>
         </div>
+
+        <div class="resource-grid" id="resourceGrid"></div>
         
         <div class="loading" id="loading">
-            <div class="spinner"></div>
-            加载中...
-        </div>
-        
-        <div class="resource-grid" id="resourceGrid">
-            <!-- 资源卡片将通过 JavaScript 动态生成 -->
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>正在加载资源...</p>
         </div>
     </div>
-    
-    <!-- 模态框 -->
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="disclaimer">
+                <p><strong>免责声明：</strong></p>
+                <p>1. 本网站所有资源均来自网友分享，仅供学习交流使用，请于下载后24小时内删除。</p>
+                <p>2. 如涉及侵权问题，请及时联系删除，本网站不承担任何法律责任。</p>
+                <p>3. 资源内容整理自互联网，如有错误或遗漏，欢迎反馈指正。</p>
+            </div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>联系邮箱：</span>
+                    <a href="mailto:wyl217208@163.com">wyl217208@163.com</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-comments"></i>
+                    <span>反馈建议：</span>
+                    <a href="#">留言反馈</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <div class="modal" id="resourceModal">
-        <div class="modal-content">
+        <div class="modal-content scrollbar-thin">
             <div class="modal-header">
-                <h2 class="modal-title" id="modalTitle">资源详情</h2>
-                <button class="close-btn" id="closeModal">&times;</button>
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <button class="close-btn" id="closeModal">×</button>
             </div>
-            <div class="link-container">
-                <label class="link-label">网盘链接</label>
-                <input type="text" class="link-input" id="linkInput" readonly>
-                <button class="copy-btn" id="copyBtn">复制链接</button>
+            
+            <div class="link-section">
+                <div class="link-label">
+                    <i class="fas fa-link"></i> 资源链接
+                </div>
+                <div class="link-input-wrapper">
+                    <input type="text" class="link-input" id="modalLink" readonly>
+                    <button class="copy-btn" id="copyBtn">
+                        <i class="fas fa-copy"></i> 复制链接
+                    </button>
+                </div>
             </div>
-            <div class="sub-files-container" id="subFilesContainer">
-                <!-- 二级文件将通过 JavaScript 动态生成 -->
+            
+            <div class="sub-files-section" id="subFilesSection" style="display: none;">
+                <h3 class="sub-files-title">
+                    <i class="fas fa-folder-open"></i> 二级文件
+                </h3>
+                <ul class="sub-files-list scrollbar-thin" id="subFilesList"></ul>
             </div>
         </div>
     </div>
-    
+
     <script>
-        // 全局变量
+        const dailyQuotes = [
+            "每一个成功者都有一个开始。勇于开始，才能找到成功的路。",
+            "人生没有彩排，每天都是现场直播。",
+            "努力不一定成功，但放弃一定失败。",
+            "梦想是生命的灵魂，是心灵的灯塔。",
+            "最大的敌人是自己，最强的对手也是自己。",
+            "坚持就是胜利，不放弃就有希望。",
+            "知识改变命运，学习成就未来。",
+            "今天的不懈努力，是明天成功的基石。",
+            "勇敢面对困难，才能超越自我。",
+            "相信自己，你比想象中更强大。",
+            "每一次努力，都是向梦想靠近的一步。",
+            "成功的道路并不拥挤，因为坚持的人不多。",
+            "学习是终身的事业，进取是不变的追求。",
+            "没有伞的孩子，必须努力奔跑。",
+            "与其羡慕别人，不如自己努力。",
+            "时间是最好的老师，它教会我们一切。",
+            "只有不断学习，才能不断进步。",
+            "梦想不会逃跑，逃跑的永远是自己。",
+            "今天的选择，决定明天的命运。",
+            "困难只是暂时的，坚持就是胜利。",
+            "世界上没有不可能，只有不努力。",
+            "让学习成为一种习惯，让思考成为一种方式。",
+            "每一次挫折，都是成长的阶梯。",
+            "相信自己，超越自我，创造奇迹。",
+            "学习不是为了别人，而是为了自己。",
+            "只要路是对的，就不怕路远。",
+            "努力到无能为力，拼搏到感动自己。",
+            "学无止境，勇攀高峰。",
+            "今天的痛苦，是明天的财富。",
+            "成功需要代价，不成功需要更高的代价。",
+            "逆风的方向，更适合飞翔。",
+            "不忘初心，方得始终。",
+            "星光不问赶路人，时光不负有心人。",
+            "越努力，越幸运。",
+            "与其抱怨黑暗，不如点亮蜡烛。",
+            "学习是最有价值的投资。",
+            "没有横空出世的幸运，只有不为人知的努力。",
+            "当你觉得为时已晚的时候，恰恰是最早的时候。",
+            "成功的秘诀在于坚持目标。",
+            "学习是一种能力，更是一种态度。",
+            "路漫漫其修远兮，吾将上下而求索。",
+            "书山有路勤为径，学海无涯苦作舟。",
+            "天才是1%的灵感加99%的汗水。",
+            "失败是成功之母。",
+            "不经历风雨，怎么见彩虹。",
+            "阳光总在风雨后。",
+            "吃得苦中苦，方为人上人。",
+            "学如逆水行舟，不进则退。",
+            "业精于勤，荒于嬉。",
+            "只要功夫深，铁杵磨成针。",
+            "锲而不舍，金石可镂。"
+        ];
+
         let allResources = [];
         let currentCategory = 'all';
         let searchQuery = '';
-        
-        // 每日一言 - 励志名言
-        const dailyQuotes = [
-            "每一个成功者都有一个开始。勇于开始，才能找到成功的路。",
-            "世界会向那些有目标和远见的人让路。",
-            "造物之前，必先造人。",
-            "与其临渊羡鱼，不如退而结网。",
-            "若不给自己设限，则人生中就没有限制你发挥的藩篱。",
-            "赚钱之道很多，但是找不到赚钱的种子，便成不了事业家。",
-            "蚁穴虽小，溃之千里。",
-            "最有效的资本是我们的信誉，它24小时不停为我们工作。",
-            "绊脚石乃是进身之阶。",
-            "销售世界上第一号的产品——不是汽车，而是自己。在你成功地把自己推销给别人之前，你必须百分之百的把自己推销给自己。",
-            "即使爬到最高的山上，一次也只能脚踏实地地迈一步。",
-            "积极思考造成积极人生，消极思考造成消极人生。",
-            "人之所以有一张嘴，而有两只耳朵，原因是听的要比说的多一倍。",
-            "别想一下造出大海，必须先由小河川开始。",
-            "有事者，事竟成；破釜沉舟，百二秦关终归楚；苦心人，天不负；卧薪尝胆，三千越甲可吞吴。",
-            "你的脸是为了呈现上帝赐给人类最贵重的礼物——微笑，一定要成为你工作最大的资产。",
-            "以诚感人者，人亦诚而应。",
-            "世上并没有用来鼓励工作努力的赏赐，所有的赏赐都只是被用来奖励工作成果的。",
-            "即使是不成熟的尝试，也胜于胎死腹中的策略。",
-            "积极的人在每一次忧患中都看到一个机会，而消极的人则在每个机会都看到某种忧患。",
-            "出门走好路，出口说好话，出手做好事。",
-            "旁观者的姓名永远爬不到比赛的计分板上。",
-            "上帝助自助者。",
-            "怠惰是贫穷的制造厂。",
-            "莫找借口失败，只找理由成功。（不为失败找理由，要为成功找方法）",
-            "如果我们想要更多的玫瑰花，就必须种植更多的玫瑰树。",
-            "伟人之所以伟大，是因为他与别人共处逆境时，别人失去了信心，他却下决心实现自己的目标。",
-            "世上没有绝望的处境，只有对处境绝望的人。",
-            "回避现实的人，未来将更不理想。",
-            "先知三日，富贵十年。",
-            "当你感到悲哀痛苦时，最好是去学些什么东西。学习会使你永远立于不败之地。",
-            "伟人所达到并保持着的高处，并不是一飞就到的，而是他们在同伴们都睡着的时候，一步步艰辛地向上攀爬的。",
-            "世界上那些最容易的事情中，拖延时间最不费力。",
-            "坚韧是成功的一大要素，只要在门上敲得够久、够大声，终会把人唤醒的。",
-            "夫妇一条心，泥土变黄金。",
-            "人之所以能，是相信能。",
-            "没有口水与汗水，就没有成功的泪水。",
-            "一个有信念者所开发出的力量，大于99个只有兴趣者。",
-            "忍耐力较诸脑力，尤胜一筹。",
-            "环境不会改变，解决之道在于改变自己。",
-            "两粒种子，一片森林。",
-            "每一发奋努力的背后，必有加倍的赏赐。",
-            "如果你希望成功，以恒心为良友，以经验为参谋，以小心为兄弟，以希望为哨兵。",
-            "大多数人想要改造这个世界，但却罕有人想改造自己。",
-            "未曾失败的人恐怕也未曾成功过。",
-            "人生伟业的建立 ，不在能知，乃在能行。",
-            "挫折其实就是迈向成功所应缴的学费。",
-            "任何的限制，都是从自己的内心开始的。",
-            "忘掉失败，不过要牢记失败中的教训。",
-            "不是境况造就人，而是人造就境况。",
-            "含泪播种的人一定能含笑收获。",
-            "靠山山会倒，靠水水会流，靠自己永远不倒。",
-            "欲望以提升热忱，毅力以磨平高山。",
-            "只要路是对的，就不怕路远。",
-            "一滴蜂蜜比一加仑胆汁能够捕到更多的苍蝇。",
-            "真心的对别人产生点兴趣，是推销员最重要的品格。",
-            "自古成功在尝试。",
-            "一个能从别人的观念来看事情，能了解别人心灵活动的人，永远不必为自己的前途担心。",
-            "当一个人先从自己的内心开始奋斗，他就是个有价值的人。",
-            "生命对某些人来说是美丽的，这些人的一生都为某个目标而奋斗。",
-            "推销产品要针对顾客的心，不要针对顾客的头。",
-            "没有人富有得可以不要别人的帮助，也没有人穷得不能在某方面给他人帮助。",
-            "凡真心尝试助人者，没有不帮到自己的。",
-            "积极者相信只有推动自己才能推动世界，只要推动自己就能推动世界。",
-            "每一日你所付出的代价都比前一日高，因为你的生命又消短了一天，所以每一日你都要更积极。今天太宝贵，不应该为酸苦的忧虑和辛涩的悔恨所销蚀，抬起下巴，抓住今天，它不再回来。",
-            "一个人最大的破产是绝望，最大的资产是希望。",
-            "行动是成功的阶梯，行动越多，登得越高。",
-            "环境永远不会十全十美，消极的人受环境控制，积极的人却控制环境。",
-            "事实上，成功仅代表了你工作的1%，成功是99%失败的结果。",
-            "不要等待机会，而要创造机会。",
-            "成功的法则极为简单，但简单并不代表容易。",
-            "如果寒暄只是打个招呼就了事的话，那与猴子的呼叫声有什么不同呢？事实上，正确的寒暄必须在短短一句话中明显地表露出你他的关怀。",
-            "昨晚多几分钟的准备，今天少几小时的麻烦。",
-            "拿望远镜看别人，拿放大镜看自己。",
-            "使用双手的是劳工，使用双手和头脑的舵手，使用双手、头脑与心灵的是艺术家，只有合作双手、头脑、心灵再加上双脚的才是推销员。",
-            "做对的事情比把事情做对重要。",
-            "“人”的结构就是相互支撑，“众”人的事业需要每个人的参与。",
-            "竞争颇似打网球，与球艺胜过你的对手比赛，可以提高你的水平。",
-            "只有不断找寻机会的人才会及时把握机会。",
-            "你可以选择这样的“三心二意”：信心、恒心、决心；创意、乐意。",
-            "无论才能、知识多么卓著，如果缺乏热情，则无异纸上画饼充饥，无补于事。",
-            "如同磁铁吸引四周的铁粉，热情也能吸引周围的人，改变周围的情况。",
-            "网络事业创造了富裕，又延续了平等。",
-            "好的想法是十分钱一打，真正无价的是能够实现这些想法的人。",
-            "人格的完善是本，财富的确立是末。",
-            "高峰只对攀登它而不是仰望它的人来说才有真正意义。",
-            "贫穷是不需要计划的，致富才需要一个周密的计划——并去实践它。",
-            "智者一切求自己，愚者一切求他人。",
-            "没有一种不通过蔑视、忍受和奋斗就可以征服的命运。",
-            "苦想没盼头，苦干有奔头。",
-            "当一个小小的心念变成成为行为时，便能成了习惯；从而形成性格，而性格就决定你一生的成败。",
-            "穷不一定思变，应该是思富思变。",
-            "自己打败自己的远远多于比别人打败的。",
-            "如果我们做与不做都会有人笑，如果做不好与做得好还会有人笑，那么我们索性就做得更好，来给人笑吧！",
-            "这个世界并不是掌握在那些嘲笑者的手中，而恰恰掌握在能够经受得住嘲笑与批评忍不断往前走的人手中。",
-            "成功需要成本，时间也是一种成本，对时间的珍惜就是对成本的节约。",
-            "行动是治愈恐惧的良药，而犹豫、拖延将不断滋养恐惧。",
-            "投资知识是明智的，投资网络中的知识就更加明智。",
-            "没有天生的信心，只有不断培养的信心。",
-            "顾客后还有顾客，服务的开始才是销售的开始。",
-            "忍别人所不能忍的痛，吃别人所别人所不能吃的苦，是为了收获得不到的收获。",
-            "销售是从被别人拒绝开始的。",
-            "好咖啡要和朋友一起品尝，好机会也要和朋友一起分享。",
-            "生命之灯因热情而点燃，生命之舟因拼搏而前行。",
-            "拥有梦想只是一种智力，实现梦想才是一种能力。"
-        ];
-        
-        // 显示每日一言
+
         function showDailyQuote() {
             const randomIndex = Math.floor(Math.random() * dailyQuotes.length);
             const quote = dailyQuotes[randomIndex];
             document.getElementById('dailyQuote').textContent = quote;
         }
-        
-        // 更新当前时间
-        function updateCurrentTime() {
-            const now = new Date();
-            const timeString = now.toLocaleString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            document.getElementById('currentTime').textContent = timeString;
-        }
-        
-        // 初始化时间并每秒更新
-        updateCurrentTime();
-        setInterval(updateCurrentTime, 1000);
-        
-        // 初始化每日一言
-        showDailyQuote();
-        
-        // 创建粒子效果
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+
+        function updateResourceCount() {
+            const categories = ['考研初试', '考研复试', '考公', '四六级', '考证', '其他'];
             
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
+            document.getElementById('totalCount').textContent = allResources.length;
+            
+            categories.forEach(category => {
+                const count = allResources.filter(r => r.category === category).length;
+                const countEl = document.getElementById(category + 'Count');
+                if (countEl) {
+                    countEl.textContent = count;
+                }
+            });
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('currentTime').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            
+            const starCount = 120;
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'particle star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 3 + 2;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.setProperty('--delay', Math.random() * 5 + 's');
+                star.style.setProperty('--duration', Math.random() * 4 + 6 + 's');
                 
-                // 随机大小
-                const size = Math.random() * 10 + 5;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
+                const hue = Math.random() * 60 + 200;
+                star.style.background = `hsl(${hue}, 80%, 80%)`;
+                star.style.boxShadow = `0 0 ${size * 2}px hsl(${hue}, 80%, 70%)`;
                 
-                // 随机位置
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-                
-                // 随机动画延迟和持续时间
-                particle.style.animationDelay = `${Math.random() * 6}s`;
-                particle.style.animationDuration = `${Math.random() * 4 + 4}s`;
-                
-                particlesContainer.appendChild(particle);
+                container.appendChild(star);
+            }
+            
+            const nebulaCount = 15;
+            for (let i = 0; i < nebulaCount; i++) {
+                const nebula = document.createElement('div');
+                nebula.style.position = 'absolute';
+                nebula.style.left = Math.random() * 100 + '%';
+                nebula.style.top = Math.random() * 100 + '%';
+                nebula.style.width = (Math.random() * 400 + 200) + 'px';
+                nebula.style.height = (Math.random() * 400 + 200) + 'px';
+                nebula.style.background = `radial-gradient(circle, rgba(${Math.random()*100+100}, ${Math.random()*100+150}, 255, 0.15) 0%, transparent 70%)`;
+                nebula.style.filter = 'blur(40px)';
+                nebula.style.animation = `float ${Math.random() * 20 + 30}s ease-in-out infinite`;
+                nebula.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(nebula);
+            }
+            
+            const shootingCount = 5;
+            for (let i = 0; i < shootingCount; i++) {
+                const shooting = document.createElement('div');
+                shooting.className = 'particle shooting-star';
+                shooting.style.top = (Math.random() * 40) + '%';
+                shooting.style.left = (Math.random() * 30) + '%';
+                shooting.style.setProperty('--shoot-delay', (Math.random() * 10 + i * 3) + 's');
+                container.appendChild(shooting);
             }
         }
-        
-        // 加载资源数据
+
+        const categoryFiles = [
+            'resource/考研初试.json',
+            'resource/考研复试.json',
+            'resource/考公.json',
+            'resource/四六级.json',
+            'resource/考证.json',
+            'resource/其他.json'
+        ];
+
         async function loadResources() {
             try {
-                const response = await fetch('resource/classified_data.json');
-                if (!response.ok) {
-                    throw new Error('Failed to load resources');
-                }
-                const data = await response.json();
-                
-                // 整理所有资源
                 allResources = [];
-                Object.keys(data).forEach(category => {
-                    data[category].forEach(resource => {
-                        allResources.push({
-                            ...resource,
-                            category
+                
+                for (const file of categoryFiles) {
+                    try {
+                        const response = await fetch(file);
+                        if (!response.ok) continue;
+                        
+                        const data = await response.json();
+                        const category = file.replace('resource/', '').replace('.json', '');
+                        
+                        data.forEach(resource => {
+                            allResources.push({
+                                ...resource,
+                                category
+                            });
                         });
-                    });
-                });
+                    } catch (e) {
+                        console.warn(`加载 ${file} 失败:`, e);
+                    }
+                }
                 
-                // 隐藏加载动画
+                if (allResources.length === 0) {
+                    throw new Error('No resources loaded');
+                }
+                
                 document.getElementById('loading').style.display = 'none';
-                
-                // 渲染资源
+                updateResourceCount();
                 renderResources();
             } catch (error) {
                 console.error('Error loading resources:', error);
-                document.getElementById('loading').innerHTML = '加载失败，请刷新页面重试';
+                document.getElementById('loading').innerHTML = '<p>加载失败，请刷新页面重试</p>';
             }
         }
-        
-        // 渲染资源
+
         function renderResources() {
             const grid = document.getElementById('resourceGrid');
             grid.innerHTML = '';
             
-            // 过滤资源
             let filteredResources = allResources;
             
-            // 按分类过滤
             if (currentCategory !== 'all') {
-                filteredResources = filteredResources.filter(resource => 
-                    resource.category === currentCategory
-                );
+                filteredResources = filteredResources.filter(resource => resource.category === currentCategory);
             }
             
-            // 按搜索词过滤
-        if (searchQuery) {
-            const query = searchQuery.toLowerCase();
-            filteredResources = filteredResources.filter(resource => {
-                // 搜索文件名
-                if (resource['文件名'].toLowerCase().includes(query)) {
-                    return true;
-                }
-                // 搜索二级文件
-                if (resource['二级文件'] && resource['二级文件'].length > 0) {
-                    return resource['二级文件'].some(subFile => 
-                        subFile['文件名'].toLowerCase().includes(query)
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filteredResources = filteredResources.filter(resource => {
+                    const nameMatch = resource['文件名'] && resource['文件名'].toLowerCase().includes(query);
+                    const subFileMatch = resource['二级文件'] && resource['二级文件'].some(subFile => 
+                        subFile['文件名'] && subFile['文件名'].toLowerCase().includes(query)
                     );
-                }
-                return false;
-            });
-        }
+                    return nameMatch || subFileMatch;
+                });
+            }
             
-            // 渲染资源卡片
-            filteredResources.forEach(resource => {
+            if (filteredResources.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results" style="grid-column: 1 / -1;">
+                        <i class="fas fa-search"></i>
+                        <p>未找到相关资源</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredResources.forEach((resource, index) => {
                 const card = document.createElement('div');
                 card.className = 'resource-card';
-                card.onclick = () => openResourceModal(resource);
+                card.setAttribute('data-category', resource.category);
+                card.style.animationDelay = `${index * 0.05}s`;
+                
+                const hasSubFiles = resource['二级文件'] && resource['二级文件'].length > 0;
+                const resourceName = resource['文件名'] || '';
                 
                 card.innerHTML = `
-                    <div class="resource-title">${resource['文件名']}</div>
+                    <div class="resource-title">${resourceName}</div>
                     <div class="resource-meta">
-                        <span>${resource.category}</span>
+                        <span class="resource-category">
+                            <i class="fas fa-tag"></i> ${resource.category}
+                        </span>
+                        ${hasSubFiles ? '<span class="has-subfiles"><i class="fas fa-folder"></i> 包含二级文件</span>' : ''}
                     </div>
                 `;
                 
+                card.addEventListener('click', () => showModal(resource));
                 grid.appendChild(card);
             });
         }
-        
-        // 打开资源模态框
-        function openResourceModal(resource) {
+
+        function showModal(resource) {
             const modal = document.getElementById('resourceModal');
             const modalTitle = document.getElementById('modalTitle');
-            const linkInput = document.getElementById('linkInput');
-            const subFilesContainer = document.getElementById('subFilesContainer');
+            const modalLink = document.getElementById('modalLink');
+            const subFilesSection = document.getElementById('subFilesSection');
+            const subFilesList = document.getElementById('subFilesList');
             
-            modalTitle.textContent = resource['文件名'];
-            linkInput.value = resource['链接'];
+            const resourceName = resource['文件名'] || '';
             
-            // 显示二级文件
+            modalTitle.textContent = resourceName;
+            modalLink.value = resource['链接'] || '';
+            
             if (resource['二级文件'] && resource['二级文件'].length > 0) {
-                let subFilesHtml = '<h3>二级文件</h3><ul class="sub-files-list">';
+                subFilesSection.style.display = 'block';
+                subFilesList.innerHTML = '';
+                
                 resource['二级文件'].forEach(subFile => {
-                    // 只对非目录且大小不为 0B 的文件显示大小
-                    const sizeDisplay = (subFile['类型'] !== '目录' && subFile['大小'] !== '0 B') ? `<span class="sub-file-size">${subFile['大小']}</span>` : '';
-                    subFilesHtml += `
-                        <li class="sub-file-item">
-                            <span class="sub-file-name">${subFile['文件名']}</span>
-                            ${sizeDisplay}
+                    const li = document.createElement('li');
+                    li.className = 'sub-file-item';
+                    
+                    const sizeDisplay = (subFile['类型'] !== '文件夹' && subFile['大小'] !== '0 B') 
+                        ? `<span class="sub-file-size">${subFile['大小']}</span>` 
+                        : '';
+                    
+                    li.innerHTML = `
+                        <span class="sub-file-name">${subFile['文件名']}</span>
+                        <div class="sub-file-info">
                             <span class="sub-file-type">${subFile['类型']}</span>
-                        </li>
+                            ${sizeDisplay}
+                        </div>
                     `;
+                    subFilesList.appendChild(li);
                 });
-                subFilesHtml += '</ul>';
-                subFilesContainer.innerHTML = subFilesHtml;
-                subFilesContainer.style.display = 'block';
             } else {
-                subFilesContainer.innerHTML = '';
-                subFilesContainer.style.display = 'none';
+                subFilesSection.style.display = 'none';
             }
             
             modal.style.display = 'flex';
         }
-        
-        // 关闭模态框
-        function closeModal() {
-            document.getElementById('resourceModal').style.display = 'none';
-        }
-        
-        // 复制文本到剪贴板
-        function copyToClipboard(text, button) {
-            navigator.clipboard.writeText(text).then(() => {
-                // 显示复制成功状态
-                const originalText = button.textContent;
-                button.textContent = '已复制!';
-                button.classList.add('copied');
-                
-                // 恢复按钮状态
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.classList.remove('copied');
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        }
-        
-        // 事件监听器
-        function setupEventListeners() {
-            // 分类按钮点击事件
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // 移除所有按钮的 active 类
-                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-                    // 添加当前按钮的 active 类
-                    this.classList.add('active');
-                    // 更新当前分类
-                    currentCategory = this.dataset.category;
-                    // 重新渲染资源
-                    renderResources();
-                });
-            });
-            
-            // 搜索输入事件
-            const searchInput = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearBtn');
-            
-            searchInput.addEventListener('input', function() {
-                searchQuery = this.value;
-                // 显示或隐藏清除按钮
-                if (searchQuery) {
-                    clearBtn.classList.add('visible');
-                } else {
-                    clearBtn.classList.remove('visible');
-                }
-                renderResources();
-            });
-            
-            // 清除按钮点击事件
-            clearBtn.addEventListener('click', function() {
-                searchInput.value = '';
-                searchQuery = '';
-                clearBtn.classList.remove('visible');
-                renderResources();
-            });
-            
-            // 关闭模态框按钮
-            document.getElementById('closeModal').addEventListener('click', closeModal);
-            
-            // 点击模态框外部关闭
-            document.getElementById('resourceModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeModal();
-                }
-            });
-            
-            // 复制链接按钮
-            document.getElementById('copyBtn').addEventListener('click', function() {
-                const link = document.getElementById('linkInput').value;
-                copyToClipboard(link, this);
-            });
-            
 
+        function closeModal() {
+            const modal = document.getElementById('resourceModal');
+            modal.style.display = 'none';
+        }
+
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        
+        document.getElementById('resourceModal').addEventListener('click', (e) => {
+            if (e.target.id === 'resourceModal') {
+                closeModal();
+            }
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const linkInput = document.getElementById('modalLink');
+            linkInput.select();
+            document.execCommand('copy');
+            
+            this.textContent = '已复制';
+            this.classList.add('copied');
+            
+            setTimeout(() => {
+                this.textContent = '复制';
+                this.classList.remove('copied');
+            }, 2000);
+        });
+
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                if (this.classList.contains('active')) return;
+                
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentCategory = this.dataset.category;
+                
+                const grid = document.getElementById('resourceGrid');
+                grid.style.opacity = '0';
+                grid.style.transform = 'translateY(10px)';
+                
+                setTimeout(() => {
+                    renderResources();
+                    grid.style.opacity = '1';
+                    grid.style.transform = 'translateY(0)';
+                }, 150);
+            });
+        });
+
+        const searchBox = document.getElementById('searchBox');
+        const clearBtn = document.getElementById('clearBtn');
+
+        searchBox.addEventListener('input', function() {
+            searchQuery = this.value;
+            
+            if (searchQuery) {
+                clearBtn.classList.add('visible');
+            } else {
+                clearBtn.classList.remove('visible');
+            }
+            
+            renderResources();
+        });
+
+        clearBtn.addEventListener('click', function() {
+            searchBox.value = '';
+            searchQuery = '';
+            clearBtn.classList.remove('visible');
+            renderResources();
+            searchBox.focus();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        showDailyQuote();
+        updateTime();
+        setInterval(updateTime, 1000);
+        createParticles();
+        loadResources();
+        
+        function initTheme() {
+            const hour = new Date().getHours();
+            const isNight = hour < 6 || hour >= 18;
+            
+            if (isNight) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
+            }
         }
         
-        // 页面加载完成后执行
-        window.addEventListener('load', function() {
-            createParticles();
-            setupEventListeners();
-            loadResources();
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const icon = newTheme === 'dark' ? 'fa-sun' : 'fa-moon';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            document.getElementById('themeToggle').innerHTML = `<i class="fas ${icon}"></i>`;
+            
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                const icon = savedTheme === 'dark' ? 'fa-sun' : 'fa-moon';
+                document.getElementById('themeToggle').innerHTML = `<i class="fas ${icon}"></i>`;
+            } else {
+                initTheme();
+            }
+        }
+        
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
         });
+        
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        const donateBtn = document.getElementById('donateBtn');
+        const donateModal = document.getElementById('donateModal');
+        const modalClose = document.getElementById('modalClose');
+        
+        donateBtn.addEventListener('click', function() {
+            donateModal.classList.add('active');
+        });
+        
+        modalClose.addEventListener('click', function() {
+            donateModal.classList.remove('active');
+        });
+        
+        donateModal.addEventListener('click', function(e) {
+            if (e.target === donateModal) {
+                donateModal.classList.remove('active');
+            }
+        });
+
+        // 点击飘爱心效果
+        const hearts = ['❤️', '💖', '💗', '💓', '💕', '💞', '✨', '🌟', '⭐', '💫'];
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.modal-overlay') || e.target.closest('.theme-toggle') || 
+                e.target.closest('.donate-btn') || e.target.closest('button') || 
+                e.target.closest('.category-tab') || e.target.closest('a') || 
+                e.target.closest('.back-to-top')) {
+                return;
+            }
+            
+            const heart = document.createElement('div');
+            heart.className = 'click-heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = e.clientX - 15 + 'px';
+            heart.style.top = e.clientY - 15 + 'px';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 1500);
+        });
+
+        // 滚动到底部惊喜
+        const surpriseMessages = [
+            '🎉 恭喜你发现了宝藏！感谢你的耐心阅读~',
+            '☕ 看到这里辛苦了！来杯奶茶犒劳自己吧~',
+            '🌟 你一定是个很有耐心的人！为你点赞~',
+            '💪 每一份坚持都值得被看见，继续加油！',
+            '✨ 感谢你看到最后，这是对我最大的支持！',
+            '🎯 发现了隐藏彩蛋！你真的很棒~',
+            '❤️ 感谢你的陪伴，我们一起加油！'
+        ];
+        
+        let surpriseShown = false;
+        const surpriseEl = document.createElement('div');
+        surpriseEl.className = 'scroll-surprise';
+        surpriseEl.style.display = 'none';
+        surpriseEl.innerHTML = '<i class="fas fa-gift"></i> <span>点击有惊喜</span>';
+        document.body.appendChild(surpriseEl);
+        
+        let scrollSurpriseClicked = false;
+        surpriseEl.addEventListener('click', function() {
+            if (!scrollSurpriseClicked) {
+                scrollSurpriseClicked = true;
+                const count = 5;
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.className = 'click-heart';
+                        heart.textContent = '💖';
+                        heart.style.left = (window.innerWidth / 2 - 30 + (Math.random() - 0.5) * 100) + 'px';
+                        heart.style.top = (window.innerHeight / 2) + 'px';
+                        heart.style.fontSize = (1 + Math.random()) + 'rem';
+                        document.body.appendChild(heart);
+                        setTimeout(() => heart.remove(), 1500);
+                    }, i * 200);
+                }
+                surpriseEl.innerHTML = '<i class="fas fa-heart"></i> <span>谢谢你~</span>';
+                setTimeout(() => {
+                    surpriseEl.style.display = 'none';
+                }, 2000);
+            }
+        });
+        
+        let lastScrollPosition = 0;
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const pageHeight = document.documentElement.scrollHeight;
+            
+            if (scrollPosition >= pageHeight - 100 && !surpriseShown) {
+                surpriseShown = true;
+                surpriseEl.style.display = 'block';
+            }
+            
+            lastScrollPosition = window.scrollY;
+        });
+
+        // 键盘快捷键功能（不留提示UI）
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            
+            if (e.key === '/') {
+                e.preventDefault();
+                document.getElementById('searchBox').focus();
+            } else if (e.key === 't' || e.key === 'T') {
+                toggleTheme();
+            } else if (e.key === 'd' || e.key === 'D') {
+                donateModal.classList.add('active');
+            }
+        });
+        
+        loadSavedTheme();
     </script>
 </body>
 </html>
