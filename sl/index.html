@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>上理复试 · 陈茹 · 最终版</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+        }
+        body {
+            background: #f4f7fc;
+            padding: 1rem 1rem 2rem;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .control-bar {
+            background: linear-gradient(145deg, #ffffff, #f8fcff);
+            border-radius: 40px;
+            padding: 12px 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 40, 70, 0.08);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px 10px;
+            border: 1px solid rgba(30, 111, 159, 0.15);
+        }
+        .encourage {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #e5eff9;
+            padding: 5px 15px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #0b4b6b;
+            white-space: nowrap;
+        }
+        .encourage i {
+            font-size: 1rem;
+            color: #ff8c42;
+        }
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-random, .btn-reveal {
+            background: white;
+            border: 1.5px solid #1e6f9f;
+            color: #1e6f9f;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            transition: 0.15s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .btn-random:hover, .btn-reveal:hover {
+            background: #1e6f9f;
+            color: white;
+        }
+        .speed-slider {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #ecf3fa;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #0b3b5c;
+            flex: 1 1 auto;
+            min-width: 160px;
+        }
+        .speed-slider span {
+            white-space: nowrap;
+        }
+        .speed-slider input {
+            flex: 1;
+            min-width: 90px;
+            accent-color: #1e6f9f;
+        }
+        #speedValue {
+            min-width: 38px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .expressions-card {
+            background: #e9f2fa;
+            border-radius: 28px;
+            padding: 1.2rem 1.2rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid #c0d4e8;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+        .expressions-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0a3147;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .expressions-title i {
+            color: #1e6f9f;
+        }
+        .expr-item {
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px dashed #a0bcd6;
+        }
+        .expr-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .expr-zh {
+            font-size: 0.98rem;
+            color: #0b2a3b;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .expr-en {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #dae9f5;
+            border-radius: 40px;
+            padding: 8px 16px 8px 18px;
+            border: 1px solid #9fbcd9;
+            color: #0b3b5c;
+            font-size: 0.95rem;
+            gap: 10px;
+        }
+        .expr-en .en-text {
+            flex: 1;
+        }
+        .expr-en .speaker {
+            position: static;
+            transform: none;
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 60, 100, 0.1);
+            color: #0b5e7c;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.1s;
+            border: 1px solid #8eb3d0;
+        }
+        .expr-en .speaker:hover {
+            background: #1e6f9f;
+            color: white;
+        }
+
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.2rem 1.2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e6edf6;
+            transition: 0.1s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+        .teacher-zone {
+            margin-bottom: 0.8rem;
+            border-bottom: 1px dashed #c1d6e8;
+            padding-bottom: 0.8rem;
+        }
+        .teacher-zh {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #0a3147;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .teacher-zh .badge {
+            background: #0b3b5c;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 30px;
+        }
+        .teacher-en, .student-en {
+            position: relative;
+            background: #e9f2fc;
+            border-radius: 20px;
+            padding: 12px 45px 12px 16px;
+            border: 1px solid #c0d4e8;
+            font-size: 1rem;
+            color: #144a66;
+            line-height: 1.4;
+            min-height: 52px;
+        }
+        .student-en {
+            background: #e2effb;
+            border-color: #b0cde0;
+        }
+        .en-text {
+            display: block;
+            width: 100%;
+        }
+        .en-text b {
+            color: #003057;
+            font-weight: 650;
+        }
+        .speaker {
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.3rem;
+            color: #0b5e7c;
+            background: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 60, 100, 0.15);
+            cursor: pointer;
+            transition: 0.1s;
+            border: 1px solid #b0cde0;
+            z-index: 2;
+        }
+        .speaker:hover {
+            background: #1e6f9f;
+            color: white;
+            transform: translateY(-50%) scale(1.05);
+        }
+        .card, .teacher-en, .student-en {
+            overflow: visible;
+        }
+
+        .btn-show {
+            background: none;
+            border: 1.5px solid #1e6f9f;
+            color: #1e6f9f;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            margin: 6px 0 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: white;
+            transition: 0.15s;
+        }
+        .btn-show:hover {
+            background: #1e6f9f;
+            color: white;
+        }
+
+        .student-answer {
+            background: #f7fdff;
+            border-radius: 20px;
+            padding: 1.2rem 1.2rem;
+            margin-top: 0.8rem;
+            border-left: 6px solid #1e6f9f;
+            border-top: 1px solid #d9e9f5;
+        }
+        .student-zh {
+            font-size: 1.05rem;
+            color: #0b2a3b;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            display: flex;
+            gap: 8px;
+        }
+        .student-zh .badge-stu {
+            background: #1e6f9f;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            border-radius: 30px;
+        }
+        .student-answer[hidden] {
+            display: none;
+        }
+        .highlight-card {
+            box-shadow: 0 0 0 3px #ffb347, 0 8px 20px rgba(0,0,0,0.1);
+            scroll-margin-top: 20px;
+        }
+        .footer-note {
+            margin-top: 2.5rem;
+            text-align: center;
+            color: #5f7d9c;
+            font-size: 0.85rem;
+            border-top: 1px solid #cbd6e6;
+            padding-top: 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .control-bar {
+                padding: 10px 14px;
+            }
+            .encourage {
+                font-size: 0.8rem;
+                padding: 4px 12px;
+            }
+            .btn-random, .btn-reveal {
+                padding: 5px 12px;
+                font-size: 0.8rem;
+            }
+            .teacher-zh {
+                font-size: 1.05rem;
+            }
+            .speaker {
+                right: -5px;
+                width: 32px;
+                height: 32px;
+                font-size: 1.1rem;
+            }
+            .teacher-en, .student-en {
+                padding: 10px 40px 10px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="control-bar">
+        <div class="encourage">
+            <i class="fa-regular fa-star"></i> 你一定可以·上理在等你
+        </div>
+        <div class="btn-group">
+            <button class="btn-random" id="randomBtn"><i class="fa-solid fa-shuffle"></i> 随机导师问句</button>
+            <button class="btn-reveal" id="revealBtn"><i class="fa-regular fa-eye"></i> 展示问答</button>
+        </div>
+        <div class="speed-slider">
+            <span><i class="fa-regular fa-clock"></i> 语速</span>
+            <input type="range" id="rateSlider" min="0.5" max="2" value="1" step="0.05">
+            <span id="speedValue">1.0x</span>
+        </div>
+    </div>
+
+    <!-- 常用表达区域（中英分开，喇叭逻辑已修复） -->
+    <div class="expressions-card">
+        <div class="expressions-title">
+            <i class="fa-regular fa-comment-dots"></i> 面试常用表达 · Useful Expressions
+        </div>
+        <div class="expr-item">
+            <div class="expr-zh">抱歉，我没听清，可以再说一遍吗？</div>
+            <div class="expr-en">
+                <span class="en-text">Sorry, I didn't catch that. Could you repeat it, please?</span>
+                <i class="fas fa-volume-high speaker" data-text="Sorry, I didn't catch that. Could you repeat it, please?"></i>
+            </div>
+        </div>
+        <div class="expr-item">
+            <div class="expr-zh">老师，能请您说慢一点吗？</div>
+            <div class="expr-en">
+                <span class="en-text">Professor, could you please speak a little slower?</span>
+                <i class="fas fa-volume-high speaker" data-text="Professor, could you please speak a little slower?"></i>
+            </div>
+        </div>
+        <div class="expr-item">
+            <div class="expr-zh">谢谢老师的提问。</div>
+            <div class="expr-en">
+                <span class="en-text">Thank you for your question.</span>
+                <i class="fas fa-volume-high speaker" data-text="Thank you for your question."></i>
+            </div>
+        </div>
+        <div class="expr-item">
+            <div class="expr-zh">请给我一点时间思考。</div>
+            <div class="expr-en">
+                <span class="en-text">Please give me a moment to think.</span>
+                <i class="fas fa-volume-high speaker" data-text="Please give me a moment to think."></i>
+            </div>
+        </div>
+        <div class="expr-item">
+            <div class="expr-zh">您问的是……对吗？</div>
+            <div class="expr-en">
+                <span class="en-text">You are asking about..., right?</span>
+                <i class="fas fa-volume-high speaker" data-text="You are asking about..., right?"></i>
+            </div>
+        </div>
+        <div class="expr-item">
+            <div class="expr-zh">以上是我的回答，谢谢老师。</div>
+            <div class="expr-en">
+                <span class="en-text">That's my answer, thank you.</span>
+                <i class="fas fa-volume-high speaker" data-text="That's my answer, thank you."></i>
+            </div>
+        </div>
+    </div>
+
+    <div id="qaContainer"></div>
+
+    <div class="footer-note">
+        <i class="fa-regular fa-heart"></i> 陈茹 · 机械设计制造及其自动化 · 目标上海理工
+    </div>
+</div>
+
+<script>
+(function() {
+    // ---------- 最新问答数据（已按要求修改）----------
+    const rawDialogues = [
+        { // 0 三维软件
+            teacherZh: "你学过哪些三维软件？举例说明。",
+            teacherEn: "Give an example of what 3D software applications you have learned.",
+            studentZh: "我主要学过 Inventor 和 AutoCAD，也能熟练使用 SolidWorks 进行建模。在比赛和课程设计中，我常用这些软件完成机械零件的设计和建模。",
+            studentEn: "I mainly learned Inventor, AutoCAD, and SolidWorks for modeling. I often use them for part design in competitions and coursework."
+        },
+        { // 1 不完全定位（图片1更新）
+            teacherZh: "专业基础问题，不完全定位的自由度是什么？",
+            teacherEn: "What are the **degrees of freedom** for incomplete positioning?",
+            studentZh: "不完全定位是指工件被限制的自由度数少于六个，但能满足加工要求的情况。例如在车床上加工轴类零件，只限制四个自由度即可保证加工精度。",
+            studentEn: "Incomplete positioning means less than six **degrees of freedom** are limited but still meets needs. For example, turning a shaft on a **lathe** only needs four degrees limited."
+        },
+        { // 2 高副低副
+            teacherZh: "高副和低副的区别是什么？",
+            teacherEn: "Difference between high pair and low pair.",
+            studentZh: "低副是面接触的运动副，比如转动副和移动副，承载能力大、磨损小；高副是点或线接触的，比如齿轮啮合，能实现复杂运动但容易磨损。",
+            studentEn: "A low pair has surface contact (like revolute joints), high load capacity, low wear. A high pair has point/line contact (like gears), enables complex motions but wears faster."
+        },
+        { // 3 四级（删除“相信入学前能通过”）
+            teacherZh: "英语水平怎么样？通过四级或六级了吗？",
+            teacherEn: "Have you passed CET-4 or CET-6?",
+            studentZh: "我目前还没有通过四级，但英语阅读理解是我的强项，考研英语中这部分得分还可以。我一直在坚持背单词和做阅读。",
+            studentEn: "I haven't passed CET-4 yet, but reading comprehension is my strength, and I did well in that part of the postgraduate English exam. I keep learning vocabulary and practicing reading."
+        },
+        { // 4 专业及选择原因（图片2更新）
+            teacherZh: "你的专业是什么？为什么选择这个专业？",
+            teacherEn: "What's your major? Why choose?",
+            studentZh: "我主修机械设计与自动化。我从小就对机械结构很感兴趣，这个专业就业面广，能将想法变为现实，让我很有成就感。",
+            studentEn: "I major in Mechanical Design and Automation. I have been interested in mechanical structures since I was a child, and this major has wide employment prospects and allows me to turn ideas into reality, which gives me a strong sense of accomplishment."
+        },
+        { // 5 英语介绍专业（保留原专业介绍）
+            teacherZh: "你能用英语介绍一下你的专业吗？",
+            teacherEn: "Can you introduce your major in English?",
+            studentZh: "我的专业是机械设计制造及其自动化。它是以力学为基础、以设计为核心、以制造为实现手段、以自动化为发展方向的一门工科专业。",
+            studentEn: "My major is Mechanical Design and Automation. It is an engineering major grounded in mechanics, centered on design, implemented through manufacturing, and focused on automation."
+        },
+        { // 6 大学收获+未来计划
+            teacherZh: "大学四年你最大的收获是什么？未来三年你有什么计划？",
+            teacherEn: "What are your plans for the next three years and your achievements in the four years of college?",
+            studentZh: "我认为我最大的收获是掌握了专业技能，并培养了扎实的实操能力。在未来三年，我首先会进一步学习专业知识，然后参与科研，提高自己的能力。最后，我希望成为一名有能力的工程师。",
+            studentEn: "My biggest gain is mastering skills and building practical abilities. In the next three years, I will deepen my knowledge, join research to improve, and finally become a capable engineer."
+        },
+        { // 7 考研原因
+            teacherZh: "你为什么选择考研而不是直接工作？",
+            teacherEn: "Why choose postgraduate entrance examination instead of work?",
+            studentZh: "在本科期间我深刻意识到目前的知识不够，想要进一步提升自己，为自己赢得一个更好的未来。",
+            studentEn: "During college, I realized my knowledge is not enough. I want to improve and strive for a better future."
+        },
+        { // 8 为什么选上理
+            teacherZh: "你为什么选择上海理工大学？",
+            teacherEn: "Why choose USST?",
+            studentZh: "首先，上海理工大学的机械工程专业非常好。其次，这里的老师很优秀，学术氛围很好。第三，我非常想在这里学习，提升自己。",
+            studentEn: "First, USST has a strong Mechanical Engineering program. Second, great teachers and academic environment. Third, I really want to study here and improve."
+        },
+        { // 9 怎么看待上理
+            teacherZh: "你怎么看待上海理工大学？",
+            teacherEn: "What do you think of USST?",
+            studentZh: "此前我有幸参观过上海理工大学，校园环境优美，深深吸引了我。在我心中，上海理工大学是一所历史悠久、学术实力雄厚的优秀院校。我十分喜爱这里浓厚的学习氛围与积极向上的校园文化，也由衷希望能有机会成为这里的一名研究生。",
+            studentEn: "I once visited USST and loved its beautiful campus. I think USST is an excellent university with a long history and strong academics. I really enjoy the academic atmosphere and culture, and I **truly** hope to become a graduate student here."
+        },
+        { // 10 去过上海吗
+            teacherZh: "你以前去过上海吗？",
+            teacherEn: "Have you ever been to Shanghai?",
+            studentZh: "是的，我去过。我觉得上海是一座非常现代化和国际化的城市，我喜欢它的快速发展和良好氛围。",
+            studentEn: "Yes, I have. It's modern and international. I like its fast development and atmosphere."
+        },
+        { // 11 家乡在哪
+            teacherZh: "你的家乡在哪里？",
+            teacherEn: "Where’s your hometown?",
+            studentZh: "我的家乡在江苏苏州，是一个风景优美、历史悠久的城市。",
+            studentEn: "My hometown is Suzhou, Jiangsu, a beautiful city with a long history."
+        },
+        { // 12 介绍家乡
+            teacherZh: "请简单介绍一下你的家乡。",
+            teacherEn: "Please introduce your hometown.",
+            studentZh: "苏州以古典园林和丝绸闻名，生活舒适。同时现代工业发达，有很多外资企业，这让我从小就接触到了先进的制造理念。",
+            studentEn: "Suzhou is known for gardens and silk, with a comfortable life. It also has modern industry and foreign companies, which let me learn advanced manufacturing ideas from a young age."
+        },
+        { // 13 觉得上海怎么样
+            teacherZh: "你觉得上海怎么样？",
+            teacherEn: "What do you think of Shanghai?",
+            studentZh: "上海是一座充满机遇和挑战的城市。这里汇聚了顶尖的科研资源和优秀人才，如果能在这里读研，我相信能极大开阔眼界，提升自己。",
+            studentEn: "Shanghai is full of opportunities and challenges. It has top research and talents. Studying here would broaden my horizons and help me grow."
+        },
+        { // 14 毕业后做什么
+            teacherZh: "毕业后想做什么？研究生阶段想实现什么？",
+            teacherEn: "What do you want to do after graduation and what do you want to achieve in your graduate stage?",
+            studentZh: "毕业后我希望进入高端制造领域，成为一名优秀的机械工程师。研究生阶段我计划将机械工程与自动化、智能化相结合，努力成为一名**综合型、复合型人才**。",
+            studentEn: "After graduation, I hope to work in high-end manufacturing as a mechanical engineer. During my postgraduate studies, I plan to combine mechanical engineering with automation and intelligence to become a **versatile talent**."
+        },
+        { // 15 最喜欢的科目
+            teacherZh: "你最喜欢的科目是什么？为什么？",
+            teacherEn: "What's your favorite subject? Reason.",
+            studentZh: "我最喜欢的课程是**机械原理**。它揭示了机械运动的本质，帮助我理解机器是如何工作的，我觉得非常有趣。",
+            studentEn: "My favorite course is **Mechanical Principles**. It shows how machines move and work. I find it very interesting."
+        },
+        { // 16 毕业后留上海吗
+            teacherZh: "毕业后会留在上海吗？",
+            teacherEn: "Do you live in Shanghai after school?",
+            studentZh: "如果有机会，我非常愿意留在上海发展。上海是中国的经济中心，制造业和科技都很发达，能提供很多机遇，我也很喜欢这座城市的活力。",
+            studentEn: "If possible, I'd love to stay in Shanghai. It's China's economic center with advanced manufacturing, offering many chances, and I love its energy."
+        },
+        { // 17 家庭情况
+            teacherZh: "你的家庭情况如何？",
+            teacherEn: "What about your family?",
+            studentZh: "我家有三口人，父母和我。他们很支持我读书，一直鼓励我追求自己的梦想。家庭氛围很温暖，给了我坚强的后盾。",
+            studentEn: "There are three in my family: my parents and me. They strongly support my education and dreams. My family is warm and gives me strong support."
+        },
+        { // 18 本科学校
+            teacherZh: "你觉得你的本科学校怎么样？",
+            teacherEn: "What do you think your school?",
+            studentZh: "金陵科技学院注重实践培养，我打下了扎实的专业基础，也获得了很多实践机会，我非常感谢母校。",
+            studentEn: "Jinling Institute of Technology focuses on practice. I got a solid foundation and many chances. I am grateful to my university."
+        },
+        { // 19 研究生计划
+            teacherZh: "说说你在研究生阶段的计划。",
+            teacherEn: "Tell me your plan in your postgraduate study.",
+            studentZh: "研一我会打好理论基础，和导师确定研究方向；研二专注课题研究，争取发表论文；研三完成毕业论文，为未来做好准备。总之，我会珍惜时间，脚踏实地。",
+            studentEn: "In the first year, I will build a theory base and set my research direction with my supervisor. In the second year, I will focus on my project and try to publish. In the third year, I will finish my thesis and prepare for the future. I will cherish my time and work hard."
+        }
+    ];
+
+    // 英文关键词加粗
+    function enhanceEnglish(text) {
+        if (!text) return text;
+        const keywords = ['USST','CET-4','CET-6','Mechanical','CAD','SolidWorks','Inventor','AutoCAD','3D','degrees of freedom','high pair','low pair','Shanghai','Suzhou','Engineering','Automation','Jinling Institute','lathe','revolute','prismatic','gear','Mechanical Principles','postgraduate','undergraduate'];
+        let enhanced = text;
+        keywords.forEach(key => {
+            const regex = new RegExp('\\b' + key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+            enhanced = enhanced.replace(regex, '<b>$&</b>');
+        });
+        enhanced = enhanced.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        return enhanced;
+    }
+
+    const dialogues = rawDialogues.map(item => ({
+        ...item,
+        teacherEnRaw: item.teacherEn,
+        studentEnRaw: item.studentEn,
+        teacherEnEnhanced: enhanceEnglish(item.teacherEn),
+        studentEnEnhanced: enhanceEnglish(item.studentEn)
+    }));
+
+    const container = document.getElementById('qaContainer');
+
+    function renderCards() {
+        let html = '';
+        dialogues.forEach((item, index) => {
+            html += `
+                <div class="card" data-index="${index}" id="card-${index}">
+                    <div class="teacher-zone">
+                        <div class="teacher-zh"><span class="badge">导师</span> ${index+1}. ${item.teacherZh}</div>
+                        <div class="teacher-en">
+                            <span class="en-text">${item.teacherEnEnhanced}</span>
+                            <i class="fas fa-volume-high speaker" data-text="${item.teacherEnRaw.replace(/"/g, '&quot;')}"></i>
+                        </div>
+                    </div>
+                    <button class="btn-show"><i class="fa-regular fa-message"></i> 显示回答</button>
+                    <div class="student-answer" hidden>
+                        <div class="student-zh"><span class="badge-stu">陈茹</span> ${item.studentZh}</div>
+                        <div class="student-en">
+                            <span class="en-text">${item.studentEnEnhanced}</span>
+                            <i class="fas fa-volume-high speaker" data-text="${item.studentEnRaw.replace(/"/g, '&quot;')}"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+    renderCards();
+
+    // 语音 & 语速
+    const rateSlider = document.getElementById('rateSlider');
+    const speedValue = document.getElementById('speedValue');
+    let currentRate = 1.0;
+
+    rateSlider.addEventListener('input', function() {
+        currentRate = parseFloat(this.value);
+        speedValue.textContent = currentRate.toFixed(1) + 'x';
+    });
+
+    function speakText(text) {
+        if (!text) return;
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = currentRate;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // 随机状态（只随机导师问题）
+    let randomIndex = 0; // 仅导师索引
+
+    document.getElementById('randomBtn').addEventListener('click', function() {
+        const total = dialogues.length; // 20条导师问题
+        randomIndex = Math.floor(Math.random() * total);
+        const textToSpeak = dialogues[randomIndex].teacherEnRaw;
+        speakText(textToSpeak);
+    });
+
+    document.getElementById('revealBtn').addEventListener('click', function() {
+        const card = document.getElementById(`card-${randomIndex}`);
+        if (!card) return;
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('highlight-card'));
+        card.classList.add('highlight-card');
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        const studentDiv = card.querySelector('.student-answer');
+        const btn = card.querySelector('.btn-show');
+        if (studentDiv && studentDiv.hasAttribute('hidden')) {
+            studentDiv.removeAttribute('hidden');
+            if (btn) btn.innerHTML = '<i class="fa-regular fa-eye-slash"></i> 隐藏回答';
+        }
+    });
+
+    // 全局喇叭点击（确保常用表达也能播放）
+    document.addEventListener('click', function(e) {
+        const speaker = e.target.closest('.speaker');
+        if (speaker) {
+            const text = speaker.getAttribute('data-text');
+            if (text) speakText(text);
+        }
+    });
+
+    // 显示/隐藏回答按钮
+    container.addEventListener('click', function(e) {
+        const btn = e.target.closest('.btn-show');
+        if (!btn) return;
+        const card = btn.closest('.card');
+        const studentDiv = card.querySelector('.student-answer');
+        if (!studentDiv) return;
+        if (studentDiv.hasAttribute('hidden')) {
+            studentDiv.removeAttribute('hidden');
+            btn.innerHTML = '<i class="fa-regular fa-eye-slash"></i> 隐藏回答';
+        } else {
+            studentDiv.setAttribute('hidden', '');
+            btn.innerHTML = '<i class="fa-regular fa-message"></i> 显示回答';
+        }
+    });
+
+    // 初始化随机索引
+    (function init() {
+        randomIndex = 0; // 默认为第一个问题
+    })();
+})();
+</script>
+</body>
+</html>
