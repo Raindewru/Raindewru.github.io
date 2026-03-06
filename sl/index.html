@@ -121,21 +121,39 @@
         .expressions-title i {
             color: #1e6f9f;
         }
-        .expr-item {
-            margin-bottom: 1rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 1px dashed #a0bcd6;
+        .expr-section {
+            margin-bottom: 1.5rem;
         }
-        .expr-item:last-child {
-            border-bottom: none;
+        .expr-section:last-child {
             margin-bottom: 0;
-            padding-bottom: 0;
         }
-        .expr-zh {
+        .section-subtitle {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0a3147;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .expr-zh-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .expr-zh-item {
             font-size: 0.98rem;
             color: #0b2a3b;
-            margin-bottom: 5px;
             font-weight: 500;
+            padding: 8px 12px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #1e6f9f;
+        }
+        .expr-en-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
         }
         .expr-en {
             display: flex;
@@ -366,46 +384,48 @@
         <div class="expressions-title">
             <i class="fa-regular fa-comment-dots"></i> 面试常用表达 · Useful Expressions
         </div>
-        <div class="expr-item">
-            <div class="expr-zh">抱歉，我没听清，可以再说一遍吗？</div>
-            <div class="expr-en">
-                <span class="en-text">Sorry, I didn't catch that. Could you repeat it, please?</span>
-                <i class="fas fa-volume-high speaker" data-text="Sorry, I didn't catch that. Could you repeat it, please?"></i>
+        
+        <!-- 中文表达 -->
+        <div class="expr-section">
+            <h3 class="section-subtitle">中文表达</h3>
+            <div class="expr-zh-list">
+                <div class="expr-zh-item">1. 抱歉，我没听清，可以再说一遍吗？</div>
+                <div class="expr-zh-item">2. 老师，能请您说慢一点吗？</div>
+                <div class="expr-zh-item">3. 谢谢老师的提问。</div>
+                <div class="expr-zh-item">4. 请给我一点时间思考。</div>
+                <div class="expr-zh-item">5. 您问的是……对吗？</div>
+                <div class="expr-zh-item">6. 以上是我的回答，谢谢老师。</div>
             </div>
         </div>
-        <div class="expr-item">
-            <div class="expr-zh">老师，能请您说慢一点吗？</div>
-            <div class="expr-en">
-                <span class="en-text">Professor, could you please speak a little slower?</span>
-                <i class="fas fa-volume-high speaker" data-text="Professor, could you please speak a little slower?"></i>
-            </div>
-        </div>
-        <div class="expr-item">
-            <div class="expr-zh">谢谢老师的提问。</div>
-            <div class="expr-en">
-                <span class="en-text">Thank you for your question.</span>
-                <i class="fas fa-volume-high speaker" data-text="Thank you for your question."></i>
-            </div>
-        </div>
-        <div class="expr-item">
-            <div class="expr-zh">请给我一点时间思考。</div>
-            <div class="expr-en">
-                <span class="en-text">Please give me a moment to think.</span>
-                <i class="fas fa-volume-high speaker" data-text="Please give me a moment to think."></i>
-            </div>
-        </div>
-        <div class="expr-item">
-            <div class="expr-zh">您问的是……对吗？</div>
-            <div class="expr-en">
-                <span class="en-text">You are asking about..., right?</span>
-                <i class="fas fa-volume-high speaker" data-text="You are asking about..., right?"></i>
-            </div>
-        </div>
-        <div class="expr-item">
-            <div class="expr-zh">以上是我的回答，谢谢老师。</div>
-            <div class="expr-en">
-                <span class="en-text">That's my answer, thank you.</span>
-                <i class="fas fa-volume-high speaker" data-text="That's my answer, thank you."></i>
+        
+        <!-- 英文表达 -->
+        <div class="expr-section">
+            <h3 class="section-subtitle">英文表达</h3>
+            <div class="expr-en-list">
+                <div class="expr-en">
+                    <span class="en-text">1. Sorry, I didn't catch that. Could you repeat it, please?</span>
+                    <i class="fas fa-volume-high speaker" data-text="Sorry, I didn't catch that. Could you repeat it, please?"></i>
+                </div>
+                <div class="expr-en">
+                    <span class="en-text">2. Professor, could you please speak a little slower?</span>
+                    <i class="fas fa-volume-high speaker" data-text="Professor, could you please speak a little slower?"></i>
+                </div>
+                <div class="expr-en">
+                    <span class="en-text">3. Thank you for your question.</span>
+                    <i class="fas fa-volume-high speaker" data-text="Thank you for your question."></i>
+                </div>
+                <div class="expr-en">
+                    <span class="en-text">4. Please give me a moment to think.</span>
+                    <i class="fas fa-volume-high speaker" data-text="Please give me a moment to think."></i>
+                </div>
+                <div class="expr-en">
+                    <span class="en-text">5. You are asking about..., right?</span>
+                    <i class="fas fa-volume-high speaker" data-text="You are asking about..., right?"></i>
+                </div>
+                <div class="expr-en">
+                    <span class="en-text">6. That's my answer, thank you.</span>
+                    <i class="fas fa-volume-high speaker" data-text="That's my answer, thank you."></i>
+                </div>
             </div>
         </div>
     </div>
