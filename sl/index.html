@@ -336,6 +336,36 @@
             padding-top: 1.5rem;
         }
 
+        .heart-toggle-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #ff6b6b, #ee5a5a);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(238, 90, 90, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .heart-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(238, 90, 90, 0.5);
+        }
+        .heart-toggle-btn i {
+            font-size: 28px;
+            color: white;
+        }
+        .heart-toggle-btn.active {
+            background: linear-gradient(145deg, #1e6f9f, #155a7f);
+            box-shadow: 0 4px 15px rgba(30, 111, 159, 0.4);
+        }
+
         @media (max-width: 480px) {
             .control-bar {
                 padding: 10px 14px;
@@ -359,6 +389,15 @@
             }
             .teacher-en, .student-en {
                 padding: 10px 40px 10px 14px;
+            }
+            .heart-toggle-btn {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .heart-toggle-btn i {
+                font-size: 24px;
             }
         }
     </style>
@@ -436,6 +475,10 @@
     <div class="footer-note">
         <i class="fa-regular fa-heart"></i> 陈茹 · 机械设计制造及其自动化 · 目标上海理工
     </div>
+
+    <button class="heart-toggle-btn" id="heartToggleBtn" title="展开/关闭所有回答">
+        <i class="fa-solid fa-heart"></i>
+    </button>
 </div>
 
 <script>
@@ -688,6 +731,26 @@
         renderCards(); // 渲染问答卡片
         randomIndex = 0; // 默认为第一个问题
     }
+    
+    // 爱心按钮 - 展开/关闭所有回答
+    const heartToggleBtn = document.getElementById('heartToggleBtn');
+    let allExpanded = false;
+
+    heartToggleBtn.addEventListener('click', function() {
+        allExpanded = !allExpanded;
+        const studentAnswers = document.querySelectorAll('.student-answer');
+        const showButtons = document.querySelectorAll('.btn-show');
+        
+        if (allExpanded) {
+            studentAnswers.forEach(answer => answer.removeAttribute('hidden'));
+            showButtons.forEach(btn => btn.innerHTML = '<i class="fa-regular fa-eye-slash"></i> 隐藏回答');
+            heartToggleBtn.classList.add('active');
+        } else {
+            studentAnswers.forEach(answer => answer.setAttribute('hidden', ''));
+            showButtons.forEach(btn => btn.innerHTML = '<i class="fa-regular fa-message"></i> 显示回答');
+            heartToggleBtn.classList.remove('active');
+        }
+    });
     
     // 调用初始化函数
     init();
