@@ -250,86 +250,279 @@
             padding: 0 2px;
             border-radius: 2px;
         }
+        
         .payment-section {
             margin-top: 30px;
             padding-top: 24px;
             border-top: 2px dashed #e2e8f0;
-            text-align: left;
+            text-align: center;
         }
-        .payment-title {
+        
+        .payment-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
             font-size: 1.1rem;
-            color: #1e293b;
-            margin-bottom: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+        }
+        
+        .payment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        .payment-btn:active {
+            transform: translateY(0);
+        }
+        
+        .payment-btn i {
+            font-size: 1.3rem;
+        }
+        
+        .payment-hint {
+            margin-top: 12px;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-overlay.visible {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px 20px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
             font-weight: 600;
         }
-        .payment-content {
+        
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 24px 20px;
+        }
+        
+        .modal-highlight {
+            background: #fef3c7;
+            border: 1px solid #fde047;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: #92400e;
+            font-weight: 600;
+        }
+        
+        .modal-description {
+            color: #475569;
             font-size: 0.95rem;
-            line-height: 1.8;
-            color: #334155;
+            line-height: 1.7;
             margin-bottom: 20px;
         }
-        .payment-content p {
-            margin: 8px 0;
-        }
-        .payment-content .highlight {
-            color: #dc2626;
-            font-weight: 600;
-            background: #fee2e2;
-        }
-        .payment-content .gift-section {
+        
+        .gift-section {
             background: #f0fdf4;
             border: 1px solid #86efac;
             border-radius: 12px;
             padding: 16px;
-            margin: 16px 0;
+            margin-bottom: 20px;
         }
-        .payment-content .gift-title {
+        
+        .gift-title {
             color: #166534;
             font-weight: 600;
             margin-bottom: 12px;
             font-size: 1rem;
         }
-        .payment-content .gift-list {
+        
+        .gift-list {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        .payment-content .gift-list li {
-            padding: 8px 0;
+        
+        .gift-list li {
+            padding: 10px 0;
             display: flex;
             align-items: flex-start;
-            gap: 8px;
+            gap: 10px;
+            color: #166534;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            border-bottom: 1px solid rgba(134, 239, 172, 0.3);
         }
-        .payment-content .gift-list li::before {
+        
+        .gift-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .gift-list li::before {
             content: attr(data-icon);
             font-size: 1.2rem;
             flex-shrink: 0;
         }
-        .payment-wrapper {
-            display: flex;
-            align-items: flex-start;
-            gap: 24px;
-            margin-top: 20px;
-        }
-        .payment-image {
-            max-width: 200px;
-            width: 200px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            flex-shrink: 0;
-        }
-        .payment-info {
-            flex: 1;
-        }
-        .payment-note {
-            margin-top: 16px;
-            padding: 12px;
+        
+        .modal-note {
             background: #fef3c7;
             border: 1px solid #fde047;
-            border-radius: 10px;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
             color: #92400e;
             font-size: 0.9rem;
-            font-weight: 500;
+            line-height: 1.6;
+        }
+        
+        .qr-section {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .qr-section img {
+            max-width: 220px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 12px;
+        }
+        
+        .qr-label {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        .modal-footer {
+            text-align: center;
+            padding: 16px 20px;
+            background: #f8fafc;
+            border-radius: 0 0 20px 20px;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+            
+            .card {
+                padding: 16px;
+            }
+            
+            .filter-row {
+                gap: 12px;
+            }
+            
+            .filter-item {
+                flex: 1 1 100%;
+            }
+            
+            .payment-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 24px;
+                font-size: 1rem;
+            }
+            
+            .modal-content {
+                max-height: 85vh;
+                border-radius: 16px;
+            }
+            
+            .modal-header {
+                padding: 20px 16px;
+                border-radius: 16px 16px 0 0;
+            }
+            
+            .modal-header h3 {
+                font-size: 1.1rem;
+            }
+            
+            .modal-body {
+                padding: 20px 16px;
+            }
+            
+            .gift-list li {
+                font-size: 0.85rem;
+            }
+            
+            .qr-section img {
+                max-width: 180px;
+            }
         }
     </style>
 </head>
@@ -387,58 +580,72 @@
         </ul>
 
         <div class="payment-section">
-            <div class="payment-title">💰 付费解锁完整评价报告</div>
+            <button class="payment-btn" id="paymentBtn">
+                <i class="fas fa-gift"></i>
+                <span>付费解锁完整评价报告</span>
+            </button>
+            <p class="payment-hint">点击查看详情及获取方式</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💰 付费解锁完整评价报告</h3>
+                <button class="modal-close" id="modalClose">×</button>
+            </div>
             
-            <div class="payment-wrapper">
-                <div class="payment-info">
-                    <div class="payment-content">
-                        <p>🎁 <span class="highlight">这5元绝不是只有一张表！</span></p>
-                        
-                        <p>无论您是否找到心仪导师，只要付费，我们都将为您打包赠送一份超值的【复试上岸豪华资料包】，助您复试一臂之力：</p>
-                        
-                        <div class="gift-section">
-                            <div class="gift-title">📦 资料包内容：</div>
-                            <ul class="gift-list">
-                                <li data-icon="📝">联系导师模板：邮件/短信话术，教你得体自荐，赢在第一步</li>
-                                <li data-icon="📄">500套简历模板：适配各专业，排版精美，让导师一眼看中你</li>
-                                <li data-icon="🗣️">英语口语全套：常见问答 + 外教口语指导视频，模仿地道发音，复试不怯场</li>
-                                <li data-icon="📚">复试面试精华：考研面试范文、高分经验、复试必备回答模板，遇到难题直接套用</li>
-                                <li data-icon="🏫">热门高校复试真题：汇总多所院校近年真题，提前熟悉出题套路</li>
-                                <li data-icon="🖥️">简历编辑教程：手把手教你挖掘亮点，把经历写得高大上</li>
-                            </ul>
-                        </div>
-                        
-                        <p>可以说，你复试需要的所有弹药，这里都齐了！</p>
-                        <p>如果没找到相关导师，您同样可以单独购买资料包，所有资料秒发到您手中。</p>
-                    </div>
-                    
-                    <div class="payment-note">
-                        💡 怎么获取？<br>
-                        直接私我扫描下方二维码，转账5元，备注"复试资料"，我们即刻发送全部内容！
-                    </div>
+            <div class="modal-body">
+                <div class="modal-highlight">
+                    🎁 这5元绝不是只有一张表！
                 </div>
                 
-                <img src="../wx支付.png" alt="微信支付" class="payment-image">
+                <p class="modal-description">
+                    无论您是否找到心仪导师，只要付费，我们都将为您打包赠送一份超值的【复试上岸豪华资料包】，助您复试一臂之力！
+                </p>
+                
+                <div class="gift-section">
+                    <div class="gift-title">📦 资料包内容：</div>
+                    <ul class="gift-list">
+                        <li data-icon="📝">联系导师模板：邮件/短信话术，教你得体自荐</li>
+                        <li data-icon="📄">500套简历模板：适配各专业，排版精美</li>
+                        <li data-icon="🗣️">英语口语全套：常见问答 + 外教口语指导视频</li>
+                        <li data-icon="📚">复试面试精华：范文、经验、回答模板</li>
+                        <li data-icon="🏫">热门高校复试真题：近年真题汇总</li>
+                        <li data-icon="🖥️">简历编辑教程：手把手教你挖掘亮点</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-note">
+                    💡 <strong>怎么获取？</strong><br>
+                    直接私我扫描下方二维码，转账5元，备注"复试资料"，我们即刻发送全部内容！
+                </div>
+                
+                <div class="qr-section">
+                    <img src="../wx支付.png" alt="微信支付二维码">
+                    <p class="qr-label">微信扫码支付</p>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                如果没找到相关导师，您同样可以单独购买资料包
             </div>
         </div>
     </div>
 
     <script>
         (function() {
-            // --- 配置 ---
             const CSV_URL = 'teachers.csv';
             const COL_SCHOOL = '学校';
             const COL_COLLEGE = '学院';
             const COL_TEACHER = '教师名';
 
-            // --- 全局变量 ---
             let allData = [];
             let schools = new Set();
             let collegeMap = new Map();
             let currentTeachers = [];
             let selectedSchool = '';
 
-            // DOM 元素
             const schoolSearch = document.getElementById('schoolSearch');
             const schoolSuggestions = document.getElementById('schoolSuggestions');
             const clearSchoolBtn = document.getElementById('clearSchool');
@@ -448,8 +655,27 @@
             const teacherListEl = document.getElementById('teacherList');
             const statsDiv = document.getElementById('stats');
             const teacherCountSpan = document.getElementById('teacherCount');
+            const paymentBtn = document.getElementById('paymentBtn');
+            const paymentModal = document.getElementById('paymentModal');
+            const modalClose = document.getElementById('modalClose');
 
-            // --- 加载 CSV 数据 ---
+            paymentBtn.addEventListener('click', function() {
+                paymentModal.classList.add('visible');
+                document.body.style.overflow = 'hidden';
+            });
+
+            modalClose.addEventListener('click', function() {
+                paymentModal.classList.remove('visible');
+                document.body.style.overflow = '';
+            });
+
+            paymentModal.addEventListener('click', function(e) {
+                if (e.target === paymentModal) {
+                    paymentModal.classList.remove('visible');
+                    document.body.style.overflow = '';
+                }
+            });
+
             async function loadCSV() {
                 try {
                     const response = await fetch(CSV_URL);
@@ -487,7 +713,6 @@
                 }
             }
 
-            // 构建学校和学院映射
             function buildFilters() {
                 schools.clear();
                 collegeMap.clear();
@@ -505,7 +730,6 @@
                 });
             }
 
-            // 学校搜索功能
             function onSchoolSearch() {
                 const searchValue = schoolSearch.value.trim().toLowerCase();
                 
@@ -517,12 +741,10 @@
                     return;
                 }
 
-                // 过滤匹配的学校
                 const matchedSchools = [...schools].filter(school => 
                     school.toLowerCase().includes(searchValue)
                 ).sort();
 
-                // 显示建议列表
                 if (matchedSchools.length > 0) {
                     let html = '';
                     matchedSchools.forEach(school => {
@@ -535,7 +757,6 @@
                     schoolSuggestions.innerHTML = html;
                     schoolSuggestions.classList.add('visible');
 
-                    // 绑定点击事件
                     schoolSuggestions.querySelectorAll('.school-suggestion-item').forEach(item => {
                         item.addEventListener('click', function() {
                             selectSchool(this.dataset.school);
@@ -547,14 +768,12 @@
                 }
             }
 
-            // 选择学校
             function selectSchool(school) {
                 selectedSchool = school;
                 schoolSearch.value = school;
                 schoolSuggestions.classList.remove('visible');
                 clearSchoolBtn.classList.add('visible');
 
-                // 更新学院下拉框
                 collegeSelect.disabled = false;
                 const colleges = collegeMap.get(school) || new Set();
                 let options = '<option value="">—— 请选择学院 ——</option>';
@@ -563,24 +782,20 @@
                 });
                 collegeSelect.innerHTML = options;
 
-                // 清空教师列表
                 teacherListEl.innerHTML = '<li class="placeholder">请选择学院以查看教师</li>';
                 statsDiv.style.display = 'none';
                 currentTeachers = [];
             }
 
-            // 清除学校搜索
             function clearSchoolSearch() {
                 schoolSearch.value = '';
                 clearSchoolBtn.classList.remove('visible');
                 schoolSuggestions.classList.remove('visible');
                 selectedSchool = '';
                 
-                // 重置学院下拉框
                 collegeSelect.innerHTML = '<option value="">—— 请先选择学校 ——</option>';
                 collegeSelect.disabled = true;
                 
-                // 清空教师列表
                 teacherListEl.innerHTML = '<li class="placeholder">👆 请搜索学校并选择学院以查看教师</li>';
                 statsDiv.style.display = 'none';
                 currentTeachers = [];
@@ -588,7 +803,6 @@
                 schoolSearch.focus();
             }
 
-            // 当学院改变时
             function onCollegeChange() {
                 const selectedCollege = collegeSelect.value;
 
@@ -599,7 +813,6 @@
                     return;
                 }
 
-                // 过滤数据
                 currentTeachers = allData
                     .filter(row => row[COL_SCHOOL] === selectedSchool && row[COL_COLLEGE] === selectedCollege)
                     .map(row => row[COL_TEACHER])
@@ -608,7 +821,6 @@
                 applySearchFilter();
             }
 
-            // 教师搜索功能
             function onTeacherSearch() {
                 const searchValue = searchInput.value.trim();
                 
@@ -621,7 +833,6 @@
                 applySearchFilter();
             }
 
-            // 清除教师搜索
             function clearTeacherSearch() {
                 searchInput.value = '';
                 clearSearchBtn.classList.remove('visible');
@@ -629,7 +840,6 @@
                 searchInput.focus();
             }
 
-            // 应用搜索过滤
             function applySearchFilter() {
                 const searchValue = searchInput.value.trim().toLowerCase();
                 
@@ -644,7 +854,6 @@
                 displayTeachers(filteredTeachers, searchValue);
             }
 
-            // 显示教师列表
             function displayTeachers(teachers, highlightText = '') {
                 const count = teachers.length;
                 if (count === 0) {
@@ -672,21 +881,18 @@
                 statsDiv.style.display = 'block';
             }
 
-            // 错误提示
             function showError(msg) {
                 teacherListEl.innerHTML = `<li class="error">${msg}</li>`;
                 statsDiv.style.display = 'none';
                 collegeSelect.disabled = true;
             }
 
-            // 点击外部关闭建议列表
             document.addEventListener('click', function(e) {
                 if (!e.target.closest('.search-wrapper')) {
                     schoolSuggestions.classList.remove('visible');
                 }
             });
 
-            // --- 绑定事件 ---
             schoolSearch.addEventListener('input', onSchoolSearch);
             schoolSearch.addEventListener('focus', onSchoolSearch);
             clearSchoolBtn.addEventListener('click', clearSchoolSearch);
@@ -694,7 +900,6 @@
             searchInput.addEventListener('input', onTeacherSearch);
             clearSearchBtn.addEventListener('click', clearTeacherSearch);
 
-            // --- 启动 ---
             loadCSV();
         })();
     </script>
