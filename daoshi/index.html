@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教师筛选 · 学校+学院</title>
+    <!-- 使用 PapaParse 解析 CSV -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+            background: #f5f7fb;
+        }
+        .site-banner {
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 12px 20px;
+            text-align: center;
+            color: #475569;
+            font-size: 0.9rem;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            animation: bannerFadeIn 0.8s ease;
+        }
+        @keyframes bannerFadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .site-banner i {
+            color: #3b82f6;
+            margin-right: 8px;
+        }
+        .site-banner strong {
+            color: #7c3aed;
+            font-weight: 600;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 12px 24px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+        }
+        .back-link:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59,130,246,0.3);
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        h2 {
+            margin-top: 0;
+            color: #1e293b;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .filter-item {
+            flex: 1 1 250px;
+        }
+        .filter-item.search-box {
+            flex: 2 1 300px;
+        }
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        input[type="text"] {
+            cursor: text;
+        }
+        select:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+        .search-wrapper {
+            position: relative;
+        }
+        .clear-search {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 1.4rem;
+            display: none;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.2s;
+        }
+        .clear-search.visible {
+            opacity: 1;
+        }
+        .clear-search:hover {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+        .school-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-top: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .school-suggestions.visible {
+            display: block;
+        }
+        .school-suggestion-item {
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .school-suggestion-item:hover {
+            background: #f1f5f9;
+        }
+        .school-suggestion-item:first-child {
+            border-radius: 10px 10px 0 0;
+        }
+        .school-suggestion-item:last-child {
+            border-radius: 0 0 10px 10px;
+        }
+        .stats {
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin: 16px 0;
+            color: #1e293b;
+            font-size: 0.95rem;
+            border-left: 4px solid #3b82f6;
+        }
+        .teacher-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            background: #ffffff;
+        }
+        .teacher-list li {
+            padding: 12px 18px;
+            border-bottom: 1px solid #edf2f7;
+            color: #0f172a;
+            font-size: 1rem;
+        }
+        .teacher-list li:last-child {
+            border-bottom: none;
+        }
+        .teacher-list li:hover {
+            background: #f1f5f9;
+        }
+        .placeholder {
+            color: #64748b;
+            text-align: center;
+            padding: 40px 20px;
+            font-style: italic;
+        }
+        .loading {
+            color: #3b82f6;
+            text-align: center;
+            padding: 20px;
+        }
+        .error {
+            color: #dc2626;
+            background: #fee2e2;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .info-box {
+            background: #fffaf0;
+            border: 1px solid #fde68a;
+            color: #92400e;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .highlight {
+            background: #fef08a;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        .payment-section {
+            margin-top: 30px;
+            padding-top: 24px;
+            border-top: 2px dashed #e2e8f0;
+            text-align: left;
+        }
+        .payment-title {
+            font-size: 1.1rem;
+            color: #1e293b;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        .payment-content {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #334155;
+            margin-bottom: 20px;
+        }
+        .payment-content p {
+            margin: 8px 0;
+        }
+        .payment-content .highlight {
+            color: #dc2626;
+            font-weight: 600;
+            background: #fee2e2;
+        }
+        .payment-content .gift-section {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .payment-content .gift-title {
+            color: #166534;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        .payment-content .gift-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .payment-content .gift-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .payment-content .gift-list li::before {
+            content: attr(data-icon);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .payment-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .payment-image {
+            max-width: 200px;
+            width: 200px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        .payment-info {
+            flex: 1;
+        }
+        .payment-note {
+            margin-top: 16px;
+            padding: 12px;
+            background: #fef3c7;
+            border: 1px solid #fde047;
+            border-radius: 10px;
+            color: #92400e;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="site-banner">
+        <i class="fas fa-bookmark"></i>
+        <span>收藏本站 <strong>https://freefile.me</strong> 永久免费，资源持续更新中～</span>
+    </div>
+
+    <div class="header">
+        <a href="../index.html" class="back-link">
+            <span>←</span> 返回主页
+        </a>
+    </div>
+
+    <div class="card">
+        <h2>
+            <span>🏫</span> 教师名录筛选
+        </h2>
+        <p style="color: #475569; margin-bottom: 24px;">搜索学校、选择学院，查看教师名单</p>
+
+        <div class="info-box">
+            <p>在本站筛选学校与学院后，每出现一次导师姓名，即代表我们收录了该导师的一条详细信息（包含研究方向、招生数据等）。</p>
+            <p>若您想查看该导师的完整评价（如学生反馈、科研详情、综合评分等），可付费5元解锁对应导师的完整报告。</p>
+        </div>
+
+        <div class="filter-row">
+            <div class="filter-item search-box">
+                <label for="schoolSearch">搜索学校</label>
+                <div class="search-wrapper" style="position: relative;">
+                    <input type="text" id="schoolSearch" class="search-input" placeholder="输入学校名称搜索..." autocomplete="off">
+                    <button class="clear-search" id="clearSchool">×</button>
+                    <div class="school-suggestions" id="schoolSuggestions"></div>
+                </div>
+            </div>
+            <div class="filter-item">
+                <label for="collegeSelect">学院</label>
+                <select id="collegeSelect" disabled>
+                    <option value="">—— 请先选择学校 ——</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="searchInput">搜索教师</label>
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" class="search-input" placeholder="输入教师姓名搜索...">
+                    <button class="clear-search" id="clearSearch">×</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="stats" class="stats" style="display: none;">👥 找到 <span id="teacherCount">0</span> 位教师</div>
+
+        <ul id="teacherList" class="teacher-list">
+            <li class="placeholder">👆 请搜索学校并选择学院以查看教师</li>
+        </ul>
+
+        <div class="payment-section">
+            <div class="payment-title">💰 付费解锁完整评价报告</div>
+            
+            <div class="payment-wrapper">
+                <div class="payment-info">
+                    <div class="payment-content">
+                        <p>🎁 <span class="highlight">这5元绝不是只有一张表！</span></p>
+                        
+                        <p>无论您是否找到心仪导师，只要付费，我们都将为您打包赠送一份超值的【复试上岸豪华资料包】，助您复试一臂之力：</p>
+                        
+                        <div class="gift-section">
+                            <div class="gift-title">📦 资料包内容：</div>
+                            <ul class="gift-list">
+                                <li data-icon="📝">联系导师模板：邮件/短信话术，教你得体自荐，赢在第一步</li>
+                                <li data-icon="📄">500套简历模板：适配各专业，排版精美，让导师一眼看中你</li>
+                                <li data-icon="🗣️">英语口语全套：常见问答 + 外教口语指导视频，模仿地道发音，复试不怯场</li>
+                                <li data-icon="📚">复试面试精华：考研面试范文、高分经验、复试必备回答模板，遇到难题直接套用</li>
+                                <li data-icon="🏫">热门高校复试真题：汇总多所院校近年真题，提前熟悉出题套路</li>
+                                <li data-icon="🖥️">简历编辑教程：手把手教你挖掘亮点，把经历写得高大上</li>
+                            </ul>
+                        </div>
+                        
+                        <p>可以说，你复试需要的所有弹药，这里都齐了！</p>
+                        <p>如果没找到相关导师，您同样可以单独购买资料包，所有资料秒发到您手中。</p>
+                    </div>
+                    
+                    <div class="payment-note">
+                        💡 怎么获取？<br>
+                        直接私我扫描下方二维码，转账5元，备注"复试资料"，我们即刻发送全部内容！
+                    </div>
+                </div>
+                
+                <img src="../wx支付.png" alt="微信支付" class="payment-image">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // --- 配置 ---
+            const CSV_URL = 'teachers.csv';
+            const COL_SCHOOL = '学校';
+            const COL_COLLEGE = '学院';
+            const COL_TEACHER = '教师名';
+
+            // --- 全局变量 ---
+            let allData = [];
+            let schools = new Set();
+            let collegeMap = new Map();
+            let currentTeachers = [];
+            let selectedSchool = '';
+
+            // DOM 元素
+            const schoolSearch = document.getElementById('schoolSearch');
+            const schoolSuggestions = document.getElementById('schoolSuggestions');
+            const clearSchoolBtn = document.getElementById('clearSchool');
+            const collegeSelect = document.getElementById('collegeSelect');
+            const searchInput = document.getElementById('searchInput');
+            const clearSearchBtn = document.getElementById('clearSearch');
+            const teacherListEl = document.getElementById('teacherList');
+            const statsDiv = document.getElementById('stats');
+            const teacherCountSpan = document.getElementById('teacherCount');
+
+            // --- 加载 CSV 数据 ---
+            async function loadCSV() {
+                try {
+                    const response = await fetch(CSV_URL);
+                    if (!response.ok) throw new Error(`无法加载 CSV 文件 (HTTP ${response.status})`);
+                    const csvText = await response.text();
+
+                    Papa.parse(csvText, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: function(results) {
+                            if (results.errors.length) {
+                                console.warn('解析警告:', results.errors);
+                            }
+                            allData = results.data;
+
+                            if (allData.length === 0) {
+                                showError('CSV 文件无数据');
+                                return;
+                            }
+                            const firstRow = allData[0];
+                            if (!(COL_SCHOOL in firstRow) || !(COL_COLLEGE in firstRow) || !(COL_TEACHER in firstRow)) {
+                                showError(`CSV 表头必须包含 "${COL_SCHOOL}", "${COL_COLLEGE}", "${COL_TEACHER}"`);
+                                return;
+                            }
+
+                            buildFilters();
+                            teacherListEl.innerHTML = '<li class="placeholder">👆 请搜索学校并选择学院以查看教师</li>';
+                        },
+                        error: function(err) {
+                            showError('解析 CSV 失败：' + err.message);
+                        }
+                    });
+                } catch (e) {
+                    showError('加载 CSV 失败：' + e.message);
+                }
+            }
+
+            // 构建学校和学院映射
+            function buildFilters() {
+                schools.clear();
+                collegeMap.clear();
+
+                allData.forEach(row => {
+                    const school = row[COL_SCHOOL]?.trim();
+                    const college = row[COL_COLLEGE]?.trim();
+                    if (!school || !college) return;
+
+                    schools.add(school);
+                    if (!collegeMap.has(school)) {
+                        collegeMap.set(school, new Set());
+                    }
+                    collegeMap.get(school).add(college);
+                });
+            }
+
+            // 学校搜索功能
+            function onSchoolSearch() {
+                const searchValue = schoolSearch.value.trim().toLowerCase();
+                
+                if (searchValue) {
+                    clearSchoolBtn.classList.add('visible');
+                } else {
+                    clearSchoolBtn.classList.remove('visible');
+                    schoolSuggestions.classList.remove('visible');
+                    return;
+                }
+
+                // 过滤匹配的学校
+                const matchedSchools = [...schools].filter(school => 
+                    school.toLowerCase().includes(searchValue)
+                ).sort();
+
+                // 显示建议列表
+                if (matchedSchools.length > 0) {
+                    let html = '';
+                    matchedSchools.forEach(school => {
+                        const highlightedName = school.replace(
+                            new RegExp(`(${searchValue})`, 'gi'),
+                            '<span class="highlight">$1</span>'
+                        );
+                        html += `<div class="school-suggestion-item" data-school="${school.replace(/"/g, '&quot;')}">${highlightedName}</div>`;
+                    });
+                    schoolSuggestions.innerHTML = html;
+                    schoolSuggestions.classList.add('visible');
+
+                    // 绑定点击事件
+                    schoolSuggestions.querySelectorAll('.school-suggestion-item').forEach(item => {
+                        item.addEventListener('click', function() {
+                            selectSchool(this.dataset.school);
+                        });
+                    });
+                } else {
+                    schoolSuggestions.innerHTML = '<div class="school-suggestion-item" style="color: #94a3b8;">未找到匹配的学校</div>';
+                    schoolSuggestions.classList.add('visible');
+                }
+            }
+
+            // 选择学校
+            function selectSchool(school) {
+                selectedSchool = school;
+                schoolSearch.value = school;
+                schoolSuggestions.classList.remove('visible');
+                clearSchoolBtn.classList.add('visible');
+
+                // 更新学院下拉框
+                collegeSelect.disabled = false;
+                const colleges = collegeMap.get(school) || new Set();
+                let options = '<option value="">—— 请选择学院 ——</option>';
+                [...colleges].sort().forEach(col => {
+                    options += `<option value="${col.replace(/"/g, '&quot;')}">${col}</option>`;
+                });
+                collegeSelect.innerHTML = options;
+
+                // 清空教师列表
+                teacherListEl.innerHTML = '<li class="placeholder">请选择学院以查看教师</li>';
+                statsDiv.style.display = 'none';
+                currentTeachers = [];
+            }
+
+            // 清除学校搜索
+            function clearSchoolSearch() {
+                schoolSearch.value = '';
+                clearSchoolBtn.classList.remove('visible');
+                schoolSuggestions.classList.remove('visible');
+                selectedSchool = '';
+                
+                // 重置学院下拉框
+                collegeSelect.innerHTML = '<option value="">—— 请先选择学校 ——</option>';
+                collegeSelect.disabled = true;
+                
+                // 清空教师列表
+                teacherListEl.innerHTML = '<li class="placeholder">👆 请搜索学校并选择学院以查看教师</li>';
+                statsDiv.style.display = 'none';
+                currentTeachers = [];
+                
+                schoolSearch.focus();
+            }
+
+            // 当学院改变时
+            function onCollegeChange() {
+                const selectedCollege = collegeSelect.value;
+
+                if (!selectedSchool || !selectedCollege) {
+                    teacherListEl.innerHTML = '<li class="placeholder">请完整选择学校和学院</li>';
+                    statsDiv.style.display = 'none';
+                    currentTeachers = [];
+                    return;
+                }
+
+                // 过滤数据
+                currentTeachers = allData
+                    .filter(row => row[COL_SCHOOL] === selectedSchool && row[COL_COLLEGE] === selectedCollege)
+                    .map(row => row[COL_TEACHER])
+                    .filter(name => name && name.trim() !== '');
+
+                applySearchFilter();
+            }
+
+            // 教师搜索功能
+            function onTeacherSearch() {
+                const searchValue = searchInput.value.trim();
+                
+                if (searchValue) {
+                    clearSearchBtn.classList.add('visible');
+                } else {
+                    clearSearchBtn.classList.remove('visible');
+                }
+
+                applySearchFilter();
+            }
+
+            // 清除教师搜索
+            function clearTeacherSearch() {
+                searchInput.value = '';
+                clearSearchBtn.classList.remove('visible');
+                applySearchFilter();
+                searchInput.focus();
+            }
+
+            // 应用搜索过滤
+            function applySearchFilter() {
+                const searchValue = searchInput.value.trim().toLowerCase();
+                
+                let filteredTeachers = currentTeachers;
+                
+                if (searchValue) {
+                    filteredTeachers = currentTeachers.filter(name => 
+                        name.toLowerCase().includes(searchValue)
+                    );
+                }
+
+                displayTeachers(filteredTeachers, searchValue);
+            }
+
+            // 显示教师列表
+            function displayTeachers(teachers, highlightText = '') {
+                const count = teachers.length;
+                if (count === 0) {
+                    if (currentTeachers.length === 0) {
+                        teacherListEl.innerHTML = '<li class="placeholder">😕 该学院暂无教师记录</li>';
+                    } else {
+                        teacherListEl.innerHTML = '<li class="placeholder">😕 未找到匹配的教师</li>';
+                    }
+                    statsDiv.style.display = 'none';
+                    return;
+                }
+
+                let html = '';
+                teachers.forEach(name => {
+                    let displayName = name;
+                    if (highlightText) {
+                        const regex = new RegExp(`(${highlightText})`, 'gi');
+                        displayName = name.replace(regex, '<span class="highlight">$1</span>');
+                    }
+                    html += `<li>${displayName}</li>`;
+                });
+                teacherListEl.innerHTML = html;
+
+                teacherCountSpan.textContent = count;
+                statsDiv.style.display = 'block';
+            }
+
+            // 错误提示
+            function showError(msg) {
+                teacherListEl.innerHTML = `<li class="error">${msg}</li>`;
+                statsDiv.style.display = 'none';
+                collegeSelect.disabled = true;
+            }
+
+            // 点击外部关闭建议列表
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-wrapper')) {
+                    schoolSuggestions.classList.remove('visible');
+                }
+            });
+
+            // --- 绑定事件 ---
+            schoolSearch.addEventListener('input', onSchoolSearch);
+            schoolSearch.addEventListener('focus', onSchoolSearch);
+            clearSchoolBtn.addEventListener('click', clearSchoolSearch);
+            collegeSelect.addEventListener('change', onCollegeChange);
+            searchInput.addEventListener('input', onTeacherSearch);
+            clearSearchBtn.addEventListener('click', clearTeacherSearch);
+
+            // --- 启动 ---
+            loadCSV();
+        })();
+    </script>
+</body>
+</html>
