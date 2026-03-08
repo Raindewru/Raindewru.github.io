@@ -178,7 +178,10 @@
       border-radius: 30px;
       font-size: 0.8rem;
       color: #2d3748;
+      cursor: pointer;
+      transition: background .15s ease, color .15s ease;
     }
+    .card-tag:hover { background: #e2e8f0; }
     .action-buttons {
       display: flex;
       gap: 15px;
@@ -202,7 +205,7 @@
       background: #1e3c72;
       color: white;
     }
-    .answer-block, .memory-block {
+    .answer-block {
       margin-top: 20px;
       padding: 20px;
       background: #f9fbfd;
@@ -212,17 +215,26 @@
       line-height: 1.7;
     }
     .memory-block {
-      border-left-color: #38a169;
+      margin-top: 20px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      font-size: 1rem;
+      line-height: 1.7;
     }
     .hidden {
       display: none;
     }
-    .answer-block p, .memory-block p {
+    .answer-block p, 
+    .memory-block p {
       margin-bottom: 10px;
     }
-    .memory-block img {
-      max-width: 100%;
-      height: auto;
+    .memory-block img,
+    .memory-block svg {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      display: block;
       border-radius: 12px;
       margin-top: 15px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -237,6 +249,34 @@
       margin-top: 40px;
       color: #718096;
       font-size: 0.9rem;
+    }
+    .floating-toggle {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid #e2e8f0;
+      background: #ffffff;
+      color: #e11d48;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      z-index: 9999;
+    }
+    .floating-toggle:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+    }
+    .floating-toggle.open {
+      background: #e11d48;
+      color: #ffffff;
+      border-color: #e11d48;
     }
     @media (max-width: 600px) {
       body { padding: 15px; }
@@ -268,6 +308,12 @@
           <!-- 动态生成题型选项 -->
         </select>
       </div>
+      <div class="filter-group" style="flex: 0 0 auto;">
+        <label class="filter-label">🔎 搜索</label>
+        <input id="search-input" placeholder="搜索标签 / 题目 / 答案关键字" 
+               style="width:220px; padding:10px 14px 10px 40px; border:2px solid #e2e8f0; border-radius:12px; background:#f7fafc; color:#2d3748; font-size:0.95rem; outline:none; transition:all .2s;
+               background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:12px center;">
+      </div>
       <button id="clear-filter" style="background: #f7fafc; border: 2px solid #e2e8f0; padding: 10px 20px; border-radius: 12px; font-size: 0.9rem; cursor: pointer; color: #4a5568; font-weight: 500; transition: all 0.2s;">🗂️ 重置筛选</button>
       <span id="result-count" style="background: #edf2f7; padding: 10px 18px; border-radius: 12px; font-size: 0.9rem; color: #4a5568; font-weight: 500;">📄 共 <span>0</span> 道题</span>
     </section>
@@ -278,6 +324,8 @@
     </section>
   </main>
 
+  <button id="global-toggle" class="floating-toggle" title="打开全部">🤍</button>
+
   <footer>
     <p>选择年份和题型筛选 · 点击按钮显示答案/记忆技巧 · 支持添加图片辅助记忆</p>
   </footer>
@@ -286,17 +334,22 @@
     (function() {
       // ---------- 全局状态 ----------
       let questions = [];               // 原始数据
-      let filteredQuestions = [];        // 当前显示的题目
-      let activeYear = null;             // 当前选中的年份
-      let activeType = null;             // 当前选中的题型
+      let canonicalItems = [];          // 去重后的题库
+      let filteredQuestions = [];       // 当前显示的题目（去重后）
+      let activeYear = null;            // 当前选中的年份
+      let activeType = null;            // 当前选中的题型
+      let activeQuery = '';             // 当前搜索关键字
       let yearCountMap = new Map();      // 年份 -> 计数
       let typeCountMap = new Map();      // 题型 -> 计数
 
       const yearSelectEl = document.getElementById('year-select');
       const typeSelectEl = document.getElementById('type-select');
+      const searchInputEl = document.getElementById('search-input');
       const questionListEl = document.getElementById('question-list');
       const clearFilterBtn = document.getElementById('clear-filter');
       const resultCountSpan = document.querySelector('#result-count span');
+      const globalToggleBtn = document.getElementById('global-toggle');
+      let globalOpen = false;
 
       // ---------- 加载数据 ----------
       async function loadData() {
@@ -304,17 +357,11 @@
           // 假设 JSON 文件位于 data/question.json
           const response = await fetch('data/question.json');
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          questions = await response.json();
-
-          // 预处理：为每道题生成 allTags (包含 type 和 自定义 tags)
-          questions = questions.map(q => ({
-            ...q,
-            allTags: [q.type, ...q.tags]    // 类型也作为标签
-          }));
-
-          filteredQuestions = [...questions];
-          buildYearStats();
-          buildTypeStats();
+          const raw = await response.json();
+          canonicalItems = normalizeData(raw);
+          filteredQuestions = [...canonicalItems];
+          buildYearStats();   // 基于去重后的 items
+          buildTypeStats();   // 基于去重后的 items
           renderYearSelect();
           renderTypeSelect();
           renderQuestions();
@@ -324,19 +371,113 @@
         }
       }
 
+      // ---------- 数据规范化与去重 ----------
+      function normalizeStr(s) {
+        return (s || '').replace(/\s+/g, ' ').replace(/[“”]/g, '"').replace(/[‘’]/g, "'").trim();
+      }
+      function hashCode(str) {
+        let h = 0;
+        for (let i = 0; i < str.length; i++) {
+          h = ((h << 5) - h) + str.charCodeAt(i);
+          h |= 0;
+        }
+        return Math.abs(h);
+      }
+      function slugify(str) {
+        return 'q-' + hashCode(normalizeStr(str));
+      }
+      function stripHtml(html) {
+        const div = document.createElement('div');
+        div.innerHTML = html || '';
+        return (div.textContent || div.innerText || '').replace(/\s+/g, ' ').trim();
+      }
+      function normalizeData(raw) {
+        // v2 格式：{ questions: [...], occurrences: [...] }
+        if (raw && Array.isArray(raw.questions) && Array.isArray(raw.occurrences)) {
+          const byId = new Map();
+          raw.questions.forEach(q => {
+            byId.set(q.id, {
+              id: q.id,
+              question: q.question,
+              answer: q.answer || '',
+              memoryTips: q.memoryTips || '',
+              tags: Array.isArray(q.tags) ? [...q.tags] : [],
+              years: [],
+              types: [],
+              occurrences: []
+            });
+          });
+          raw.occurrences.forEach(o => {
+            const item = byId.get(o.qid);
+            if (!item) return;
+            item.occurrences.push({ year: o.year, type: o.type, tags: o.tags || [] });
+            if (!item.years.includes(o.year)) item.years.push(o.year);
+            if (!item.types.includes(o.type)) item.types.push(o.type);
+            if (Array.isArray(o.tags) && o.tags.length) {
+              item.tags = Array.from(new Set([...item.tags, ...o.tags]));
+            }
+          });
+          byId.forEach(v => v.years.sort((a, b) => b - a));
+          return Array.from(byId.values());
+        }
+        // v1 旧格式：扁平数组
+        if (Array.isArray(raw)) {
+          const map = new Map();
+          raw.forEach(q => {
+            const key = normalizeStr(q.question);
+            if (!map.has(key)) {
+              map.set(key, {
+                id: slugify(q.question),
+                question: q.question,
+                answer: q.answer || '',
+                memoryTips: q.memoryTips || '',
+                tags: Array.isArray(q.tags) ? new Set(q.tags) : new Set(),
+                years: new Set([q.year]),
+                types: new Set([q.type]),
+                occurrences: [{ year: q.year, type: q.type, tags: q.tags || [] }]
+              });
+            } else {
+              const item = map.get(key);
+              if ((q.answer || '').length > (item.answer || '').length) item.answer = q.answer;
+              if ((q.memoryTips || '').length > (item.memoryTips || '').length) item.memoryTips = q.memoryTips;
+              (q.tags || []).forEach(t => item.tags.add(t));
+              item.years.add(q.year);
+              item.types.add(q.type);
+              item.occurrences.push({ year: q.year, type: q.type, tags: q.tags || [] });
+            }
+          });
+          const items = Array.from(map.values()).map(it => ({
+            id: it.id,
+            question: it.question,
+            answer: it.answer,
+            memoryTips: it.memoryTips,
+            tags: Array.from(it.tags),
+            years: Array.from(it.years).sort((a, b) => b - a),
+            types: Array.from(it.types),
+            occurrences: it.occurrences
+          }));
+          return items;
+        }
+        return [];
+      }
+
       // ---------- 统计年份频次 ----------
       function buildYearStats() {
         yearCountMap.clear();
-        questions.forEach(q => {
-          yearCountMap.set(q.year, (yearCountMap.get(q.year) || 0) + 1);
+        canonicalItems.forEach(item => {
+          (item.years || []).forEach(y => {
+            yearCountMap.set(y, (yearCountMap.get(y) || 0) + 1);
+          });
         });
       }
 
       // ---------- 统计题型频次 ----------
       function buildTypeStats() {
         typeCountMap.clear();
-        questions.forEach(q => {
-          typeCountMap.set(q.type, (typeCountMap.get(q.type) || 0) + 1);
+        canonicalItems.forEach(item => {
+          (item.types || []).forEach(t => {
+            typeCountMap.set(t, (typeCountMap.get(t) || 0) + 1);
+          });
         });
       }
 
@@ -374,12 +515,27 @@
         applyFilters();
       });
 
+      if (searchInputEl) {
+        searchInputEl.addEventListener('input', (e) => {
+          activeQuery = (e.target.value || '').trim().toLowerCase();
+          applyFilters();
+        });
+      }
+
       // ---------- 应用所有筛选条件 ----------
       function applyFilters() {
-        filteredQuestions = questions.filter(q => {
-          const matchYear = !activeYear || q.year === activeYear;
-          const matchType = !activeType || q.type === activeType;
-          return matchYear && matchType;
+        filteredQuestions = canonicalItems.filter(item => {
+          const matchYear = !activeYear || (item.years && item.years.includes(activeYear));
+          const matchType = !activeType || (item.types && item.types.includes(activeType));
+          if (!(matchYear && matchType)) return false;
+          if (!activeQuery) return true;
+          const text = [
+            item.question || '',
+            stripHtml(item.answer || ''),
+            (item.tags || []).join(' '),
+            (item.types || []).join(' ')
+          ].join(' ').toLowerCase();
+          return text.includes(activeQuery);
         });
         renderQuestions();
       }
@@ -399,17 +555,39 @@
           // 将答案中的换行符替换为 <br> 保留格式
           const answerHtml = q.answer.replace(/\n/g, '<br>');
           // memoryTips 直接作为 HTML 插入（可包含图片等）
-          const memoryHtml = q.memoryTips || '<p style="color:#a0aec0;">暂无记忆技巧，可自行添加图片或口诀。</p>';
+          let memoryHtml = q.memoryTips || '<p style="color:#a0aec0;">暂无记忆技巧，可自行添加图片或口诀。</p>';
+          if (!/\<img\s/i.test(memoryHtml)) {
+            const imgMap = [
+              { k: /积屑瘤|刀具.*三角|Built[- ]?up/i, src: 'images/built-up-edge.svg', alt: '积屑瘤示意图' },
+              { k: /麻花钻|钻|twist/i, src: 'images/twist-drill.svg', alt: '麻花钻结构图' },
+              { k: /磨削|珩磨|研磨|抛光|grinding/i, src: 'images/grinding-comparison.svg', alt: '磨削等方法对比' },
+              { k: /T型槽|T-?槽/i, src: 'images/t-slot-machining.svg', alt: 'T型槽加工图' },
+              { k: /削边销|定位销|两孔定位/i, src: 'images/reduced-pin.svg', alt: '削边销定位原理图' },
+              { k: /加工余量|余量/i, src: 'images/machining-allowance.svg', alt: '加工余量示意图' },
+              { k: /六点定位|自由度.*限制/i, src: 'images/six-point-positioning.svg', alt: '六点定位原理图' },
+              { k: /复映误差|误差复映|复映/i, src: 'images/error-reflection.svg', alt: '复映误差因果链' },
+              { k: /封闭环|尺寸链/i, src: 'images/closed-loop.svg', alt: '封闭环尺寸链示意图' },
+              { k: /刀具耐用度|刀具寿命/i, src: 'images/tool-life.svg', alt: '刀具耐用度曲线' },
+              { k: /磨削烧伤|烧伤/i, src: 'images/grinding-burn.svg', alt: '磨削烧伤示意图' },
+              { k: /变形区|三个变形区|切削区/i, src: 'images/three-zones.svg', alt: '切削三个变形区' },
+              { k: /磨损.*阶段|三阶段/i, src: 'images/tool-wear-stages.svg', alt: '刀具磨损三阶段' }
+            ];
+            const hit = imgMap.find(m => m.k.test(q.question) || (q.tags && q.tags.some(t => m.k.test(t))));
+            if (hit) {
+              memoryHtml += `<div style="margin-top:12px;"><img src="${hit.src}" alt="${hit.alt}" style="width:100%; max-width:100%; height:auto; border-radius:8px; border:1px solid #e2e8f0; display:block;"></div>`;
+            }
+          }
 
           html += `
             <div class="question-card" data-id="${q.id}">
               <div class="question-header">
-                <span class="year">${q.year}</span>
-                <span class="type">${q.type}</span>
+                ${q.years && q.years.length ? q.years.map(y => `<span class="year">${y}</span>`).join('') : ''}
+                ${q.types && q.types.length ? q.types.map(t => `<span class="type">${t}</span>`).join('') : ''}
+                ${q.occurrences && q.occurrences.length > 1 ? `<span class="type" style="background:#e6fffa;color:#065f46;">出现 ${q.occurrences.length} 次</span>` : ''}
               </div>
               <div class="question-text">${q.question}</div>
               <div class="card-tags">
-                ${q.tags.map(tag => `<span class="card-tag">${tag}</span>`).join('')}
+                ${(q.tags || []).map(tag => `<span class="card-tag">${tag}</span>`).join('')}
               </div>
               <div class="action-buttons">
                 <button class="toggle-btn" data-target="answer-${q.id}">📖 显示答案</button>
@@ -439,16 +617,59 @@
             }
           });
         });
+
+        // 绑定标签点击事件 -> 将标签写入搜索框并筛选
+        document.querySelectorAll('.card-tag').forEach(tagEl => {
+          tagEl.setAttribute('title', '点击按此标签搜索');
+          tagEl.addEventListener('click', () => {
+            const tagText = (tagEl.textContent || '').trim();
+            if (searchInputEl) {
+              searchInputEl.value = tagText;
+              activeQuery = tagText.toLowerCase();
+              applyFilters();
+              searchInputEl.focus();
+            }
+          });
+        });
+
+        if (globalOpen) setAllVisibility(true);
       }
 
       // ---------- 清空筛选 ----------
       clearFilterBtn.addEventListener('click', () => {
         activeYear = null;
         activeType = null;
+        activeQuery = '';
         yearSelectEl.value = '';
         typeSelectEl.value = '';
+        if (searchInputEl) searchInputEl.value = '';
         applyFilters();
       });
+
+      function setAllVisibility(open) {
+        document.querySelectorAll('.answer-block').forEach(el => el.classList.toggle('hidden', !open));
+        document.querySelectorAll('.memory-block').forEach(el => el.classList.toggle('hidden', !open));
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+          const t = btn.dataset.target || '';
+          if (t.startsWith('answer')) {
+            btn.innerHTML = open ? '📖 隐藏答案' : '📖 显示答案';
+          } else if (t.startsWith('memory')) {
+            btn.innerHTML = open ? '🧠 隐藏记忆' : '🧠 记忆技巧';
+          }
+        });
+        if (globalToggleBtn) {
+          globalToggleBtn.classList.toggle('open', open);
+          globalToggleBtn.textContent = open ? '❤️' : '🤍';
+          globalToggleBtn.title = open ? '关闭全部' : '打开全部';
+        }
+      }
+
+      if (globalToggleBtn) {
+        globalToggleBtn.addEventListener('click', () => {
+          globalOpen = !globalOpen;
+          setAllVisibility(globalOpen);
+        });
+      }
 
       // 启动
       loadData();

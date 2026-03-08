@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="300" viewBox="0 0 820 300">
+  <defs>
+    <style>
+      .panel{fill:#f8fafc;stroke:#e2e8f0}
+      .title{font:600 16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#0b1e33}
+      .label{font:12px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#334155}
+      .work{fill:#e5e7eb;stroke:#94a3b8}
+      .wheel{fill:#0ea5e9;stroke:#0369a1}
+      .haz{fill:#ef4444;opacity:.7}
+      .heat{stroke:#f59e0b;stroke-width:2;marker-end:url(#arrow)}
+      .tip{fill:#fff7ed;stroke:#fb923c}
+      .diff{fill:#fde68a;stroke:#f59e0b}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+  <rect x="10" y="10" width="800" height="280" rx="8" class="panel"/>
+  <text x="25" y="35" class="title">磨削烧伤：接触区热流 → 表层组织变化</text>
+
+  <rect x="80" y="200" width="660" height="50" rx="6" class="work"/>
+  <rect x="120" y="200" width="160" height="10" class="haz"/>
+  <text x="125" y="195" class="label">烧伤层（HAZ）</text>
+  <line x1="200" y1="190" x2="200" y2="210" stroke="#ef4444" stroke-width="2"/>
+  <text x="205" y="180" class="label">δ</text>
+
+  <circle cx="240" cy="160" r="40" class="wheel"/>
+  <path d="M 240 120 A 40 40 0 0 0 210 150" fill="#0284c7"/>
+  <line x1="240" y1="160" x2="200" y2="160" class="heat"/>
+  <text x="150" y="155" class="label">切削热 q</text>
+
+  <rect x="480" y="70" width="300" height="52" rx="6" class="diff"/>
+  <text x="490" y="90" class="label">组织变化：回火色/回火软化/白层/淬火裂纹</text>
+  <text x="490" y="108" class="label">表现：表面发蓝/硬度变化/微裂纹/残余拉应力</text>
+
+  <rect x="80" y="70" width="360" height="98" rx="6" class="tip"/>
+  <text x="92" y="90" class="label">抑制策略：</text>
+  <text x="160" y="90" class="label">降低单位热流：减小切深、进给、速度</text>
+  <text x="160" y="110" class="label">改善冷却：高压定向冷却、提高流量</text>
+  <text x="160" y="130" class="label">砂轮条件：修整锋利、选更耐热结合剂</text>
+  <text x="160" y="150" class="label">工艺规划：粗精分离、避免干磨、保持刚度</text>
+</svg>
+

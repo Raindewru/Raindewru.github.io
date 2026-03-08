@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="280" viewBox="0 0 820 280">
+  <defs>
+    <style>
+      .panel{fill:#f8fafc;stroke:#e2e8f0}
+      .title{font:600 16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#0b1e33}
+      .label{font:12px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#334155}
+      .axis{stroke:#94a3b8;stroke-width:2}
+      .curve{fill:none;stroke:#0ea5e9;stroke-width:3}
+      .band1{fill:#fee2e2;opacity:.5}
+      .band2{fill:#dcfce7;opacity:.5}
+      .band3{fill:#fde68a;opacity:.5}
+      .tip{fill:#eef2ff;stroke:#6366f1}
+    </style>
+  </defs>
+  <rect x="10" y="10" width="800" height="260" rx="8" class="panel"/>
+  <text x="25" y="35" class="title">刀具磨损三个阶段 · 关键特征</text>
+  <line x1="80" y1="220" x2="740" y2="220" class="axis"/>
+  <line x1="80" y1="60" x2="80" y2="220" class="axis"/>
+  <text x="730" y="235" class="label">t</text>
+  <text x="60" y="60" class="label">VB/KT</text>
+
+  <rect x="80" y="190" width="170" height="30" class="band1"/>
+  <rect x="250" y="150" width="320" height="70" class="band2"/>
+  <rect x="570" y="90" width="170" height="130" class="band3"/>
+  <text x="120" y="210" class="label">初期磨损：磨合快</text>
+  <text x="370" y="180" class="label">正常磨损：稳定慢</text>
+  <text x="610" y="110" class="label">急剧磨损：迅速坏</text>
+
+  <path d="M 80 215 C 140 205, 180 196, 240 190
+           S 420 175, 520 170
+           S 640 140, 740 100" class="curve"/>
+
+  <rect x="100" y="70" width="620" height="60" rx="6" class="tip"/>
+  <text x="110" y="90" class="label">识别要点：</text>
+  <text x="180" y="90" class="label">初期：VB斜率大；</text>
+  <text x="320" y="90" class="label">正常：斜率恒定、表面质量稳定；</text>
+  <text x="560" y="90" class="label">急剧：斜率陡增、崩刃/脆裂风险</text>
+  <text x="110" y="110" class="label">策略：在正常区末换刀，避免进入急剧磨损区</text>
+</svg>
+

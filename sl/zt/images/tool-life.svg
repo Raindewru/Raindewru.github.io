@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="300" viewBox="0 0 820 300">
+  <defs>
+    <style>
+      .panel{fill:#f8fafc;stroke:#e2e8f0}
+      .title{font:600 16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#0b1e33}
+      .label{font:12px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#334155}
+      .axis{stroke:#94a3b8;stroke-width:2}
+      .curve{fill:none;stroke:#2563eb;stroke-width:3}
+      .band1{fill:#fee2e2;opacity:.5}
+      .band2{fill:#dcfce7;opacity:.5}
+      .band3{fill:#fde68a;opacity:.5}
+      .limit{stroke:#ef4444;stroke-width:2;stroke-dasharray:6 6}
+      .arrow{stroke:#64748b;stroke-width:2;marker-end:url(#arrow);marker-start:url(#arrow)}
+      .badge{fill:#e0e7ff;stroke:#6366f1}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="10" y="10" width="800" height="280" rx="8" class="panel"/>
+  <text x="25" y="35" class="title">刀具耐用度 T（磨损量 VB - 时间 t）</text>
+  <line x1="80" y1="240" x2="740" y2="240" class="axis"/>
+  <line x1="80" y1="60" x2="80" y2="240" class="axis"/>
+  <text x="730" y="255" class="label">t</text>
+  <text x="60" y="60" class="label">VB</text>
+
+  <rect x="80" y="210" width="180" height="30" class="band1"/>
+  <rect x="260" y="165" width="300" height="75" class="band2"/>
+  <rect x="560" y="110" width="180" height="130" class="band3"/>
+  <text x="120" y="230" class="label">初期磨损</text>
+  <text x="380" y="200" class="label">正常磨损（稳定）</text>
+  <text x="600" y="130" class="label">急剧磨损</text>
+
+  <path d="M 80 235 C 140 225, 200 215, 240 210
+           S 420 190, 520 185
+           S 640 160, 740 120" class="curve"/>
+
+  <line x1="80" y1="150" x2="740" y2="150" class="limit"/>
+  <text x="85" y="145" class="label">VB = VB_lim（磨钝标准）</text>
+
+  <line x1="80" y1="150" x2="600" y2="150" class="arrow"/>
+  <text x="330" y="140" class="label">T = 达到磨钝标准的切削时间</text>
+  <rect x="540" y="60" width="240" height="28" rx="6" class="badge"/>
+  <text x="550" y="78" class="label">建议：在稳定区末端换刀，避免急剧磨损</text>
+</svg>
+

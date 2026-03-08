@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="260" viewBox="0 0 820 260">
+  <defs>
+    <style>
+      .panel{fill:#f8fafc;stroke:#e2e8f0}
+      .title{font:600 16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#0b1e33}
+      .label{font:12px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#334155}
+      .node{fill:#e0e7ff;stroke:#6366f1}
+      .arrow{stroke:#64748b;stroke-width:2;marker-end:url(#arrow)}
+      .brace{stroke:#94a3b8;stroke-width:2}
+      .badge{fill:#fde68a;stroke:#f59e0b}
+      .eq{fill:#dcfce7;stroke:#16a34a}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="10" y="10" width="800" height="240" rx="8" class="panel"/>
+  <text x="25" y="35" class="title">封闭环：尺寸链闭合与公差叠加</text>
+
+  <circle cx="120" cy="140" r="28" class="node"/><text x="112" y="145" class="label">A</text>
+  <circle cx="240" cy="140" r="28" class="node"/><text x="232" y="145" class="label">B</text>
+  <circle cx="360" cy="140" r="28" class="node"/><text x="352" y="145" class="label">C</text>
+  <circle cx="480" cy="140" r="28" class="node"/><text x="472" y="145" class="label">D</text>
+  <circle cx="600" cy="140" r="28" class="node"/><text x="592" y="145" class="label">F</text>
+
+  <line x1="148" y1="140" x2="212" y2="140" class="arrow"/><text x="170" y="130" class="label">T1</text>
+  <line x1="268" y1="140" x2="332" y2="140" class="arrow"/><text x="290" y="130" class="label">T2</text>
+  <line x1="388" y1="140" x2="452" y2="140" class="arrow"/><text x="410" y="130" class="label">T3</text>
+  <line x1="508" y1="140" x2="572" y2="140" class="arrow"/><text x="530" y="130" class="label">T4</text>
+  <path d="M 600 112 A 28 28 0 0 1 600 168" class="arrow" fill="none"/>
+  <path d="M 600 168 A 500 500 0 0 1 120 168" class="arrow" fill="none"/>
+  <text x="680" y="150" class="label">封闭环 F</text>
+
+  <path d="M 120 170 C 220 210, 500 210, 600 170" class="brace" fill="none"/>
+  <rect x="260" y="200" width="280" height="26" rx="6" class="badge"/>
+  <text x="270" y="218" class="label">封闭环由其余环自然形成/间接保证</text>
+
+  <rect x="280" y="50" width="260" height="30" rx="6" class="eq"/>
+  <text x="290" y="70" class="label">公差关系：TF = T1 + T2 + T3 + T4 + …</text>
+</svg>
+

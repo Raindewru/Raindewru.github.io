@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="300" viewBox="0 0 820 300">
+  <defs>
+    <style>
+      .panel{fill:#f8fafc;stroke:#e2e8f0}
+      .title{font:600 16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#0b1e33}
+      .label{font:12px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#334155}
+      .block{fill:#e5e7eb;stroke:#94a3b8}
+      .pad{fill:#10b981;stroke:#065f46}
+      .axis{stroke:#94a3b8;stroke-width:2}
+      .brace{stroke:#64748b;stroke-width:2}
+      .doft{fill:#dbeafe;stroke:#60a5fa}
+      .doftxt{font:11px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#1e3a8a}
+    </style>
+  </defs>
+  <rect x="10" y="10" width="520" height="280" rx="8" class="panel"/>
+  <text x="25" y="35" class="title">3-2-1 六点定位 · 限制六个自由度</text>
+
+  <rect x="120" y="90" width="300" height="150" rx="8" class="block"/>
+  <circle cx="150" cy="230" r="8" class="pad"/>
+  <circle cx="230" cy="230" r="8" class="pad"/>
+  <circle cx="310" cy="230" r="8" class="pad"/>
+  <circle cx="150" cy="100" r="8" class="pad"/>
+  <circle cx="390" cy="100" r="8" class="pad"/>
+  <circle cx="390" cy="230" r="8" class="pad"/>
+
+  <text x="134" y="255" class="label">1</text>
+  <text x="214" y="255" class="label">2</text>
+  <text x="294" y="255" class="label">3</text>
+  <text x="154" y="88" class="label">4</text>
+  <text x="394" y="88" class="label">5</text>
+  <text x="394" y="255" class="label">6</text>
+
+  <line x1="60" y1="260" x2="480" y2="260" class="axis"/>
+  <line x1="60" y1="260" x2="60" y2="70" class="axis"/>
+  <text x="485" y="265" class="label">X/Y</text>
+  <text x="45" y="65" class="label">Z</text>
+
+  <path d="M 150 230 C 150 250, 230 250, 310 230" class="brace" fill="none"/>
+  <text x="210" y="275" class="label">底面三点 → 限制 Z↓、Rx、Ry</text>
+  <path d="M 150 100 C 180 80, 360 80, 390 100" class="brace" fill="none"/>
+  <text x="210" y="70" class="label">侧面两点 → 限制 Y→、Rz</text>
+  <path d="M 390 100 C 420 130, 420 200, 390 230" class="brace" fill="none"/>
+  <text x="420" y="170" class="label">端面一点 → 限制 X→</text>
+
+  <rect x="550" y="10" width="260" height="280" rx="8" class="panel"/>
+  <text x="565" y="35" class="title">自由度限制概览</text>
+  <rect x="565" y="60" width="230" height="36" rx="6" class="doft"/>
+  <text x="575" y="82" class="doftxt">1、2、3：限制 Z（下移）、Rx、Ry</text>
+  <rect x="565" y="105" width="230" height="36" rx="6" class="doft"/>
+  <text x="575" y="127" class="doftxt">4、5：限制 Y（侧移）、Rz</text>
+  <rect x="565" y="150" width="230" height="36" rx="6" class="doft"/>
+  <text x="575" y="172" class="doftxt">6：限制 X（前后移）</text>
+  <rect x="565" y="200" width="230" height="60" rx="6" fill="#ecfeff" stroke="#22d3ee"/>
+  <text x="575" y="222" class="doftxt">合计：6个自由度全部受限</text>
+  <text x="575" y="244" class="doftxt">避免多余支点 → 防止过定位</text>
+</svg>
+

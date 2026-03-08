@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="260" viewBox="0 0 820 260">
+  <defs>
+    <style>
+      .panel{fill:#f8fafc;stroke:#e2e8f0}
+      .title{font:600 16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#0b1e33}
+      .label{font:12px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#334155}
+      .box{fill:#e5e7eb;stroke:#94a3b8}
+      .arrow{stroke:#64748b;stroke-width:2;marker-end:url(#arrow)}
+      .bad{fill:#fee2e2;stroke:#ef4444}
+      .tip{fill:#dcfce7;stroke:#16a34a}
+      .eq{fill:#fde68a;stroke:#f59e0b}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="10" y="10" width="800" height="240" rx="8" class="panel"/>
+  <text x="25" y="35" class="title">复映误差因果链 + 规避要点</text>
+
+  <rect x="40" y="90" width="150" height="60" rx="6" class="box"/>
+  <text x="55" y="115" class="label">毛坯误差</text>
+  <text x="55" y="135" class="label">余量不均/硬度变化</text>
+  <line x1="190" y1="120" x2="230" y2="120" class="arrow"/>
+
+  <rect x="230" y="90" width="150" height="60" rx="6" class="box"/>
+  <text x="245" y="115" class="label">切削力变化</text>
+  <text x="245" y="135" class="label">F↑↓ 随余量/硬度</text>
+  <line x1="380" y1="120" x2="420" y2="120" class="arrow"/>
+
+  <rect x="420" y="90" width="170" height="60" rx="6" class="box"/>
+  <text x="435" y="115" class="label">工艺系统受力变形</text>
+  <text x="435" y="135" class="label">静/动刚度不足</text>
+  <line x1="590" y1="120" x2="630" y2="120" class="arrow"/>
+
+  <rect x="630" y="70" width="160" height="100" rx="6" class="bad"/>
+  <text x="642" y="110" class="label">工件误差（复映）</text>
+  <text x="642" y="130" class="label">尺寸/形状偏差</text>
+
+  <rect x="230" y="40" width="170" height="26" rx="6" class="eq"/>
+  <text x="238" y="58" class="label">误差链：毛坯 → F → 变形 → 工件</text>
+
+  <rect x="40" y="170" width="750" height="60" rx="6" class="tip"/>
+  <text x="55" y="195" class="label">规避要点：</text>
+  <text x="140" y="195" class="label">提高刚度（机床/夹具/刀杆）</text>
+  <text x="360" y="195" class="label">均匀余量与热处理均匀硬度</text>
+  <text x="590" y="195" class="label">优化切削参数与冷却</text>
+  <text x="140" y="215" class="label">合理基准与定位，缩短悬伸</text>
+  <text x="360" y="215" class="label">多道次粗精分离，递减余量</text>
+  <text x="590" y="215" class="label">监控振动，避免共振</text>
+</svg>
+

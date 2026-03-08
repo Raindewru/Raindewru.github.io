@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="280" viewBox="0 0 780 280">
+  <defs>
+    <style>
+      .panel{fill:#f8fafc;stroke:#e2e8f0}
+      .title{font:600 16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#0b1e33}
+      .label{font:12px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;fill:#334155}
+      .axis{stroke:#94a3b8;stroke-width:2}
+      .datum{stroke:#1d4ed8;stroke-width:3}
+      .loc{stroke:#e11d48;stroke-width:3}
+      .ok{fill:#10b981}
+      .warn{fill:#ef4444}
+      .dim{stroke:#64748b;stroke-width:2;marker-end:url(#arrow);marker-start:url(#arrow)}
+      .eq{fill:#fde68a;stroke:#f59e0b}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="10" y="10" width="360" height="260" rx="8" class="panel"/>
+  <text x="25" y="35" class="title">基准重合 · 无△jb</text>
+  <rect x="60" y="80" width="260" height="140" rx="6" fill="#e5e7eb" stroke="#94a3b8"/>
+  <line x1="80" y1="200" x2="280" y2="200" class="axis"/>
+  <line x1="110" y1="70" x2="110" y2="230" class="axis"/>
+  <line x1="110" y1="70" x2="110" y2="230" class="datum"/>
+  <line x1="110" y1="70" x2="110" y2="230" class="loc"/>
+  <circle cx="110" cy="200" r="5" fill="#1d4ed8"/>
+  <text x="120" y="88" class="label">设计基准 A</text>
+  <text x="120" y="108" class="label">定位基准 A</text>
+  <rect x="270" y="188" width="16" height="16" class="ok"/>
+  <text x="292" y="200" class="label">正确</text>
+  <rect x="200" y="50" width="120" height="24" rx="6" class="eq"/>
+  <text x="206" y="66" class="label">Δjb = 0（重合）</text>
+
+  <rect x="400" y="10" width="360" height="260" rx="8" class="panel"/>
+  <text x="415" y="35" class="title">基准不重合 · 产生△jb</text>
+  <rect x="450" y="80" width="260" height="140" rx="6" fill="#e5e7eb" stroke="#94a3b8"/>
+  <line x1="470" y1="200" x2="670" y2="200" class="axis"/>
+  <line x1="500" y1="70" x2="500" y2="230" class="axis"/>
+  <line x1="500" y1="70" x2="500" y2="230" class="datum"/>
+  <line x1="560" y1="80" x2="560" y2="220" class="loc"/>
+  <circle cx="500" cy="200" r="5" fill="#1d4ed8"/>
+  <circle cx="560" cy="200" r="5" fill="#e11d48"/>
+  <text x="510" y="88" class="label">设计基准 A</text>
+  <text x="570" y="100" class="label">定位基准 B</text>
+  <line x1="500" y1="150" x2="560" y2="150" class="dim"/>
+  <text x="515" y="145" class="label">Δjb</text>
+  <rect x="610" y="188" width="16" height="16" class="warn"/>
+  <text x="632" y="200" class="label">误差</text>
+  <rect x="520" y="50" width="170" height="24" rx="6" class="eq"/>
+  <text x="526" y="66" class="label">Δjb = |基准B - 基准A|</text>
+</svg>
+
