@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "year": 2013,
+    "type": "论述题",
+    "question": "麻花钻的结构特点及工作特点",
+    "answer": "麻花钻的工作特点：麻花钻工作部分的前端为切削部分，承担主要的切削工作，后端为导向部分，起引导钻头的作用，也是切削部分的最后部分。工作部分有两个对称的刃瓣（通过中间的钻芯连接在一起），两条对称的螺旋槽（用于容屑和排屑）；导向部分磨有两条棱边（刃带），为了减少与加工孔壁的摩擦，棱边直径磨有倒锥量。\n\n结构特点：麻花钻的两个刃瓣可以看作两把对称的车刀；螺旋槽的螺旋面为前刀面，与工件过渡表面相对的端部两面为主后刀面。与工件的加工表面相对的两条棱边为副后刀面，螺旋槽与主后刀面的两条交线为主切削刃，棱边与螺旋槽的两条交线为副切削刃。麻花钻的横刃为前后刀面在钻芯处的交线。",
+    "tags": ["麻花钻", "刀具", "切削"],
+    "memoryTips": "<div style='background:#f0f9ff; padding:15px; border-radius:12px; border-left:4px solid #0ea5e9;'><h4 style='color:#0369a1; margin-bottom:10px;'>记忆口诀</h4><p style='color:#0c4a6e; font-size:15px; line-height:1.8;'><strong>「麻花钻，五刃六面记心间」</strong></p><ul style='color:#334155; margin:10px 0; padding-left:20px;'><li><strong>五刃：</strong>两条主切削刃 + 两条副切削刃 + 一条横刃</li><li><strong>六面：</strong>两个前刀面(螺旋槽) + 两个主后刀面 + 两个副后刀面(棱边)</li><li><strong>结构：</strong>柄部→颈部→工作部分(切削+导向)</li></ul><div style='background:#e0f2fe; padding:12px; border-radius:8px; margin:15px 0;'><h5 style='color:#0369a1; margin:0 0 8px;'>结构示意</h5><pre style='color:#0c4a6e; margin:0; font-family:monospace; font-size:13px; line-height:1.6;'>    柄部 → 颈部 → 工作部分\n                    ├── 切削部分(前端)\n                    │   ├── 两条主切削刃\n                    │   ├── 两条副切削刃  \n                    │   └── 一条横刃\n                    └── 导向部分(后端)\n                        └── 两条棱边(刃带)</pre></div></div>"
+  },
+  {
+    "id": 2,
+    "year": 2013,
+    "type": "论述题",
+    "question": "磨削、珩磨、研磨、抛光的区别",
+    "answer": "磨削：通过砂轮高速旋转，砂轮上的磨粒刻划被加工表面来加工以提高工件表面质量。\n\n珩磨：利用磨条以一定的压力压在工件的被加工表面上，并相对工件作旋转与往复运动以降低工件粗糙度，提高精度。\n\n研磨：将研磨剂涂敷或浇注在研具与工件间，工件与夹具在一定压力下作不断变更方向的相对运动，在磨粒的作用下逐步刮擦并微显切除工件表面的很薄的金属层。\n\n抛光：利用布轮、布盘等软的研具涂上抛光膏抛光工件表面，靠抛光膏的机械刮擦与化学作用去掉粗糙度的峰顶，使表面获得光泽镜面。",
+    "tags": ["磨削", "珩磨", "研磨", "抛光", "加工方法"],
+    "memoryTips": "<div style='background:#fef3c7; padding:15px; border-radius:12px; border-left:4px solid #f59e0b;'><h4 style='color:#92400e; margin-bottom:10px;'>记忆口诀</h4><p style='color:#78350f; font-size:15px; line-height:1.8;'><strong>「磨削粗，珩磨精，研磨微量除，抛光镜面成」</strong></p><table style='width:100%; margin:15px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#fde68a;'><th style='padding:8px; border:1px solid #f59e0b;'>方法</th><th style='padding:8px; border:1px solid #f59e0b;'>工具</th><th style='padding:8px; border:1px solid #f59e0b;'>精度</th><th style='padding:8px; border:1px solid #f59e0b;'>特点</th></tr><tr><td style='padding:8px; border:1px solid #fcd34d;'>磨削</td><td style='padding:8px; border:1px solid #fcd34d;'>砂轮</td><td style='padding:8px; border:1px solid #fcd34d;'>IT6-IT5</td><td style='padding:8px; border:1px solid #fcd34d;'>高速切削</td></tr><tr style='background:#fffbeb;'><td style='padding:8px; border:1px solid #fcd34d;'>珩磨</td><td style='padding:8px; border:1px solid #fcd34d;'>油石/磨条</td><td style='padding:8px; border:1px solid #fcd34d;'>IT5-IT4</td><td style='padding:8px; border:1px solid #fcd34d;'>旋转+往复</td></tr><tr><td style='padding:8px; border:1px solid #fcd34d;'>研磨</td><td style='padding:8px; border:1px solid #fcd34d;'>研具+磨料</td><td style='padding:8px; border:1px solid #fcd34d;'>IT4-IT3</td><td style='padding:8px; border:1px solid #fcd34d;'>微量切除</td></tr><tr style='background:#fffbeb;'><td style='padding:8px; border:1px solid #fcd34d;'>抛光</td><td style='padding:8px; border:1px solid #fcd34d;'>布轮+膏</td><td style='padding:8px; border:1px solid #fcd34d;'>镜面</td><td style='padding:8px; border:1px solid #fcd34d;'>光泽处理</td></tr></table><div style='background:#fef3c7; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #f59e0b;'><h5 style='color:#92400e; margin:0 0 8px;'>精度递进</h5><p style='color:#78350f; margin:0; font-size:14px;'>磨削(粗) → 珩磨(精) → 研磨(超精) → 抛光(镜面)</p></div></div>"
+  },
+  {
+    "id": 3,
+    "year": 2013,
+    "type": "论述题",
+    "question": "加工工作平台T型槽的方法(机床及刀具)",
+    "answer": "1. 先按照所需尺寸划线做基准。\n2. 用比所需 T 型槽小的铣刀铣到所需的深度。\n3. 再用所需 T 型槽开口同样大的铣刀铣到所需的深度。\n4. 最后用所需开口同样大的 T 型铣刀铣完即可。",
+    "tags": ["T型槽", "铣削", "加工工艺"],
+    "memoryTips": "<div style='background:#ecfdf5; padding:15px; border-radius:12px; border-left:4px solid #10b981;'><h4 style='color:#047857; margin-bottom:10px;'>记忆口诀</h4><p style='color:#064e3b; font-size:15px; line-height:1.8;'><strong>「T型槽，三步走：划线→直槽→T刀修」</strong></p><ol style='color:#334155; margin:10px 0; padding-left:20px; line-height:2;'><li><strong>划线定位</strong> - 确定T型槽位置和尺寸</li><li><strong>铣直槽</strong> - 用立铣刀/三面刃铣刀铣出上部直槽</li><li><strong>T形铣刀扩底</strong> - 换T型槽专用铣刀铣削底部</li></ol><div style='background:#d1fae5; padding:12px; border-radius:8px; margin:15px 0;'><h5 style='color:#065f46; margin:0 0 8px;'>T型槽截面示意</h5><pre style='color:#064e3b; margin:0; font-family:monospace; font-size:14px; line-height:1.4;'>    ┌─────────┐\n    │         │ ← 直槽(立铣刀)\n    │    ┌────┴────┐\n    │    │         │ ← 底槽(T型铣刀)\n    └────┘         └────┘</pre></div><div style='background:#ecfdf5; padding:10px; border-radius:8px; margin:10px 0; border:1px dashed #10b981;'><p style='color:#065f46; margin:0;'><strong>关键：</strong>先小后大，逐步成型！</p></div></div>"
+  },
+  {
+    "id": 4,
+    "year": 2013,
+    "type": "论述题",
+    "question": "误差复映及避免方法",
+    "answer": "误差复映：毛坯的误差部分或全部复映到工件上的现象。由于毛坯加工余量和材料硬度的变化，在加工过程中引起了切削力的变化，进而引起了工艺系统受力变化的改变。产生了工件的尺寸误差和形状误差。提高工艺系统的刚度可减小或避免误差复映。",
+    "tags": ["误差复映", "工艺系统", "加工精度"],
+    "memoryTips": "<div style='background:#ede9fe; padding:15px; border-radius:12px; border-left:4px solid #8b5cf6;'><h4 style='color:#5b21b6; margin-bottom:10px;'>记忆口诀</h4><p style='color:#4c1d95; font-size:15px; line-height:1.8;'><strong>「毛坯误差像复印，复映到件上；刚度提高是良药，误差自然降」</strong></p><div style='background:#ddd6fe; padding:12px; border-radius:8px; margin:15px 0;'><h5 style='color:#5b21b6; margin:0 0 8px;'>误差复映原理链</h5><pre style='color:#4c1d95; margin:0; font-family:monospace; font-size:13px; line-height:1.6;'>毛坯误差(余量不均/硬度变化)\n    ↓\n切削力变化\n    ↓\n工艺系统变形\n    ↓\n工件误差(复映)</pre></div><h5 style='color:#5b21b6; margin:15px 0 8px;'>避免方法</h5><ul style='color:#334155; margin:0; padding-left:20px; line-height:1.8;'><li>提高工艺系统刚度</li><li>增加走刀次数</li><li>合理选择切削用量</li></ul></div>"
+  },
+  {
+    "id": 5,
+    "year": 2014,
+    "type": "词语解释",
+    "question": "积屑瘤",
+    "answer": "积屑瘤：在切削速度不高又能形成连续切削的情况下常在刀具前刀面粘着一块前面有时呈三角状的硬块，在处于比较稳定的状态时能够代替切削力进行切削。这块冷焊在前刀面上的金属称为积屑瘤。",
+    "tags": ["积屑瘤", "切削", "刀具"],
+    "memoryTips": "<div style='background:#fee2e2; padding:15px; border-radius:12px; border-left:4px solid #ef4444;'><h4 style='color:#991b1b; margin-bottom:10px;'>记忆口诀</h4><p style='color:#7f1d1d; font-size:15px; line-height:1.8;'><strong>「低速切削积屑瘤，前刀面上粘得牢；代替刀刃来切削，时好时坏难预料」</strong></p><div style='background:#fecaca; padding:12px; border-radius:8px; margin:15px 0;'><h5 style='color:#991b1b; margin:0 0 8px;'>形成条件</h5><ul style='color:#7f1d1d; margin:0; padding-left:20px; line-height:1.8;'><li>切削速度不高(中低速)</li><li>形成连续切屑</li><li>冷焊作用</li></ul></div><div style='display:flex; gap:15px; margin:15px 0;'><div style='flex:1; background:#dcfce7; padding:10px; border-radius:8px;'><h6 style='color:#166534; margin:0 0 5px;'>有利</h6><p style='color:#166534; margin:0; font-size:13px;'>保护刀具<br>增大前角</p></div><div style='flex:1; background:#fee2e2; padding:10px; border-radius:8px;'><h6 style='color:#991b1b; margin:0 0 5px;'>有害</h6><p style='color:#991b1b; margin:0; font-size:13px;'>影响精度<br>表面质量差</p></div></div></div>"
+  },
+  {
+    "id": 6,
+    "year": 2014,
+    "type": "词语解释",
+    "question": "削边销",
+    "answer": "削边销：两孔定位中，为了增强两孔连心线方向上的间隙，避免过定位将第二副碰到孔壁的部分削去，只留下下一部分圆柱面。",
+    "tags": ["削边销", "定位", "夹具"],
+    "memoryTips": "<div style='background:#dbeafe; padding:15px; border-radius:12px; border-left:4px solid #3b82f6;'><h4 style='color:#1e40af; margin-bottom:10px;'>记忆口诀</h4><p style='color:#1e3a8a; font-size:15px; line-height:1.8;'><strong>「两孔定位怕过定，削边销来帮大忙；连心线向留间隙，一边圆柱一边光」</strong></p><div style='background:#bfdbfe; padding:12px; border-radius:8px; margin:15px 0;'><h5 style='color:#1e40af; margin:0 0 8px;'>作用原理</h5><p style='color:#1e3a8a; margin:0; line-height:1.6;'>两孔定位时，第一孔用圆柱销完全定位(限制2个移动自由度)，第二孔用削边销只限制1个转动自由度，避免过定位。</p></div><div style='background:#eff6ff; padding:12px; border-radius:8px; margin:15px 0;'><h5 style='color:#1e40af; margin:0 0 8px;'>削边销截面示意</h5><pre style='color:#1e3a8a; margin:0; font-family:monospace; font-size:14px; line-height:1.4;'>    圆柱面部分\n    ┌────────┐\n   ╱          │  ← 削去部分(间隙)\n  │   圆心    │\n   ╲          │  ← 削去部分(间隙)\n    └────────┘</pre></div><div style='background:#dbeafe; padding:10px; border-radius:8px; margin:10px 0; border:1px dashed #3b82f6;'><p style='color:#1e40af; margin:0;'><strong>关键：</strong>削边 = 削去部分圆柱面 → 连心线方向有间隙 → 避免过定位</p></div></div>"
+  },
+  {
+    "id": 7,
+    "year": 2014,
+    "type": "论述题",
+    "question": "画出车削过程中的三个主要变形区，并简述其特点及对于加工系统的影响",
+    "answer": "第 I 变形区：基本变形区，变形量大，切削层的塑性变形区常用来说明切削过程变形程度。\n第 II 变形区：摩擦变形区，切削与前刀面摩擦的区域切削形成后与前刀面有压力，所以沿刀面流出时有很大的摩擦力所以切削底层又一次的发生塑性变形。\n第 III 变形区：加工表面变形区，已加工表面与后刀面接触，影响已加工表面的加工质量。",
+    "tags": ["切削变形区", "车削", "切削机理"],
+    "memoryTips": "<div style='background:#fce7f3; padding:15px; border-radius:12px; border-left:4px solid #ec4899;'><h4 style='color:#9d174d; margin-bottom:10px;'>记忆口诀</h4><p style='color:#831843; font-size:15px; line-height:1.8;'><strong>「一区剪切主变形，二区摩擦刀面碰；三区表面质量定，三个区域要记清」</strong></p><table style='width:100%; margin:15px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#fbcfe8;'><th style='padding:8px; border:1px solid #ec4899;'>变形区</th><th style='padding:8px; border:1px solid #ec4899;'>位置</th><th style='padding:8px; border:1px solid #ec4899;'>特点</th><th style='padding:8px; border:1px solid #ec4899;'>影响</th></tr><tr><td style='padding:8px; border:1px solid #f9a8d4;'>第Ⅰ区</td><td style='padding:8px; border:1px solid #f9a8d4;'>切削层</td><td style='padding:8px; border:1px solid #f9a8d4;'>剪切滑移<br>变形最大</td><td style='padding:8px; border:1px solid #f9a8d4;'>切削力<br>切屑形成</td></tr><tr style='background:#fdf2f8;'><td style='padding:8px; border:1px solid #f9a8d4;'>第Ⅱ区</td><td style='padding:8px; border:1px solid #f9a8d4;'>刀-屑接触</td><td style='padding:8px; border:1px solid #f9a8d4;'>摩擦变形<br>积屑瘤</td><td style='padding:8px; border:1px solid #f9a8d4;'>切削温度<br>刀具磨损</td></tr><tr><td style='padding:8px; border:1px solid #f9a8d4;'>第Ⅲ区</td><td style='padding:8px; border:1px solid #f9a8d4;'>刀-工接触</td><td style='padding:8px; border:1px solid #f9a8d4;'>表面变形<br>回弹摩擦</td><td style='padding:8px; border:1px solid #f9a8d4;'>表面质量<br>加工硬化</td></tr></table><div style='background:#fce7f3; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #ec4899;'><h5 style='color:#9d174d; margin:0 0 8px;'>变形区位置示意</h5><pre style='color:#831843; margin:0; font-family:monospace; font-size:12px; line-height:1.4;'>        切屑\n         ↑\n    工件 →┌─────┐← 前刀面\n    表面  │ Ⅱ区 │    (摩擦区)\n         │     │\n    ─────┼─Ⅰ区─┼──── 剪切面\n         │     │\n         │ Ⅲ区 │    (刀-工接触)\n         └─────┘← 后刀面\n           已加工表面</pre></div></div>"
+  },
+  {
+    "id": 8,
+    "year": 2014,
+    "type": "论述题",
+    "question": "完全定位、不完全定位、过定位、欠定位四者的区别",
+    "answer": "完全定位：在对工件进行定位支撑时限制了工件全部六个自由度的定位。\n不完全定位：根据加工要求，工件在一个或几个方向上不需要限制自由度，这种允许少于六点的定位称为不完全定位。\n过定位：工件的某一个自由度同时被一个以上的定位支撑点重复限制，则对这个自由度的限制会产生矛盾，这种情况称为过定位。\n欠定位：在加工中，工件的定位支撑点数量少于应限制的自由度数必然导致达不到所要求的加工精度，这种定位点不足的情况称为欠定位。",
+    "tags": ["定位", "自由度", "夹具"],
+    "memoryTips": "<div style='background:#cffafe; padding:15px; border-radius:12px; border-left:4px solid #06b6d4;'><h4 style='color:#0e7490; margin-bottom:10px;'>记忆口诀</h4><p style='color:#155e75; font-size:15px; line-height:1.8;'><strong>「六自由度要记牢，完全限制是正好；不完全时留余地，过定重复会冲突；欠定不足精度差，合理定位最重要」</strong></p><table style='width:100%; margin:15px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#a5f3fc;'><th style='padding:8px; border:1px solid #06b6d4;'>定位类型</th><th style='padding:8px; border:1px solid #06b6d4;'>限制自由度</th><th style='padding:8px; border:1px solid #06b6d4;'>评价</th></tr><tr><td style='padding:8px; border:1px solid #67e8f9;'>完全定位</td><td style='padding:8px; border:1px solid #67e8f9;'>6个</td><td style='padding:8px; border:1px solid #67e8f9;'>✅ 正确</td></tr><tr style='background:#ecfeff;'><td style='padding:8px; border:1px solid #67e8f9;'>不完全定位</td><td style='padding:8px; border:1px solid #67e8f9;'>&lt; 6个</td><td style='padding:8px; border:1px solid #67e8f9;'>✅ 合理(加工不需要)</td></tr><tr><td style='padding:8px; border:1px solid #67e8f9;'>过定位</td><td style='padding:8px; border:1px solid #67e8f9;'>重复限制</td><td style='padding:8px; border:1px solid #67e8f9;'>❌ 不允许</td></tr><tr style='background:#ecfeff;'><td style='padding:8px; border:1px solid #67e8f9;'>欠定位</td><td style='padding:8px; border:1px solid #67e8f9;'>不足</td><td style='padding:8px; border:1px solid #67e8f9;'>❌ 不允许</td></tr></table><div style='background:#cffafe; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #06b6d4;'><h5 style='color:#0e7490; margin:0 0 8px;'>六自由度示意</h5><pre style='color:#155e75; margin:0; font-family:monospace; font-size:12px; line-height:1.4;'>    工件\n     ↑Z\n     │\n    ╱│╲  绕X转(滚)\n   ╱ │ ╲ 绕Y转(俯)\n  ╱  │  ╲绕Z转(偏)\n └───────┘→X\n   前后移 左右移 上下移\n   (X)   (Y)   (Z)</pre></div></div>"
+  },
+  {
+    "id": 9,
+    "year": 2014,
+    "type": "论述题",
+    "question": "确定工序加工余量时应该考虑的因素",
+    "answer": "1. 上工序的表面粗糙度\n2. 上工序的表面破坏层\n3. 上工序的尺寸公差\n4. 需要单独考虑的误差\n5. 本工序的安装误差",
+    "tags": ["加工余量", "工艺设计"],
+    "memoryTips": "<div style='background:#f3e8ff; padding:15px; border-radius:12px; border-left:4px solid #a855f7;'><h4 style='color:#6b21a8; margin-bottom:10px;'>记忆口诀</h4><p style='color:#581c87; font-size:15px; line-height:1.8;'><strong>「表面粗糙要覆盖，破坏层深必须除；尺寸公差留余地，特殊误差单独顾；安装误差别忘记，五因素定余量度」</strong></p><div style='background:#e9d5ff; padding:12px; border-radius:8px; margin:15px 0;'><h5 style='color:#6b21a8; margin:0 0 10px;'>五因素速记</h5><ol style='color:#581c87; margin:0; padding-left:20px; line-height:2;'><li><strong>表面粗糙度</strong> - Ra值决定最小余量</li><li><strong>表面破坏层</strong> - 脱碳/氧化层深度</li><li><strong>尺寸公差</strong> - 上工序尺寸波动</li><li><strong>单独误差</strong> - 形位误差等特殊因素</li><li><strong>安装误差</strong> - 本工序定位夹紧误差</li></ol></div><div style='background:#faf5ff; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #a855f7;'><h5 style='color:#6b21a8; margin:0 0 8px;'>公式理解</h5><pre style='color:#581c87; margin:0; font-family:monospace; font-size:14px; line-height:1.6;'>最小余量 ≥ 表面粗糙度 + 表面破坏层\n\n实际余量 = 上述5因素之和</pre></div></div>"
+  }
+]

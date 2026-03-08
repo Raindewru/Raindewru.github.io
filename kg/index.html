@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考公 · 首页与选岗（可切换）</title>
+    <style>
+        /* ===== 全局样式 (整合两版) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #ecf2f9;
+            padding: 20px;
+            color: #1a3349;
+        }
+
+        .layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 28px;
+            box-shadow: 0 25px 45px -12px rgba(0, 40, 75, 0.25);
+            overflow: hidden;
+            border: 1px solid #d7e3f0;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 28px;
+            background: white;
+            border-bottom: 2px solid #e9f0f8;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #0b3b5c;
+        }
+
+        .logo-icon {
+            background: #1e5a8a;
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            font-weight: 600;
+        }
+
+        .nav-links span {
+            cursor: pointer;
+            padding: 8px 0;
+            border-bottom: 3px solid transparent;
+            transition: 0.1s;
+        }
+
+        .nav-links .active {
+            border-bottom-color: #1e5a8a;
+            color: #0a314a;
+        }
+
+        .search-placeholder {
+            background: #f4f9ff;
+            border-radius: 40px;
+            padding: 8px 22px;
+            color: #4a6382;
+            border: 1px solid #cbd7e8;
+            font-size: 0.9rem;
+        }
+        .search-placeholder::before {
+            content: "🔍";
+            margin-right: 6px;
+        }
+
+        /* 当前位置栏 (仅选岗页使用) */
+        .current-location {
+            background: #f5faff;
+            padding: 10px 28px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #d8e5f5;
+            color: #2b4d73;
+        }
+        .current-location strong {
+            color: #1d5b8e;
+        }
+
+        /* 页面容器 (首页/选岗/其他) */
+        .page {
+            display: none;
+        }
+        .page.active-page {
+            display: block;
+        }
+
+        /* 通用卡片样式 */
+        .card {
+            background: #f9fcff;
+            border-radius: 24px;
+            border: 1px solid #e7f0fa;
+            padding: 20px 18px;
+            height: fit-content;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            color: #103a5c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 5px solid #2d6fa0;
+            padding-left: 14px;
+        }
+
+        .badge-hot {
+            background: #ffdec2;
+            color: #b44d00;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 30px;
+            margin-left: 8px;
+        }
+
+        .list-compact {
+            list-style: none;
+        }
+        .list-compact li {
+            padding: 6px 0 6px 20px;
+            position: relative;
+            font-size: 0.9rem;
+            color: #1f3f5c;
+            border-bottom: 1px dashed #e2eaf3;
+        }
+        .list-compact li::before {
+            content: "•";
+            color: #2a6b9e;
+            font-weight: bold;
+            position: absolute;
+            left: 4px;
+        }
+
+        .chip {
+            background: white;
+            border: 1px solid #cfddee;
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            color: #1d4e7c;
+            display: inline-block;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            white-space: nowrap;
+        }
+
+        .sub-section {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin: 15px 0 8px 0;
+            color: #1b4970;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .double-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            margin-bottom: 10px;
+        }
+
+        .countdown-box {
+            background: linear-gradient(145deg, #e1edfc, #d0e2f5);
+            border-radius: 26px;
+            padding: 20px 16px;
+            text-align: center;
+            margin-bottom: 22px;
+        }
+        .countdown-number {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #083c63;
+            line-height: 1.1;
+        }
+
+        .footer {
+            background: #ecf3fc;
+            padding: 16px 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            color: #3c5e7e;
+            border-top: 1px solid #cedef0;
+            font-size: 0.85rem;
+        }
+        .footer-links {
+            display: flex;
+            gap: 28px;
+        }
+
+        /* 首页三栏布局 */
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1.9fr 1.3fr 1fr;
+            gap: 22px;
+            padding: 28px;
+            background: white;
+        }
+
+        /* 选岗页三栏布局 */
+        .xuang-grid {
+            display: grid;
+            grid-template-columns: 260px 1fr 280px;
+            gap: 22px;
+            padding: 28px;
+            background: white;
+        }
+
+        /* 选岗页左侧导航 */
+        .side-nav {
+            background: #f8fcff;
+            border-radius: 24px;
+            border: 1px solid #e0ebf7;
+            padding: 20px 12px;
+        }
+        .side-nav-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding-left: 12px;
+            color: #103a5c;
+            border-left: 5px solid #2d6fa0;
+        }
+        .nav-module {
+            list-style: none;
+        }
+        .nav-module li {
+            padding: 12px 16px;
+            margin: 4px 0;
+            border-radius: 14px;
+            font-weight: 500;
+            color: #1d4468;
+            cursor: default;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-module li:hover {
+            background: #e4f0fd;
+        }
+        .nav-module .active-module {
+            background: #deebff;
+            font-weight: 600;
+            color: #0a3b5e;
+            border-left: 4px solid #1e5a8a;
+        }
+        .module-icon {
+            font-size: 1.2rem;
+            width: 24px;
+        }
+
+        /* 选岗页中间区域 */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccddef;
+            padding-bottom: 14px;
+        }
+        .tab-item {
+            background: #ecf3fb;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1d4a79;
+            cursor: default;
+            border: 1px solid transparent;
+        }
+        .tab-item.active-tab {
+            background: #1e5a8a;
+            color: white;
+            font-weight: 600;
+            border-color: #13507e;
+        }
+        .current-category {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0c385a;
+            margin: 15px 0 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .unit-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px 20px;
+        }
+        .unit-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 10px;
+            border-bottom: 1px dashed #d3e1f0;
+            font-size: 0.95rem;
+        }
+        .unit-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .unit-name::before {
+            content: "📄";
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        .unit-badge {
+            background: #d6e5ff;
+            color: #1d4f7a;
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 30px;
+            white-space: nowrap;
+        }
+
+        /* 右侧小工具通用 */
+        .right-tools {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+        .tool-card {
+            background: #f9fdff;
+            border-radius: 24px;
+            border: 1px solid #e3eefc;
+            padding: 20px 16px;
+        }
+
+        /* 其他占位页面 */
+        .placeholder-page {
+            padding: 60px 28px;
+            text-align: center;
+            color: #2b4d73;
+            font-size: 1.5rem;
+            background: #f9fcff;
+            min-height: 400px;
+        }
+
+        @media (max-width: 1000px) {
+            .home-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .xuang-grid {
+                grid-template-columns: 220px 1fr;
+            }
+            .right-tools {
+                grid-column: span 2;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 700px) {
+            .home-grid, .xuang-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="layout">
+    <!-- 顶部导航（固定） -->
+    <div class="navbar">
+        <div class="logo-area">
+            <span class="logo-icon">岸</span>
+            <span>26考公·知识库</span>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <span data-page="home" class="active">首页</span>
+            <span data-page="xuang">选岗</span>
+            <span data-page="xingce">行测</span>
+            <span data-page="shenlun">申论</span>
+            <span data-page="zhenti">真题</span>
+            <span data-page="mingshi">名师路径</span>
+        </div>
+        <div class="search-placeholder">搜职位、笔记...</div>
+    </div>
+
+    <!-- 动态页面容器 ================================= -->
+    <!-- 首页页面 -->
+    <div id="homePage" class="page active-page">
+        <!-- 首页没有当前位置栏，直接网格 -->
+        <div class="home-grid">
+            <!-- 左侧：选岗卡片 + 申论卡片 -->
+            <div class="left">
+                <!-- 选岗卡片（突出） -->
+                <div class="card" style="background: #f2f1fe; border-left: 4px solid #b68ef7;">
+                    <div class="card-title" style="border-left-color: #7c4dff;">🎯 选岗手册 · 重磅上线</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;">
+                        <span class="chip" style="background:#e1d5fe;">选岗逻辑</span>
+                        <span class="chip" style="background:#e1d5fe;">选岗策略</span>
+                        <span class="chip" style="background:#e1d5fe;">单位分类</span>
+                        <span class="chip" style="background:#e1d5fe;">各单位选岗概述</span>
+                        <span class="chip" style="background:#e1d5fe;">单位简介及参考</span>
+                    </div>
+                    <div class="sub-section"><i>🏛️</i> 单位分类详览</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                        <span class="chip">省委部门</span>
+                        <span class="chip">人大/政协</span>
+                        <span class="chip">政府部门</span>
+                        <span class="chip">司法部门</span>
+                        <span class="chip">群团组织</span>
+                        <span class="chip">民主党派</span>
+                        <span class="chip">中垂部门</span>
+                    </div>
+                    <div style="background: white; border-radius: 16px; padding: 8px 12px; margin-top: 8px;">
+                        <span style="font-weight:500;">📊 2026职位表分析</span>
+                        <span style="color:#a64dff; float:right;">更新中</span>
+                    </div>
+                </div>
+
+                <!-- 申论卡片 -->
+                <div class="card" style="margin-top: 22px;">
+                    <div class="card-title">✍️ 申论高分突破</div>
+                    <ul class="list-compact">
+                        <li>2026申论大作文专项笔记</li>
+                        <li>2026申论方法论实战笔记</li>
+                        <li>26申论规范词21个专题</li>
+                        <li>2026申论模板（袁D+白L）</li>
+                        <li>【袁D预测】2026省考申论</li>
+                        <li>申论答案对比 (持续更新中)</li>
+                        <li>Y申论听课顺序建议</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 中间：行测专项 -->
+            <div class="middle">
+                <div class="card">
+                    <div class="card-title">📖 行测专项突破 · 名师笔记聚合</div>
+                    
+                    <div class="sub-section"><span>🗣️ 言语理解</span> <span class="badge-hot">4位名师</span></div>
+                    <div class="double-row">
+                        <span class="chip">阿里M汇笔记</span>
+                        <span class="chip">阿里思维导图</span>
+                        <span class="chip">郭X必刷100题</span>
+                        <span class="chip">G熙听课顺序</span>
+                        <span class="chip">片段阅读</span>
+                        <span class="chip">逻辑填空</span>
+                    </div>
+
+                    <div class="sub-section"><span>🧩 判断推理</span> <span class="badge-hot">十三/L飞/李</span></div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                        <span class="chip">十三逻辑判断全家桶(6+)</span>
+                        <span class="chip">十三图形推理大全</span>
+                        <span class="chip">L飞百大图推3.0</span>
+                        <span class="chip">L飞12张思维导图</span>
+                        <span class="chip">L义恒66页图推</span>
+                        <span class="chip">判断推理合集</span>
+                    </div>
+
+                    <div class="sub-section"><span>📊 资料分析</span> <span class="badge-hot">G照/十三</span></div>
+                    <div class="double-row">
+                        <span class="chip">G照3+2笔记+思维导图</span>
+                        <span class="chip">G照学习顺序</span>
+                        <span class="chip">十三手写笔记全</span>
+                    </div>
+
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 18px;">
+                        <div style="flex:1;">
+                            <div class="sub-section">🧮 数量关系</div>
+                            <span class="chip">G照数量笔记</span>
+                        </div>
+                        <div style="flex:1;">
+                            <div class="sub-section">🌍 常识判断</div>
+                            <span class="chip">经济/地理/D史/科技</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：小工具 -->
+            <div class="right-tools">
+                <div class="countdown-box">
+                    <div class="countdown-number">67天</div>
+                    <div class="countdown-label">距离2026省考联考</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">📚 真题库</div>
+                    <ul class="list-compact">
+                        <li>国考真题 (近10年)</li>
+                        <li>省考真题 (山东/江苏/广东)</li>
+                        <li>名师视频真题讲解</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-title">🧭 名师路径</div>
+                    <div class="double-row">
+                        <span class="chip">G照资料顺序</span>
+                        <span class="chip">L飞图推顺序</span>
+                        <span class="chip">Y申论顺序</span>
+                    </div>
+                </div>
+                <div class="card" style="background:#feffea;">
+                    <div class="card-title" style="border-left-color:#f39c12;">🔄 持续更新</div>
+                    <span class="chip">各省高频考点 ★★★★★</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 选岗页面 -->
+    <div id="xuangPage" class="page">
+        <!-- 当前位置指示器 -->
+        <div class="current-location">
+            <strong>选岗</strong> > <strong>单位分类</strong> > 省委部门（三级目录）
+        </div>
+
+        <div class="xuang-grid">
+            <!-- 左侧选岗模块导航 -->
+            <div class="side-nav">
+                <div class="side-nav-title">📌 选岗模块</div>
+                <ul class="nav-module">
+                    <li><span class="module-icon">📋</span> 选岗逻辑</li>
+                    <li><span class="module-icon">🎯</span> 选岗策略</li>
+                    <li class="active-module"><span class="module-icon">🏛️</span> 单位分类</li>
+                    <li><span class="module-icon">📌</span> 各单位选岗概述</li>
+                    <li><span class="module-icon">📄</span> 单位简介及参考</li>
+                    <li><span class="module-icon">📊</span> 2026职位表分析</li>
+                </ul>
+                <div style="background:#e1effc; border-radius: 16px; padding: 14px; margin-top: 30px;">
+                    <span style="font-weight:600;">📎 当前浏览</span>
+                    <p style="font-size:0.8rem; margin-top:6px;">省委部门 · 17个单位<br>点击单位可查看选岗参考</p>
+                </div>
+            </div>
+
+            <!-- 中间：三级目录（省委部门） -->
+            <div class="center-area">
+                <div class="category-tabs">
+                    <span class="tab-item active-tab">省委部门</span>
+                    <span class="tab-item">人大政协</span>
+                    <span class="tab-item">政府部门</span>
+                    <span class="tab-item">司法部门</span>
+                    <span class="tab-item">群团组织</span>
+                    <span class="tab-item">民主党派</span>
+                    <span class="tab-item">中垂部门</span>
+                </div>
+
+                <div class="current-category">
+                    省委部门
+                    <span>17个单位 · 均有选岗参考</span>
+                </div>
+
+                <div class="unit-grid">
+                    <div class="unit-item"><span class="unit-name">省委办公室</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">纪委监委</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">党委组织部</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">党委宣传部</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">党委统战部</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">党委社会工作部</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">网信办（网络安全...）</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">财经办（财经委员会）</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">编办（机构编制委）</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">地方金融工作办公室</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">台湾工作办公室</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">巡视工作领导小组</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">保密委员会办公室</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">老干部局</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">党校（行政学院）</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">党史研究室</span><span class="unit-badge">选岗参考</span></div>
+                    <div class="unit-item"><span class="unit-name">档案馆</span><span class="unit-badge">选岗参考</span></div>
+                </div>
+
+                <div style="margin-top: 25px; background:#eaf4ff; border-radius: 16px; padding: 12px 18px; font-size:0.9rem;">
+                    <span style="background: #1e5a8a; color:white; padding:4px 12px; border-radius:30px;">📘 提示</span>
+                    <span style="margin-left:10px;">点击任一单位可查看详细选岗概述（晋升、竞争、报考建议）</span>
+                </div>
+            </div>
+
+            <!-- 右侧小工具 (与首页类似但可独立) -->
+            <div class="right-tools">
+                <div class="countdown-box">
+                    <div class="countdown-number">67天</div>
+                    <div>距离2026省考联考</div>
+                </div>
+                <div class="tool-card">
+                    <h4 style="margin-bottom: 14px;">🔥 热门单位标签</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <span class="chip">纪委监委</span>
+                        <span class="chip">组织部</span>
+                        <span class="chip">发改委</span>
+                        <span class="chip">税务局</span>
+                    </div>
+                </div>
+                <div class="tool-card">
+                    <h4>📌 快速筛选</h4>
+                    <ul style="list-style: none; margin-top: 10px; color: #1b4e7a;">
+                        <li style="padding: 5px 0;">· 党群部门</li>
+                        <li style="padding: 5px 0;">· 政府部门</li>
+                        <li style="padding: 5px 0;">· 垂直管理</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 其他占位页面 (行测/申论/真题/名师) 简单提示 -->
+    <div id="xingcePage" class="page">
+        <div class="placeholder-page">
+            🚧 行测模块 · 正在全力建设中 <br>
+            <span style="font-size:1rem;">（请先浏览首页或选岗）</span>
+        </div>
+    </div>
+    <div id="shenlunPage" class="page">
+        <div class="placeholder-page">
+            ✍️ 申论模块 · 即将上线 <br>
+            <span style="font-size:1rem;">（海量范文、规范词整理中）</span>
+        </div>
+    </div>
+    <div id="zhentiPage" class="page">
+        <div class="placeholder-page">
+            📚 真题库 · 近10年国考省真题 <br>
+            <span style="font-size:1rem;">（分类刷题功能开发中）</span>
+        </div>
+    </div>
+    <div id="mingshiPage" class="page">
+        <div class="placeholder-page">
+            🧑‍🏫 名师路径 · 听课顺序/思维导图 <br>
+            <span style="font-size:1rem;">（G照、十三、阿里等合集）</span>
+        </div>
+    </div>
+
+    <!-- 底部统一 -->
+    <div class="footer">
+        <div>© 2026 考公知识库 · 首页与选岗可切换</div>
+        <div class="footer-links">
+            <span>关于</span>
+            <span>免责</span>
+            <span>选岗指南</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // 获取所有导航项和页面
+        const navSpans = document.querySelectorAll('.nav-links span');
+        const pages = {
+            home: document.getElementById('homePage'),
+            xuang: document.getElementById('xuangPage'),
+            xingce: document.getElementById('xingcePage'),
+            shenlun: document.getElementById('shenlunPage'),
+            zhenti: document.getElementById('zhentiPage'),
+            mingshi: document.getElementById('mingshiPage')
+        };
+
+        // 切换页面的函数
+        function switchPage(pageId) {
+            // 隐藏所有页面
+            Object.values(pages).forEach(p => p.classList.remove('active-page'));
+            // 显示选中页面
+            if (pages[pageId]) {
+                pages[pageId].classList.add('active-page');
+            }
+            // 更新导航active类
+            navSpans.forEach(span => {
+                span.classList.remove('active');
+                if (span.dataset.page === pageId) {
+                    span.classList.add('active');
+                }
+            });
+        }
+
+        // 绑定点击事件
+        navSpans.forEach(span => {
+            span.addEventListener('click', (e) => {
+                const pageId = e.target.dataset.page;
+                if (pageId) {
+                    switchPage(pageId);
+                }
+            });
+        });
+
+        // 默认首页已激活 (homePage有active-page类，导航首页也有active)
+        // 确保一致
+        switchPage('home');
+    })();
+</script>
+</body>
+</html>
