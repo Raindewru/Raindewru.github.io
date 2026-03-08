@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SL · 导航</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f7fa;
+      color: #1e2b3c;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 16px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    header h1 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header p {
+      color: #4a5568;
+      margin-top: 8px;
+    }
+    .nav {
+      width: 100%;
+      max-width: 880px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .card {
+      display: block;
+      text-decoration: none;
+      background: #ffffff;
+      border: 1px solid #edf2f7;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+      border-color: #cbd5e0;
+    }
+    .card .title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0b1e33;
+      margin-bottom: 8px;
+    }
+    .card .desc {
+      color: #4a5568;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      font-size: 1rem;
+    }
+    .ky { background: #e6fffa; color: #0f766e; border: 1px solid #99f6e4; }
+    .zt { background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; }
+    footer {
+      margin-top: 28px;
+      color: #718096;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    @media (max-width: 720px) {
+      .nav { grid-template-columns: 1fr; }
+    }
+  </style>
+  </head>
+<body>
+  <header>
+    <h1>SL · 简易导航</h1>
+    <p>选择入口，快速前往</p>
+  </header>
+
+  <main class="nav">
+    <a class="card" href="./ky/">
+      <div class="title"><span class="pill ky">KY</span> 考研专区</div>
+      <div class="desc">进入考研页面（资料、题库、复习入口等）。</div>
+    </a>
+    <a class="card" href="./zt/">
+      <div class="title"><span class="pill zt">ZT</span> 真题·图文记忆</div>
+      <div class="desc">年份/题型筛选，标签检索，图文答案与记忆技巧。</div>
+    </a>
+  </main>
+
+  <footer>© SL</footer>
+</body>
+</html>
+
