@@ -304,6 +304,9 @@
             margin-top: 0.8rem;
             border-left: 6px solid #1e6f9f;
             border-top: 1px solid #d9e9f5;
+            height: 200px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         .student-zh {
             font-size: 1.05rem;
@@ -311,14 +314,23 @@
             margin-bottom: 1rem;
             font-weight: 500;
             display: flex;
+            align-items: center;
+            line-height: 1.2;
             gap: 8px;
         }
         .student-zh .badge-stu {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 22px;
+            padding: 0 10px;
+            line-height: 1;
             background: #1e6f9f;
             color: white;
-            font-size: 0.7rem;
-            padding: 2px 10px;
-            border-radius: 30px;
+            font-size: 0.75rem;
+            border-radius: 999px;
+            white-space: nowrap;
+            flex: 0 0 auto;
         }
         .student-answer[hidden] {
             display: none;
@@ -389,6 +401,14 @@
             }
             .teacher-en, .student-en {
                 padding: 10px 40px 10px 14px;
+            }
+            .student-zh .badge-stu {
+                height: 20px;
+                padding: 0 8px;
+                font-size: 0.72rem;
+            }
+            .student-answer {
+                height: 160px;
             }
             .heart-toggle-btn {
                 width: 50px;
@@ -512,6 +532,53 @@
 
 <script>
 (function() {
+    window.onerror = function(message, source) {
+        if (String(source || '').indexOf('/@vite/client') !== -1) return true;
+    };
+    window.addEventListener('error', function(e) {
+        const t = e && e.target;
+        if (t && t.tagName === 'SCRIPT' && String(t.src || '').indexOf('/@vite/client') !== -1) {
+            e.preventDefault();
+        }
+    }, true);
+    window.addEventListener('unhandledrejection', function(e){ e.preventDefault(); });
+    (function(){
+        function block(node){
+            try{
+                if(node && node.tagName === 'SCRIPT'){
+                    const src = node.src || '';
+                    if(src.indexOf('/@vite/client') !== -1){
+                        if(node.parentNode) node.parentNode.removeChild(node);
+                        return true;
+                    }
+                }
+            }catch(_){}
+            return false;
+        }
+        const mo = new MutationObserver(function(muts){
+            muts.forEach(function(m){
+                m.addedNodes && m.addedNodes.forEach(function(n){
+                    if(block(n)) return;
+                    if(n && n.querySelectorAll){
+                        n.querySelectorAll('script').forEach(block);
+                    }
+                });
+            });
+        });
+        mo.observe(document.documentElement, { childList: true, subtree: true });
+        const origCreate = document.createElement.bind(document);
+        document.createElement = function(tag){
+            const el = origCreate(tag);
+            if(String(tag).toLowerCase() === 'script'){
+                const origSet = el.setAttribute.bind(el);
+                el.setAttribute = function(name, value){
+                    if(name === 'src' && String(value || '').indexOf('/@vite/client') !== -1) return;
+                    return origSet(name, value);
+                };
+            }
+            return el;
+        };
+    })();
     // ---------- 最新问答数据（已按要求修改）----------
     const rawDialogues = [
         { // 0 三维软件
@@ -633,6 +700,102 @@
             teacherEn: "Tell me your plan in your postgraduate study.",
             studentZh: "研一打好理论基础，确定研究方向；研二专注课题研究，争取发表论文；研三完成毕业论文，为未来做准备。",
             studentEn: "In the first year, I'll build a theory base and set my research direction. In the second year, I'll focus on my project and try to publish. In the third year, I'll finish my thesis."
+        },
+        {
+            teacherZh: "研究生应该承担哪些社会责任？",
+            teacherEn: "What social responsibilities should a post-graduate take?",
+            studentZh: "研究生应该做到科研诚信，用专业知识贡献行业，并通过志愿服务或科普服务社会。",
+            studentEn: "Postgraduates should be honest in research, use knowledge to help industry, and do volunteer work to serve society."
+        },
+        {
+            teacherZh: "你最喜欢什么样的导师？",
+            teacherEn: "Which kind of professor do you like best?",
+            studentZh: "我喜欢既严谨又鼓励创新的导师。严谨夯实基础，创新鼓励我探索新想法。",
+            studentEn: "I like professors who are both strict and open to new ideas. Their strictness builds my foundation, and their ideas inspire me to explore."
+        },
+        {
+            teacherZh: "友谊对你来说意味着什么？你喜欢和什么样的人交朋友？",
+            teacherEn: "What does friendship mean to you and what kind of people do you make friends with?",
+            studentZh: "友谊意味着信任和共同成长。我和真诚、积极的人交朋友，困难时互相支持。",
+            studentEn: "Friendship means trust, support, and growing together. I make friends with honest, positive people who help each other through hard times."
+        },
+        {
+            teacherZh: "你的专业是什么？你喜欢你的专业吗？",
+            teacherEn: "What is your major? How do you like your major?",
+            studentZh: "我的专业是机械设计制造及其自动化。我喜欢它因为能把想法变成实物，应用广泛。",
+            studentEn: "I major in Mechanical Design and Automation. I love it because I can turn my ideas into real products that people can use."
+        },
+        {
+            teacherZh: "大学期间给你印象深刻的事情是什么？",
+            teacherEn: "What impressed you most when you were at university?",
+            studentZh: "参加俄罗斯技能大赛印象最深。它提升了我的技能、团队合作，我们拿了金奖。",
+            studentEn: "The Russian skills competition impressed me most. It improved my skills and teamwork, and our team won a gold medal together."
+        },
+        {
+            teacherZh: "如果你有机会换专业，你会怎么做？",
+            teacherEn: "If you had the opportunity to change your subject, what would you do with it?",
+            studentZh: "如果换专业，我可能选机器人工程。但我会先了解确保适合。目前我热爱本专业。",
+            studentEn: "If I could change, I might try robotics engineering. But first I would learn more to see if it really fits my interests."
+        },
+        {
+            teacherZh: "你认为自己在学习过程中可能会遇到哪些困难？",
+            teacherEn: "What difficulties do you think you'll encounter in your studies?",
+            studentZh: "我可能会遇到深奥理论、科研方法、时间管理等困难。我会坚持并请教老师。",
+            studentEn: "I may have trouble with hard theories, research methods, and managing time. I will work hard and ask teachers for help."
+        },
+        {
+            teacherZh: "如果有出国学习的机会，你会怎么做？",
+            teacherEn: "If there were an opportunity of studying abroad, what would you do?",
+            studentZh: "我会申请。出国学习先进制造技术，然后回国为工业发展做贡献。",
+            studentEn: "I would apply for it. I would learn new things abroad and then come back to help develop China's manufacturing industry."
+        },
+        {
+            teacherZh: "你认为应该多学理论还是多做实践？请说明理由。",
+            teacherEn: "Should you study more theory or do more practice? Give your reasons, please.",
+            studentZh: "两者都重要。理论指导实践，实践检验理论。我会平衡学习。",
+            studentEn: "Both theory and practice are important. Theory gives us direction, and practice helps us check if theory really works."
+        },
+        {
+            teacherZh: "当前年轻人失业问题有多严重？如果毕业后找不到工作，你会怎么做？",
+            teacherEn: "How serious is unemployment among young people and what will you do if you cannot find a job after graduation?",
+            studentZh: "年轻人失业问题严重。如果没工作，我会提升技能、调整方向或尝试创业。不放弃。",
+            studentEn: "Youth unemployment is a real problem. If I can't find a job, I will learn new skills and keep trying until I find one."
+        },
+        {
+            teacherZh: "在你看来，现代生活中最严重的问题是什么？",
+            teacherEn: "In your opinion, what are the most serious problems associated with modern life?",
+            studentZh: "我认为环境污染和工作压力最严重。作为工程师，我希望从事绿色制造。",
+            studentEn: "I think pollution and too much work pressure are serious problems. As an engineer, I want to work on greener manufacturing."
+        },
+        {
+            teacherZh: "你认为过去 5 年里，你所学领域最重要的变化是什么？",
+            teacherEn: "What do you think have been the most important changes in your study field over the past 5 years?",
+            studentZh: "智能化和自动化的兴起，如工业机器人和数字孪生，让制造更高效。",
+            studentEn: "Smart manufacturing has grown fast, like robots and digital tools that make production more efficient and precise."
+        },
+        {
+            teacherZh: "你认为自己的弱点是什么？",
+            teacherEn: "What do you think about your weakness?",
+            studentZh: "我有时急躁，英语需要提高。我在努力保持冷静，练习口语。",
+            studentEn: "I can be impatient sometimes, and my spoken English needs work. I am practicing staying calm and speaking more every day."
+        },
+        {
+            teacherZh: "你为什么这门课不及格？",
+            teacherEn: "Why did you fail in this course?",
+            studentZh: "我某科不及格是因为比赛花太多时间。我补考过了，学会了时间管理。",
+            studentEn: "I failed because I spent too much time on a competition. I passed the make-up exam and learned to manage my time better."
+        },
+        {
+            teacherZh: "你读过哪些专业书籍？这本书的主要观点是什么？",
+            teacherEn: "What professional books have you read before? What's the main idea of this text?",
+            studentZh: "我读过《机械原理》，讲机器运动和工作的原理。也读机器人书学新技术。",
+            studentEn: "I read \"Mechanical Principles\", which explains how machines move and work. I also read robotics books to learn new things."
+        },
+        {
+            teacherZh: "如果这次失败了，你在不久的将来会怎么做？",
+            teacherEn: "If you failed this time, what will you do in the near future?",
+            studentZh: "如果失败，我会分析原因，更努力学习，可能边工作边准备，坚持直到成功。",
+            studentEn: "If I fail, I will find out why, study harder on weak points, and keep trying until I reach my goal."
         }
     ];
 
@@ -684,7 +847,6 @@
         });
         container.innerHTML = html;
     }
-    renderCards();
 
     // 语音 & 语速
     const rateSlider = document.getElementById('rateSlider');

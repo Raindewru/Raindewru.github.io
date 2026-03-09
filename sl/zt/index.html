@@ -626,8 +626,9 @@
 
         let html = '';
         filteredQuestions.forEach(q => {
-          // 将答案中的换行符替换为 <br> 保留格式
-          const answerHtml = q.answer.replace(/\n/g, '<br>');
+          // 若答案本身包含 HTML 标签，则直接插入；否则将换行转为 <br>
+          const hasHtml = /<\s*[a-z!/]/i.test(q.answer || '');
+          let answerHtml = hasHtml ? q.answer : (q.answer || '').replace(/\n/g, '<br>');
           // memoryTips 直接作为 HTML 插入（可包含图片等）
           let memoryHtml = q.memoryTips || '<p style="color:#a0aec0;">暂无记忆技巧，可自行添加图片或口诀。</p>';
           const blockedTitles = ['麻花钻的结构特点及工作特点', '磨削、珩磨、研磨、抛光的区别'];
@@ -668,6 +669,14 @@
           }
           // 全局移除：自动补图版本的积屑瘤示意图（如存在）
           memoryHtml = memoryHtml.replace(/<img[^>]*alt=['"]?积屑瘤示意图['"]?[^>]*>/gi, '');
+
+          // 压缩多余空行：合并连续 <br>，去除段落前后的 <br>
+          const sanitizeHtml = (s) => (s || '')
+            .replace(/(\s*<br\s*\/?>\s*){2,}/gi, '<br>')
+            .replace(/<\/p>\s*<br\s*\/?>/gi, '</p>')
+            .replace(/<br\s*\/?>\s*<p/gi, '<p');
+          answerHtml = sanitizeHtml(answerHtml);
+          memoryHtml = sanitizeHtml(memoryHtml);
 
           html += `
             <div class="question-card" data-id="${q.id}">
