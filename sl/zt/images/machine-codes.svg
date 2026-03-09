@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="380" viewBox="0 0 820 380">
+  <defs>
+    <style>
+      .t{font:700 20px system-ui,Segoe UI,Arial;fill:#0b1e33}
+      .p{font:13px system-ui,Segoe UI,Arial;fill:#1f2937}
+      .h{font:700 14px system-ui,Segoe UI,Arial;fill:#0f172a}
+    </style>
+  </defs>
+  <rect x="20" y="20" width="780" height="340" rx="16" fill="#fff" stroke="#e5e7eb"/>
+  <text x="410" y="48" class="t" text-anchor="middle">机床型号字母含义速览</text>
+  <g transform="translate(60,70)">
+    <rect x="0" y="0" width="700" height="36" fill="#e2e8f0" rx="8"/>
+    <text x="30" y="24" class="h">示例</text>
+    <text x="200" y="24" class="h">类别</text>
+    <text x="300" y="24" class="h">特性</text>
+    <text x="400" y="24" class="h">组系</text>
+    <text x="520" y="24" class="h">主参数</text>
+    <text x="650" y="24" class="h">改进</text>
+    <g transform="translate(0,50)">
+      <rect x="0" y="0" width="700" height="40" fill="#fff" rx="6"/>
+      <text x="30" y="25" class="p">Y3150E</text>
+      <text x="200" y="25" class="p">Y 齿轮机床</text>
+      <text x="300" y="25" class="p">—</text>
+      <text x="400" y="25" class="p">31 滚齿机</text>
+      <text x="520" y="25" class="p">50 ⌀500</text>
+      <text x="650" y="25" class="p">E 改进</text>
+    </g>
+    <g transform="translate(0,95)">
+      <rect x="0" y="0" width="700" height="40" fill="#f9fafb" rx="6"/>
+      <text x="30" y="25" class="p">MG1432</text>
+      <text x="200" y="25" class="p">M 磨床</text>
+      <text x="300" y="25" class="p">G 高精度</text>
+      <text x="400" y="25" class="p">14 万能外圆</text>
+      <text x="520" y="25" class="p">32 ⌀320</text>
+      <text x="650" y="25" class="p">—</text>
+    </g>
+    <g transform="translate(0,140)">
+      <rect x="0" y="0" width="700" height="40" fill="#fff" rx="6"/>
+      <text x="30" y="25" class="p">X5025</text>
+      <text x="200" y="25" class="p">X 铣床</text>
+      <text x="300" y="25" class="p">—</text>
+      <text x="400" y="25" class="p">50 立式</text>
+      <text x="520" y="25" class="p">25 台宽</text>
+      <text x="650" y="25" class="p">—</text>
+    </g>
+    <g transform="translate(0,185)">
+      <rect x="0" y="0" width="700" height="40" fill="#f9fafb" rx="6"/>
+      <text x="30" y="25" class="p">CM6132</text>
+      <text x="200" y="25" class="p">C 车床</text>
+      <text x="300" y="25" class="p">M 精密</text>
+      <text x="400" y="25" class="p">61 卧式</text>
+      <text x="520" y="25" class="p">32 ⌀320</text>
+      <text x="650" y="25" class="p">—</text>
+    </g>
+    <g transform="translate(0,230)">
+      <rect x="0" y="0" width="700" height="40" fill="#fff" rx="6"/>
+      <text x="30" y="25" class="p">B6050</text>
+      <text x="200" y="25" class="p">B 刨床</text>
+      <text x="300" y="25" class="p">—</text>
+      <text x="400" y="25" class="p">60 牛头刨</text>
+      <text x="520" y="25" class="p">50 行程</text>
+      <text x="650" y="25" class="p">—</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="360" viewBox="0 0 820 360">
+  <defs>
+    <style>
+      .t{font:700 20px system-ui,Segoe UI,Arial;fill:#0b1e33}
+      .p{font:13px system-ui,Segoe UI,Arial;fill:#1f2937}
+      .h{font:700 14px system-ui,Segoe UI,Arial;fill:#0f172a}
+    </style>
+  </defs>
+  <rect x="20" y="20" width="780" height="320" rx="16" fill="#fff" stroke="#e5e7eb"/>
+  <text x="410" y="46" class="t" text-anchor="middle">铣槽定位自由度</text>
+  <g transform="translate(60,70)">
+    <rect x="0" y="0" width="320" height="220" rx="12" fill="#e0f2fe" stroke="#93c5fd"/>
+    <text x="160" y="28" class="h" text-anchor="middle">通槽（限制5自由度）</text>
+    <g transform="translate(20,60)">
+      <rect x="0" y="0" width="280" height="36" rx="8" fill="#fff" stroke="#93c5fd"/>
+      <text x="18" y="24" class="p">限制：Z 平移，X/Y 平移，绕X/Y 转动</text>
+    </g>
+    <g transform="translate(20,110)">
+      <rect x="0" y="0" width="280" height="36" rx="8" fill="#fff" stroke="#93c5fd"/>
+      <text x="18" y="24" class="p">不限：沿槽方向（绕Z或沿X）</text>
+    </g>
+    <g transform="translate(20,160)">
+      <rect x="0" y="0" width="280" height="36" rx="8" fill="#fff" stroke="#93c5fd"/>
+      <text x="18" y="24" class="p">目的：保证槽宽与位置</text>
+    </g>
+  </g>
+  <g transform="translate(440,70)">
+    <rect x="0" y="0" width="320" height="220" rx="12" fill="#dcfce7" stroke="#86efac"/>
+    <text x="160" y="28" class="h" text-anchor="middle">不通槽（限制6自由度）</text>
+    <g transform="translate(20,60)">
+      <rect x="0" y="0" width="280" height="36" rx="8" fill="#fff" stroke="#86efac"/>
+      <text x="18" y="24" class="p">限制：X/Y/Z 平移，绕X/Y/Z 转动</text>
+    </g>
+    <g transform="translate(20,110)">
+      <rect x="0" y="0" width="280" height="36" rx="8" fill="#fff" stroke="#86efac"/>
+      <text x="18" y="24" class="p">理由：槽底/终点位置受控</text>
+    </g>
+    <g transform="translate(20,160)">
+      <rect x="0" y="0" width="280" height="36" rx="8" fill="#fff" stroke="#86efac"/>
+      <text x="18" y="24" class="p">目的：完全定位</text>
+    </g>
+  </g>
+</svg>

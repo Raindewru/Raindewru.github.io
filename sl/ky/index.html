@@ -400,9 +400,38 @@
                 font-size: 24px;
             }
         }
+        .top-nav {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            display: flex;
+            gap: 8px;
+            z-index: 1000;
+        }
+        .top-nav a {
+            background: #ffffff;
+            border: 1.5px solid #1e6f9f;
+            color: #1e6f9f;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.15s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .top-nav a:hover {
+            background: #1e6f9f;
+            color: #ffffff;
+            border-color: #1e6f9f;
+        }
     </style>
 </head>
 <body>
+<div class="top-nav">
+    <a href="../index.html">主页</a>
+    <a href="../zt/">去 ZT</a>
+</div>
 <div class="container">
     <div class="control-bar">
         <div class="encourage">
@@ -572,8 +601,8 @@
         { // 14 毕业后做什么
             teacherZh: "毕业后想做什么？研究生阶段想实现什么？",
             teacherEn: "What do you want to do after graduation and what do you want to achieve in your graduate stage?",
-            studentZh: "毕业后我希望进入高端制造领域，成为机械工程师。研究生阶段我计划将机械工程与自动化、智能化相结合。",
-            studentEn: "After graduation, I hope to work in high-end manufacturing as a mechanical engineer. I plan to combine mechanical engineering with automation and intelligence."
+            studentZh: "毕业后我希望成为一名机械工程师，研究生阶段我会认真学习、积极参与科研项目，提升专业与实践能力。",
+            studentEn: "After graduation, I hope to become a mechanical engineer. \n During my postgraduate studies, I will study hard, take part in research projects, and improve my professional and practical skills."
         },
         { // 15 最喜欢的科目
             teacherZh: "你最喜欢的科目是什么？为什么？",
@@ -667,13 +696,18 @@
         speedValue.textContent = currentRate.toFixed(1) + 'x';
     });
 
+    const ttsSupported = ('speechSynthesis' in window) && (typeof SpeechSynthesisUtterance !== 'undefined');
     function speakText(text) {
-        if (!text) return;
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        utterance.rate = currentRate;
-        window.speechSynthesis.speak(utterance);
+        if (!ttsSupported || !text) return;
+        try {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = currentRate;
+            window.speechSynthesis.speak(utterance);
+        } catch (e) {
+            // 静默失败，避免抛错影响页面
+        }
     }
 
     // 随机状态（只随机导师问题）
@@ -730,6 +764,13 @@
     function init() {
         renderCards(); // 渲染问答卡片
         randomIndex = 0; // 默认为第一个问题
+        if (!ttsSupported) {
+            document.querySelectorAll('.speaker').forEach(el => {
+                el.style.opacity = '0.4';
+                el.style.pointerEvents = 'none';
+                el.title = '当前环境不支持语音播放';
+            });
+        }
     }
     
     // 爱心按钮 - 展开/关闭所有回答

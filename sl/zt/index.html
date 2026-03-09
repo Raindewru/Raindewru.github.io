@@ -283,9 +283,38 @@
       header h1 { font-size: 1.8rem; }
       .question-text { font-size: 1.1rem; }
     }
+    .top-nav {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      display: flex;
+      gap: 8px;
+      z-index: 10000;
+    }
+    .top-nav a {
+      background: #ffffff;
+      border: 1px solid #cbd5e0;
+      color: #1e3c72;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.15s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .top-nav a:hover {
+      background: #1e3c72;
+      color: #ffffff;
+      border-color: #1e3c72;
+    }
   </style>
 </head>
 <body>
+  <div class="top-nav">
+    <a href="../index.html">主页</a>
+    <a href="../ky/">去 KY</a>
+  </div>
   <header>
     <h1>⚙️ 机械考研真题·考频记忆</h1>
     <p>2013-2025 · 词语解释 + 论述题 · 标签考频 · 图文记忆</p>
@@ -556,7 +585,7 @@
           const answerHtml = q.answer.replace(/\n/g, '<br>');
           // memoryTips 直接作为 HTML 插入（可包含图片等）
           let memoryHtml = q.memoryTips || '<p style="color:#a0aec0;">暂无记忆技巧，可自行添加图片或口诀。</p>';
-          if (!/\<img\s/i.test(memoryHtml)) {
+          if (!/\<img\s/i.test(memoryHtml) && !(q.id === 1 || q.id === 2)) {
             const imgMap = [
               { k: /积屑瘤|刀具.*三角|Built[- ]?up/i, src: 'images/built-up-edge.svg', alt: '积屑瘤示意图' },
               { k: /麻花钻|钻|twist/i, src: 'images/twist-drill.svg', alt: '麻花钻结构图' },
@@ -576,6 +605,19 @@
             if (hit) {
               memoryHtml += `<div style="margin-top:12px;"><img src="${hit.src}" alt="${hit.alt}" style="width:100%; max-width:100%; height:auto; border-radius:8px; border:1px solid #e2e8f0; display:block;"></div>`;
             }
+          }
+          // 针对 id=1 和 id=2：彻底移除记忆技巧中的图片与残留样式占位
+          if (q.id === 1 || q.id === 2) {
+            // 移除所有 <img ...> 标签
+            memoryHtml = memoryHtml.replace(/<img[\s\S]*?>/gi, '');
+            // 移除内联或嵌入式 <svg> 图像
+            memoryHtml = memoryHtml.replace(/<svg[\s\S]*?<\/svg>/gi, '');
+            // 移除异常的“< style='...'>”残留片段以及闭合
+            memoryHtml = memoryHtml.replace(/<\s*style[^>]*>/gi, '').replace(/<\/\s*style\s*>/gi, '');
+            // 移除对 svg 路径的纯文本残留
+            memoryHtml = memoryHtml.replace(/images\/[A-Za-z0-9_\-]+\.(svg|png|jpg|jpeg|gif)/gi, '');
+            // 移除包含特定 alt 提示词的残留标签文本
+            memoryHtml = memoryHtml.replace(/<[^>]*alt=['"][^'"]*(麻花钻结构图|磨削珩磨研磨抛光对比图)[^'"]*['"][^>]*\/?>/gi, '');
           }
 
           html += `
