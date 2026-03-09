@@ -48,6 +48,9 @@
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.06);
       flex-wrap: wrap;
+      position: sticky;
+      top: 12px;
+      z-index: 1000;
     }
     .filter-group {
       display: flex;
@@ -330,6 +333,10 @@
           <!-- 动态生成年份选项 -->
         </select>
       </div>
+      <div class="filter-group" style="align-self:flex-end; display:flex; gap:8px;">
+        <button id="prev-year" style="background:#f7fafc; border:2px solid #e2e8f0; padding:8px 12px; border-radius:10px; font-size:0.85rem; cursor:pointer; color:#4a5568; font-weight:600;">⬅ 上一年</button>
+        <button id="next-year" style="background:#f7fafc; border:2px solid #e2e8f0; padding:8px 12px; border-radius:10px; font-size:0.85rem; cursor:pointer; color:#4a5568; font-weight:600;">下一年 ➡</button>
+      </div>
       <div class="filter-group">
         <label class="filter-label">🏷️ 题型</label>
         <select id="type-select" class="filter-select">
@@ -378,6 +385,8 @@
       const clearFilterBtn = document.getElementById('clear-filter');
       const resultCountSpan = document.querySelector('#result-count span');
       const globalToggleBtn = document.getElementById('global-toggle');
+      const prevYearBtn = document.getElementById('prev-year');
+      const nextYearBtn = document.getElementById('next-year');
       let globalOpen = false;
 
       // ---------- 加载数据 ----------
@@ -420,6 +429,15 @@
         div.innerHTML = html || '';
         return (div.textContent || div.innerText || '').replace(/\s+/g, ' ').trim();
       }
+      function normalizeType(t) {
+        const s = (t || '').toString().trim();
+        if (!s) return '';
+        // 统一：简答/论述 → 简答
+        if (/^(简答|简答题|论述|论述题)$/i.test(s)) return '简答';
+        // 统一：判断/是非 → 判断
+        if (/^(判断|判断题|是非|是非题)$/i.test(s)) return '判断';
+        return s; // 其余保持原样（名词解释、选择题等）
+      }
       function normalizeData(raw) {
         // v2 格式：{ questions: [...], occurrences: [...] }
         if (raw && Array.isArray(raw.questions) && Array.isArray(raw.occurrences)) {
@@ -439,9 +457,10 @@
           raw.occurrences.forEach(o => {
             const item = byId.get(o.qid);
             if (!item) return;
-            item.occurrences.push({ year: o.year, type: o.type, tags: o.tags || [] });
+            const t = normalizeType(o.type);
+            item.occurrences.push({ year: o.year, type: t, tags: o.tags || [] });
             if (!item.years.includes(o.year)) item.years.push(o.year);
-            if (!item.types.includes(o.type)) item.types.push(o.type);
+            if (!item.types.includes(t)) item.types.push(t);
             if (Array.isArray(o.tags) && o.tags.length) {
               item.tags = Array.from(new Set([...item.tags, ...o.tags]));
             }
@@ -455,6 +474,7 @@
           raw.forEach(q => {
             const key = normalizeStr(q.question);
             if (!map.has(key)) {
+              const t = normalizeType(q.type);
               map.set(key, {
                 id: slugify(q.question),
                 question: q.question,
@@ -462,17 +482,18 @@
                 memoryTips: q.memoryTips || '',
                 tags: Array.isArray(q.tags) ? new Set(q.tags) : new Set(),
                 years: new Set([q.year]),
-                types: new Set([q.type]),
-                occurrences: [{ year: q.year, type: q.type, tags: q.tags || [] }]
+                types: new Set([t]),
+                occurrences: [{ year: q.year, type: t, tags: q.tags || [] }]
               });
             } else {
               const item = map.get(key);
+              const t = normalizeType(q.type);
               if ((q.answer || '').length > (item.answer || '').length) item.answer = q.answer;
               if ((q.memoryTips || '').length > (item.memoryTips || '').length) item.memoryTips = q.memoryTips;
               (q.tags || []).forEach(t => item.tags.add(t));
               item.years.add(q.year);
-              item.types.add(q.type);
-              item.occurrences.push({ year: q.year, type: q.type, tags: q.tags || [] });
+              item.types.add(t);
+              item.occurrences.push({ year: q.year, type: t, tags: q.tags || [] });
             }
           });
           const items = Array.from(map.values()).map(it => ({
@@ -551,6 +572,30 @@
         });
       }
 
+      // 年份快捷切换
+      function getYearsSorted() {
+        const opts = Array.from(yearSelectEl ? yearSelectEl.options : []);
+        return opts.map(o => parseInt(o.value, 10)).filter(v => !isNaN(v)).sort((a,b)=>a-b);
+      }
+      function cycleYear(dir) {
+        const years = getYearsSorted();
+        if (!years.length) return;
+        const current = parseInt(yearSelectEl.value, 10);
+        let target;
+        if (isNaN(current)) {
+          target = dir > 0 ? years[0] : years[years.length - 1];
+        } else {
+          let idx = years.indexOf(current);
+          if (idx < 0) idx = 0;
+          target = years[(idx + dir + years.length) % years.length];
+        }
+        yearSelectEl.value = String(target);
+        activeYear = target;
+        applyFilters();
+      }
+      if (prevYearBtn) prevYearBtn.addEventListener('click', () => cycleYear(-1));
+      if (nextYearBtn) nextYearBtn.addEventListener('click', () => cycleYear(1));
+
       // ---------- 应用所有筛选条件 ----------
       function applyFilters() {
         filteredQuestions = canonicalItems.filter(item => {
@@ -585,9 +630,11 @@
           const answerHtml = q.answer.replace(/\n/g, '<br>');
           // memoryTips 直接作为 HTML 插入（可包含图片等）
           let memoryHtml = q.memoryTips || '<p style="color:#a0aec0;">暂无记忆技巧，可自行添加图片或口诀。</p>';
-          if (!/\<img\s/i.test(memoryHtml) && !(q.id === 1 || q.id === 2)) {
+          const blockedTitles = ['麻花钻的结构特点及工作特点', '磨削、珩磨、研磨、抛光的区别'];
+          const isBlocked = blockedTitles.includes((q.question || '').trim());
+
+          if (!/\<img\s/i.test(memoryHtml) && !isBlocked) {
             const imgMap = [
-              { k: /积屑瘤|刀具.*三角|Built[- ]?up/i, src: 'images/built-up-edge.svg', alt: '积屑瘤示意图' },
               { k: /麻花钻|钻|twist/i, src: 'images/twist-drill.svg', alt: '麻花钻结构图' },
               { k: /磨削|珩磨|研磨|抛光|grinding/i, src: 'images/grinding-comparison.svg', alt: '磨削等方法对比' },
               { k: /T型槽|T-?槽/i, src: 'images/t-slot-machining.svg', alt: 'T型槽加工图' },
@@ -607,7 +654,7 @@
             }
           }
           // 针对 id=1 和 id=2：彻底移除记忆技巧中的图片与残留样式占位
-          if (q.id === 1 || q.id === 2) {
+          if (isBlocked) {
             // 移除所有 <img ...> 标签
             memoryHtml = memoryHtml.replace(/<img[\s\S]*?>/gi, '');
             // 移除内联或嵌入式 <svg> 图像
@@ -619,6 +666,8 @@
             // 移除包含特定 alt 提示词的残留标签文本
             memoryHtml = memoryHtml.replace(/<[^>]*alt=['"][^'"]*(麻花钻结构图|磨削珩磨研磨抛光对比图)[^'"]*['"][^>]*\/?>/gi, '');
           }
+          // 全局移除：自动补图版本的积屑瘤示意图（如存在）
+          memoryHtml = memoryHtml.replace(/<img[^>]*alt=['"]?积屑瘤示意图['"]?[^>]*>/gi, '');
 
           html += `
             <div class="question-card" data-id="${q.id}">
