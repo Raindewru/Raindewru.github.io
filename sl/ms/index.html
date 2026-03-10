@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MS · 面试 · 专业课</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(180deg, #f6f8fb 0%, #ffffff 100%);
+      color: #0b1e33;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 16px;
+    }
+    header {
+      max-width: 980px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    header h1 {
+      font-size: 2.1rem;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header p {
+      color: #4a5568;
+      margin-top: 8px;
+    }
+    .toolbar {
+      max-width: 980px;
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid #e6ecf2;
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+      display: grid;
+      grid-template-columns: 1fr 240px 120px;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .toolbar input[type="search"] {
+      width: 100%;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 1rem;
+      outline: none;
+    }
+    .toolbar select, .toolbar button {
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      padding: 0 12px;
+      font-size: 0.95rem;
+      color: #0b1e33;
+    }
+    .toolbar button {
+      background: #2a5298;
+      color: #ffffff;
+      border-color: #2a5298;
+      cursor: pointer;
+    }
+    .grid {
+      max-width: 980px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #edf2f7;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+      border-color: #cbd5e0;
+    }
+    .card .meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid #e2e8f0;
+      font-size: 12px;
+      color: #2a3a8a;
+      background: #eef2ff;
+    }
+    .question {
+      font-weight: 700;
+      color: #0b1e33;
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin: 6px 0 8px;
+    }
+    .btn {
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: #0b1e33;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .answer, .tips {
+      display: none;
+      line-height: 1.8;
+      color: #334155;
+      padding-top: 6px;
+    }
+    .answer.show, .tips.show { display: block; }
+    .hl-y { background:#fde047; padding:2px 6px; border-radius:4px; }
+    .hl-p { background:#c4b5fd; padding:2px 6px; border-radius:4px; }
+    .hl-g { background:#86efac; padding:2px 6px; border-radius:4px; }
+    .hl-b { background:#dbeafe; padding:2px 6px; border-radius:4px; }
+    .hl-r { background:#fca5a5; padding:2px 6px; border-radius:4px; }
+    footer {
+      margin: 20px 0;
+      color: #718096;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    .fab-love {
+      position: fixed;
+      right: 20px;
+      bottom: 22px;
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      border: none;
+      background: #e63946;
+      color: #fff;
+      font-size: 22px;
+      box-shadow: 0 10px 24px rgba(230,57,70,0.35);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .fab-love:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(230,57,70,0.45); }
+    .fab-love.active { background: #c1121f; }
+    @media (max-width: 720px) {
+      .toolbar { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MS · 面试题库 · 专业课</h1>
+    <p>分类筛选｜关键词搜索｜展开查看答案与要点，高亮重点便于速记</p>
+  </header>
+  <section class="toolbar">
+    <input id="search" type="search" placeholder="搜索题干/标签，例如：齿轮、液压、热处理" />
+    <select id="category">
+      <option value="">全部分类</option>
+    </select>
+    <select id="version">
+      <option value="core">精简版</option>
+      <option value="detailed">核心版</option>
+      <option value="verbatim">原文逐条版</option>
+    </select>
+    <button id="clear">清空筛选</button>
+  </section>
+  <main class="grid" id="list"></main>
+  <button id="fabLove" class="fab-love" title="一键打开/关闭所有答案" aria-pressed="false">❤</button>
+  <footer>© MS</footer>
+  <script>
+    const listEl = document.getElementById('list');
+    const searchEl = document.getElementById('search');
+    const catEl = document.getElementById('category');
+    const verEl = document.getElementById('version');
+    const clearBtn = document.getElementById('clear');
+    const fabLove = document.getElementById('fabLove');
+    let data = [];
+    let filtered = [];
+    let categories = [];
+    let allAnswersOpen = false;
+    const sources = {
+      core: './data/questions.json',
+      detailed: './data/questions_detailed.json',
+      verbatim: './data/questions_verbatim.json'
+    };
+    function sanitize(s) {
+      return (s || '').replace(/\\n/g, '<br>');
+    }
+    function setAllAnswers(open) {
+      allAnswersOpen = !!open;
+      const answers = document.querySelectorAll('.answer');
+      const btns = document.querySelectorAll('.btn-answer');
+      answers.forEach(el => el.classList.toggle('show', allAnswersOpen));
+      btns.forEach(b => {
+        const id = b.getAttribute('data-id');
+        const el = document.getElementById('ans-' + id);
+        if (!el) return;
+        b.textContent = el.classList.contains('show') ? '📖 隐藏答案' : '📖 显示答案';
+      });
+      fabLove.classList.toggle('active', allAnswersOpen);
+      fabLove.setAttribute('aria-pressed', allAnswersOpen ? 'true' : 'false');
+      fabLove.title = allAnswersOpen ? '关闭所有答案' : '打开所有答案';
+      fabLove.innerText = allAnswersOpen ? '❤' : '♡';
+    }
+    fabLove.addEventListener('click', () => setAllAnswers(!allAnswersOpen));
+    function renderList() {
+      if (!filtered.length) {
+        listEl.innerHTML = '<p style="text-align:center; color:#718096; padding:2rem;">暂无结果，请更换关键词或分类。</p>';
+        return;
+      }
+      const html = filtered.map(item => {
+        const tags = (item.tags || []).map(t => `<span class="chip" data-tag="${t}">${t}</span>`).join('');
+        return `
+          <div class="card" data-id="${item.id}">
+            <div class="meta">
+              <span class="chip">${item.category || '未分类'}</span>
+              ${tags}
+            </div>
+            <div class="question">${item.question}</div>
+            <div class="actions">
+              <button class="btn btn-answer" data-id="${item.id}">📖 显示答案</button>
+              ${item.tips ? `<button class="btn btn-tips" data-id="${item.id}">🧠 记忆要点</button>` : ''}
+            </div>
+            <div class="answer" id="ans-${item.id}">${sanitize(item.answer)}</div>
+            ${item.tips ? `<div class="tips" id="tips-${item.id}">${sanitize(item.tips)}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+      listEl.innerHTML = html;
+      listEl.querySelectorAll('.btn-answer').forEach(b => {
+        b.addEventListener('click', (e) => {
+          const id = e.currentTarget.getAttribute('data-id');
+          const el = document.getElementById('ans-' + id);
+          if (el) el.classList.toggle('show');
+          e.currentTarget.textContent = el && el.classList.contains('show') ? '📖 隐藏答案' : '📖 显示答案';
+        });
+      });
+      listEl.querySelectorAll('.btn-tips').forEach(b => {
+        b.addEventListener('click', (e) => {
+          const id = e.currentTarget.getAttribute('data-id');
+          const el = document.getElementById('tips-' + id);
+          if (el) el.classList.toggle('show');
+          e.currentTarget.textContent = el && el.classList.contains('show') ? '🧠 隐藏要点' : '🧠 记忆要点';
+        });
+      });
+      listEl.querySelectorAll('.chip[data-tag]').forEach(c => {
+        c.addEventListener('click', () => {
+          searchEl.value = c.getAttribute('data-tag') || '';
+          applyFilters();
+        });
+      });
+      if (allAnswersOpen) setAllAnswers(true);
+    }
+    function applyFilters() {
+      const q = (searchEl.value || '').trim().toLowerCase();
+      const c = catEl.value || '';
+      filtered = data.filter(it => {
+        const t = [it.question, it.answer, (it.tags || []).join(' ')].join(' ').toLowerCase();
+        const hitQ = !q || t.includes(q);
+        const hitC = !c || it.category === c;
+        return hitQ && hitC;
+      });
+      renderList();
+    }
+    function buildCategories() {
+      categories = Array.from(new Set(data.map(it => it.category).filter(Boolean)));
+      catEl.innerHTML = '<option value="">全部分类</option>' + categories.map(c => `<option value="${c}">${c}</option>`).join('');
+    }
+    function loadData() {
+      const src = sources[verEl.value] || sources.core;
+      const verLabel = verEl.value === 'detailed' ? '核心版' : (verEl.value === 'verbatim' ? '原文逐条版' : '精简版');
+      listEl.innerHTML = '<p style=\"text-align:center; color:#718096; padding:2rem;\">正在加载 ' + verLabel + ' 数据...</p>';
+      fetch(src)
+        .then(r => r.json())
+        .then(json => {
+          data = json || [];
+          buildCategories();
+          applyFilters();
+        })
+        .catch(() => {
+          listEl.innerHTML = '<p style=\"text-align:center; color:#ef4444; padding:2rem;\">数据加载失败，请稍后重试。</p>';
+        });
+    }
+    searchEl.addEventListener('input', applyFilters);
+    catEl.addEventListener('change', applyFilters);
+    verEl.addEventListener('change', () => {
+      searchEl.value = '';
+      catEl.value = '';
+      loadData();
+    });
+    clearBtn.addEventListener('click', () => {
+      searchEl.value = '';
+      catEl.value = '';
+      applyFilters();
+    });
+    loadData();
+  </script>
+</body>
+</html>
