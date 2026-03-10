@@ -835,11 +835,17 @@
 
         let html = '';
         filteredQuestions.forEach(q => {
-          // 若答案本身包含 HTML 标签，则直接插入；否则将换行转为 <br>
+          // 统一处理换行：即使答案包含 HTML，也将 \n 转为 <br>，以保证显式换行
           const hasHtml = /<\s*[a-z!/]/i.test(q.answer || '');
-          let answerHtml = hasHtml ? q.answer : (q.answer || '').replace(/\n/g, '<br>');
+          let answerHtml = (q.answer || '');
+          answerHtml = answerHtml.replace(/\n/g, '<br>');
           // memoryTips 直接作为 HTML 插入（可包含图片等）
           let memoryHtml = q.memoryTips || '<p style="color:#a0aec0;">暂无记忆技巧，可自行添加图片或口诀。</p>';
+          // 特例：三个变形区，额外加入 image.png（根据题干或标签匹配）
+          const isThreeZones = /三个.*变形区/.test(q.question || '') || (q.tags || []).some(t => /(三个.*变形区|切削变形区)/.test(t));
+          if (isThreeZones) {
+            memoryHtml += `<div style="margin-top:12px;"><img src="images/image.png" alt="三个变形区示意图（自定义）" style="width:100%; max-width:100%; height:auto; border-radius:8px; border:1px solid #e2e8f0; display:block;"></div>`;
+          }
           const blockedTitles = ['麻花钻的结构特点及工作特点', '磨削、珩磨、研磨、抛光的区别'];
           const isBlocked = blockedTitles.includes((q.question || '').trim());
 

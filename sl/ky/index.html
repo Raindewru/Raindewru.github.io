@@ -304,9 +304,9 @@
             margin-top: 0.8rem;
             border-left: 6px solid #1e6f9f;
             border-top: 1px solid #d9e9f5;
-            height: 200px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            height: auto;
+            min-height: 0;
+            overflow: visible;
         }
         .student-zh {
             font-size: 1.05rem;
@@ -407,9 +407,7 @@
                 padding: 0 8px;
                 font-size: 0.72rem;
             }
-            .student-answer {
-                height: 160px;
-            }
+            .student-answer { height: auto; }
             .heart-toggle-btn {
                 width: 50px;
                 height: 50px;
@@ -728,8 +726,8 @@
         {
             teacherZh: "大学期间给你印象深刻的事情是什么？",
             teacherEn: "What impressed you most when you were at university?",
-            studentZh: "参加俄罗斯技能大赛印象最深。它提升了我的技能、团队合作，我们拿了金奖。",
-            studentEn: "The Russian skills competition impressed me most. It improved my skills and teamwork, and our team won a gold medal together."
+            studentZh: "我在江苏省状元赛个人赛夺得金牌。备赛与实战让我的技能更扎实、专注更稳、临场更冷静，也进一步坚定了我深耕本专业的决心。",
+            studentEn: "I won the gold medal in the Jiangsu Provincial Top Scholar Competition (individual). The journey sharpened my skills, strengthened my focus and composure, and deepened my commitment to mechanical engineering."
         },
         {
             teacherZh: "如果你有机会换专业，你会怎么做？",
