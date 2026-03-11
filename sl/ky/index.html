@@ -239,6 +239,11 @@
             background: #e2effb;
             border-color: #b0cde0;
         }
+        .zh-title{
+            margin: 10px 2px 8px;
+            font-weight: 700;
+            color: #0a3147;
+        }
         .en-text {
             display: block;
             width: 100%;
@@ -726,8 +731,8 @@
         {
             teacherZh: "大学期间给你印象深刻的事情是什么？",
             teacherEn: "What impressed you most when you were at university?",
-            studentZh: "我在江苏省状元赛个人赛夺得金牌。备赛与实战让我的技能更扎实、专注更稳、临场更冷静，也进一步坚定了我深耕本专业的决心。",
-            studentEn: "I won the gold medal in the Jiangsu Provincial Top Scholar Competition (individual). The journey sharpened my skills, strengthened my focus and composure, and deepened my commitment to mechanical engineering."
+            studentZh: "我在江苏省状元赛个人赛中获得金牌。这段经历提升了我的专业能力，锻炼了专注力与心态，也让我更加坚定了对机械工程专业的热爱。",
+            studentEn: "I won a gold medal in the Jiangsu Provincial Champion individual competition. It improved my skills, focus, and calmness, and strengthened my passion for mechanical engineering."
         },
         {
             teacherZh: "如果你有机会换专业，你会怎么做？",
@@ -834,11 +839,11 @@
                     </div>
                     <button class="btn-show"><i class="fa-regular fa-message"></i> 显示回答</button>
                     <div class="student-answer" hidden>
-                        <div class="student-zh"><span class="badge-stu">陈茹</span> ${item.studentZh}</div>
                         <div class="student-en">
                             <span class="en-text">${item.studentEnEnhanced}</span>
-                            <i class="fas fa-volume-high speaker" data-text="${item.studentEnRaw.replace(/"/g, '&quot;')}"></i>
                         </div>
+                        <div class="zh-title">中文翻译</div>
+                        <div class="student-zh">${item.studentZh}</div>
                     </div>
                 </div>
             `;

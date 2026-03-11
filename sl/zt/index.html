@@ -568,6 +568,7 @@
       let activeQuery = '';             // 当前搜索关键字
       let yearCountMap = new Map();      // 年份 -> 计数
       let typeCountMap = new Map();      // 题型 -> 计数
+      let stuYearCountMap = new Map();   // 学硕年份 -> 计数
 
       const yearSelectEl = document.getElementById('year-select');
       const typeSelectEl = document.getElementById('type-select');
@@ -722,9 +723,17 @@
       // ---------- 统计年份频次 ----------
       function buildYearStats() {
         yearCountMap.clear();
+        stuYearCountMap.clear();
         canonicalItems.forEach(item => {
+          // 统计通用年份计数
           (item.years || []).forEach(y => {
             yearCountMap.set(y, (yearCountMap.get(y) || 0) + 1);
+          });
+          // 统计学硕年份计数（基于 occurrences 标签）
+          (item.occurrences || []).forEach(o => {
+            if (o && o.year && Array.isArray(o.tags) && o.tags.some(t => /学硕/.test(t))) {
+              stuYearCountMap.set(o.year, (stuYearCountMap.get(o.year) || 0) + 1);
+            }
           });
         });
       }
@@ -745,8 +754,13 @@
         const sortedYears = Array.from(yearCountMap.entries()).sort((a, b) => b[0] - a[0]);
         let html = '<option value="">全部年份</option>';
         sortedYears.forEach(([year, count]) => {
-          const selected = activeYear === year ? 'selected' : '';
+          const selected = (activeYear === year && !window.__activeYearStu) ? 'selected' : '';
           html += `<option value="${year}" ${selected}>${year}年 (${count}题)</option>`;
+          const stuCount = stuYearCountMap.get(year) || 0;
+          if (stuCount > 0) {
+            const selStu = (activeYear === year && window.__activeYearStu) ? 'selected' : '';
+            html += `<option value="${year}(学)" ${selStu}>${year}(学) (${stuCount}题)</option>`;
+          }
         });
         yearSelectEl.innerHTML = html;
       }
@@ -763,8 +777,20 @@
       }
 
       // ---------- 绑定下拉框事件 ----------
+      // 支持选择“YYYY(学)”作为独立年份选项
+      window.__activeYearStu = false;
       yearSelectEl.addEventListener('change', (e) => {
-        activeYear = e.target.value ? parseInt(e.target.value) : null;
+        const val = e.target.value || '';
+        if (!val) {
+          activeYear = null;
+          window.__activeYearStu = false;
+        } else if (/\(学\)$/.test(val)) {
+          activeYear = parseInt(val, 10);
+          window.__activeYearStu = true;
+        } else {
+          activeYear = parseInt(val, 10);
+          window.__activeYearStu = false;
+        }
         applyFilters();
       });
 
@@ -783,7 +809,9 @@
       // 年份快捷切换
       function getYearsSorted() {
         const opts = Array.from(yearSelectEl ? yearSelectEl.options : []);
-        return opts.map(o => parseInt(o.value, 10)).filter(v => !isNaN(v)).sort((a,b)=>a-b);
+        const nums = opts.map(o => parseInt(o.value, 10)).filter(v => !isNaN(v)).sort((a,b)=>a-b);
+        // 去重
+        return Array.from(new Set(nums));
       }
       function cycleYear(dir) {
         const years = getYearsSorted();
@@ -807,7 +835,12 @@
       // ---------- 应用所有筛选条件 ----------
       function applyFilters() {
         filteredQuestions = canonicalItems.filter(item => {
-          const matchYear = !activeYear || (item.years && item.years.includes(activeYear));
+          // 年份匹配：支持普通年份和“YYYY(学)”版本
+          const matchYear = !activeYear || (item.occurrences && item.occurrences.some(o => {
+            if (!o || o.year !== activeYear) return false;
+            if (!window.__activeYearStu) return true;
+            return Array.isArray(o.tags) && o.tags.some(t => /学硕/.test(t));
+          }));
           const matchType = !activeType || (item.types && item.types.includes(activeType));
           if (!(matchYear && matchType)) return false;
           if (!activeQuery) return true;
@@ -893,10 +926,16 @@
           answerHtml = sanitizeHtml(answerHtml);
           memoryHtml = sanitizeHtml(memoryHtml);
 
+          // year labels with (学) suffix if any occurrence for that year contains tag '学硕'
+          const yearLabels = (q.years || []).map(y => {
+            const hasStu = (q.occurrences || []).some(o => o.year === y && Array.isArray(o.tags) && o.tags.some(t => /学硕/.test(t)));
+            return `<span class="year">${y}${hasStu ? '(学)' : ''}</span>`;
+          }).join('');
+
           html += `
             <div class="question-card" id="card-${q.id}" data-id="${q.id}">
               <div class="question-header">
-                ${q.years && q.years.length ? q.years.map(y => `<span class="year">${y}</span>`).join('') : ''}
+                ${yearLabels}
                 ${q.types && q.types.length ? q.types.map(t => `<span class="type">${t}</span>`).join('') : ''}
                 ${q.occurrences && q.occurrences.length > 1 ? `<span class="type" style="background:#e6fffa;color:#065f46;">出现 ${q.occurrences.length} 次</span>` : ''}
               </div>
