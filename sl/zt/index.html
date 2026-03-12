@@ -997,6 +997,19 @@
           if (/^\d{4}(年)?$/.test(s)) return true; // 纯年份或“YYYY年”
           return false;
         };
+        const isPseudoTag = (t) => {
+          const s = (t || '').trim();
+          if (!s) return true;
+          // 过滤非标签类词：学硕/复试/题型名称等
+          const rules = [
+            /^(学硕|复试)$/i,
+            /^(是非|是非题|判断|判断题)$/i,
+            /^(名词解释)$/i,
+            /^(选择题?)$/i,
+            /^(简答|简答题)$/i
+          ];
+          return rules.some(r => r.test(s));
+        };
         const tagMap = new Map();
         canonicalItems.forEach(item => {
           const occs = (item.occurrences || []).filter(o => {
@@ -1011,6 +1024,7 @@
               const key = (tag || '').trim();
               if (!key) return;
               if (isYearTag(key)) return; // 跳过年份类标签
+              if (isPseudoTag(key)) return; // 跳过非标签类词
               if (!tagMap.has(key)) tagMap.set(key, { occ: 0, qset: new Set(), qmap: new Map() });
               const rec = tagMap.get(key);
               rec.occ += 1;
