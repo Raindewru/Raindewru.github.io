@@ -71,6 +71,38 @@
       border-color: #2a5298;
       cursor: pointer;
     }
+    .article {
+      max-width: 980px;
+      width: 100%;
+    }
+    .article .section {
+      margin: 28px 0 34px;
+    }
+    .article h2, .article h3, .article h4 {
+      margin: 14px 0 10px;
+      color: #0b1e33;
+    }
+    .article p {
+      margin: 10px 0;
+      line-height: 1.9;
+      color: #334155;
+    }
+    .article table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 14px;
+      font-size: 0.96rem;
+      border: 1px solid #94a3b8;
+    }
+    .article th, .article td {
+      border: 1px solid #94a3b8;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .article th {
+      background: #f1f5f9;
+    }
     .grid {
       max-width: 980px;
       width: 100%;
@@ -90,6 +122,10 @@
       transform: translateY(-2px);
       box-shadow: 0 12px 28px rgba(0,0,0,0.06);
       border-color: #cbd5e0;
+    }
+    /* 增加卡片左右留白 */
+    .card {
+      padding: 24px 28px;
     }
     .card .meta {
       display: flex;
@@ -133,9 +169,38 @@
       display: none;
       line-height: 1.8;
       color: #334155;
-      padding-top: 6px;
+      padding: 10px 8px 0 8px;
     }
     .answer.show, .tips.show { display: block; }
+    /* p 与可视块左右留白增强 */
+    .card .question,
+    .card .answer p,
+    .card .tips p {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+    /* 题库视角表格样式（实线网格 + 表头底色） */
+    .answer table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 14px;
+      font-size: 0.96rem;
+      border: 1px solid #94a3b8;
+    }
+    .answer th, .answer td {
+      border: 1px solid #94a3b8;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .answer th {
+      background: #f1f5f9;
+    }
+    .tbl-intro {
+      margin: 6px 0 6px;
+      color: #475569;
+      font-size: 0.95rem;
+    }
     .hl-y { background:#fde047; padding:2px 6px; border-radius:4px; }
     .hl-p { background:#c4b5fd; padding:2px 6px; border-radius:4px; }
     .hl-g { background:#86efac; padding:2px 6px; border-radius:4px; }
@@ -172,6 +237,18 @@
       .toolbar { grid-template-columns: 1fr; }
     }
   </style>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
 </head>
 <body>
   <header>
@@ -180,23 +257,28 @@
   </header>
   <section class="toolbar">
     <input id="search" type="search" placeholder="搜索题干/标签，例如：齿轮、液压、热处理" />
-    <select id="category">
-      <option value="">全部分类</option>
-    </select>
     <select id="version">
-      <option value="core">精简版</option>
-      <option value="detailed">核心版</option>
-      <option value="verbatim">原文逐条版</option>
+      <option value="chapter1" selected>一、热处理与材料改性</option>
+      <option value="chapter2">二、机械传动与轴系设计</option>
+      <option value="chapter3">三、液压与气压传动</option>
+      <option value="chapter4">四、数控加工与切削技术</option>
+      <option value="chapter5">五、材料力学与理论力学</option>
+      <option value="chapter6">六、控制工程与自动化</option>
+      <option value="chapter7">七、机器人与智能制造</option>
+      <option value="chapter8">八、几何公差与互换性</option>
+      <option value="chapter9">九、电工电子基础</option>
+      <option value="chapter10">十、其他关键概念</option>
     </select>
     <button id="clear">清空筛选</button>
   </section>
   <main class="grid" id="list"></main>
+  <main class="grid" id="book" style="display:none;"></main>
   <button id="fabLove" class="fab-love" title="一键打开/关闭所有答案" aria-pressed="false">❤</button>
   <footer>© MS</footer>
   <script>
     const listEl = document.getElementById('list');
+    const bookEl = document.getElementById('book');
     const searchEl = document.getElementById('search');
-    const catEl = document.getElementById('category');
     const verEl = document.getElementById('version');
     const clearBtn = document.getElementById('clear');
     const fabLove = document.getElementById('fabLove');
@@ -204,10 +286,21 @@
     let filtered = [];
     let categories = [];
     let allAnswersOpen = false;
+    let chapterLoaded = false;
     const sources = {
       core: './data/questions.json',
       detailed: './data/questions_detailed.json',
-      verbatim: './data/questions_verbatim.json'
+      verbatim: './data/questions_verbatim.json',
+      chapter1: './data/detail_ch1.json',
+      chapter2: './data/detail_ch2.json',
+      chapter3: './data/detail_ch3.json',
+      chapter4: './data/detail_ch4.json',
+      chapter5: './data/detail_ch5.json',
+      chapter6: './data/detail_ch6.json',
+      chapter7: './data/detail_ch7.json',
+      chapter8: './data/detail_ch8.json',
+      chapter9: './data/detail_ch9.json',
+      chapter10: './data/detail_ch10.json'
     };
     function sanitize(s) {
       return (s || '').replace(/\\n/g, '<br>');
@@ -253,6 +346,9 @@
         `;
       }).join('');
       listEl.innerHTML = html;
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([listEl]).catch(()=>{});
+      }
       listEl.querySelectorAll('.btn-answer').forEach(b => {
         b.addEventListener('click', (e) => {
           const id = e.currentTarget.getAttribute('data-id');
@@ -279,28 +375,116 @@
     }
     function applyFilters() {
       const q = (searchEl.value || '').trim().toLowerCase();
-      const c = catEl.value || '';
       filtered = data.filter(it => {
         const t = [it.question, it.answer, (it.tags || []).join(' ')].join(' ').toLowerCase();
         const hitQ = !q || t.includes(q);
-        const hitC = !c || it.category === c;
-        return hitQ && hitC;
+        return hitQ;
       });
       renderList();
     }
-    function buildCategories() {
-      categories = Array.from(new Set(data.map(it => it.category).filter(Boolean)));
-      catEl.innerHTML = '<option value="">全部分类</option>' + categories.map(c => `<option value="${c}">${c}</option>`).join('');
+    function chapterHtmlHighlight(html) {
+      if (!html) return '';
+      // 只要段落包含公式标记，直接返回原 HTML（不做彩色高亮），保留粗体
+      const hasMath = /\\\(|\\\[|\$/.test(html);
+      if (hasMath) return html;
+      let t = html;
+      t = t.replace(/<strong>(.*?)<\/strong>/g, '<span class="hl-y">$1</span>');
+      t = t.replace(/(提高|增加|增强|升高|加快|扩大)/g, '<span class="hl-g">$1</span>');
+      t = t.replace(/(降低|减小|减弱|下降|减慢|缩小)/g, '<span class="hl-r">$1</span>');
+      t = t.replace(/(优点|缺点|注意|要点|原因|结论|原则|关键|核心|定义|特点|对比|适用场景|适用于)/g, '<span class="hl-b">$1</span>');
+      t = t.replace(/(硬度|强度|韧性|疲劳|磨损|效率|精度)/g, '<span class="hl-y">$1</span>');
+      t = t.replace(/\b(HRC|HB|HV|MPa|℃|mm|m\/s)\b/g, '<span class="hl-p">$1</span>');
+      return t;
+    }
+    function escapeHtml(s) {
+      return (s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+    function mdInline(src) {
+      let s = escapeHtml(src || '');
+      // links [text](url)
+      s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+      // inline code `code`
+      s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+      // bold **text**
+      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      // italic *text*
+      s = s.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+      // newlines to <br>
+      s = s.replace(/\n/g, '<br>');
+      return s;
+    }
+    function blocksToHtml(blocks) {
+      return (blocks || []).map(b => {
+        if (b.type === 'paragraph') {
+          const txt = (b.text || '').trim();
+          const html = mdInline(txt);
+          return chapterHtmlHighlight(`<p>${html}</p>`);
+        }
+        if (b.type === 'table') {
+          const intro = `<p class="tbl-intro">下表为本小节关键要点对比：</p>`;
+          const thead = b.header ? `<thead><tr>${b.header.map((h,i)=>`<th${b.align && b.align[i] ? ` style="text-align:${b.align[i]};"`:''}>${h}</th>`).join('')}</tr></thead>` : '';
+          const tbody = `<tbody>${(b.rows||[]).map(r=>`<tr>${r.map((c,i)=>`<td${b.align && b.align[i] ? ` style="text-align:${b.align[i]};"`:''}>${mdInline(c)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+          return `${intro}<table>${thead}${tbody}</table>`;
+        }
+        if (b.type === 'list') {
+          const items = (b.items||[]).map(it => `<li>${mdInline(it.text || '')}</li>`).join('');
+          return b.ordered ? `<ol>${items}</ol>` : `<ul>${items}</ul>`;
+        }
+        return '';
+      }).join('');
+    }
+    function buildChapterQA(doc) {
+      const chapterTitle = (doc && doc.meta && doc.meta.title)
+        ? doc.meta.title.replace(/^[一二三四五六七八九十]+、/, '')
+        : '本章';
+      const blocks = (doc && doc.blocks) || [];
+      // 收集三级标题为题目，聚合其后的内容至下一个三级标题或章节结束
+      const items = [];
+      const cat = chapterTitle;
+      // 找到所有 depth===3 的 heading 索引
+      const indices = [];
+      for (let i = 0; i < blocks.length; i++) {
+        const b = blocks[i];
+        if (b.type === 'heading' && b.depth === 3) indices.push(i);
+      }
+      for (let k = 0; k < indices.length; k++) {
+        const start = indices[k];
+        const end = k + 1 < indices.length ? indices[k+1] : blocks.length;
+        const head = blocks[start];
+        const content = blocks.slice(start + 1, end);
+        const answerHtml = blocksToHtml(content);
+        items.push({
+          id: head.id || ('chap1-' + k),
+          category: cat,
+          question: head.text || ('小节 ' + (k+1)),
+          answer: chapterHtmlHighlight(answerHtml),
+          tips: '',
+          tags: [cat]
+        });
+      }
+      return items;
     }
     function loadData() {
-      const src = sources[verEl.value] || sources.core;
-      const verLabel = verEl.value === 'detailed' ? '核心版' : (verEl.value === 'verbatim' ? '原文逐条版' : '精简版');
+      const srcKey = verEl.value;
+      const src = sources[srcKey] || sources.core;
+      const verLabel =
+        srcKey === 'detailed' ? '核心版' :
+        (srcKey === 'verbatim' ? '原文逐条版' :
+        (srcKey.startsWith && srcKey.startsWith('chapter') ? '章节题库' : '精简版'));
       listEl.innerHTML = '<p style=\"text-align:center; color:#718096; padding:2rem;\">正在加载 ' + verLabel + ' 数据...</p>';
       fetch(src)
         .then(r => r.json())
         .then(json => {
-          data = json || [];
-          buildCategories();
+          if (srcKey.startsWith && srcKey.startsWith('chapter')) {
+            data = buildChapterQA(json);
+          } else {
+            data = json || [];
+          }
           applyFilters();
         })
         .catch(() => {
@@ -308,17 +492,74 @@
         });
     }
     searchEl.addEventListener('input', applyFilters);
-    catEl.addEventListener('change', applyFilters);
     verEl.addEventListener('change', () => {
       searchEl.value = '';
-      catEl.value = '';
       loadData();
     });
     clearBtn.addEventListener('click', () => {
       searchEl.value = '';
-      catEl.value = '';
       applyFilters();
     });
+    function renderChapter(doc) {
+      const blocks = doc && doc.blocks ? doc.blocks : [];
+      const parts = [];
+      let section = [];
+      let title = '';
+      for (let i = 0; i < blocks.length; i++) {
+        const b = blocks[i];
+        if (b.type === 'heading' && b.depth === 2) {
+          title = `<h2 id="${b.id}">${mdInline(b.text || '')}</h2>`;
+          continue;
+        }
+        if (b.type === 'heading' && b.depth === 3) {
+          if (section.length) {
+            parts.push(`<div class="section">${section.join('')}</div>`);
+            section = [];
+          }
+          section.push(`<h3 id="${b.id}">${mdInline(b.text || '')}</h3>`);
+          continue;
+        }
+        if (b.type === 'paragraph') {
+          const txt = (b.text || '').trim();
+          const html = mdInline(txt);
+          section.push(chapterHtmlHighlight(`<p>${html}</p>`));
+          continue;
+        }
+        if (b.type === 'table') {
+          const intro = `<p class="tbl-intro">下表为本小节关键要点对比：</p>`;
+          const thead = b.header ? `<thead><tr>${b.header.map((h,i)=>`<th${b.align && b.align[i] ? ` style="text-align:${b.align[i]};"`:''}>${h}</th>`).join('')}</tr></thead>` : '';
+          const tbody = `<tbody>${(b.rows||[]).map(r=>`<tr>${r.map((c,i)=>`<td${b.align && b.align[i] ? ` style="text-align:${b.align[i]};"`:''}>${mdInline(c)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+          section.push(`${intro}<table>${thead}${tbody}</table>`);
+          continue;
+        }
+        if (b.type === 'list') {
+          const items = (b.items||[]).map(it => `<li>${mdInline(it.text || '')}</li>`).join('');
+          section.push(b.ordered ? `<ol>${items}</ol>` : `<ul>${items}</ul>`);
+          continue;
+        }
+      }
+      if (section.length) parts.push(`<div class="section">${section.join('')}</div>`);
+      const html = [title, ...parts].join('');
+      bookEl.innerHTML = `<div class="card article">${html}</div>`;
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([bookEl]).catch(()=>{});
+      }
+    }
+    function loadChapter() {
+      if (chapterLoaded) return;
+      const v = (verEl.value && verEl.value.startsWith('chapter')) ? verEl.value : 'chapter1';
+      const src = sources[v] || sources['chapter1'];
+      bookEl.innerHTML = '<p style="text-align:center; color:#718096; padding:2rem;">正在加载章节...</p>';
+      fetch(src)
+        .then(r => r.json())
+        .then(json => {
+          renderChapter(json);
+          chapterLoaded = true;
+        })
+        .catch(() => {
+          bookEl.innerHTML = '<p style="text-align:center; color:#ef4444; padding:2rem;">章节加载失败，请稍后重试。</p>';
+        });
+    }
     loadData();
   </script>
 </body>
