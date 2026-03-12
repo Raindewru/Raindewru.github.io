@@ -1025,12 +1025,13 @@
               if (!key) return;
               if (isYearTag(key)) return; // 跳过年份类标签
               if (isPseudoTag(key)) return; // 跳过非标签类词
-              if (!tagMap.has(key)) tagMap.set(key, { occ: 0, qset: new Set(), qmap: new Map() });
+              if (!tagMap.has(key)) tagMap.set(key, { occ: 0, qset: new Set(), qmap: new Map(), qcnt: new Map() });
               const rec = tagMap.get(key);
               rec.occ += 1;
               rec.qset.add(item.id);
               const title = (item.question || '').replace(/\s+/g, ' ').slice(0, 30);
               if (!rec.qmap.has(item.id)) rec.qmap.set(item.id, title);
+              rec.qcnt.set(item.id, (rec.qcnt.get(item.id) || 0) + 1);
             });
           });
         });
@@ -1039,7 +1040,7 @@
             tag,
             occ: rec.occ,
             q: rec.qset.size,
-            items: Array.from(rec.qmap.entries()).map(([id, title]) => ({ id, title }))
+            items: Array.from(rec.qmap.entries()).map(([id, title]) => ({ id, title, count: rec.qcnt.get(id) || 1 }))
           };
         });
       }
@@ -1066,7 +1067,7 @@
                   <div class="stat-count"><span>出现</span><strong>${r.occ}</strong><span>次</span>｜<span>题目</span><strong>${r.q}</strong><span>道</span></div>
                   <div class="stat-bar" style="--w:${w};"></div>
                   <div class="stat-q-list">
-                    ${(r.items || []).map(it => `<span class="stat-q-chip" data-qid="${it.id}" title="${it.title}">${it.title}</span>`).join('')}
+                    ${(r.items || []).map(it => `<span class="stat-q-chip" data-qid="${it.id}" title="${it.title}">${it.title}<span style="margin-left:4px; font-size:11px; color:#64748b; background:#f1f5f9; border:1px solid #e2e8f0; padding:0 4px; border-radius:8px;">${it.count}</span></span>`).join('')}
                   </div>
                 </div>
               `;
