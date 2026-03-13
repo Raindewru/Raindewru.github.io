@@ -43,13 +43,18 @@
       padding: 14px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.03);
       display: grid;
-      grid-template-columns: 1fr 240px 120px;
+      grid-template-columns: 320px 110px 280px 110px;
       gap: 12px;
       align-items: center;
+      justify-content: space-between;
       margin-bottom: 18px;
+      position: sticky;
+      top: 72px;
+      z-index: 950;
     }
     .toolbar input[type="search"] {
       width: 100%;
+      max-width: 320px;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
       padding: 12px 14px;
@@ -70,6 +75,16 @@
       color: #ffffff;
       border-color: #2a5298;
       cursor: pointer;
+    }
+    .toolbar button.btn-nav {
+      background: #ffffff;
+      color: #2a5298;
+      border-color: #2a5298;
+      font-weight: 800;
+    }
+    .toolbar button.btn-nav:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
     }
     .article {
       max-width: 980px;
@@ -149,6 +164,23 @@
       color: #0b1e33;
       margin-bottom: 10px;
       line-height: 1.6;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .qno {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 26px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid #dbeafe;
+      background: #eff6ff;
+      color: #1e3c72;
+      font-weight: 900;
+      flex: 0 0 auto;
     }
     .actions {
       display: flex;
@@ -165,11 +197,70 @@
       cursor: pointer;
       font-size: 14px;
     }
-    .answer, .tips {
+    .panel {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-top: 10px;
+      background: #ffffff;
+    }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e2e8f0;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+    .panel-answer .panel-head { background: #eef2ff; color: #2a3a8a; }
+    .panel-tips .panel-head { background: #ecfeff; color: #0e7490; }
+    .panel-note .panel-head { background: #f1f5f9; color: #0b1e33; }
+    .panel-body {
       display: none;
-      line-height: 1.8;
+      line-height: 1.85;
       color: #334155;
-      padding: 10px 8px 0 8px;
+      padding: 12px 14px 14px;
+    }
+    .note-body {
+      padding: 12px 14px 14px;
+    }
+    .note-text {
+      width: 100%;
+      min-height: 112px;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      outline: none;
+      resize: vertical;
+      background: #fbfdff;
+      color: #0b1e33;
+    }
+    .note-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .note-actions .btn {
+      height: 34px;
+      font-size: 13px;
+    }
+    .btn-note-clear {
+      background: #ffffff;
+      border-color: #cbd5e1;
+      color: #0b1e33;
+    }
+    .note-status {
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+    }
+    .answer, .tips {
+      padding: 0;
     }
     .answer.show, .tips.show { display: block; }
     /* p 与可视块左右留白增强 */
@@ -201,11 +292,13 @@
       color: #475569;
       font-size: 0.95rem;
     }
-    .hl-y { background:#fde047; padding:2px 6px; border-radius:4px; }
-    .hl-p { background:#c4b5fd; padding:2px 6px; border-radius:4px; }
-    .hl-g { background:#86efac; padding:2px 6px; border-radius:4px; }
-    .hl-b { background:#dbeafe; padding:2px 6px; border-radius:4px; }
-    .hl-r { background:#fca5a5; padding:2px 6px; border-radius:4px; }
+    .hl-y { background:#fde047; padding:2px 6px; border-radius:4px; font-weight: 800; }
+    .hl-p { background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight: 750; }
+    .hl-g { background:#86efac; padding:2px 6px; border-radius:4px; font-weight: 750; }
+    .hl-b { background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight: 750; }
+    .hl-r { background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight: 750; }
+    .rich-list { margin: 10px 0 6px 22px; padding: 0; }
+    .rich-list li { margin: 6px 0; line-height: 1.85; }
     footer {
       margin: 20px 0;
       color: #718096;
@@ -234,12 +327,15 @@
     .fab-love:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(230,57,70,0.45); }
     .fab-love.active { background: #c1121f; }
     .top-nav {
-      position: fixed;
-      top: 14px;
-      right: 14px;
+      position: sticky;
+      top: 12px;
+      max-width: 980px;
+      width: 100%;
       display: flex;
+      justify-content: flex-end;
       gap: 8px;
       z-index: 1000;
+      margin-bottom: 10px;
     }
     .top-nav a {
       background: #ffffff;
@@ -260,7 +356,8 @@
     }
     @media (max-width: 720px) {
       .toolbar { grid-template-columns: 1fr; }
-      .top-nav { top: 10px; right: 10px; }
+      .toolbar { top: 64px; }
+      .top-nav { top: 10px; }
       .top-nav a { padding: 6px 10px; }
     }
   </style>
@@ -289,8 +386,10 @@
   </header>
   <section class="toolbar">
     <input id="search" type="search" placeholder="搜索题干/标签，例如：齿轮、液压、热处理" />
+    <button id="prevChapter" class="btn-nav" type="button">上一章</button>
     <select id="version">
-      <option value="chapter1" selected>一、热处理与材料改性</option>
+      <option value="detail" selected>全部题集</option>
+      <option value="chapter1">一、热处理与材料改性</option>
       <option value="chapter2">二、机械传动与轴系设计</option>
       <option value="chapter3">三、液压与气压传动</option>
       <option value="chapter4">四、数控加工与切削技术</option>
@@ -301,7 +400,7 @@
       <option value="chapter9">九、电工电子基础</option>
       <option value="chapter10">十、其他关键概念</option>
     </select>
-    <button id="clear">清空筛选</button>
+    <button id="nextChapter" class="btn-nav" type="button">下一章</button>
   </section>
   <main class="grid" id="list"></main>
   <main class="grid" id="book" style="display:none;"></main>
@@ -312,68 +411,242 @@
     const bookEl = document.getElementById('book');
     const searchEl = document.getElementById('search');
     const verEl = document.getElementById('version');
-    const clearBtn = document.getElementById('clear');
+    const prevChapterBtn = document.getElementById('prevChapter');
+    const nextChapterBtn = document.getElementById('nextChapter');
     const fabLove = document.getElementById('fabLove');
+    let fullData = [];
     let data = [];
     let filtered = [];
     let categories = [];
-    let allAnswersOpen = false;
+    let allAnswersOpen = true;
     let chapterLoaded = false;
     const sources = {
-      core: './data/questions.json',
-      detailed: './data/questions_detailed.json',
-      verbatim: './data/questions_verbatim.json',
-      chapter1: './data/detail_ch1.json',
-      chapter2: './data/detail_ch2.json',
-      chapter3: './data/detail_ch3.json',
-      chapter4: './data/detail_ch4.json',
-      chapter5: './data/detail_ch5.json',
-      chapter6: './data/detail_ch6.json',
-      chapter7: './data/detail_ch7.json',
-      chapter8: './data/detail_ch8.json',
-      chapter9: './data/detail_ch9.json',
-      chapter10: './data/detail_ch10.json'
+      detail: './data/detail.json'
     };
+    const chapterTitles = {
+      chapter1: '一、热处理与材料改性',
+      chapter2: '二、机械传动与轴系设计',
+      chapter3: '三、液压与气压传动',
+      chapter4: '四、数控加工与切削技术',
+      chapter5: '五、材料力学与理论力学',
+      chapter6: '六、控制工程与自动化',
+      chapter7: '七、机器人与智能制造',
+      chapter8: '八、几何公差与互换性',
+      chapter9: '九、电工电子基础',
+      chapter10: '十、其他关键概念'
+    };
+    const NOTE_NS = 'ms_notes_v1';
+    const noteTimers = new Map();
+    function noteKey(id) {
+      return NOTE_NS + ':' + String(id || '');
+    }
+    function getNoteText(id) {
+      const k = noteKey(id);
+      try {
+        const raw = localStorage.getItem(k);
+        if (!raw) return '';
+        const v = JSON.parse(raw);
+        if (v && typeof v.text === 'string') return v.text;
+        if (typeof v === 'string') return v;
+        return '';
+      } catch {
+        return '';
+      }
+    }
+    function setNoteText(id, text) {
+      const k = noteKey(id);
+      const payload = { text: String(text || ''), updatedAt: Date.now() };
+      localStorage.setItem(k, JSON.stringify(payload));
+    }
+    function clearNote(id) {
+      localStorage.removeItem(noteKey(id));
+    }
+    function setNoteStatus(id, text) {
+      const el = document.getElementById('note-status-' + id);
+      if (!el) return;
+      el.textContent = text || '';
+      if (text) {
+        setTimeout(() => {
+          const cur = document.getElementById('note-status-' + id);
+          if (cur && cur.textContent === text) cur.textContent = '';
+        }, 1200);
+      }
+    }
     function sanitize(s) {
       return (s || '').replace(/\\n/g, '<br>');
+    }
+    function normalizeNewlines(s) {
+      return String(s || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    }
+    function looksLikeHtml(s) {
+      return /<\/(p|table|ul|ol|div|h\d)>/i.test(String(s || ''));
+    }
+    function parseMarkdownTableBlock(raw) {
+      const src = normalizeNewlines(raw);
+      const lines = src.split('\n');
+      const nonEmpty = [];
+      for (let i = 0; i < lines.length; i++) {
+        const t = lines[i].trim();
+        if (t) nonEmpty.push({ i, t });
+      }
+      if (nonEmpty.length < 2) return null;
+      const header = nonEmpty[0];
+      const sep = nonEmpty[1];
+      if (!header.t.includes('|')) return null;
+      if (!/---/.test(sep.t)) return null;
+      const rowCells = (line) => {
+        let cells = line.split('|');
+        if (cells.length && cells[0].trim() === '') cells = cells.slice(1);
+        if (cells.length && cells[cells.length - 1].trim() === '') cells = cells.slice(0, -1);
+        return cells.map(c => c.trim());
+      };
+      const tableLines = [header.t, sep.t];
+      let lastLineIndex = sep.i;
+      for (let k = 2; k < nonEmpty.length; k++) {
+        const cur = nonEmpty[k];
+        if (!cur.t.includes('|')) break;
+        tableLines.push(cur.t);
+        lastLineIndex = cur.i;
+      }
+      const headerCells = rowCells(tableLines[0]);
+      const rows = tableLines.slice(2).map(rowCells).filter(r => r.length);
+      const thead = `<thead><tr>${headerCells.map(h => `<th>${mdInline(h)}</th>`).join('')}</tr></thead>`;
+      const tbody = `<tbody>${rows.map(r => `<tr>${r.map(c => `<td>${mdInline(c)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+      const tableHtml = `<div class="tbl-intro">下表为本题关键要点对比：</div><table>${thead}${tbody}</table>`;
+      const restRaw = lines.slice(lastLineIndex + 1).join('\n').trim();
+      return { tableHtml, restRaw };
+    }
+    function renderRichText(raw) {
+      const src = normalizeNewlines(raw);
+      const tableBlock = parseMarkdownTableBlock(src);
+      if (tableBlock) {
+        const tail = tableBlock.restRaw ? renderRichText(tableBlock.restRaw) : '';
+        return chapterHtmlHighlight(tableBlock.tableHtml) + tail;
+      }
+      const lines = src.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      if (!lines.length) return '';
+      const bulletRe = /^([-*•]\s+|\d+[.、]\s+|[①②③④⑤⑥⑦⑧⑨⑩]\s*)/;
+      const bulletCount = lines.filter(l => bulletRe.test(l)).length;
+      if (lines.length >= 2 && bulletCount / lines.length >= 0.5) {
+        const items = lines.map(l => l.replace(bulletRe, '').trim()).filter(Boolean);
+        const html = `<ul class="rich-list">${items.map(it => `<li>${mdInline(it)}</li>`).join('')}</ul>`;
+        return chapterHtmlHighlight(html);
+      }
+      const html = lines.map(l => {
+        const idx = l.indexOf('：');
+        if (idx > 0 && idx <= 18) {
+          const head = l.slice(0, idx).trim();
+          const tail = l.slice(idx + 1).trim();
+          if (head && tail) {
+            const boosted = `**${head}**：${tail}`;
+            return chapterHtmlHighlight(`<p>${mdInline(boosted)}</p>`);
+          }
+        }
+        return chapterHtmlHighlight(`<p>${mdInline(l)}</p>`);
+      }).join('');
+      return html;
+    }
+    function renderContent(v) {
+      if (v == null) return '';
+      const s = String(v);
+      if (looksLikeHtml(s)) return s;
+      return renderRichText(s);
     }
     function setAllAnswers(open) {
       allAnswersOpen = !!open;
       const answers = document.querySelectorAll('.answer');
-      const btns = document.querySelectorAll('.btn-answer');
+      const tips = document.querySelectorAll('.tips');
+      const btnAns = document.querySelectorAll('.btn-answer');
+      const btnTips = document.querySelectorAll('.btn-tips');
       answers.forEach(el => el.classList.toggle('show', allAnswersOpen));
-      btns.forEach(b => {
+      tips.forEach(el => el.classList.toggle('show', allAnswersOpen));
+      const bodies = document.querySelectorAll('.panel-body');
+      bodies.forEach(el => el.style.display = allAnswersOpen ? 'block' : 'none');
+      btnAns.forEach(b => {
         const id = b.getAttribute('data-id');
         const el = document.getElementById('ans-' + id);
         if (!el) return;
         b.textContent = el.classList.contains('show') ? '📖 隐藏答案' : '📖 显示答案';
       });
+      btnTips.forEach(b => {
+        const id = b.getAttribute('data-id');
+        const el = document.getElementById('tips-' + id);
+        if (!el) return;
+        b.textContent = el.classList.contains('show') ? '🧠 隐藏要点' : '🧠 记忆要点';
+      });
       fabLove.classList.toggle('active', allAnswersOpen);
       fabLove.setAttribute('aria-pressed', allAnswersOpen ? 'true' : 'false');
-      fabLove.title = allAnswersOpen ? '关闭所有答案' : '打开所有答案';
+      fabLove.title = allAnswersOpen ? '关闭所有答案/要点' : '打开所有答案/要点';
       fabLove.innerText = allAnswersOpen ? '❤' : '♡';
     }
     fabLove.addEventListener('click', () => setAllAnswers(!allAnswersOpen));
+    function updateChapterNavButtons() {
+      const i = verEl.selectedIndex;
+      prevChapterBtn.disabled = i <= 0;
+      nextChapterBtn.disabled = i >= verEl.options.length - 1;
+    }
+    prevChapterBtn.addEventListener('click', () => {
+      const i = verEl.selectedIndex;
+      if (i > 0) {
+        verEl.selectedIndex = i - 1;
+        verEl.dispatchEvent(new Event('change'));
+      }
+    });
+    nextChapterBtn.addEventListener('click', () => {
+      const i = verEl.selectedIndex;
+      if (i < verEl.options.length - 1) {
+        verEl.selectedIndex = i + 1;
+        verEl.dispatchEvent(new Event('change'));
+      }
+    });
     function renderList() {
       if (!filtered.length) {
         listEl.innerHTML = '<p style="text-align:center; color:#718096; padding:2rem;">暂无结果，请更换关键词或分类。</p>';
         return;
       }
-      const html = filtered.map(item => {
-        const tags = (item.tags || []).map(t => `<span class="chip" data-tag="${t}">${t}</span>`).join('');
+      const html = filtered.map((item, idx) => {
+        const tags = (item.tags || [])
+          .filter(t => t && t !== item.category)
+          .map(t => `<span class="chip" data-tag="${t}">${t}</span>`)
+          .join('');
+        const ansShow = allAnswersOpen ? ' show' : '';
+        const tipsShow = allAnswersOpen ? ' show' : '';
+        const ansBtn = allAnswersOpen ? '📖 隐藏答案' : '📖 显示答案';
+        const tipsBtn = allAnswersOpen ? '🧠 隐藏要点' : '🧠 记忆要点';
         return `
           <div class="card" data-id="${item.id}">
             <div class="meta">
               <span class="chip">${item.category || '未分类'}</span>
               ${tags}
             </div>
-            <div class="question">${item.question}</div>
+            <div class="question"><span class="qno">${idx + 1}</span><span>${item.question}</span></div>
             <div class="actions">
-              <button class="btn btn-answer" data-id="${item.id}">📖 显示答案</button>
-              ${item.tips ? `<button class="btn btn-tips" data-id="${item.id}">🧠 记忆要点</button>` : ''}
+              <button class="btn btn-answer" data-id="${item.id}">${ansBtn}</button>
+              ${item.tips ? `<button class="btn btn-tips" data-id="${item.id}">${tipsBtn}</button>` : ''}
             </div>
-            <div class="answer" id="ans-${item.id}">${sanitize(item.answer)}</div>
-            ${item.tips ? `<div class="tips" id="tips-${item.id}">${sanitize(item.tips)}</div>` : ''}
+            <div class="panel panel-answer">
+              <div class="panel-head">答案</div>
+              <div class="panel-body answer${ansShow}" id="ans-${item.id}" style="display:${allAnswersOpen ? 'block' : 'none'}">${renderContent(item.answer)}</div>
+            </div>
+            ${item.tips ? `
+              <div class="panel panel-tips">
+                <div class="panel-head">记忆要点</div>
+                <div class="panel-body tips${tipsShow}" id="tips-${item.id}" style="display:${allAnswersOpen ? 'block' : 'none'}">${renderContent(item.tips)}</div>
+              </div>
+            ` : ''}
+            <div class="panel panel-note">
+              <div class="panel-head">
+                <span>我的笔记</span>
+                <span class="note-status" id="note-status-${item.id}"></span>
+              </div>
+              <div class="note-body">
+                <textarea class="note-text" id="note-${item.id}" placeholder="写下你的笔记（仅本机可见，按题目 id 自动保存）"></textarea>
+                <div class="note-actions">
+                  <button class="btn btn-note-save" type="button" data-id="${item.id}">保存</button>
+                  <button class="btn btn-note-clear" type="button" data-id="${item.id}">清空</button>
+                </div>
+              </div>
+            </div>
           </div>
         `;
       }).join('');
@@ -385,7 +658,10 @@
         b.addEventListener('click', (e) => {
           const id = e.currentTarget.getAttribute('data-id');
           const el = document.getElementById('ans-' + id);
-          if (el) el.classList.toggle('show');
+          if (el) {
+            el.classList.toggle('show');
+            el.style.display = el.classList.contains('show') ? 'block' : 'none';
+          }
           e.currentTarget.textContent = el && el.classList.contains('show') ? '📖 隐藏答案' : '📖 显示答案';
         });
       });
@@ -393,7 +669,10 @@
         b.addEventListener('click', (e) => {
           const id = e.currentTarget.getAttribute('data-id');
           const el = document.getElementById('tips-' + id);
-          if (el) el.classList.toggle('show');
+          if (el) {
+            el.classList.toggle('show');
+            el.style.display = el.classList.contains('show') ? 'block' : 'none';
+          }
           e.currentTarget.textContent = el && el.classList.contains('show') ? '🧠 隐藏要点' : '🧠 记忆要点';
         });
       });
@@ -403,14 +682,60 @@
           applyFilters();
         });
       });
-      if (allAnswersOpen) setAllAnswers(true);
+      listEl.querySelectorAll('.note-text').forEach(t => {
+        const id = (t.id || '').replace(/^note-/, '');
+        t.value = getNoteText(id);
+        t.addEventListener('input', () => {
+          const prev = noteTimers.get(id);
+          if (prev) clearTimeout(prev);
+          const timer = setTimeout(() => {
+            try {
+              setNoteText(id, t.value);
+              setNoteStatus(id, '已保存');
+            } catch {
+              setNoteStatus(id, '保存失败');
+            }
+          }, 350);
+          noteTimers.set(id, timer);
+        });
+      });
+      listEl.querySelectorAll('.btn-note-save').forEach(b => {
+        b.addEventListener('click', (e) => {
+          const id = e.currentTarget.getAttribute('data-id');
+          const t = document.getElementById('note-' + id);
+          try {
+            setNoteText(id, t ? t.value : '');
+            setNoteStatus(id, '已保存');
+          } catch {
+            setNoteStatus(id, '保存失败');
+          }
+        });
+      });
+      listEl.querySelectorAll('.btn-note-clear').forEach(b => {
+        b.addEventListener('click', (e) => {
+          const id = e.currentTarget.getAttribute('data-id');
+          const t = document.getElementById('note-' + id);
+          if (t) t.value = '';
+          try {
+            clearNote(id);
+            setNoteStatus(id, '已清空');
+          } catch {
+            setNoteStatus(id, '清空失败');
+          }
+        });
+      });
     }
     function applyFilters() {
       const q = (searchEl.value || '').trim().toLowerCase();
+      const chapterTitle = getSelectedChapterTitle();
+      data = fullData.filter(it => {
+        if (!chapterTitle) return true;
+        const c = it.category || '';
+        return c === chapterTitle || c.startsWith(chapterTitle);
+      });
       filtered = data.filter(it => {
-        const t = [it.question, it.answer, (it.tags || []).join(' ')].join(' ').toLowerCase();
-        const hitQ = !q || t.includes(q);
-        return hitQ;
+        const t = [it.question, it.answer, it.tips, (it.tags || []).join(' ')].join(' ').toLowerCase();
+        return !q || t.includes(q);
       });
       renderList();
     }
@@ -424,8 +749,9 @@
       t = t.replace(/(提高|增加|增强|升高|加快|扩大)/g, '<span class="hl-g">$1</span>');
       t = t.replace(/(降低|减小|减弱|下降|减慢|缩小)/g, '<span class="hl-r">$1</span>');
       t = t.replace(/(优点|缺点|注意|要点|原因|结论|原则|关键|核心|定义|特点|对比|适用场景|适用于)/g, '<span class="hl-b">$1</span>');
-      t = t.replace(/(硬度|强度|韧性|疲劳|磨损|效率|精度)/g, '<span class="hl-y">$1</span>');
+      t = t.replace(/(硬度|强度|韧性|疲劳|磨损|效率|精度|应力|变形|组织|晶粒|马氏体|奥氏体|珠光体|淬火|回火|正火|退火|调质|渗碳|渗氮|表面淬火|齿轮|轴承|蜗杆|液压|气压|数控|刀具|公差|误差|定位|电阻|电容|电感|电压|电流)/g, '<span class="hl-y">$1</span>');
       t = t.replace(/\b(HRC|HB|HV|MPa|℃|mm|m\/s)\b/g, '<span class="hl-p">$1</span>');
+      t = t.replace(/(\d+(?:\.\d+)?)(?=\s*(?:℃|mm|MPa|m\/s|%|HRC|HB|HV)\b)/g, '<span class="hl-p">$1</span>');
       return t;
     }
     function escapeHtml(s) {
@@ -501,36 +827,49 @@
       }
       return items;
     }
+    function normalizeItem(it, idx) {
+      const id = (it && it.id != null) ? String(it.id) : String(idx + 1);
+      const category = (it && it.category) ? it.category : '未分类';
+      const question = (it && it.question) ? it.question : '';
+      // 兼容 detail.json 字段：answer_standard / answer_core
+      const answer = (it && (it.answer != null || it.answer_standard != null))
+        ? (it.answer != null ? it.answer : it.answer_standard)
+        : '';
+      const tips = (it && (it.tips != null || it.answer_core != null))
+        ? (it.tips != null ? it.tips : it.answer_core)
+        : '';
+      const tags = (it && Array.isArray(it.tags)) ? it.tags : (category ? [category] : []);
+      return { id, category, question, answer, tips, tags };
+    }
+    function getSelectedChapterTitle() {
+      const v = verEl.value;
+      return chapterTitles[v] || '';
+    }
     function loadData() {
-      const srcKey = verEl.value;
-      const src = sources[srcKey] || sources.core;
-      const verLabel =
-        srcKey === 'detailed' ? '核心版' :
-        (srcKey === 'verbatim' ? '原文逐条版' :
-        (srcKey.startsWith && srcKey.startsWith('chapter') ? '章节题库' : '精简版'));
-      listEl.innerHTML = '<p style=\"text-align:center; color:#718096; padding:2rem;\">正在加载 ' + verLabel + ' 数据...</p>';
-      fetch(src)
-        .then(r => r.json())
+      if (fullData.length) {
+        applyFilters();
+        updateChapterNavButtons();
+        return;
+      }
+      listEl.innerHTML = '<p style=\"text-align:center; color:#718096; padding:2rem;\">正在加载 data/detail.json...</p>';
+      fetch(sources.detail)
+        .then(r => {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
         .then(json => {
-          if (srcKey.startsWith && srcKey.startsWith('chapter')) {
-            data = buildChapterQA(json);
-          } else {
-            data = json || [];
-          }
+          fullData = (json || []).map(normalizeItem);
           applyFilters();
+          updateChapterNavButtons();
         })
         .catch(() => {
-          listEl.innerHTML = '<p style=\"text-align:center; color:#ef4444; padding:2rem;\">数据加载失败，请稍后重试。</p>';
+          listEl.innerHTML = '<p style=\"text-align:center; color:#ef4444; padding:2rem;\">数据加载失败，请检查 data/detail.json 是否存在且为合法 JSON。</p>';
         });
     }
     searchEl.addEventListener('input', applyFilters);
     verEl.addEventListener('change', () => {
       searchEl.value = '';
       loadData();
-    });
-    clearBtn.addEventListener('click', () => {
-      searchEl.value = '';
-      applyFilters();
     });
     function renderChapter(doc) {
       const blocks = doc && doc.blocks ? doc.blocks : [];

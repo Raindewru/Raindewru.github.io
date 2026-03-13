@@ -39,11 +39,11 @@
     /* 筛选栏 */
     .filter-bar {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr 2fr;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       grid-template-rows: auto auto;
       grid-template-areas:
-        "tabs year type search"
-        "tabs yearnav actions actions";
+        "tabs year type type"
+        "tabs yearnav search search";
       align-items: start;
       column-gap: 8px;
       row-gap: 6px;
@@ -56,6 +56,13 @@
       top: 12px;
       z-index: 1000;
     }
+    .tabs-wrap {
+      grid-area: tabs;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
     .view-tabs {
       display: flex;
       width: 100%;
@@ -65,7 +72,6 @@
       border: 1px solid #e2e8f0;
       border-radius: 999px;
       padding: 2px 2px;
-      grid-area: tabs;
     }
     .view-tab {
       border: 0;
@@ -102,11 +108,10 @@
       font-weight: 700;
     }
     .group-year { grid-area: year; }
-    .group-year { grid-area: year; min-width: 320px; }
+    .group-year { grid-area: year; }
     .year-nav { grid-area: yearnav; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; align-items: center; margin-left: 56px; width: calc(100% - 56px); }
     .group-type { grid-area: type; }
     .group-search { grid-area: search; }
-    .actions-cluster { grid-area: actions; justify-self: stretch; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: center; }
     .filter-label {
       font-weight: 600;
       color: #4a5568;
@@ -154,26 +159,6 @@
       margin: 20px 0 15px;
       flex-wrap: wrap;
       gap: 10px;
-    }
-    #clear-filter {
-      background: white;
-      border: 1px solid #cbd5e0;
-      padding: 8px 20px;
-      border-radius: 40px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: 0.2s;
-      color: #2d3748;
-    }
-    #clear-filter:hover {
-      background: #edf2f7;
-      border-color: #a0aec0;
-    }
-    #result-count {
-      background: #edf2f7;
-      padding: 6px 10px;
-      border-radius: 10px;
-      font-size: 0.85rem;
     }
     /* 考频面板 */
     .stats-panel {
@@ -459,12 +444,10 @@
       .question-text { font-size: 1.1rem; }
     }
     .top-nav {
-      position: fixed;
-      top: 14px;
-      right: 14px;
       display: flex;
       gap: 6px;
-      z-index: 10000;
+      justify-content: flex-end;
+      justify-content: flex-start;
     }
     .top-nav a {
       background: #ffffff;
@@ -472,7 +455,7 @@
       color: #1e3c72;
       padding: 4px 10px;
       border-radius: 999px;
-      font-size: 0.82rem;
+      font-size: 0.92rem;
       font-weight: 700;
       text-decoration: none;
       transition: 0.15s;
@@ -486,10 +469,6 @@
   </style>
 </head>
 <body>
-  <div class="top-nav">
-    <a href="../index.html">主页</a>
-    <a href="../ky/">去 KY</a>
-  </div>
   <header>
     <h1>⚙️ 机械考研真题·考频记忆</h1>
     <p>2013-2025 · 词语解释 + 论述题 · 标签考频 · 图文记忆</p>
@@ -498,9 +477,16 @@
   <main>
     <!-- 筛选栏 -->
     <section class="filter-bar">
-      <div class="view-tabs">
-        <button id="tab-questions" class="view-tab active">题目</button>
-        <button id="tab-stats" class="view-tab">考频</button>
+      <div class="tabs-wrap">
+        <div class="view-tabs">
+          <button id="tab-questions" class="view-tab active">题目</button>
+          <button id="tab-stats" class="view-tab">考频</button>
+        </div>
+        <div class="top-nav">
+          <a href="../index.html">主页</a>
+          <a href="../ky/">去 KY</a>
+          <a href="../ms/">去 MS</a>
+        </div>
       </div>
       <div class="filter-group cluster group-year">
         <label class="filter-label">📅 年份</label>
@@ -524,10 +510,6 @@
         <input id="search-input" placeholder="搜索标签 / 题目 / 答案关键字" 
                style="width:100%; height:34px; padding:0 12px 0 34px; border:2px solid #e2e8f0; border-radius:8px; background:#f7fafc; color:#2d3748; font-size:0.9rem; outline:none; transition:all .2s;
                background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:12px center;">
-      </div>
-      <div class="actions-cluster">
-        <button id="clear-filter" class="btn-compact" style="width:100%;">🗂️ 重置筛选</button>
-        <span id="result-count" style="display:inline-flex; align-items:center; justify-content:center; height:34px; width:100%; padding:0 12px; background:#edf2f7; border-radius:8px; font-size:0.85rem; color:#4a5568; font-weight:600;">📄 共 <span>0</span> 道题</span>
       </div>
     </section>
 
@@ -574,8 +556,6 @@
       const typeSelectEl = document.getElementById('type-select');
       const searchInputEl = document.getElementById('search-input');
       const questionListEl = document.getElementById('question-list');
-      const clearFilterBtn = document.getElementById('clear-filter');
-      const resultCountSpan = document.querySelector('#result-count span');
       const globalToggleBtn = document.getElementById('global-toggle');
       const prevYearBtn = document.getElementById('prev-year');
       const nextYearBtn = document.getElementById('next-year');
@@ -860,11 +840,8 @@
       function renderQuestions() {
         if (filteredQuestions.length === 0) {
           questionListEl.innerHTML = '<p style="text-align:center; padding: 3rem; color:#718096;">📭 没有符合条件的题目，请尝试其他标签。</p>';
-          resultCountSpan.textContent = 0;
           return;
         }
-
-        resultCountSpan.textContent = filteredQuestions.length;
 
         let html = '';
         filteredQuestions.forEach(q => {
@@ -1120,17 +1097,6 @@
       statsSortEl?.addEventListener('change', () => renderStats());
       tabQuestionsBtn?.addEventListener('click', () => switchView('questions'));
       tabStatsBtn?.addEventListener('click', () => switchView('stats'));
-
-      // ---------- 清空筛选 ----------
-      clearFilterBtn.addEventListener('click', () => {
-        activeYear = null;
-        activeType = null;
-        activeQuery = '';
-        yearSelectEl.value = '';
-        typeSelectEl.value = '';
-        if (searchInputEl) searchInputEl.value = '';
-        applyFilters();
-      });
 
       function setAllVisibility(open) {
         document.querySelectorAll('.answer-block').forEach(el => el.classList.toggle('hidden', !open));
