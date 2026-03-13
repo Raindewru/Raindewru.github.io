@@ -233,8 +233,35 @@
     }
     .fab-love:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(230,57,70,0.45); }
     .fab-love.active { background: #c1121f; }
+    .top-nav {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      display: flex;
+      gap: 8px;
+      z-index: 1000;
+    }
+    .top-nav a {
+      background: #ffffff;
+      border: 1.5px solid #2a5298;
+      color: #2a5298;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.15s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .top-nav a:hover {
+      background: #2a5298;
+      color: #ffffff;
+      border-color: #2a5298;
+    }
     @media (max-width: 720px) {
       .toolbar { grid-template-columns: 1fr; }
+      .top-nav { top: 10px; right: 10px; }
+      .top-nav a { padding: 6px 10px; }
     }
   </style>
   <script>
@@ -251,6 +278,11 @@
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
 </head>
 <body>
+  <div class="top-nav">
+    <a href="../index.html">主页</a>
+    <a href="../ky/">去 KY</a>
+    <a href="../zt/">去 ZT</a>
+  </div>
   <header>
     <h1>MS · 面试题库 · 专业课</h1>
     <p>分类筛选｜关键词搜索｜展开查看答案与要点，高亮重点便于速记</p>
