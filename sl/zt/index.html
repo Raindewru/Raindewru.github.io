@@ -359,6 +359,78 @@
       font-size: 1rem;
       line-height: 1.7;
     }
+    .note-panel {
+      margin-top: 18px;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+    .note-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: #f1f5f9;
+      border-bottom: 1px solid #e2e8f0;
+      font-weight: 800;
+      color: #0b1e33;
+    }
+    .note-status {
+      font-size: 12px;
+      font-weight: 800;
+      color: #64748b;
+    }
+    .note-body {
+      padding: 12px 14px 14px;
+    }
+    .note-text {
+      width: 100%;
+      min-height: 112px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      outline: none;
+      resize: vertical;
+      background: #f7fafc;
+      color: #0b1e33;
+      transition: all .2s;
+    }
+    .note-text:focus {
+      border-color: #667eea;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+    }
+    .note-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .note-btn {
+      height: var(--ctl-h);
+      border-radius: 999px;
+      padding: 0 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .note-save {
+      background: #1e3c72;
+      color: #ffffff;
+      border: 1px solid #1e3c72;
+    }
+    .note-save:hover { filter: brightness(1.02); }
+    .note-clear {
+      background: #ffffff;
+      color: #1e3c72;
+      border: 1px solid #cbd5e0;
+    }
+    .note-clear:hover { background: #f1f5f9; }
     .hidden {
       display: none;
     }
@@ -567,6 +639,44 @@
       const scrollTopBtn = document.getElementById('scroll-top');
       let globalOpen = false;
       let activeView = 'questions';
+      const NOTE_NS = 'zt_notes_v1';
+      const noteTimers = new Map();
+
+      function noteKey(id) {
+        return NOTE_NS + ':' + String(id || '');
+      }
+      function getNoteText(id) {
+        const k = noteKey(id);
+        try {
+          const raw = localStorage.getItem(k);
+          if (!raw) return '';
+          const v = JSON.parse(raw);
+          if (v && typeof v.text === 'string') return v.text;
+          if (typeof v === 'string') return v;
+          return '';
+        } catch {
+          return '';
+        }
+      }
+      function setNoteText(id, text) {
+        const k = noteKey(id);
+        const payload = { text: String(text || ''), updatedAt: Date.now() };
+        localStorage.setItem(k, JSON.stringify(payload));
+      }
+      function clearNote(id) {
+        localStorage.removeItem(noteKey(id));
+      }
+      function setNoteStatus(id, text) {
+        const el = document.getElementById('note-status-' + id);
+        if (!el) return;
+        el.textContent = text || '';
+        if (text) {
+          setTimeout(() => {
+            const cur = document.getElementById('note-status-' + id);
+            if (cur && cur.textContent === text) cur.textContent = '';
+          }, 1200);
+        }
+      }
 
       // ---------- 加载数据 ----------
       async function loadData() {
@@ -926,6 +1036,19 @@
               </div>
               <div id="answer-${q.id}" class="answer-block hidden">${answerHtml}</div>
               <div id="memory-${q.id}" class="memory-block hidden">${memoryHtml}</div>
+              <div class="note-panel" data-note-id="${q.id}">
+                <div class="note-head">
+                  <span>我的笔记</span>
+                  <span class="note-status" id="note-status-${q.id}"></span>
+                </div>
+                <div class="note-body">
+                  <textarea class="note-text" id="note-${q.id}" placeholder="写下你的笔记（仅本机可见，按题目 id 自动保存）"></textarea>
+                  <div class="note-actions">
+                    <button class="note-btn note-save" type="button" data-id="${q.id}">保存</button>
+                    <button class="note-btn note-clear" type="button" data-id="${q.id}">清空</button>
+                  </div>
+                </div>
+              </div>
             </div>
           `;
         });
@@ -959,6 +1082,49 @@
               activeQuery = tagText.toLowerCase();
               applyFilters();
               searchInputEl.focus();
+            }
+          });
+        });
+
+        document.querySelectorAll('.note-text').forEach(t => {
+          const id = (t.id || '').replace(/^note-/, '');
+          t.value = getNoteText(id);
+          t.addEventListener('input', () => {
+            const prev = noteTimers.get(id);
+            if (prev) clearTimeout(prev);
+            const timer = setTimeout(() => {
+              try {
+                setNoteText(id, t.value);
+                setNoteStatus(id, '已保存');
+              } catch {
+                setNoteStatus(id, '保存失败');
+              }
+            }, 350);
+            noteTimers.set(id, timer);
+          });
+        });
+        document.querySelectorAll('.note-save').forEach(b => {
+          b.addEventListener('click', (e) => {
+            const id = e.currentTarget.getAttribute('data-id');
+            const t = document.getElementById('note-' + id);
+            try {
+              setNoteText(id, t ? t.value : '');
+              setNoteStatus(id, '已保存');
+            } catch {
+              setNoteStatus(id, '保存失败');
+            }
+          });
+        });
+        document.querySelectorAll('.note-clear').forEach(b => {
+          b.addEventListener('click', (e) => {
+            const id = e.currentTarget.getAttribute('data-id');
+            const t = document.getElementById('note-' + id);
+            if (t) t.value = '';
+            try {
+              clearNote(id);
+              setNoteStatus(id, '已清空');
+            } catch {
+              setNoteStatus(id, '清空失败');
             }
           });
         });
