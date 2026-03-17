@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍬 萌系材料力学 · 折叠宝典</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            padding: 24px 20px;
+            background: var(--bg-pattern);
+            color: var(--text-primary);
+        }
+
+        /* 主题变量 - 粉色 (默认) */
+        [data-theme="pink"] {
+            --primary: #d46b8f;
+            --primary-light: #ffd9e8;
+            --primary-soft: #ffe2ed;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-border: #ffd5e3;
+            --card-shadow: #fbb0c8;
+            --button-bg: #ffc1d4;
+            --button-shadow: #d990aa;
+            --accent-bg: #ffe8f0;
+            --accent-border: #ffb8d2;
+            --text-primary: #5e4b5b;
+            --text-strong: #c33269;
+            --bg-pattern: #fff9fc radial-gradient(circle at 30px 30px, #ffe6f0 2px, transparent 2px), radial-gradient(circle at 80px 120px, #ffe0e8 3px, transparent 3px);
+            --bg-pattern-size: 80px 80px, 150px 150px;
+            --container-bg: rgba(255, 255, 255, 0.7);
+        }
+
+        /* 绿色主题 */
+        [data-theme="green"] {
+            --primary: #5f9e8f;
+            --primary-light: #d0f0e5;
+            --primary-soft: #e0f5ee;
+            --card-bg: rgba(240, 255, 245, 0.8);
+            --card-border: #b8e0d0;
+            --card-shadow: #9fcabc;
+            --button-bg: #b0ddcf;
+            --button-shadow: #6e9e8f;
+            --accent-bg: #daf2e8;
+            --accent-border: #8fc0b2;
+            --text-primary: #2d5e4f;
+            --text-strong: #1f7a63;
+            --bg-pattern: #f0faf7 radial-gradient(circle at 30px 30px, #c6eee0 2px, transparent 2px), radial-gradient(circle at 80px 120px, #b8e3d4 3px, transparent 3px);
+            --bg-pattern-size: 80px 80px, 150px 150px;
+            --container-bg: rgba(255, 255, 255, 0.6);
+        }
+
+        /* 蓝色主题 */
+        [data-theme="blue"] {
+            --primary: #6788b8;
+            --primary-light: #d9e6ff;
+            --primary-soft: #e3edff;
+            --card-bg: rgba(245, 250, 255, 0.85);
+            --card-border: #c0d4f0;
+            --card-shadow: #9bb5da;
+            --button-bg: #b6cdf5;
+            --button-shadow: #6783b0;
+            --accent-bg: #dde9ff;
+            --accent-border: #9bb2d9;
+            --text-primary: #2f4a73;
+            --text-strong: #265dad;
+            --bg-pattern: #f2f8ff radial-gradient(circle at 30px 30px, #d5e4ff 2px, transparent 2px), radial-gradient(circle at 80px 120px, #c7dafc 3px, transparent 3px);
+            --bg-pattern-size: 80px 80px, 150px 150px;
+            --container-bg: rgba(255, 255, 255, 0.7);
+        }
+
+        /* 黑白主题 (简约) */
+        [data-theme="gray"] {
+            --primary: #6b6b6b;
+            --primary-light: #e0e0e0;
+            --primary-soft: #f0f0f0;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: #c0c0c0;
+            --card-shadow: #a0a0a0;
+            --button-bg: #d0d0d0;
+            --button-shadow: #808080;
+            --accent-bg: #eaeaea;
+            --accent-border: #a0a0a0;
+            --text-primary: #333333;
+            --text-strong: #000000;
+            --bg-pattern: #f5f5f5 radial-gradient(circle at 30px 30px, #cccccc 1px, transparent 1px), radial-gradient(circle at 80px 120px, #bbbbbb 2px, transparent 2px);
+            --bg-pattern-size: 60px 60px, 120px 120px;
+            --container-bg: rgba(240, 240, 240, 0.8);
+        }
+
+        body {
+            background: var(--bg-pattern);
+            background-size: var(--bg-pattern-size);
+            color: var(--text-primary);
+        }
+
+        .cute-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 50px 50px 40px 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 4px 12px var(--primary-light);
+            padding: 30px 30px 40px;
+            border: 2px solid var(--card-border);
+        }
+
+        .header-cute {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px dashed var(--primary-light);
+        }
+        .header-cute h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 4px 4px 0 var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .book-selector {
+            background: var(--accent-bg);
+            border-radius: 60px;
+            padding: 8px 20px;
+            box-shadow: inset 0 -2px 0 var(--accent-border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .book-selector label {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .cute-select {
+            background: white;
+            border: 2px solid var(--accent-border);
+            border-radius: 40px;
+            padding: 8px 18px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            color: var(--text-primary);
+            outline: none;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--button-shadow);
+            transition: 0.1s ease;
+        }
+        .cute-select:hover {
+            background: var(--primary-light);
+        }
+
+        /* 主题切换栏 */
+        .theme-chooser {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            justify-content: flex-end;
+        }
+        .theme-btn {
+            background: var(--button-bg);
+            border: none;
+            border-radius: 40px;
+            padding: 8px 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            box-shadow: 0 4px 0 var(--button-shadow);
+            cursor: pointer;
+            transition: 0.08s;
+            border: 2px solid var(--card-border);
+        }
+        .theme-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 var(--button-shadow);
+        }
+
+        .nav-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+            gap: 15px;
+        }
+        .chapter-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--primary-soft);
+            padding: 8px 18px;
+            border-radius: 60px;
+            border: 2px solid var(--card-border);
+        }
+        .chapter-controls button {
+            background: var(--button-bg);
+            border: none;
+            border-radius: 40px;
+            width: 44px;
+            height: 44px;
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 5px 0 var(--button-shadow);
+            cursor: pointer;
+        }
+        .chapter-controls button:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 var(--button-shadow);
+        }
+        .chapter-controls span {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 180px;
+            text-align: center;
+            font-size: 1.3rem;
+            background: var(--accent-bg);
+            padding: 6px 12px;
+            border-radius: 40px;
+        }
+        .filter-chapter {
+            background: var(--primary-soft);
+            border-radius: 60px;
+            padding: 6px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .toggle-all-btn {
+            background: var(--button-bg);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 26px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            box-shadow: 0 6px 0 var(--button-shadow);
+            cursor: pointer;
+            transition: 0.08s;
+            border: 2px solid var(--card-border);
+        }
+        .toggle-all-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 1px 0 var(--button-shadow);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .question-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border-radius: 40px 40px 30px 30px;
+            padding: 25px 30px;
+            border: 3px solid var(--card-border);
+            box-shadow: 0 12px 0 var(--card-shadow), 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .q-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 12px solid var(--card-border);
+            padding-left: 18px;
+        }
+        .q-title::before {
+            content: "🍒";
+            font-size: 1.8rem;
+        }
+        /* 隐藏答案区域默认 */
+        .core-answer, .interview-ext {
+            display: none;  /* 初始隐藏 */
+            background: var(--accent-bg);
+            border-radius: 30px;
+            padding: 18px 22px;
+            margin-top: 18px;
+            border: 2px dashed var(--card-border);
+            font-size: 1.05rem;
+            line-height: 1.65;
+            color: var(--text-primary);
+        }
+        .show-answers .core-answer,
+        .show-answers .interview-ext {
+            display: block;  /* 当父级有show-answers类时显示 */
+        }
+        .core-answer strong, .interview-ext strong {
+            font-weight: 700;
+            color: var(--text-strong);
+            background: var(--primary-light);
+            padding: 2px 6px;
+            border-radius: 20px;
+        }
+        .sub-label {
+            display: inline-block;
+            background: var(--button-bg);
+            border-radius: 60px;
+            padding: 5px 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+        .toggle-card-btn {
+            background: var(--button-bg);
+            border: none;
+            border-radius: 60px;
+            padding: 8px 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            box-shadow: 0 4px 0 var(--button-shadow);
+            cursor: pointer;
+            font-size: 0.95rem;
+            border: 2px solid var(--card-border);
+        }
+        .empty-state {
+            background: var(--accent-bg);
+            border-radius: 60px;
+            padding: 40px;
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            border: 4px dotted var(--card-border);
+        }
+    </style>
+</head>
+<body data-theme="pink">
+    <div class="cute-container">
+        <div class="header-cute">
+            <h1><span>📘</span> 莓莓材料力学 · 折叠宝典</h1>
+            <div class="book-selector">
+                <label>📖 小书橱</label>
+                <select id="bookSelect" class="cute-select"></select>
+            </div>
+        </div>
+
+        <!-- 主题切换 + 工具条 -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div class="theme-chooser">
+                <button class="theme-btn" data-theme="pink">🌸 粉萌</button>
+                <button class="theme-btn" data-theme="green">🍀 绿野</button>
+                <button class="theme-btn" data-theme="blue">💎 蓝梦</button>
+                <button class="theme-btn" data-theme="gray">🖤 黑白</button>
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button class="toggle-all-btn" id="toggleAllBtn">🔮 展开全部答案</button>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="chapter-controls">
+                <button id="prevChapterBtn">◀</button>
+                <span id="currentChapterTitle">基本概念与基础理论类</span>
+                <button id="nextChapterBtn">▶</button>
+            </div>
+            <div class="filter-chapter">
+                <label>🍬 按章节筛选</label>
+                <select id="chapterSelect" class="cute-select"></select>
+            </div>
+        </div>
+
+        <div id="questionsContainer" class="cards-grid"></div>
+    </div>
+
+    <script>
+        (function() {
+            // ==================== 完整JSON数据 (包含全部22题) ====================
+            const booksData = {
+                "books": [
+                    {
+                        "id": "book1",
+                        "name": "🍓 材料力学（高频知识点）",
+                        "chapters": [
+                            {
+                                "id": "chap1",
+                                "title": "基本概念与基础理论类",
+                                "questions": [
+                                    {
+                                        "id": "q1",
+                                        "title": "1. 材料力学研究对象及核心任务？与理论力学区别？",
+                                        "coreAnswer": "材料力学研究对象是**构件**（梁、轴、拉杆），核心任务围绕**强度**、**刚度**、**稳定性**。\n① 强度：构件抵抗破坏的能力（如吊车梁不被拉断）；\n② 刚度：构件抵抗变形的能力（如机床主轴变形不超允许值）；\n③ 稳定性：受压构件保持原有平衡形态的能力（如细长压杆不被压弯）。\n与理论力学的区别：理论力学将物体视为**刚体**，仅研究运动与受力关系；材料力学将物体视为**变形固体**，重点分析受力与变形、破坏的内在联系。",
+                                        "interviewExtension": "**变形固体假设**包含连续性（材料内部无空隙）、均匀性（各点性能相同）、各向同性（不同方向性能相同），金属材料通常满足这些假设，而木材、复合材料需特殊分析。"
+                                    },
+                                    {
+                                        "id": "q2",
+                                        "title": "2. 什么是“应力”和“应变”？正应力、切应力与正应变、切应变的对应关系？",
+                                        "coreAnswer": "应力是构件内部单位面积上的内力（单位 Pa，\\(1\\mathrm{Pa} = 1\\mathrm{N} / \\mathrm{m}^{2}\\)），反映内力的密集程度；应变是构件单位长度的变形量（无量纲），反映变形的强弱。对应关系：\n① 正应力 \\((\\sigma)\\) 与正应变 \\((\\epsilon)\\)：正应力是垂直于截面的应力（拉/压应力），正应变是沿截面法线方向的线应变，胡克定律下满足 \\(\\sigma = E\\epsilon\\)（E为弹性模量，衡量材料抵抗线变形的能力）；\n② 切应力 \\((\\tau)\\) 与切应变 \\((\\gamma)\\)：切应力是平行于截面的应力（剪切变形产生），切应变是截面间的角变形（弧度），胡克定律下满足 \\(\\tau = G\\gamma\\)（G为切变模量，衡量材料抵抗剪切变形的能力）。",
+                                        "interviewExtension": "弹性模量E和切变模量G存在换算关系 \\(G = E / [2(1 + \\mu)]\\)（\\(\\mu\\) 为泊松比，反映横向应变与纵向应变的比值），泊松比 \\(\\mu\\) 通常在0.2-0.4之间，橡胶材料可达0.5。"
+                                    },
+                                    {
+                                        "id": "q3",
+                                        "title": "3. 材料的“强度指标”和“塑性指标”有哪些？简述拉伸试验中低碳钢的四个变形阶段。",
+                                        "coreAnswer": "强度指标是衡量材料抵抗破坏的指标，包括屈服强度（\\(\\sigma _{s}\\)，材料开始塑性变形的应力）、抗拉强度（\\(\\sigma _{B}\\)，材料能承受的最大应力）；塑性指标是衡量材料塑性变形能力的指标，包括伸长率（δ，断裂后长度变化率）、断面收缩率（\\(\\psi\\)，断裂后横截面积变化率）。\n低碳钢拉伸四阶段：①弹性阶段（应力与应变成正比，卸载后变形完全恢复，对应比例极限 \\(\\sigma _{p}\\) )；②屈服阶段（应力基本不变，应变显著增加，出现“屈服平台”，对应屈服强度 \\(\\sigma _{s}\\) )；③强化阶段（材料抵抗变形能力增强，应力应变均增加，对应抗拉强度 \\(\\sigma _{B}\\) )；④颈缩阶段（局部截面急剧缩小，应力下降，最终断裂）。",
+                                        "interviewExtension": "脆性材料（如铸铁）拉伸试验无屈服阶段和颈缩阶段，直接断裂，其强度指标仅用抗拉强度 \\(\\sigma _{B}\\) 表示；工程中常通过“冷作硬化”（强化阶段卸载后重新加载）提高材料的屈服强度。"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "chap2",
+                                "title": "杆件变形与强度计算类",
+                                "questions": [
+                                    {
+                                        "id": "q4",
+                                        "title": "4．轴向拉压杆的强度条件是什么？如何进行强度校核、截面设计和许用载荷计算？",
+                                        "coreAnswer": "轴向拉压杆的强度条件是“工作应力不超过许用应力”，公式为 \\(\\sigma _{max}= N_{max}/A\\leq [\\sigma ]\\)，其中 \\(N_{max}\\) 是最大轴力（通过轴力图确定），A是横截面面积，\\([\\sigma ]\\) 是许用应力（\\([\\sigma ]=\\sigma _{s}/[n]\\) 或 \\([\\sigma ]=\\sigma _{B}/[n]\\)，\\([n]\\) 为安全系数）。\n三类应用：①强度校核：已知A、\\([\\sigma ]\\) 和 \\(N_{max}\\)，验证 \\(\\sigma _{max}\\leq [\\sigma ]\\)；②截面设计：已知 \\(N_{max}\\) 和 \\([\\sigma ]\\)，计算最小截面面积 \\(A\\geq N_{max}/[\\sigma ]\\)；③许用载荷计算：已知A和 \\([\\sigma ]\\)，计算最大许用轴力 \\([N]=A[\\sigma ]\\)，再换算为许用载荷。",
+                                        "interviewExtension": "变截面拉压杆需分段计算应力，最大应力可能出现在轴力大或截面积小的截面；对于阶梯杆，需绘制轴力图并结合截面尺寸确定危险截面。"
+                                    },
+                                    {
+                                        "id": "q5",
+                                        "title": "5．圆轴扭转时的强度条件和刚度条件是什么？如何判断扭转时的危险截面和危险点？",
+                                        "coreAnswer": "扭转强度条件：\\(\\tau_{\\mathrm{max}} = T_{\\mathrm{max}} / W_{\\mathrm{t}} \\leq [\\tau ]\\)，其中 \\(T_{\\mathrm{max}}\\) 是最大扭矩（通过扭矩图确定），\\(W_{\\mathrm{t}}\\) 是抗扭截面系数（圆轴 \\(W_{\\mathrm{t}} = \\pi \\mathrm{d}^{3} / 16\\)，空心圆轴 \\(W_{\\mathrm{t}} = \\pi (D^{4} - d^{4}) / (16D)\\)），\\([\\tau ]\\) 是许用切应力。扭转刚度条件：\\(\\phi_{\\mathrm{max}}^{\\prime} = T_{\\mathrm{max}} / (\\mathrm{GIP}) \\times (180 / \\pi) \\leq [\\phi ]\\)（单位°/m），其中IP是极惯性矩（圆轴 \\(\\mathrm{IP} = \\pi \\mathrm{d}^{4} / 32\\)），\\([\\phi ]\\) 是许用单位长度扭转角。危险截面判断：扭矩T最大且抗扭截面系数 \\(W_{\\mathrm{t}}\\) 最小的截面；危险点判断：危险截面边缘各点（切应力最大）。",
+                                        "interviewExtension": "空心圆轴比实心圆轴更经济（相同材料和重量下，空心轴IP和 \\(W_{\\mathrm{t}}\\) 更大），常用于汽车传动轴、机床主轴等；扭转时圆轴表面切应力沿半径线性分布，中心处为零。"
+                                    },
+                                    {
+                                        "id": "q6",
+                                        "title": "6. 梁的弯曲正应力强度条件是什么？如何确定梁的危险截面和危险点？举例说明梁的合理截面形状。",
+                                        "coreAnswer": "梁弯曲正应力强度条件：\\(\\sigma_{\\mathrm{max}} = M_{\\mathrm{max}} / W_{\\mathrm{z}} \\leq [\\sigma ]\\)，其中 \\(M_{\\mathrm{max}}\\) 是最大弯矩（通过弯矩图确定），\\(W_{\\mathrm{z}}\\) 是抗弯截面系数（反映截面抵抗弯曲的能力），\\([\\sigma ]\\) 是许用正应力（拉压许用应力不同时需分别校核）。危险截面：弯矩 \\(M\\) 最大且抗弯截面系数 \\(W_{\\mathrm{z}}\\) 最小的截面（如简支梁受跨中集中力时，跨中截面为危险截面）；危险点：危险截面的上下边缘（正应力最大，中性轴处正应力为零）。合理截面形状：截面面积相同时，\\(W_{\\mathrm{z}}\\) 越大越合理，如工字形、槽形、工形（材料远离中性轴，提高抗弯能力），圆形截面合理性较差，方形优于圆形。",
+                                        "interviewExtension": "对于铸铁等拉压强度不等的材料，应采用不对称截面（如T形），使中性轴偏向受拉侧，让最大拉应力和最大压应力同时满足各自的强度条件。"
+                                    },
+                                    {
+                                        "id": "q7",
+                                        "title": "7. 什么是梁的“挠度”和“转角”？计算梁变形的常用方法有哪些？各自的适用场景是什么？",
+                                        "coreAnswer": "挠度是梁轴线上某点在垂直于梁轴线方向的线位移（用 \\(w\\) 表示）；转角是梁横截面绕中性轴的角位移（用 \\(\\theta\\) 表示），二者关系为 \\(\\theta = \\mathrm{d}w / \\mathrm{d}x\\)。\n梁变形计算方法：\n① 积分法（基本方法）：通过积分挠曲线近似微分方程（\\(\\mathrm{EIw}^{\\prime \\prime} = - \\mathrm{M}(\\mathrm{x})\\) ）得到挠度和转角方程，适用于所有梁，但计算繁琐；\n② 叠加法（工程常用）：利用已知简单载荷下的梁变形公式，叠加复杂载荷的变形结果，适用于载荷简单、梁形式标准的场景（如简支梁、悬臂梁）；\n③ 单位载荷法（莫尔定理）：通过虚功原理计算指定截面的挠度和转角，适用于复杂梁和变截面梁。",
+                                        "interviewExtension": "梁的刚度条件为“最大挠度不超过许用挠度”“最大转角不超过许用转角”，如机床主轴的许用挠度通常小于跨度的1/10000，确保加工精度。"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "chap3",
+                                "title": "强度理论与稳定性类",
+                                "questions": [
+                                    {
+                                        "id": "q8",
+                                        "title": "8．工程中常用的强度理论有哪些？各适用于什么材料和应力状态？",
+                                        "coreAnswer": "强度理论用于解决复杂应力状态（如二向、三向应力）的强度问题，常用四类：\n①第一强度理论（最大拉应力理论）：认为最大拉应力是导致破坏的原因，\\(\\sigma _{1}\\leq [\\sigma ]\\)，适用于脆性材料（铸铁、石料），破坏形式为拉断；\n②第二强度理论（最大伸长线应变理论）：认为最大伸长线应变是破坏原因，\\(\\sigma _{1}- \\mu (\\sigma _{2}+\\sigma _{3})\\leq [\\sigma ]\\)，适用于脆性材料在压应力为主的场景（如岩石受压）；\n③第三强度理论（最大切应力理论）：认为最大切应力是破坏原因，\\(\\sigma _{1}-\\sigma _{3}\\leq [\\sigma ]\\)，适用于塑性材料（低碳钢、铝合金），破坏形式为塑性屈服；\n④第四强度理论（形状改变比能理论）：认为形状改变比能是破坏原因，\\(\\sqrt {[(\\sigma _{1}- \\sigma _{2})^{2}+(\\sigma _{2}-\\sigma _{3})^{2}+(\\sigma _{3}-\\sigma _{1})^{2}]/2}\\leq [\\sigma ]\\)，适用于塑性材料，比第三强度理论更符合实际（如钢材的屈服试验）。",
+                                        "interviewExtension": "三向等拉应力状态下，塑性材料也会发生脆性断裂，此时需用第一强度理论；工程中轴类零件（弯扭组合变形）常用第三或第四强度理论校核强度。"
+                                    },
+                                    {
+                                        "id": "q9",
+                                        "title": "9．什么是压杆稳定？欧拉公式的适用条件是什么？如何提高压杆的稳定性？",
+                                        "coreAnswer": "压杆稳定是指受压构件保持直线平衡状态的能力，当压力达到“临界压力”（\\(F_{m}\\)）时，压杆会突然弯曲失效（失稳）。欧拉公式（计算临界应力）：\\(\\sigma _{m}=\\pi ^{2}E/\\lambda ^{2}\\)，其中 \\(\\lambda\\) 是长细比（\\(\\lambda =\\mu l/i\\)，\\(\\mu\\) 为长度系数，1为杆长，i为惯性半径）。欧拉公式适用条件：\\(\\sigma _{m}\\leq \\sigma _{p}\\)（比例极限），即 \\(\\lambda \\geq \\lambda _{p}\\) ( \\(\\lambda _{p}=\\pi \\sqrt {(E/\\sigma _{p})}\\)，称为比例极限长细比)，仅适用于大长细比的“细长杆”。\n提高稳定性的措施：\n①减小长细比 \\(\\lambda\\)（缩短杆长1、增大惯性半径i，如采用工字形截面替代圆形截面）；\n②改善约束条件（减小长度系数 \\(\\mu\\)，如将铰支改为固定端，\\(\\mu\\) 从1变为0.5）；\n③选用优质材料（提高弹性模量E，如钢材优于铝材）。",
+                                        "interviewExtension": "中长杆（\\(\\lambda_{\\mathrm{s}}\\leq \\lambda < \\lambda_{\\mathrm{p}}\\)，\\(\\lambda_{\\mathrm{s}}\\) 为屈服极限长细比）需用经验公式计算临界应力，短粗杆（\\(\\lambda < \\lambda_{\\mathrm{s}}\\)）强度由屈服强度控制，不会失稳。"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "chap4",
+                                "title": "综合应用与拓展类",
+                                "questions": [
+                                    {
+                                        "id": "q10",
+                                        "title": "10. 简述弯扭组合变形圆轴的强度校核方法，写出第三和第四强度理论的强度条件。",
+                                        "coreAnswer": "弯扭组合变形圆轴的强度校核步骤：\n① 分别计算轴的弯矩M和扭矩T（通过弯矩图和扭矩图确定危险截面的 \\(M_{\\mathrm{max}}\\) 和 \\(\\mathrm{T}_{\\mathrm{max}}\\) ）；\n② 将复杂应力状态简化为危险点的平面应力状态（弯曲产生正应力 \\(\\sigma = M / W z\\)，扭转产生切应力 \\(\\tau = T / W_{1}\\) ）；\n③ 应用强度理论建立强度条件。\n第三强度理论（最大切应力理论）：\\(\\sigma_{\\mathrm{r3}} = \\sqrt{(\\sigma^{2} + 4\\tau^{2})} \\leq [\\sigma ]\\)；\n第四强度理论（形状改变比能理论）：\\(\\sigma_{\\mathrm{r4}} = \\sqrt{(\\sigma^{2} + 3\\tau^{2})}\\leq [\\sigma ]\\)，其中 \\(\\sigma_{\\mathrm{r3}}\\) 和 \\(\\sigma_{\\mathrm{r4}}\\) 称为“相当应力”，相当于将复杂应力转化为等效的单向拉应力。",
+                                        "interviewExtension": "对于同时受拉压、弯曲和扭转的组合变形，需将拉压正应力与弯曲正应力叠加后，再代入强度理论公式，如 \\(\\sigma = \\sigma_{\\mathrm{n}} + \\sigma_{\\mathrm{B}}\\)（\\(\\sigma_{\\mathrm{n}}\\) 为轴力产生的正应力）。"
+                                    },
+                                    {
+                                        "id": "q11",
+                                        "title": "11. 材料力学中“静不定问题”的定义是什么？求解静不定问题的核心步骤是什么？",
+                                        "coreAnswer": "静不定问题（超静定问题）是指仅通过静力平衡方程无法确定全部约束力或内力的问题，其多余约束的数量称为“静不定次数”。\n求解核心步骤：\n① 判断静不定次数（平衡方程数与未知力数的差值，如平面问题平衡方程有3个）；\n② 选择多余约束并解除，得到“基本静定系”；\n③ 建立变形协调条件（基本静定系的变形与原结构一致，如连续梁中间支座处挠度为零）；\n④ 利用物理关系（胡克定律）将变形协调条件转化为补充方程；\n⑤ 联立平衡方程和补充方程，求解全部未知力。",
+                                        "interviewExtension": "常见的静不定问题有拉压静不定（如装配应力问题）、弯曲静不定（如连续梁）、扭转静不定（如两端固定圆轴），装配应力和温度应力是静不定问题的典型应用。"
+                                    },
+                                    {
+                                        "id": "q12",
+                                        "title": "12. 什么是“疲劳破坏”？影响构件疲劳强度的主要因素及提高疲劳强度的措施有哪些？",
+                                        "coreAnswer": "疲劳破坏是构件在“交变应力”（大小或方向周期性变化的应力）作用下，即使应力低于屈服强度，也会逐渐产生裂纹并扩展，最终突然断裂的现象，其特点是破坏前无明显塑性变形，破坏具有突发性。\n影响因素：\n① 应力幅（交变应力的最大值与最小值之差，是主要因素）；\n② 应力比（\\(\\mathrm{r} = \\sigma_{\\mathrm{min}} / \\sigma_{\\mathrm{max}}\\)，拉压交变 \\(\\mathrm{r} = - 1\\)，对称循环疲劳最危险）；\n③ 构件表面质量（表面粗糙或有裂纹会降低疲劳强度）；\n④ 尺寸效应（大尺寸构件疲劳强度更低）。\n提高措施：\n① 降低应力幅（优化结构，避免应力集中）；\n② 表面强化（喷丸、滚压、渗碳淬火，提高表面硬度）；\n③ 改善表面质量（精车、抛光，减少表面缺陷）；\n④ 采用耐疲劳材料（如合金钢替代普通碳钢）。",
+                                        "interviewExtension": "疲劳极限 \\((\\sigma_{\\mathrm{r}})\\) 是构件在交变应力下能承受无限次循环而不破坏的最大应力幅，对称循环下疲劳极限约为屈服强度的1/2-1/3，工程中常通过疲劳试验确定材料的疲劳极限。"
+                                    },
+                                    {
+                                        "id": "q13",
+                                        "title": "13. 什么是“斜弯曲”？其强度校核与平面弯曲有何不同？如何确定斜弯曲的危险点？",
+                                        "coreAnswer": "斜弯曲是梁在垂直于轴线的平面内，承受不通过截面形心主惯性轴的横向力时，发生的两个相互垂直平面内的平面弯曲组合变形（如矩形截面梁受斜向集中力）。与平面弯曲的区别：平面弯曲时弯矩作用在形心主惯性平面内，正应力沿截面高度线性分布，中性轴为形心主惯性轴；斜弯曲需将载荷分解为两个形心主惯性平面内的分力，分别计算两个平面内的弯曲正应力，再叠加得到总正应力。强度条件：\\(\\sigma_{\\max} = (M_{1} / W z_{1}) + (M_{2} / W z_{2}) \\leq [\\sigma ]\\)。\n危险点判断：两个平面弯曲的最大正应力叠加后，绝对值最大的点（通常在截面的角点，如矩形截面梁的四个角）。",
+                                        "interviewExtension": "工程中吊车梁常因吊重偏斜产生斜弯曲，设计时需考虑载荷偏斜系数（通常取1.1-1.2），增大截面尺寸以满足强度要求；若载荷作用线通过截面“主惯性轴”，则仅发生平面弯曲，不会产生斜弯曲。"
+                                    },
+                                    {
+                                        "id": "q14",
+                                        "title": "14. 简述“偏心压缩（拉伸）”的受力特点及强度校核方法，如何判断构件是“大偏心”还是“小偏心”？",
+                                        "coreAnswer": "偏心压缩（拉伸）是构件承受的外力作用线与轴线平行但不重合（存在偏心距 \\(e\\) ）的变形，本质是“轴向压缩（拉伸） + 平面弯曲”的组合变形。受力特点：将偏心外力 \\(F\\) 分解为轴向力 \\(F_{\\mathrm{n}} = F\\) 和弯矩 \\(M = F \\cdot e\\)，分别产生轴力正应力 \\(\\sigma_{\\mathrm{n}} = F_{\\mathrm{n}} / A\\) 和弯曲正应力 \\(\\sigma_{\\mathrm{p}} = M / W z\\)，总应力为 \\(\\sigma = \\sigma_{\\mathrm{n}} + \\sigma_{\\mathrm{p}}\\)。\n强度校核需分别校核最大压应力和最大拉应力（拉压强度不等时）：\\(\\sigma_{\\max}(\\mathrm{压}) = |\\sigma_{\\mathrm{n}} + \\sigma_{\\mathrm{p}\\max}| \\leq [\\sigma ]\\) 压，\\(\\sigma_{\\max}(\\mathrm{拉}) = |\\sigma_{\\mathrm{n}} - \\sigma_{\\mathrm{p}\\max}| \\leq [\\sigma ]\\) 拉（若结果为负则无拉应力）。\n大小偏心判断：当偏心距 \\(e > W z / A\\)（即弯矩产生的最大弯曲拉应力大于轴力产生的压应力）时，截面出现拉应力，为“大偏心”；当 \\(e \\leq W z / A\\) 时，截面全截面受压，为“小偏心”。",
+                                        "interviewExtension": "砖砌烟囱、挡土墙等构件常承受偏心压缩，设计时需控制偏心距 \\(e \\leq W z / A\\)，避免截面出现拉应力（砖材抗拉强度低）；对于钢筋混凝土柱，可利用钢筋承受拉应力，允许大偏心受力。"
+                                    },
+                                    {
+                                        "id": "q15",
+                                        "title": "15. 材料力学中“应变能”的定义是什么？简述应变能在工程中的应用，举例说明单位载荷法的核心思想。",
+                                        "coreAnswer": "应变能是构件在外力作用下产生弹性变形时，存储在构件内部的能量（单位 \\(J\\)），分为拉压应变能 \\((U = \\int N^{2} \\mathrm{~d} x / (2 E A))\\)、扭转应变能 \\((U = \\int T^{2} \\mathrm{~d} x / (2 G I P))\\)、弯曲应变能 \\((U = \\int M^{2} \\mathrm{~d} x / (2 E I))\\)，组合变形时应变能为各单一变形应变能之和（能量叠加原理）。\n工程应用：\n① 计算构件刚度（通过应变能对载荷求偏导得到位移，即卡斯蒂利亚诺定理）；\n② 分析结构的冲击问题（如落锤冲击，利用能量守恒计算冲击应力）；\n③ 优化结构设计（在满足强度的前提下，使应变能最小，提高结构经济性）。\n单位载荷法（莫尔定理）核心思想：在构件需要计算位移的截面处，施加与位移方向一致的单位力，通过计算实际载荷和单位载荷分别产生的内力，利用公式 \\(\\Delta = \\int (N_{1}N / P + T_{1}T / GIP + M_{1}M / E I)d x\\) 求解位移，本质是利用虚功原理建立应变能与虚功的关系。",
+                                        "interviewExtension": "单位载荷法可计算线位移、角位移及相对位移，是结构位移计算的通用方法，尤其适用于变截面梁和复杂刚架的位移求解。"
+                                    },
+                                    {
+                                        "id": "q16",
+                                        "title": "16. 简述“复合材料”的力学特性及材料力学分析中的核心难点，与传统金属材料相比有何优势？",
+                                        "coreAnswer": "复合材料是由两种或多种性能不同的材料通过物理或化学方法复合而成的材料（如碳纤维增强树脂基复合材料CFRP）。\n力学特性：\n① 各向异性（不同方向弹性模量、强度差异大，如碳纤维沿纤维方向强度高，垂直方向强度低）；\n② 性能可设计性（通过调整纤维含量、铺设角度优化力学性能）；\n③ 比强度和比模量高（强度/密度、模量/密度远大于钢材，如CFRP比强度是钢材的5-6倍）。\n分析核心难点：\n① 需建立正交各向异性本构关系（弹性常数由9个减至4个，如弹性模量 \\(E_{1}\\)、 \\(E_{2}\\)，切变模量 \\(G_{12}\\)，泊松比 \\(\\mu_{12}\\) ）；\n② 层间应力问题（层合板层间易产生剥离破坏，需考虑界面强度）；\n③ 复杂应力状态下的强度准则（如蔡-希尔准则、霍夫曼准则，需结合各方向强度参数）。\n优势：\n① 轻量化（适用于航空航天、新能源汽车，降低能耗）；\n② 耐腐蚀性好（优于金属材料，适用于海洋环境）；\n③ 抗疲劳性能优（纤维与基体协同作用，抑制裂纹扩展）。",
+                                        "interviewExtension": "波音787客机复合材料用量占机身重量的 \\(50\\%\\)，大幅降低油耗；碳纤维复合材料在风电叶片中的应用，使叶片长度突破100米，提高发电效率。"
+                                    },
+                                    {
+                                        "id": "q17",
+                                        "title": "17. 什么是“应力集中”？产生应力集中的原因及减小应力集中的工程措施有哪些？",
+                                        "coreAnswer": "应力集中是构件在截面突变处（如孔、槽、圆角），局部应力远大于平均应力的现象，应力集中系数 \\(K = \\sigma_{\\max} / \\sigma_{\\mathrm{av}}\\)（\\(\\sigma_{\\mathrm{av}}\\) 为平均应力），\\(K\\) 值越大应力集中越严重。\n产生原因：\n① 几何形状突变（截面尺寸突然变化，导致内力线弯曲、密集）；\n② 材料缺陷（如裂纹、夹杂，相当于微观截面突变）；\n③ 载荷传递不均（如螺栓连接中，力通过局部区域传递）。\n减小措施：\n① 优化截面形状（将直角改为圆角或倒角，增大过渡圆弧半径；用椭圆孔替代圆孔）；\n② 局部强化（在应力集中区域采用高强度材料、增加壁厚或进行表面强化处理）；\n③ 避免附加应力（使载荷作用线通过截面形心，减少偏心）。",
+                                        "interviewExtension": "应力集中是构件疲劳破坏的主要诱因（裂纹多在应力集中处萌生），工程中对于承受交变应力的构件（如传动轴），需严格控制应力集中系数 \\(K \\leq 1.5\\)；飞机机身的窗口采用圆角过渡，就是为了减小应力集中，防止疲劳裂纹。"
+                                    },
+                                    {
+                                        "id": "q18",
+                                        "title": "18. 材料力学实验中，“弯曲正应力测试”的核心原理是什么？实验操作的关键步骤及数据处理方法有哪些？",
+                                        "coreAnswer": "实验核心原理基于梁弯曲正应力公式 \\(\\sigma = \\mathrm{My} / \\mathrm{Iz}\\)，通过在梁的不同截面和高度粘贴应变片，测量应变值后利用胡克定律 \\(\\sigma = \\mathrm{Ec}\\) 计算正应力，验证理论公式的正确性。\n关键操作步骤：\n① 试件准备：在简支梁跨中及对称截面的上下边缘、中性轴处粘贴应变片，标注应变片编号与位置；\n② 装置调试：将应变片接入应变仪，进行零点校准，确保仪器处于正常工作状态；\n③ 加载测试：分级施加集中载荷（如每级加载5kN），记录各级载荷下各应变片的应变值，加载至最大载荷后分级卸载；\n④ 数据处理：\n- 计算各截面理论正应力（根据弯矩 \\(M=F1/4\\)，截面参数 \\(Iz\\)、y计算）；\n- 计算实验正应力（\\(\\sigma =E\\epsilon\\)，E为材料弹性模量，由标准试样确定）；\n- 绘制“应力-位置”曲线，对比理论与实验数据，分析误差原因（如载荷偏心、应变片粘贴偏差）。",
+                                        "interviewExtension": "实验中若发现中性轴处应变不为零，多为载荷偏心导致斜弯曲，需调整加载位置使载荷作用线通过截面形心主惯性轴；应变片粘贴时需确保与梁轴线平行，避免引入附加切应变误差。"
+                                    },
+                                    {
+                                        "id": "q19",
+                                        "title": "19．什么是“温度应力”？其产生的必要条件是什么？工程中如何计算与控制温度应力？",
+                                        "coreAnswer": "温度应力是构件因温度变化受到约束，无法自由伸缩而产生的内应力，属于静不定问题。\n产生必要条件：\n①温度变化（如环境温度波动、设备发热）；\n②变形约束（如构件两端固定、与其他部件刚性连接，限制自由变形）。\n计算方法：\n①确定温度变化量 \\(\\Delta t\\)（\\(\\Delta t=t_{1}-t_{0}\\)，\\(t_{1}\\) 为变化后温度，\\(t_{0}\\) 为初始温度）；\n②计算自由变形量 \\(\\Delta l_{1}=a_{1}\\Delta t\\)（\\(a\\) 为材料线膨胀系数，如钢材 \\(a=12\\times 10^{-6}/^{\\circ }C\\)）；\n③因约束使 \\(\\Delta l_{1}=0\\)，产生的等效轴向变形 \\(\\Delta l=\\Delta l_{1}\\)，由胡克定律 \\(\\Delta l=F1\\%/(EA)\\)，得轴力 \\(F=EAa\\Delta t\\)，进而计算温度应力 \\(\\sigma =Ea\\Delta t\\)。\n控制措施：\n①设置伸缩缝（如桥梁、管道的伸缩节，允许局部自由变形）；\n②选用线膨胀系数相近的材料（如混凝土与钢筋的 \\(a\\) 值匹配）；\n③采用弹性约束（如用弹簧支座替代固定支座，释放部分变形）。",
+                                        "interviewExtension": "高温管道的温度应力是设计重点，常通过“热补偿”装置（如U型弯管）吸收变形，避免应力过大导致管道破裂；焊接过程中局部高温冷却后产生的焊接应力，本质也是温度应力，可通过焊后热处理消除。"
+                                    },
+                                    {
+                                        "id": "q20",
+                                        "title": "20. 简述“断裂力学”与传统强度理论的区别，材料力学中“裂纹扩展”的基本形式有哪些？",
+                                        "coreAnswer": "传统强度理论基于“无裂纹构件”假设，以屈服强度或抗拉强度为判据，无法解释带裂纹构件的低应力脆断现象；断裂力学以“含裂纹构件”为研究对象，通过“应力强度因子K”描述裂纹尖端的应力状态，当K达到“断裂韧性KIC”时，裂纹失稳扩展导致断裂，判据为K≥KIC，更符合工程实际。\n裂纹扩展基本形式：\n① 张开型（I型）：外力垂直于裂纹面，使裂纹张开扩展（如受拉构件的横向裂纹），是工程中最常见、最危险的形式；\n② 滑开型（II型）：外力平行于裂纹面且垂直于裂纹前沿，使裂纹面相对滑开（如剪切面的裂纹）；\n③ 撕开型（III型）：外力平行于裂纹面且平行于裂纹前沿，使裂纹面相对撕开（如扭转圆轴的纵向裂纹）。",
+                                        "interviewExtension": "断裂韧性KIC是材料的固有属性，与构件尺寸、裂纹长度无关，常用于航空航天、压力容器等高危行业的材料选型；工程中通过“无损检测”（如超声探伤）检测裂纹，确保K<KIC。"
+                                    },
+                                    {
+                                        "id": "q21",
+                                        "title": "21. 材料力学在“轻量化设计”中的应用思路是什么？结合新能源汽车车架设计举例说明。",
+                                        "coreAnswer": "轻量化设计的核心思路是“在满足强度、刚度、稳定性的前提下，减少构件重量”。\n材料力学应用路径：\n① 优化截面形状（采用工字形、箱形等合理截面，提高Wz/A、Wt/A比值）；\n② 选用高强度材料（如高强度钢、铝合金、复合材料，降低许用应力对应的截面尺寸）；\n③ 拓扑优化（通过有限元分析，去除受力较小的冗余材料，如车架的镂空结构）；\n④ 合理分配载荷（使内力分布均匀，避免局部应力集中）。\n新能源汽车车架设计实例：\n①截面优化：将传统钢制车架的矩形截面改为铝合金箱形截面，在相同抗弯刚度下重量减少30%；\n②材料替换：关键受力部件采用碳纤维复合材料（CFRP），如电池包支架，比钢制支架轻50%且强度更高；\n③结构优化：通过拓扑优化设计“蜂窝状”车架横梁，去除中间冗余材料，同时在应力集中区域增加加强筋。",
+                                        "interviewExtension": "轻量化设计需平衡“重量”与“成本”，铝合金车架成本高于钢材但低于碳纤维，是当前新能源汽车的主流选择；特斯拉Model3采用“一体化压铸车架”，减少零件连接导致的应力集中，进一步提升轻量化效果。"
+                                    },
+                                    {
+                                        "id": "q22",
+                                        "title": "22．简述“有限元法”在材料力学问题中的应用步骤，与传统解析法相比有何优势？",
+                                        "coreAnswer": "有限元法是将复杂构件离散为多个简单“单元”（如梁单元、杆单元、实体单元），通过求解单元平衡方程得到整体结果的数值方法。\n应用步骤：\n①建模与离散：建立构件几何模型，按受力特点划分单元（应力集中区域加密单元），定义单元类型与材料参数（E、μ等）；\n②边界条件与载荷施加：设置约束条件（如固定端、铰支）和载荷（集中力、分布力、温度载荷）；\n③单元分析：建立单元刚度矩阵，推导单元内力与位移的关系；\n④整体组装：将单元刚度矩阵组装为整体刚度矩阵，建立整体平衡方程 \\(K\\Delta =F\\)（K为整体刚度矩阵，\\(\\Delta\\) 为位移向量，F为载荷向量）；\n⑤求解与后处理：求解方程得到位移，计算应力、应变分布，通过云图展示结果。\n优势：\n①适用范围广（可求解变截面、复杂载荷、非线性材料的问题，如复合材料层合板、大变形问题）；\n②精度可控（通过加密单元提高计算精度）；\n③直观高效（通过可视化后处理直接观察应力集中位置与变形趋势），传统解析法仅适用于简单构件与载荷（如等截面直梁、轴向拉压杆）。",
+                                        "interviewExtension": "常用的有限元软件有ANSYS、Abaqus、HyperMesh，复试中提及“使用ANSYS分析传动轴弯扭组合变形的应力分布”，能体现你的工程软件应用能力，是加分项。"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+  "books": [
+    {
+      "id": "mechanical_design",
+      "name": "📚 机械设计高频知识点",
+      "chapters": [
+        {
+          "id": "ch01_intro",
+          "title": "一、绪论与设计基础简答题",
+          "questions": [
+            {
+              "id": "q01",
+              "title": "1. 机械由哪些核心部分组成? 各部分的功能是什么? 请举例说明。",
+              "coreAnswer": "机械由原动机、传动、执行、控制、辅助五大部分组成。\n\n① 原动机: 将非机械能转化为机械能 (如电机、内燃机);\n② 传动部分: 传递运动和动力, 调节速度/转矩 (如带、齿轮传动);\n③ 执行部分: 完成预定功能 (如机床主轴、起重机吊钩);\n④ 控制部分: 协调动作 (如PLC、传感器);\n⑤ 辅助部分: 提供支撑、润滑等保障 (如机架、润滑油路)。",
+              "interviewExtension": "以自行车为例, 原动机是人体, 传动部分是链条, 执行部分是车轮, 控制部分是车把与刹车, 辅助部分是车架。"
+            },
+            {
+              "id": "q02",
+              "title": "2. 机械设计的主要要求有哪些? 请简述各要求的核心内涵。",
+              "coreAnswer": "主要包括功能、经济、可靠、劳动保护及特殊要求。\n\n① 功能要求: 满足预定性能 (如减速器传动比精度);\n② 经济要求: 兼顾设计、制造、使用成本 (如选用标准件降本);\n③ 可靠要求: 保证长期稳定工作;\n④ 劳动保护: 含安全防护 (如防护罩)、低噪声 (常用 ≤85dB );\n⑤ 特殊要求: 如高温环境的耐热性、潮湿环境的防锈性。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q03",
+              "title": "3. 机械零件的主要失效形式有哪几类? 如何区分\"失效\"与\"故障\"?",
+              "coreAnswer": "主要失效形式分三类:\n\n① 整体断裂: 如轴的疲劳断裂、螺栓拉断, 多由交变应力或过载引起;\n② 过大残余变形: 如齿轮轴弯曲变形, 因静应力超过屈服强度;\n③ 表面破坏: 包括磨损、腐蚀、胶合等, 由表面应力或化学作用导致。",
+              "interviewExtension": "失效是零件丧失规定功能, 故障是机械整体无法工作, 失效是导致故障的主要原因, 二者是\"局部\"与\"整体\"的关系。"
+            },
+            {
+              "id": "q04",
+              "title": "4. 机械零件需满足哪些基本要求? 强度与刚度的核心区别是什么?",
+              "coreAnswer": "基本要求包括强度、刚度、寿命、工艺性、经济性、可靠性、质量小。强度与刚度的核心区别: 强度决定零件是否断裂 (抵抗破坏的能力), 刚度决定零件是否产生过大变形（抵抗变形的能力），二者需同时满足，如精密丝杠需高刚度防止加工时变形。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q05",
+              "title": "5. 机械零件的核心设计准则有哪些？机械设计的一般步骤是什么？",
+              "coreAnswer": "核心设计准则包括强度、刚度、寿命、振动稳定性、可靠性准则。\n\n机械设计一般步骤（逻辑顺序）：\n\n① 明确设计任务：确定功能、参数、约束；\n② 方案设计：提出机构方案并对比；\n③ 技术设计：进行强度计算、结构设计，绘装配图；\n④ 施工设计：绘零件图，写技术文档；\n⑤ 试生产与改进：验证合理性并优化。",
+              "interviewExtension": ""
+            }
+          ]
+        },
+        {
+          "id": "ch02_friction",
+          "title": "二、摩擦、磨损与润滑简答题",
+          "questions": [
+            {
+              "id": "q01",
+              "title": "1. 机械中常见的摩擦状态有哪几种？各适用于什么场景？",
+              "coreAnswer": "分为干摩擦、边界摩擦、流体摩擦、混合摩擦四类。\n\n① 干摩擦：无润滑剂，如刹车蹄与制动盘（需大摩擦力）；\n② 边界摩擦：表面有极薄油膜（数纳米），如低速重载轴承；\n③ 流体摩擦：油膜完全分隔表面（数十微米），如高速主轴轴承（理想状态）；\n④ 混合摩擦：多种状态并存，是实际机械中最常见的形式。",
+              "interviewExtension": "混合摩擦的摩擦系数最小，是机械设计中追求的实用润滑状态，需通过合理润滑向其趋近。"
+            },
+            {
+              "id": "q02",
+              "title": "2. 零件磨损主要有哪些类型？磨损过程通常分为哪几个阶段？",
+              "coreAnswer": "主要磨损类型：\n\n① 磨粒磨损（硬颗粒划伤，如农机零件）；\n② 腐蚀磨损（化学作用+摩擦，如潮湿环境螺栓）；\n③ 黏性磨损（表面金属黏结撕裂，如无油齿轮）；\n④ 疲劳磨损（交变应力导致剥落，如轴承点蚀）；此外还有冲蚀、微震磨损等。\n\n磨损过程分三阶段：\n\n① 磨合阶段（初期）：粗糙峰快速磨损，摩擦系数下降；\n② 稳定磨损阶段(中期): 磨损速率恒定, 是零件有效工作阶段;\n③ 剧烈磨损阶段(后期): 表面失效, 磨损速率骤升, 需更换零件。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q03",
+              "title": "3. 常用润滑剂有哪几类? 如何根据工况选择润滑油的黏度?",
+              "coreAnswer": "黏度选择原则: 低速重载工况选高黏度润滑油(易形成油膜); 高速工况选低黏度润滑油(减少摩擦发热, 防止油膜因轴承膨胀破裂)。\n\n常用润滑剂分三类:\n\n① 润滑脂(半固体): 适用于低速重载、难以经常供油、摆动运动的场合(如轴承座、铰链), 密封性好;\n② 润滑油(液体, 应用最广): 适用于流体滑动轴承、高速传动(如齿轮箱、汽轮机), 散热性好; \n③ 固体润滑剂(如石墨、二硫化钼): 适用于高温、高压、真空等特殊环境(如航天器零件)。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q04",
+              "title": "4. 获得流体动压润滑的必要条件是什么? 其核心目的是什么?",
+              "coreAnswer": "必要条件有四点:\n\n① 相对润滑表面形成楔形间隙(核心几何条件);\n② 两表面有足够相对滑动速度, 且运动方向使油从大口流向小口(形成压力);\n③ 润滑油具有一定黏性(动力黏度是关键指标);\n④ 有足够润滑油供应, 油膜能承受工作载荷。\n\n核心目的: 形成压力油膜将两摩擦表面完全分隔, 避免金属直接接触, 大幅减少磨损和摩擦损失, 延长零件寿命。",
+              "interviewExtension": ""
+            }
+          ]
+        },
+        {
+          "id": "ch03_drive",
+          "title": "三、机械传动核心简答题",
+          "questions": [
+            {
+              "id": "q01",
+              "title": "1. 带传动按工作原理分为哪几类? 带传动与链传动的安装要点有何区别?",
+              "coreAnswer": "带传动按工作原理分为摩擦型和啮合型。摩擦型包括平带(接触面宽、对中性好)和V带(楔形效应, 传动能力是平带的3倍左右); 啮合型主要是同步带(带与带轮齿啮合, 传动比恒定)。\n\n安装区别: 带传动需将松边置于上方, 目的是增大带与带轮的包角, 提高摩擦力; 链传动需将松边置于下方, 防止链条垂度过大与链轮发生干涉。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q02",
+              "title": "2. 带传动的优缺点是什么? 如何区分弹性滑动与打滑?",
+              "coreAnswer": "带传动优点: 过载保护(打滑)、缓冲吸震、结构简单、成本低、传动平稳; 缺点: 效率低(0.92-0.97)、无固定传动比(弹性滑动)、外廓尺寸大。\n\n带中应力考点: 带的应力由拉应力(紧边＞松边)、离心应力(与线速度平方成正比)、弯曲应力(小带轮处＞大带轮处)组成, 最大应力出现在紧边与小带轮的接触处(三大应力叠加)。\n\n弹性滑动与打滑的区别:\n\n① 产生原因: 弹性滑动是带的弹性变形与紧松边拉力差导致, 打滑是载荷超过最大有效拉力(过载)导致;\n② 可避免性: 弹性滑动是带传动固有属性, 不可避免; 打滑可通过限制载荷避免;\n③ 后果: 弹性滑动导致传动比不准确、轻微磨损; 打滑导致传动失效、带快速磨损烧毁。\n\n补充考点: 带传动的主要失效形式是打滑(过载)和疲劳破坏(带反复弯曲+拉伸导致断裂); 张紧装置的作用是维持带的预拉力, 保证足够摩擦力, 避免弹性滑动加剧。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q03",
+              "title": "3. 链传动与带传动的核心区别是什么? 其常见失效形式有哪些?",
+              "coreAnswer": "应用场景: 链传动适用于低速重载、粉尘或油污等恶劣环境, 如拖拉机、摩托车的传动系统。\n\n核心区别: 链传动是啮合传动, 无弹性滑动, 传动比恒定, 效率高(0.95-0.98); 带传动是摩擦传动, 有弹性滑动, 传动比不恒定, 效率较低。链传动常见失效形式: 链条疲劳断裂、链板磨损、链轮齿面磨损、跳齿(张紧不足)。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q04",
+              "title": "4. 齿轮传动的主要失效形式有哪些? 设计时如何选择齿轮材料与润滑方式?",
+              "coreAnswer": "主要失效形式分两类:\n\n① 轮齿折断: 包括疲劳折断(交变弯曲应力导致)和过载折断(冲击载荷导致);\n② 齿面失效：点蚀（交变接触应力，软齿面常见）、胶合（高速重载油膜破裂）、磨损、塑性变形（过载）。\n\n材料与润滑选择：\n\n① 材料匹配：软齿面（≤350HB）配对（如45钢调质），硬齿面（>350HB）配对（如20CrMnTi渗碳淬火）；\n② 润滑方式：圆周速度 v ≤ 12m/s 用浸油润滑，v > 12m/s 用喷油润滑（增强散热）。\n\n设计要点：传动比 i = z2 / z1 = d2 / d1 （z为齿数，d为分度圆直径）；模数越大，齿厚越大，承载能力越强，重载齿轮需选大模数。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q05",
+              "title": "5. 蜗轮蜗杆传动的结构特点是什么？如何提高其工作性能？",
+              "coreAnswer": "性能提升措施：\n\n① 材料选择：蜗杆用碳素钢/合金钢（如40Cr淬火），蜗轮用锡青铜（高速重载）或灰铸铁（低速轻载）；\n② 提高蜗杆刚度：增大蜗杆直径可减少弯曲变形，保证啮合精度；\n③ 润滑：因摩擦发热大，需采用强制润滑方式。\n\n核心答案：结构特点：空间交错轴传动（通常呈90°），传动比大（i = z2 / z1，z1为蜗杆头数，常用1-4）；失效形式主要发生在蜗轮齿面（材料较弱），如点蚀、胶合、磨损。",
+              "interviewExtension": ""
+            }
+          ]
+        },
+        {
+          "id": "ch04_connection",
+          "title": "四、连接与轴系零件简答题",
+          "questions": [
+            {
+              "id": "q01",
+              "title": "1. 常用螺纹的类型及应用场景有哪些？三角形螺纹的自锁条件是什么？",
+              "coreAnswer": "常用螺纹类型及应用：\n\n① 三角形螺纹：自锁性最好，效率最低，主要用于连接；\n② 梯形螺纹：效率较高，用于螺旋传动；\n③ 矩形螺纹：效率最高，但加工困难，应用较少。\n\n核心参数与自锁条件：螺纹核心参数包括牙形、大径（公称直径）、头数、导程（s = zp，p为螺距）、旋向；三角形螺纹自锁条件为螺纹升角 λ ≤ 当量摩擦角 pv。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q02",
+              "title": "2. 螺纹连接的防松方法分为哪几类？各类有哪些典型方式？",
+              "coreAnswer": "防松原理是防止螺纹副相对转动, 主要分为三类 (注意: 开口销属于机械防松, 非摩擦防松):\n\n① 摩擦防松: 利用摩擦力阻止松动, 如对顶螺母、弹簧垫圈、锁紧螺母;\n② 机械防松: 通过机械结构锁定, 如开口销与槽形螺母、止动垫圈;\n③ 铆冲防松: 将螺纹副铆死或冲点, 不可拆卸, 适用于永久性连接。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q03",
+              "title": "3. 常用的键连接类型有哪些? 各类型的失效形式及应用场景是什么?",
+              "coreAnswer": "常用键连接包括平键、半圆键、楔键和花键, 核心区别及应用如下:\n\n① 平键: 应用最广, 对中性好, 靠侧面传递转矩, 失效形式为键与轮毂的挤压破坏或键的剪切破坏, 适用于高速、高精度传动 (如电机轴与联轴器);\n② 半圆键: 结构简单, 能自动适应轮毂斜度, 但承载能力弱, 失效形式同平键, 适用于轻载、小直径轴 (如机床手柄轴);\n③ 楔键: 靠上下表面摩擦力传力, 对中性差, 会使轴与轮毂偏心, 适用于低速、重载、对中性要求低的场合 (如农业机械);\n④ 花键: 由多个键齿组成, 承载能力强、对中性好, 失效形式为齿面挤压或磨损, 适用于重载、高速传动 (如汽车变速箱轴)。",
+              "interviewExtension": "键连接属于可拆连接, 安装拆卸方便; 花键虽制造成本高, 但因传动性能优越, 在精密机械中应用广泛。"
+            },
+            {
+              "id": "q04",
+              "title": "4. 轴按受力情况可分为哪几类? 轴的轴向固定方式有哪些?",
+              "coreAnswer": "轴按受力可分为三类:\n\n① 心轴: 只受弯矩不受转矩, 如自行车前轴 (固定心轴)、铁路货车轮轴 (转动心轴);\n② 传动轴: 只受转矩不受弯矩, 如汽车传动轴;\n③ 转轴: 既受弯矩又受转矩, 是机械中最常用的轴 (如齿轮轴、电机主轴)。\n\n轴向固定方式:\n\n① 轴肩/轴环: 结构简单可靠, 用于轴上零件的单向固定;\n② 挡圈 (弹性挡圈、圆螺母挡圈): 适用于零件间距小的场合, 弹性挡圈承载能力弱, 圆螺母挡圈可承受较大轴向力;\n③ 锥面连接：定心精度高，同时实现轴向和周向固定，适用于高速精密轴（如主轴）；此外还有套筒、紧定螺钉等辅助方式。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q05",
+              "title": "5. 滑动轴承的适用场景是什么？与滚动轴承相比有何核心优势？",
+              "coreAnswer": "滑动轴承适用“3高1削”场景：\n\n① 高转速（如汽轮发电机主轴，滚动轴承高速易发热烧毁）；\n② 高支撑精度（如精密磨床主轴，滑动轴承能实现微米级定心）；\n③ 高载荷（如轧钢机轧辊，承载可达数千kN）；\n④ 剖分式需求（如曲轴轴承，便于安装维修）。\n\n核心优势：\n\n① 承载能力更强，能承受冲击载荷；\n② 振动噪声更低，运转更平稳；\n③ 适应极端工况（如高温、低温、腐蚀性环境），而滚动轴承因滚动体存在易失效；\n④ 无标准化限制，可根据特殊需求定制。",
+              "interviewExtension": "滑动轴承的主要缺点是维护复杂、需定期润滑，且启动摩擦阻力大，因此在中低速、标准化需求高的场合，滚动轴承更具优势。"
+            },
+            {
+              "id": "q06",
+              "title": "6. 滑动轴承的常见失效形式及常用材料要求是什么？",
+              "coreAnswer": "常见失效形式：\n\n① 磨粒磨损（杂质划伤表面）；\n② 刮伤（金属颗粒嵌入表面）；\n③ 胶合（高速重载下油膜破裂，金属直接接触黏结）；\n④ 疲劳剥落（交变载荷导致表面层剥落）；\n⑤ 气蚀（压力骤降产生气泡破裂冲击表面）。\n\n材料核心要求：\n\n① 低摩擦系数，减少能量损耗；\n② 良好的抗磨性和抗胶合能力，延长寿命；\n③ 足够的强度和韧性，承受工作载荷；\n④ 优良的导热性和耐腐蚀性, 适应工况;\n⑤ 经济性, 便于批量制造。常用材料有锡青铜 (高速重载)、铅青铜 (中速中载)、灰铸铁 (低速轻载) 及轴承合金 (巴氏合金, 用于精密场合)。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q07",
+              "title": "7. 联轴器与离合器的核心区别是什么? 刚性联轴器与挠性联轴器的适用场景有何不同?",
+              "coreAnswer": "二者核心区别: 联轴器连接两轴后, 运转时不可分离, 需停机才能拆卸; 离合器可在运转中实现两轴的结合与分离, 无需停机。\n\n联轴器分类及应用:\n\n① 刚性联轴器: 无位移补偿能力, 适用于两轴对中性好、无冲击的低速重载场合 (如套筒联轴器用于小型电机, 凸缘联轴器用于机床主轴), 优点是结构简单、成本低、传递转矩大;\n② 挠性联轴器: 能补偿两轴相对位移 (径向、轴向、角位移), 分为无弹性元件 (如滑块联轴器、万向节联轴器, 适用于位移较大的场合) 和有弹性元件 (如弹性柱销联轴器, 兼具缓冲减震功能, 适用于中速有冲击的场合)。",
+              "interviewExtension": "万向节联轴器可实现相交轴传动, 常用于汽车传动轴; 齿式联轴器承载能力强, 适用于大型矿山机械。"
+            },
+            {
+              "id": "q08",
+              "title": "8. 离合器的分类及对其基本要求是什么? 安全离合器的作用是什么?",
+              "coreAnswer": "离合器分类:\n\n① 按工作原理: 嵌入式 (靠齿或爪啮合, 如牙嵌离合器, 传递转矩大) 和摩擦式 (靠摩擦力传力, 如盘式离合器, 结合平稳);\n② 按操作方式: 操纵式 (机械、液压、气压控制, 如汽车离合器) 和自动式 (靠载荷或转速自动结合分离, 如超越离合器)。\n\n基本要求:\n\n① 结合与分离迅速平稳, 避免冲击;\n② 结构简单、质量轻、惯性小, 减少能量损失;\n③ 传递转矩大, 效率高;\n④ 耐热性和散热性好, 防止过热失效;\n⑤ 操作方便、制造维修容易, 降低使用成本。\n\n安全离合器作用: 当载荷超过规定值时, 自动脱开两轴连接, 防止零件因过载损坏, 适用于经常出现过载的场合 (如破碎机、输送机), 是机械的\"过载保护装置\"。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q09",
+              "title": "9. 螺旋传动按用途分为哪几类? 各有何特点?",
+              "coreAnswer": "按用途分为三类:\n\n① 传力螺旋: 以传递动力为主, 要求承载能力大、效率高, 如千斤顶、压力机的螺旋 (多采用梯形螺纹);\n② 传导螺旋: 以传递运动为主, 要求传动精度高、运动平稳, 如机床丝杠 (常用梯形或滚珠丝杠);\n③ 调整螺旋: 用于调节零件位置, 要求定位准确, 如机床工作台的调节螺旋 (结构简单, 精度要求根据工况而定)。",
+              "interviewExtension": "滚珠螺旋传动通过滚珠实现滚动摩擦, 效率远高于滑动螺旋, 常用于精密数控机床, 但制造成本较高。"
+            },
+            {
+              "id": "q10",
+              "title": "10. 简述应力循环特性的定义及常见应力类型?",
+              "coreAnswer": "应力循环特性 (应力比) γ = σ_min / σ_max , 用于描述交变应力的变化规律。常见应力类型:\n\n① 对称循环应力 (γ = -1) , 如转轴的弯曲应力, σ_max 与 σ_min 大小相等、方向相反;\n② 脉动循环应力 (γ = 0) , 如齿轮齿根的弯曲应力, 只有拉应力或压应力交替, σ_min = 0 ;\n③ 静应力 (γ = 1) , 如起重机吊钩的应力, σ_max = σ_min , 应力不随时间变化。\n\n相关参数: 平均应力 σ_m = (σ_max + σ_min) / 2 (应力循环的均值), 应力幅值 σ_a = (σ_max - σ_min) / 2 (应力变化的幅度), 二者是疲劳强度计算的核心参数。",
+              "interviewExtension": ""
+            }
+          ]
+        },
+        {
+          "id": "ch05_bearing_spring",
+          "title": "五、滚动轴承与弹簧简答题",
+          "questions": [
+            {
+              "id": "q01",
+              "title": "1. 滚动轴承按滚动体形状分为哪几类? 其核心失效形式及寿命定义是什么?",
+              "coreAnswer": "按滚动体形状分为球轴承 (点接触, 承载小、转速高) 和滚子轴承 (线接触, 承载大、转速较低), 滚子轴承又包括圆柱滚子、圆锥滚子、调心滚子等类型。核心失效形式:\n\n① 疲劳点蚀（最常见，交变接触应力导致滚动体/滚道表面剥落）；\n② 磨损（安装不当或润滑不良引起）；\n③ 胶合（高速重载下油膜破裂，金属黏结）； \n④ 塑性变形（过载导致滚动体/滚道产生永久凹陷）。\n\n寿命定义：滚动轴承的额定寿命是指一批相同轴承在额定动载荷下，90% 的轴承不发生疲劳点蚀的工作小时数，是选型的核心依据。",
+              "interviewExtension": "高速场合优先选球轴承（如深沟球轴承），重载或承受轴向力场合选滚子轴承（如圆锥滚子轴承可同时承受径向和轴向力）。"
+            },
+            {
+              "id": "q02",
+              "title": "2. 滚动轴承与滑动轴承的应用边界如何划分？选型时需考虑哪些核心因素？",
+              "coreAnswer": "应用边界：中低速、标准化、维护便捷需求优先选滚动轴承；高速、重载、高精度或剖分式结构需求优先选滑动轴承。选型核心因素：\n\n① 载荷大小与方向（确定轴承类型，如纯径向载荷选深沟球轴承，联合载荷选角接触球轴承）；\n② 转速（球轴承适用于更高转速）；\n③ 精度要求（机床主轴选P4/P2级高精度轴承）；\n④ 安装空间（紧凑空间选薄型轴承）；\n⑤ 环境条件（潮湿环境选带密封的轴承，如双面胶封深沟球轴承）。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q03",
+              "title": "3. 弹簧的主要类型及材料要求是什么？圆柱螺旋弹簧的设计核心参数有哪些？",
+              "coreAnswer": "主要类型：\n\n① 圆柱螺旋弹簧（拉伸、压缩、扭转，应用最广）；\n② 碟形弹簧（承载大、变形小，用于缓冲减震）；\n③ 板弹簧（汽车悬架，承受弯曲载荷）；\n④ 涡卷弹簧（钟表、卷尺，储存能量）。\n\n材料要求：\n\n① 高弹性极限和疲劳强度（避免永久变形和疲劳断裂）；\n② 良好的韧性和淬透性；\n③ 抗腐蚀能力（如弹簧钢表面镀锌/发蓝处理）。常用材料有65Mn、50CrVA（中高载荷）、不锈钢（耐腐蚀场合）。\n\n核心设计参数：弹簧丝直径 d、弹簧中径 D2、有效圈数 n、节距 t，其中中径 D2 与丝径 d 的比值（旋绕比 C）直接影响弹簧的刚度和稳定性，C值通常取 4~16。",
+              "interviewExtension": ""
+            }
+          ]
+        },
+        {
+          "id": "ch06_mechanism",
+          "title": "六、机构创新与设计综合简答题",
+          "questions": [
+            {
+              "id": "q01",
+              "title": "1. 简述机构自由度的计算公式及计算时的注意事项？",
+              "coreAnswer": "平面机构自由度计算公式：F = 3n - 2PL - PH，其中 n 为活动构件数（机架固定，不计入），PL 为低副数（转动副、移动副等），PH 为高副数（凸轮、齿轮啮合等）。\n\n注意事项：\n\n① 复合铰链：k 个构件在同一轴线铰接，低副数为 k-1（如三个构件铰接，PL=2）；\n② 局部自由度：不影响机构整体运动的自由度（如滚子从动件的滚子转动，需减去局部自由度）；\n③ 虚约束：重复约束，计算时需去掉（如两构件间的多个移动副，只算1个）。",
+              "interviewExtension": "自由度 F ≤ 0 时机构不能运动，F = 1 时机构有确定运动（需一个原动件），F > 1 时需多个原动件协调运动，这是机构设计的基础。"
+            },
+            {
+              "id": "q02",
+              "title": "2. 常见的机构创新方法有哪些？请结合实例说明。",
+              "coreAnswer": "常用创新方法：\n\n① 机构组合法（串联、并联、叠加，如数控机床的进给机构是滚珠丝杠＋直线导轨的串联组合）；\n② 机构变异法（改变构件形状或运动副类型，如将曲柄滑块机构的滑块改为导杆，得到导杆机构）；\n③ 仿生设计法（模仿生物运动，如仿生机器人的关节采用球面副模拟人体关节）；\n④ 逆向设计法（从工作要求反推机构形式，如为实现间歇送料，设计槽轮机构或棘轮机构）。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q03",
+              "title": "3. 凸轮机构的常用从动件运动规律有哪些？各适用于什么场合？",
+              "coreAnswer": "主要运动规律及应用：\n\n① 等速运动规律：从动件速度突变，产生刚性冲击，适用于低速、轻载（如自动送料机构的推料凸轮）；\n② 等加速等减速运动规律：加速度突变，产生柔性冲击，适用于中速、中载（如机床凸轮机构）；\n③ 简谐运动规律：加速度连续变化，无刚性冲击，适用于高速、轻载（如高速凸轮粉碎机）；\n④ 多项式运动规律（如五次多项式）：加速度和速度均连续，无冲击，适用于高速、重载精密场合（如航空发动机凸轮）。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q04",
+              "title": "4. 齿轮系的分类及功用是什么？周转轮系的传动比计算核心步骤是什么？",
+              "coreAnswer": "齿轮系分为定轴轮系（各齿轮轴线固定）和周转轮系（含行星轮，轴线绕中心轮转动）。功用：\n\n① 实现大传动比（如减速器的定轴轮系，周转轮系传动比可达1000以上）；\n② 改变运动方向（如锥齿轮轮系实现90°转向）；\n③ 实现分路传动（如汽车变速箱的轮系，带动车轮和差速器）；\n④ 实现运动合成与分解（如差速器的周转轮系，分解汽车左右轮转速）。\n\n周转轮系传动比计算步骤：\n\n① 给整个周转轮系加一个与系杆转向相反的角速度（-ω_H），将其转化为定轴轮系（转化轮系）；\n② 利用定轴轮系传动比公式计算转化轮系的传动比；\n③ 代入已知条件，求解未知角速度和传动比。",
+              "interviewExtension": ""
+            },
+            {
+              "id": "q05",
+              "title": "5. 机械系统的减震降噪措施有哪些？请从结构设计角度分析。",
+              "coreAnswer": "结构设计层面的措施：\n\n① 采用弹性连接（如联轴器选用弹性柱销型，减少振动传递）；\n② 增加阻尼元件（如在机架上安装阻尼器，吸收振动能量）；\n③ 优化构件刚度分布（避免共振，如调整轴的直径避开临界转速）；\n④ 减少运动副间隙（如齿轮采用变位修正，减小啮合间隙）；\n⑤ 采用隔音结构（如齿轮箱采用密封式箱体并填充隔音材料）；\n⑥ 轻量化设计（选用铝合金等轻质材料，降低惯性力引起的振动）。",
+              "interviewExtension": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+                ]
+            };
+
+            // 兼容嵌套 books 结构：如果有元素本身包含 books 数组，拉平成同级书本
+            if (Array.isArray(booksData.books)) {
+                booksData.books = booksData.books.flatMap(b => (b && b.books ? b.books : [b]));
+            }
+
+            // 当前书本/章节
+            let currentBookId = "book1";
+            let currentChapterId = "chap1";
+            let currentBook = booksData.books.find(b => b.id === currentBookId);
+            let chapters = currentBook.chapters;
+
+            // DOM
+            const bookSelect = document.getElementById('bookSelect');
+            const chapterSelect = document.getElementById('chapterSelect');
+            const currentChapterSpan = document.getElementById('currentChapterTitle');
+            const container = document.getElementById('questionsContainer');
+            const prevBtn = document.getElementById('prevChapterBtn');
+            const nextBtn = document.getElementById('nextChapterBtn');
+            const toggleAllBtn = document.getElementById('toggleAllBtn');
+
+            // 主题切换
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const theme = btn.getAttribute('data-theme');
+                    document.body.setAttribute('data-theme', theme);
+                });
+            });
+
+            // 初始化下拉框
+            function renderBookSelect() {
+                bookSelect.innerHTML = '';
+                booksData.books.forEach(book => {
+                    const option = document.createElement('option');
+                    option.value = book.id;
+                    option.textContent = book.name;
+                    if (book.id === currentBookId) option.selected = true;
+                    bookSelect.appendChild(option);
+                });
+            }
+
+            function renderChapterSelect() {
+                chapterSelect.innerHTML = '';
+                currentBook = booksData.books.find(b => b.id === currentBookId);
+                chapters = currentBook.chapters;
+
+                if (chapters.length === 0) {
+                    const option = document.createElement('option');
+                    option.value = '';
+                    option.textContent = '✨ 暂无章节';
+                    chapterSelect.appendChild(option);
+                    chapterSelect.disabled = true;
+                    currentChapterSpan.textContent = '无章节';
+                    return;
+                }
+                chapterSelect.disabled = false;
+
+                chapters.forEach((ch, index) => {
+                    const option = document.createElement('option');
+                    option.value = ch.id;
+                    option.textContent = ch.title;
+                    if (index === 0 && !currentChapterId) {
+                        option.selected = true;
+                        currentChapterId = ch.id;
+                    } else if (ch.id === currentChapterId) {
+                        option.selected = true;
+                    }
+                    chapterSelect.appendChild(option);
+                });
+
+                const exists = chapters.some(ch => ch.id === currentChapterId);
+                if (!exists && chapters.length) {
+                    currentChapterId = chapters[0].id;
+                    chapterSelect.value = currentChapterId;
+                }
+                if (chapters.length) {
+                    const curCh = chapters.find(ch => ch.id === currentChapterId);
+                    currentChapterSpan.textContent = curCh ? curCh.title : chapters[0].title;
+                } else {
+                    currentChapterSpan.textContent = '';
+                }
+            }
+
+            // 处理加粗和换行
+            function processBold(text) {
+                if (!text) return '';
+                return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+            }
+
+            // 渲染卡片，所有答案默认隐藏（因为父容器没有show-answers类）
+            function renderQuestions() {
+                if (!chapters.length) {
+                    container.innerHTML = `<div class="empty-state">🍼 这本书还没有小题目呢，换一本试试吧～</div>`;
+                    return;
+                }
+                const chapter = chapters.find(ch => ch.id === currentChapterId);
+                if (!chapter || !chapter.questions || chapter.questions.length === 0) {
+                    container.innerHTML = `<div class="empty-state">🌸 当前章节还没有问题哦，去看看别的吧</div>`;
+                    return;
+                }
+
+                let htmlStr = '';
+                chapter.questions.forEach(q => {
+                    const coreWithBold = processBold(q.coreAnswer || '');
+                    const extWithBold = processBold(q.interviewExtension || '');
+
+                    htmlStr += `
+                        <div class="question-card" data-qid="${q.id}">
+                            <div class="q-title">${q.title}</div>
+                            <div class="core-answer">
+                                <span class="sub-label">🍬 核心答案</span>
+                                <div>${coreWithBold}</div>
+                            </div>
+                            <div class="interview-ext">
+                                <span class="sub-label">🍡 面试延伸</span>
+                                <div>${extWithBold}</div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="toggle-card-btn">🔍 展开本卡答案</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = htmlStr;
+
+                // 为每个卡片添加切换按钮事件
+                document.querySelectorAll('.question-card').forEach(card => {
+                    const btn = card.querySelector('.toggle-card-btn');
+                    const core = card.querySelector('.core-answer');
+                    const ext = card.querySelector('.interview-ext');
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const isHidden = core.style.display === 'none' || core.style.display === '';
+                        if (isHidden) {
+                            core.style.display = 'block';
+                            ext.style.display = 'block';
+                            btn.textContent = '📌 折叠答案';
+                        } else {
+                            core.style.display = 'none';
+                            ext.style.display = 'none';
+                            btn.textContent = '🔍 展开本卡答案';
+                        }
+                    });
+                });
+
+                // 渲染公式
+                if (window.MathJax) {
+                    MathJax.typesetPromise?.();
+                }
+            }
+
+            // 全局展开/折叠
+            let allAnswersVisible = false; // 初始折叠
+            toggleAllBtn.addEventListener('click', () => {
+                allAnswersVisible = !allAnswersVisible;
+                document.querySelectorAll('.question-card').forEach(card => {
+                    const core = card.querySelector('.core-answer');
+                    const ext = card.querySelector('.interview-ext');
+                    const btn = card.querySelector('.toggle-card-btn');
+                    if (allAnswersVisible) {
+                        core.style.display = 'block';
+                        ext.style.display = 'block';
+                        btn.textContent = '📌 折叠答案';
+                    } else {
+                        core.style.display = 'none';
+                        ext.style.display = 'none';
+                        btn.textContent = '🔍 展开本卡答案';
+                    }
+                });
+                toggleAllBtn.textContent = allAnswersVisible ? '🔮 折叠全部答案' : '🔮 展开全部答案';
+            });
+
+            // 刷新所有
+            function refreshAll() {
+                renderBookSelect();
+                renderChapterSelect();
+                renderQuestions();
+                // 重置全局展开状态为折叠
+                allAnswersVisible = false;
+                toggleAllBtn.textContent = '🔮 展开全部答案';
+            }
+
+            // 事件
+            bookSelect.addEventListener('change', (e) => {
+                currentBookId = e.target.value;
+                const newBook = booksData.books.find(b => b.id === currentBookId);
+                if (newBook.chapters && newBook.chapters.length > 0) {
+                    currentChapterId = newBook.chapters[0].id;
+                } else {
+                    currentChapterId = null;
+                }
+                renderChapterSelect();
+                renderQuestions();
+            });
+
+            chapterSelect.addEventListener('change', (e) => {
+                currentChapterId = e.target.value;
+                const chapter = chapters.find(ch => ch.id === currentChapterId);
+                if (chapter) currentChapterSpan.textContent = chapter.title;
+                renderQuestions();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (!chapters.length) return;
+                const currentIdx = chapters.findIndex(ch => ch.id === currentChapterId);
+                if (currentIdx > 0) {
+                    currentChapterId = chapters[currentIdx - 1].id;
+                    chapterSelect.value = currentChapterId;
+                    currentChapterSpan.textContent = chapters[currentIdx - 1].title;
+                    renderQuestions();
+                } else {
+                    alert('🍰 已经在第一章啦~');
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (!chapters.length) return;
+                const currentIdx = chapters.findIndex(ch => ch.id === currentChapterId);
+                if (currentIdx < chapters.length - 1) {
+                    currentChapterId = chapters[currentIdx + 1].id;
+                    chapterSelect.value = currentChapterId;
+                    currentChapterSpan.textContent = chapters[currentIdx + 1].title;
+                    renderQuestions();
+                } else {
+                    alert('🍰 已经是最后一章啦~');
+                }
+            });
+
+
+            // 初始渲染
+            refreshAll();
+        })();
+    </script>
+</body>
+</html>
