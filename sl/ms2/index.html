@@ -355,9 +355,51 @@
             color: var(--primary);
             border: 4px dotted var(--card-border);
         }
+        /* 逐行排版，让内容更清晰 */
+        .answer-line {
+            margin: 4px 0;
+            line-height: 1.8;
+            word-break: break-word;
+        }
+        .answer-line strong {
+            color: var(--text-strong);
+        }
+
+        /* 顶部导航 */
+        .top-nav {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            display: flex;
+            gap: 8px;
+            z-index: 1200;
+        }
+        .top-nav a {
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: #ffffff;
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .top-nav a:hover {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
     </style>
 </head>
 <body data-theme="pink">
+    <div class="top-nav">
+        <a href="../index.html">主页</a>
+        <a href="../ky/">口语</a>
+        <a href="../zt/">真题</a>
+        <a href="../ms/">面试</a>
+        <a href="../ms2/">机械材料</a>
+    </div>
     <div class="cute-container">
         <div class="header-cute">
             <h1><span>📘</span> 莓莓材料力学 · 折叠宝典</h1>
@@ -885,10 +927,23 @@
                 }
             }
 
-            // 处理加粗和换行
+            // 处理加粗、分行、前缀强调
             function processBold(text) {
                 if (!text) return '';
-                return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+                return text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .split(/\n+/)
+                    .map(line => {
+                        line = line.trim();
+                        if (!line) return '';
+                        const m = line.match(/^(.{1,80}?)(：|:)(.*)$/);
+                        if (m) {
+                            const [, head, colon, tail] = m;
+                            return `<div class="answer-line"><strong>${head}${colon}</strong>${tail}</div>`;
+                        }
+                        return `<div class="answer-line">${line}</div>`;
+                    })
+                    .join('');
             }
 
             // 渲染卡片，所有答案默认隐藏（因为父容器没有show-answers类）
@@ -903,46 +958,64 @@
                     return;
                 }
 
-                let htmlStr = '';
+                container.innerHTML = '';
+
                 chapter.questions.forEach(q => {
                     const coreWithBold = processBold(q.coreAnswer || '');
                     const extWithBold = processBold(q.interviewExtension || '');
 
-                    htmlStr += `
-                        <div class="question-card" data-qid="${q.id}">
-                            <div class="q-title">${q.title}</div>
-                            <div class="core-answer">
-                                <span class="sub-label">🍬 核心答案</span>
-                                <div>${coreWithBold}</div>
-                            </div>
-                            <div class="interview-ext">
-                                <span class="sub-label">🍡 面试延伸</span>
-                                <div>${extWithBold}</div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="toggle-card-btn">🔍 展开本卡答案</button>
-                            </div>
-                        </div>
-                    `;
-                });
-                container.innerHTML = htmlStr;
+                    const card = document.createElement('div');
+                    card.className = 'question-card';
+                    card.setAttribute('data-qid', q.id);
 
-                // 为每个卡片添加切换按钮事件
-                document.querySelectorAll('.question-card').forEach(card => {
-                    const btn = card.querySelector('.toggle-card-btn');
-                    const core = card.querySelector('.core-answer');
-                    const ext = card.querySelector('.interview-ext');
-                    btn.addEventListener('click', (e) => {
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'q-title';
+                    titleDiv.textContent = q.title;
+                    card.appendChild(titleDiv);
+
+                    const coreDiv = document.createElement('div');
+                    coreDiv.className = 'core-answer';
+                    const coreLabel = document.createElement('span');
+                    coreLabel.className = 'sub-label';
+                    coreLabel.textContent = '🍬 核心答案';
+                    const coreContent = document.createElement('div');
+                    coreContent.innerHTML = coreWithBold;
+                    coreDiv.appendChild(coreLabel);
+                    coreDiv.appendChild(coreContent);
+                    card.appendChild(coreDiv);
+
+                    const extDiv = document.createElement('div');
+                    extDiv.className = 'interview-ext';
+                    const extLabel = document.createElement('span');
+                    extLabel.className = 'sub-label';
+                    extLabel.textContent = '🍡 面试延伸';
+                    const extContent = document.createElement('div');
+                    extContent.innerHTML = extWithBold;
+                    extDiv.appendChild(extLabel);
+                    extDiv.appendChild(extContent);
+                    card.appendChild(extDiv);
+
+                    const footer = document.createElement('div');
+                    footer.className = 'card-footer';
+                    const toggleBtn = document.createElement('button');
+                    toggleBtn.className = 'toggle-card-btn';
+                    toggleBtn.textContent = '🔍 展开本卡答案';
+                    footer.appendChild(toggleBtn);
+                    card.appendChild(footer);
+
+                    container.appendChild(card);
+
+                    toggleBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        const isHidden = core.style.display === 'none' || core.style.display === '';
+                        const isHidden = coreDiv.style.display === 'none' || coreDiv.style.display === '';
                         if (isHidden) {
-                            core.style.display = 'block';
-                            ext.style.display = 'block';
-                            btn.textContent = '📌 折叠答案';
+                            coreDiv.style.display = 'block';
+                            extDiv.style.display = 'block';
+                            toggleBtn.textContent = '📌 折叠答案';
                         } else {
-                            core.style.display = 'none';
-                            ext.style.display = 'none';
-                            btn.textContent = '🔍 展开本卡答案';
+                            coreDiv.style.display = 'none';
+                            extDiv.style.display = 'none';
+                            toggleBtn.textContent = '🔍 展开本卡答案';
                         }
                     });
                 });
