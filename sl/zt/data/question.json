@@ -1,11 +1,15 @@
-﻿[
+[
   {
     "id": 1,
     "year": 2013,
     "type": "论述",
     "question": "麻花钻的结构特点及工作特点",
     "answer": "<div style='line-height:1.9;'><h4>一、结构特点</h4><ol><li>由<strong>柄部、颈部、工作部分</strong>组成。</li><li>工作部分有<strong>两条螺旋槽</strong>，起<strong>排屑、导切削液</strong>作用。</li><li>切削部分可看作<strong>两把对称车刀</strong>：含<strong>前刀面、主后刀面、副后刀面</strong>，以及<strong>主切削刃、副切削刃、横刃</strong>。</li><li>有<strong>刃带(棱边)</strong>起导向，减小摩擦。</li></ol><h4>二、工作特点</h4><ol><li>可加工<strong>实心孔</strong>，应用广泛。</li><li><strong>排屑、冷却、润滑</strong>条件相对较差。</li><li><strong>横刃较长</strong>，<strong>定心差</strong>、<strong>轴向力大</strong>，孔易偏斜。</li><li>切削刃长、切削变形大，<strong>加工精度较低</strong>。</li></ol></div>",
-    "tags": ["麻花钻", "刀具", "切削"],
+    "tags": [
+      "麻花钻",
+      "刀具",
+      "切削"
+    ],
     "memoryTips": "<div style='background:#f0f9ff; padding:15px; border-radius:12px; border-left:4px solid #0ea5e9;'><h4 style='color:#0369a1; margin-bottom:10px;'>答案解析</h4><div style='background:#e0f2fe; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#0c4a6e; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 题目要求回答<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>工作特点</span>和<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>结构特点</span>两部分，需要分别阐述。</p></div><h5 style='color:#0369a1; margin:15px 0 8px;'>工作特点记忆要点</h5><ul style='color:#334155; margin:0; padding-left:20px; line-height:2;'><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>前端</span>是<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削部分</span>（干活的地方）</li><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>后端</span>是<span style='background:#93c5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>导向部分</span>（引导方向）</li><li>两条<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>螺旋槽</span>用于<span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>容屑和排屑</span></li><li>两条<span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>棱边</span>（刃带）有<span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>倒锥量</span>（减少摩擦）</li></ul><h5 style='color:#0369a1; margin:15px 0 8px;'>结构特点记忆要点</h5><p style='color:#334155; margin:0 0 10px;'>把麻花钻想象成<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>两把对称的车刀</span>，然后分析各面、各刃：</p><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#e0f2fe;'><th style='padding:8px; border:1px solid #7dd3fc;'>要素</th><th style='padding:8px; border:1px solid #7dd3fc;'>对应部位</th></tr><tr><td style='padding:8px; border:1px solid #bae6fd;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>前刀面</span></td><td style='padding:8px; border:1px solid #bae6fd;'>螺旋槽的螺旋面</td></tr><tr style='background:#f0f9ff;'><td style='padding:8px; border:1px solid #bae6fd;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>主后刀面</span></td><td style='padding:8px; border:1px solid #bae6fd;'>与过渡表面相对的端部两面</td></tr><tr><td style='padding:8px; border:1px solid #bae6fd;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>副后刀面</span></td><td style='padding:8px; border:1px solid #bae6fd;'>两条棱边</td></tr><tr style='background:#f0f9ff;'><td style='padding:8px; border:1px solid #bae6fd;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>主切削刃</span></td><td style='padding:8px; border:1px solid #bae6fd;'>螺旋槽与主后刀面的交线</td></tr><tr><td style='padding:8px; border:1px solid #bae6fd;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>副切削刃</span></td><td style='padding:8px; border:1px solid #bae6fd;'>棱边与螺旋槽的交线</td></tr><tr style='background:#f0f9ff;'><td style='padding:8px; border:1px solid #bae6fd;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>横刃</span></td><td style='padding:8px; border:1px solid #bae6fd;'>前后刀面在钻芯处的交线</td></tr></table></div>"
   },
   {
@@ -14,7 +18,13 @@
     "type": "论述",
     "question": "磨削、珩磨、研磨、抛光的区别",
     "answer": "<span style='background:#fef08a; padding:3px 8px; border-radius:4px;'>磨削：</span>通过<span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>砂轮高速旋转</span>，砂轮上的<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>磨粒刻划</span>被加工表面来加工以<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>提高工件表面质量</span>。\n\n<span style='background:#fef08a; padding:3px 8px; border-radius:4px;'>珩磨：</span>利用<span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>磨条</span>以<span style='background:#dbeafe; padding:3px 8px; border-radius:4px;'>一定的压力</span>压在工件的被加工表面上，并相对工件作<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>旋转与往复运动</span>以<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>降低工件粗糙度，提高精度</span>。\n\n<span style='background:#fef08a; padding:3px 8px; border-radius:4px;'>研磨：</span>将<span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>研磨剂</span>涂敷或浇注在<span style='background:#dbeafe; padding:3px 8px; border-radius:4px;'>研具与工件</span>间，工件与夹具在<span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>一定压力</span>下作<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>不断变更方向的相对运动</span>，在磨粒的作用下<span style='background:#f472b6; padding:3px 8px; border-radius:4px;'>逐步刮擦并微显切除工件表面的很薄的金属层</span>。\n\n<span style='background:#fef08a; padding:3px 8px; border-radius:4px;'>抛光：</span>利用<span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>布轮、布盘等软的研具</span>涂上<span style='background:#f472b6; padding:3px 8px; border-radius:4px;'>抛光膏</span>抛光工件表面，靠<span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>抛光膏的机械刮擦与化学作用</span><span style='background:#60a5fa; padding:3px 8px; border-radius:4px;'>去掉粗糙度的峰顶</span>，使表面<span style='background:#3b82f6; padding:3px 8px; border-radius:4px; color:white;'>获得光泽镜面</span>。",
-    "tags": ["磨削", "珩磨", "研磨", "抛光", "加工方法"],
+    "tags": [
+      "磨削",
+      "珩磨",
+      "研磨",
+      "抛光",
+      "加工方法"
+    ],
     "memoryTips": "<div style='background:#fef3c7; padding:15px; border-radius:12px; border-left:4px solid #f59e0b;'><h4 style='color:#92400e; margin-bottom:10px;'>答案解析</h4><div style='background:#fde68a; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#78350f; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 区别题需要从<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>加工工具</span>、<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>加工方式</span>、<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>加工目的</span>三个维度对比。</p></div><table style='width:100%; margin:15px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#fde68a;'><th style='padding:8px; border:1px solid #f59e0b;'>方法</th><th style='padding:8px; border:1px solid #f59e0b;'>核心工具</th><th style='padding:8px; border:1px solid #f59e0b;'>关键动作</th><th style='padding:8px; border:1px solid #f59e0b;'>主要目的</th></tr><tr><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>磨削</span></td><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>砂轮</span></td><td style='padding:8px; border:1px solid #fcd34d;'>高速旋转+磨粒刻划</td><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>提高表面质量</span></td></tr><tr style='background:#fffbeb;'><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>珩磨</span></td><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>磨条/油石</span></td><td style='padding:8px; border:1px solid #fcd34d;'>旋转+往复运动</td><td style='padding:8px; border:1px solid:#fcd34d;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>降低粗糙度、提高精度</span></td></tr><tr><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>研磨</span></td><td style='padding:8px; border:1px solid:#fcd34d;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>将研磨剂涂敷或浇注在研具与工件间</span></td><td style='padding:8px; border:1px solid #fcd34d;'>变更方向的相对运动</td><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>微量切除（很薄的金属层）</span></td></tr><tr style='background:#fffbeb;'><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>抛光</span></td><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>布轮/布盘+抛光膏</span></td><td style='padding:8px; border:1px solid #fcd34d;'>机械刮擦+化学作用</td><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>去掉峰顶-光泽镜面</span></td></tr></table><div style='background:#fef3c7; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #f59e0b;'><p style='color:#78350f; margin:0;'><strong>记忆逻辑：</strong>按精度从低到高排列：<span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>磨削（粗）</span> <span style='background:#93c5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>珩磨（精）</span> <span style='background:#60a5fa; padding:2px 6px; border-radius:4px; font-weight:bold;'>研磨（超精）</span> <span style='background:#3b82f6; padding:2px 6px; border-radius:4px; font-weight:bold; color:white;'>抛光（镜面）</span></p></div></div>"
   },
   {
@@ -23,7 +33,11 @@
     "type": "论述",
     "question": "加工工作平台T型槽的方法(机床及刀具)",
     "answer": "1. <span style='background:#dbeafe; padding:3px 8px; border-radius:4px;'>先按照所需尺寸划线做基准</span>。\n2. <span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>用比所需 T 型槽小的铣刀</span>铣到所需的深度。\n3. <span style='background:#86efac; padding:3px 8px; border-radius:4px;'>再用所需 T 型槽开口同样大的铣刀</span>铣到所需的深度。\n4. <span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>最后用所需开口同样大的 T 型铣刀</span>铣完即可。",
-    "tags": ["T型槽", "铣削", "加工工艺"],
+    "tags": [
+      "T型槽",
+      "铣削",
+      "加工工艺"
+    ],
     "memoryTips": "<div style='background:#ecfdf5; padding:15px; border-radius:12px; border-left:4px solid #10b981;'><h4 style='color:#047857; margin-bottom:10px;'>答案解析</h4><div style='background:#d1fae5; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#064e3b; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> T型槽是<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>上宽下窄</span>的结构，无法一次成型，必须<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>分步加工</span>。</p></div><img src='images/t-slot-machining.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #10b981;' alt='T型槽加工方法图'/><h5 style='color:#047857; margin:15px 0 8px;'>四步加工逻辑</h5><ol style='color:#334155; margin:0; padding-left:20px; line-height:2;'><li><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>划线定位</span> - 先确定位置和尺寸基准</li><li><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>小铣刀开槽</span> - 用比目标<span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>小</span>的铣刀铣到深度（预留余量）</li><li><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>等宽铣刀扩槽</span> - 用与开口<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>等宽</span>的铣刀加工上部直槽</li><li><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>T型铣刀成型</span> - 用T型铣刀铣削底部扩宽，形成T型结构</li></ol><div style='background:#ecfdf5; padding:10px; border-radius:8px; margin:10px 0; border:1px dashed #10b981;'><p style='color:#065f46; margin:0;'><strong>核心思路：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>先小后大，先直后T，逐步成型</span></p></div></div>"
   },
   {
@@ -32,7 +46,11 @@
     "type": "论述",
     "question": "误差复映及避免方法",
     "answer": "<div style='line-height:1.85;'><p><strong>误差复映：</strong>加工过程中，由于<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>毛坯余量不均</span>、<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>材料硬度波动</span>等原因，导致切削力变化，使<span style='background:#bfdbfe; padding:2px 6px; border-radius:4px;'>工艺系统受力变形不一致</span>，从而使毛坯的原始误差“复映”到加工后工件表面的现象。</p><p><strong>形状/位置误差复映：</strong>两者均可能发生复映。</p><p><strong>减少方法：</strong></p><ol style='margin:6px 0 0 20px;'><li><strong>划分加工阶段</strong>（粗—半精—精），逐步削弱毛坯误差影响。</li><li><strong>多次走刀/分层切削</strong>，降低单次切削力波动与系统变形。</li><li><strong>提高工艺系统刚度</strong>（机床/夹具/刀具/工件），减小受力变形。</li></ol></div>",
-    "tags": ["误差复映", "工艺系统", "加工精度"],
+    "tags": [
+      "误差复映",
+      "工艺系统",
+      "加工精度"
+    ],
     "memoryTips": "<div style='background:#ede9fe; padding:15px; border-radius:12px; border-left:4px solid #8b5cf6;'><h4 style='color:#5b21b6; margin-bottom:10px;'>答案解析</h4><div style='background:#ddd6fe; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#4c1d95; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 需要解释<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>什么是误差复映</span>、<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>产生原因</span>、<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>如何避免</span>三个层次。</p></div><img src='images/error-propagation.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #8b5cf6;' alt='误差复映原理图'/><h5 style='color:#5b21b6; margin:15px 0 8px;'>误差复映的因果链</h5><div style='background:#f5f3ff; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#4c1d95; margin:0; font-family:monospace; font-size:13px; line-height:2;'>1. <span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>毛坯误差</span> (余量不均/硬度变化)<br>2. <span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削力变化</span><br>3. <span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>工艺系统变形</span><br>4. <span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>工件误差</span> (复映)</p></div><h5 style='color:#5b21b6; margin:15px 0 8px;'>答案关键词</h5><ul style='color:#334155; margin:0; padding-left:20px; line-height:2;'><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>毛坯误差</span>：<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>余量和硬度变化</span>是根源</li><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削力变化</span>：导致<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>系统受力</span>的变化</li><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>工艺系统变形</span>：<span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>误差传递</span>的中间环节</li><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>尺寸误差和形状误差</span>：最终<span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>表现结果</span></li></ul><div style='background:#ede9fe; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #8b5cf6;'><p style='color:#5b21b6; margin:0;'><strong>避免方法核心：</strong><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>提高工艺系统刚度</span>（减少变形）是根本解决之道</p></div></div>"
   },
   {
@@ -41,7 +59,11 @@
     "type": "名词解释",
     "question": "积屑瘤",
     "answer": "<span style='background:#fef08a; padding:3px 8px; border-radius:4px;'>积屑瘤：</span><span style='background:#dbeafe; padding:3px 8px; border-radius:4px;'>在切削速度不高又能形成连续切削的情况下</span>常在<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>刀具前刀面</span>粘着一块<span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>前面有时呈三角状的硬块</span>，在处于比较稳定的状态时能够<span style='background:#f472b6; padding:3px 8px; border-radius:4px;'>代替切削力进行切削</span>。这块<span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>冷焊在前刀面上的金属</span>称为积屑瘤。",
-    "tags": ["积屑瘤", "切削", "刀具"],
+    "tags": [
+      "积屑瘤",
+      "切削",
+      "刀具"
+    ],
     "memoryTips": "<div style='background:#fee2e2; padding:15px; border-radius:12px; border-left:4px solid #ef4444;'><h4 style='color:#991b1b; margin-bottom:10px;'>答案解析</h4><div style='background:#fecaca; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#7f1d1d; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 词语解释需要包含<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>形成条件</span>、<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>位置</span>、<span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>形态</span>、<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>作用</span>、<span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>本质</span>五个要素。</p></div><img src='images/built-up-edge.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #ef4444;' alt='积屑瘤示意图'/><h5 style='color:#991b1b; margin:15px 0 8px;'>答案结构拆解</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#fecaca;'><th style='padding:8px; border:1px solid #f87171;'>要素</th><th style='padding:8px; border:1px solid #f87171;'>答案关键词</th></tr><tr><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>形成条件</span></td><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削速度不高</span> + <span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>连续切削</span></td></tr><tr style='background:#fef2f2;'><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>位置</span></td><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>刀具前刀面</span></td></tr><tr><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>形态</span></td><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>三角状硬块</span></td></tr><tr style='background:#fef2f2;'><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>作用</span></td><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>代替切削刃进行切削</span></td></tr><tr><td style='padding:8px; border:1px solid;#fca5a5;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>本质</span></td><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#60a5fa; padding:2px 6px; border-radius:4px; font-weight:bold;'>冷焊在前刀面上的金属</span></td></tr></table><div style='background:#fee2e2; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #ef4444;'><p style='color:#991b1b; margin:0;'><strong>记忆要点：</strong>积屑瘤= <span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>低速</span> + <span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>连续切削</span> + <span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>前刀面</span> + <span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>冷焊金属块</span></p></div></div>"
   },
   {
@@ -50,7 +72,11 @@
     "type": "名词解释",
     "question": "削边销",
     "answer": "<div style='line-height:1.85;'><p><strong>定义：</strong>一面两孔定位中，为避免中心距误差引起过定位，将一圆柱销削去一侧，使其在连心线方向不限制自由度的定位销。</p><p><strong>作用：</strong>消除过定位，保证装夹，限制一个转动自由度。</p></div>",
-    "tags": ["削边销", "定位", "夹具"],
+    "tags": [
+      "削边销",
+      "定位",
+      "夹具"
+    ],
     "memoryTips": "<div style='background:#dbeafe; padding:15px; border-radius:12px; border-left:4px solid #3b82f6;'><h4 style='color:#1e40af; margin-bottom:10px;'>答案解析</h4><div style='background:#bfdbfe; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#1e3a8a; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 需要说明<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>应用场景</span>、<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>目的</span>、<span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>具体做法</span>、<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>结果</span>。</p></div><img src='images/reduced-pin.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #3b82f6;' alt='削边销定位原理图'/><h5 style='color:#1e40af; margin:15px 0 8px;'>答案逻辑链</h5><ol style='color:#334155; margin:0; padding-left:20px; line-height:2;'><li><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>应用场景</span>：<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>两孔定位</span></li><li><span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>问题</span>：第二销会碰到孔壁（<span style='background:#ef4444; padding:2px 6px; border-radius:4px; font-weight:bold;'>过定位</span>）</li><li><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>解决方案</span>：<span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>削去</span>碰到孔壁的部分</li><li><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>目的</span>：<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>增加连心线方向的间隙</span>，避免过定位</li><li><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>结果</span>：只留下<span style='background:#60a5fa; padding:2px 6px; border-radius:4px; font-weight:bold;'>部分圆柱面</span></li></ol><div style='background:#dbeafe; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #3b82f6;'><p style='color:#1e40af; margin:0;'><strong>核心理解：</strong>削边销 = <span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>两孔定位</span>时，<span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>第二销削边</span>避免<span style='background:#ef4444; padding:2px 6px; border-radius:4px; font-weight:bold;'>过定位</span></p></div></div>"
   },
   {
@@ -59,7 +85,11 @@
     "type": "论述",
     "question": "画出车削过程中的三个主要变形区，并简述其特点及对于加工系统的影响",
     "answer": "<span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>第 I 变形区：</span><span style='background:#fef08a; padding:3px 8px; border-radius:4px;'>基本变形区</span>，<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>变形量大</span>，切削层的塑性变形区常用来说明切削过程<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>变形程度</span>。\n\n<span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>第 II 变形区：</span><span style='background:#f472b6; padding:3px 8px; border-radius:4px;'>摩擦变形区</span>，切削与前刀面摩擦的区域切削形成后与前刀面有压力，所以沿刀面流出时有<span style='background:#ef4444; padding:3px 8px; border-radius:4px;'>很大的摩擦力</span>所以切削底层又一次的发生<span style='background:#dbeafe; padding:3px 8px; border-radius:4px;'>塑性变形</span>。\n\n<span style='background:#60a5fa; padding:3px 8px; border-radius:4px;'>第 III 变形区：</span><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>加工表面变形区</span>，<span style='background:#dbeafe; padding:3px 8px; border-radius:4px;'>已加工表面与后刀面接触</span>，<span style='background:#f472b6; padding:3px 8px; border-radius:4px;'>影响已加工表面的加工质量</span>。",
-    "tags": ["切削变形区", "车削", "切削机理"],
+    "tags": [
+      "切削变形区",
+      "车削",
+      "切削机理"
+    ],
     "memoryTips": "<div style='background:#fce7f3; padding:15px; border-radius:12px; border-left:4px solid #ec4899;'><h4 style='color:#9d174d; margin-bottom:10px;'>答案解析</h4><div style='background:#fbcfe8; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#831843; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 三个变形区按<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>位置</span>区分，每个区要说明<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>特点</span>和<span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>影响</span>。</p></div><table style='width:100%; margin:15px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#fbcfe8;'><th style='padding:8px; border:1px solid #ec4899;'>变形区</th><th style='padding:8px; border:1px solid #ec4899;'>位置</th><th style='padding:8px; border:1px solid #ec4899;'>核心特点</th><th style='padding:8px; border:1px solid #ec4899;'>主要影响</th></tr><tr><td style='padding:8px; border:1px solid #f9a8d4;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>第I区</span></td><td style='padding:8px; border:1px solid #f9a8d4;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削层</span></td><td style='padding:8px; border:1px solid #f9a8d4;'><span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>剪切滑移，变形最大</span></td><td style='padding:8px; border:1px solid #f9a8d4;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削力、切屑形成</span></td></tr><tr style='background:#fdf2f8;'><td style='padding:8px; border:1px solid #f9a8d4;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>第II区</span></td><td style='padding:8px; border:1px solid #f9a8d4;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>刀-屑接触面</span></td><td style='padding:8px; border:1px solid #f9a8d4;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>摩擦变形</span></td><td style='padding:8px; border:1px solid:#f9a8d4;'><span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削温度、刀具磨损</span></td></tr><tr><td style='padding:8px; border:1px solid #f9a8d4;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>第III区</span></td><td style='padding:8px; border:1px solid #f9a8d4;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>刀-工接触面</span></td><td style='padding:8px; border:1px solid #f9a8d4;'><span style='background:#60a5fa; padding:2px 6px; border-radius:4px; font-weight:bold;'>表面变形、回弹摩擦</span></td><td style='padding:8px; border:1px solid #f9a8d4;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>表面质量、加工硬化</span></td></tr></table><div style='background:#fce7f3; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #ec4899;'><p style='color:#9d174d; margin:0;'><strong>记忆逻辑：</strong>按切屑流动方向：<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>I区（剪切）</span> <span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>II区（刀-屑摩擦）</span> <span style='background:#60a5fa; padding:2px 6px; border-radius:4px; font-weight:bold;'>III区（刀-工摩擦）</span></p></div></div>"
   },
   {
@@ -68,7 +98,11 @@
     "type": "论述",
     "question": "完全定位、不完全定位、过定位、欠定位四者的区别",
     "answer": "<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>完全定位：</span>在对工件进行定位支撑时<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>限制了工件全部六个自由度</span>的定位。\n\n<span style='background:#93c5fd; padding:3px 8px; border-radius:4px;'>不完全定位：</span>根据加工要求，工件在一个或几个方向上<span style='background:#fef08a; padding:3px 8px; border-radius:4px;'>不需要限制自由度</span>，这种<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>允许少于六点的定位</span>称为不完全定位。\n\n<span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>过定位：</span>工件的某一个自由度<span style='background:#ef4444; padding:3px 8px; border-radius:4px;'>同时被一个以上的定位支撑点重复限制</span>，则对这个自由度的限制会产生<span style='background:#f472b6; padding:3px 8px; border-radius:4px;'>矛盾</span>，这种情况称为过定位。\n\n<span style='background:#ef4444; padding:3px 8px; border-radius:4px;'>欠定位：</span>在加工中，工件的<span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>定位支撑点数量少于应限制的自由度数</span>必然导致<span style='background:#ef4444; padding:3px 8px; border-radius:4px;'>达不到所要求的加工精度</span>，这种定位点不足的情况称为欠定位。",
-    "tags": ["定位", "自由度", "夹具"],
+    "tags": [
+      "定位",
+      "自由度",
+      "夹具"
+    ],
     "memoryTips": "<div style='background:#cffafe; padding:15px; border-radius:12px; border-left:4px solid #06b6d4;'><h4 style='color:#0e7490; margin-bottom:10px;'>答案解析</h4><div style='background:#a5f3fc; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#155e75; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 四种定位的核心区别在于<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>限制自由度的数量</span>和<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>方式</span>不同。</p></div><table style='width:100%; margin:15px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#a5f3fc;'><th style='padding:8px; border:1px solid #22d3ee;'>定位类型</th><th style='padding:8px; border:1px solid #22d3ee;'>限制自由度</th><th style='padding:8px; border:1px solid #22d3ee;'>核心特征</th><th style='padding:8px; border:1px solid #22d3ee;'>是否允许</th></tr><tr><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>完全定位</span></td><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>6个</span></td><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>全部限制</span></td><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>正确</span></td></tr><tr style='background:#ecfeff;'><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#93c5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>不完全定位</span></td><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>&lt;6个</span></td><td style='padding:8px; border:1px solid #67e8f9;'>加工不需要的方向不限</td><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>合理</span></td></tr><tr><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>过定位</span></td><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#ef4444; padding:2px 6px; border-radius:4px; font-weight:bold;'>重复限制</span></td><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>一个自由度被多个点限制</span></td><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>不允许</span></td></tr><tr style='background:#ecfeff;'><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>欠定位</span></td><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#ef4444; padding:2px 6px; border-radius:4px; font-weight:bold;'>不足</span></td><td style='padding:8px; border:1px solid #67e8f9;'>限制点数少于应限自由度数</td><td style='padding:8px; border:1px solid #67e8f9;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>不允许</span></td></tr></table><div style='background:#cffafe; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #06b6d4;'><p style='color:#0e7490; margin:0;'><strong>判断要点：</strong>先确定需要限制几个自由度-再看实际限制几个-<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>6个=完全</span>、<span style='background:#93c5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>&lt;6个但够用=不完全</span>、<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>重复=过定位</span>、<span style='background:#ef4444; padding:2px 6px; border-radius:4px; font-weight:bold;'>不够=欠定位</span></p></div></div>"
   },
   {
@@ -77,7 +111,10 @@
     "type": "论述",
     "question": "确定工序加工余量时应该考虑的因素",
     "answer": "<span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>2. 上工序的表面粗糙度、表面破坏层</span>\n<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>3. 上工序的尺寸公差</span>\n<span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>4. 需要单独考虑的误差</span>\n<span style='background:#60a5fa; padding:3px 8px; border-radius:4px;'>5. 本工序的安装误差</span>",
-    "tags": ["加工余量", "工艺设计"],
+    "tags": [
+      "加工余量",
+      "工艺设计"
+    ],
     "memoryTips": "<div style='background:#f3e8ff; padding:15px; border-radius:12px; border-left:4px solid #a855f7;'><h4 style='color:#6b21a8; margin-bottom:10px;'>答案解析</h4><div style='background:#e9d5ff; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#581c87; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 加工余量要足够<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>去除上工序的缺陷</span>，还要<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>补偿各种误差</span>。</p></div><img src='images/machining-allowance.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #a855f7;' alt='加工余量示意图'/><h5 style='color:#6b21a8; margin:15px 0 8px;'>五因素分类记忆</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#e9d5ff;'><th style='padding:8px; border:1px solid #c084fc;'>类别</th><th style='padding:8px; border:1px solid #c084fc;'>因素</th><th style='padding:8px; border:1px solid #c084fc;'>原因</th></tr><tr><td style='padding:8px; border:1px solid #d8b4fe;' rowspan='2'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>上工序表面质量</span></td><td style='padding:8px; border:1px solid #d8b4fe;'><span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>表面粗糙度</span></td><td style='padding:8px; border:1px solid #d8b4fe;'>要覆盖Ra值</td></tr><tr><td style='padding:8px; border:1px solid #d8b4fe;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>表面破坏层</span></td><td style='padding:8px; border:1px solid #d8b4fe;'>脱碳/氧化层必须去除</td></tr><tr style='background:#faf5ff;'><td style='padding:8px; border:1px solid #d8b4fe;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>上工序尺寸误差</span></td><td style='padding:8px; border:1px solid #d8b4fe;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>尺寸公差</span></td><td style='padding:8px; border:1px solid #d8b4fe;'>上工序尺寸波动范围</td></tr><tr><td style='padding:8px; border:1px solid #d8b4fe;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>特殊误差</span></td><td style='padding:8px; border:1px solid #d8b4fe;'><span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>单独考虑的误差</span></td><td style='padding:8px; border:1px solid #d8b4fe;'>形位误差等特殊情况</td></tr><tr style='background:#faf5ff;'><td style='padding:8px; border:1px solid #d8b4fe;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>本工序误差</span></td><td style='padding:8px; border:1px solid #d8b4fe;'><span style='background:#60a5fa; padding:2px 6px; border-radius:4px; font-weight:bold;'>安装误差</span></td><td style='padding:8px; border:1px solid #d8b4fe;'>定位夹紧带来的误差</td></tr></table><div style='background:#faf5ff; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #a855f7;'><p style='color:#6b21a8; margin:0;'><strong>公式理解：</strong>最小余量 >= 表面粗糙度 + 表面破坏层；实际余量 = 上述5因素之和</p></div></div>"
   },
   {
@@ -86,7 +123,11 @@
     "type": "名词解释",
     "question": "积屑瘤",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>积屑瘤</span>：在切削速度不高又能形成连续切削的情况下常在刀具前刀面粘着一块副面有时呈三角状的硬块，在处于比较稳定的状态时能够代替切削力进行切削，这块冷焊在前刀面上的金属称为积屑瘤。",
-    "tags": ["积屑瘤", "切削", "刀具"],
+    "tags": [
+      "积屑瘤",
+      "切削",
+      "刀具"
+    ],
     "memoryTips": "<div style='background:#f3e8ff; padding:15px; border-radius:12px; border-left:4px solid #a855f7;'><h4 style='color:#6b21a8; margin-bottom:10px;'>记忆要点</h4><p>🔪 <strong>关键词：</strong>冷焊、三角状硬块、代替切削</p><p>📌 <strong>形成条件：</strong>切削速度不高 + 连续切削</p><p>💡 <strong>口诀：</strong>积屑瘤，冷焊粘；刀尖上，三角现；稳时可代刀，加工要注意。</p><img src='images/built-up-edge.svg' style='max-width:100%; border-radius:8px; margin:10px 0;' alt='积屑瘤示意图'><p><em>（图片占位，请替换为实际示意图）</em></p></div>"
   },
   {
@@ -95,7 +136,11 @@
     "type": "名词解释",
     "question": "基准重合原则",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>基准重合原则</span>：在确定定位方案时使定位基准与设计基准重合的原则。",
-    "tags": ["基准重合原则", "定位", "工艺"],
+    "tags": [
+      "基准重合原则",
+      "定位",
+      "工艺"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px; border-radius:12px; border-left:4px solid #1890ff;'><h4 style='color:#0050b3;'>理解</h4><p>🎯 基准重合 = 设计基准与定位基准是同一个，可避免基准不重合误差。</p><p>📐 <strong>示意图：</strong>设计基准（如尺寸标注的起点）与定位时用的点一致。</p><img src='images/datum-coincidence.svg' style='max-width:100%;' alt='基准重合原则'></div>"
   },
   {
@@ -104,7 +149,11 @@
     "type": "名词解释",
     "question": "主偏角",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>主偏角</span>：在基面内测量的主切削刃在基面上的投影与进给运动方向的夹角。",
-    "tags": ["主偏角", "刀具角度", "切削"],
+    "tags": [
+      "主偏角",
+      "刀具角度",
+      "切削"
+    ],
     "memoryTips": "<div style='background:#fef9e7; padding:15px; border-radius:12px; border-left:4px solid #f39c12;'><h4 style='color:#b45f06;'>记忆</h4><p>🔧 主偏角（κr）：主切削刃与进给方向的夹角，影响切削厚度和切削力。</p><p>📐 <strong>常见值：</strong>90°车刀用于车端面，45°用于倒角。</p></div>"
   },
   {
@@ -113,7 +162,10 @@
     "type": "名词解释",
     "question": "工序",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>工序</span>：组成机械加工工艺过程的基本单元，指一个工人在一台机床上对同一个工件所连续完成的那一部分工艺过程。",
-    "tags": ["工序", "工艺过程"],
+    "tags": [
+      "工序",
+      "工艺过程"
+    ],
     "memoryTips": "<div style='background:#e8f5e9; padding:15px; border-radius:12px; border-left:4px solid #388e3c;'><h4 style='color:#1b5e20;'>关键点</h4><p>🛠️ 三要素：<strong>同一工人、同一机床、同一工件</strong>，且<strong>连续完成</strong>。</p><p>📌 改变任一个要素，就进入下一工序。</p></div>"
   },
   {
@@ -122,7 +174,10 @@
     "type": "名词解释",
     "question": "随机误差",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>随机误差</span>：加工一批零件中，这类误差的大小和方向是不规律的变化着的。如：毛坯误差的复映、定位误差、夹紧误差、多次调整误差、内应力引起的误差。",
-    "tags": ["随机误差", "加工误差"],
+    "tags": [
+      "随机误差",
+      "加工误差"
+    ],
     "memoryTips": "<div style='background:#fce4e4; padding:15px; border-radius:12px; border-left:4px solid #c0392b;'><h4 style='color:#a93226;'>特点</h4><p>🎲 无规律、不可预知，但服从统计规律（正态分布）。</p><p>📋 <strong>常见例子：</strong>毛坯复映、定位夹紧误差、<span style='background:#fde68a; padding:2px 6px; border-radius:4px; font-weight:bold;'>多次调整误差</span>、内应力变形。</p></div>"
   },
   {
@@ -131,7 +186,11 @@
     "type": "名词解释",
     "question": "不完全定位",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>不完全定位</span>：根据加工要求，工件在一个或几个方向上不需要限制自由度，这种允许少于六点的定位称为不完全定位。",
-    "tags": ["不完全定位", "定位", "自由度"],
+    "tags": [
+      "不完全定位",
+      "定位",
+      "自由度"
+    ],
     "memoryTips": "<div style='background:#d5f4e6; padding:15px; border-radius:12px; border-left:4px solid #118ab2;'><h4 style='color:#073b4c;'>理解</h4><p>⚙️ 自由度限制少于6个，但满足加工要求即为合理。例如：车外圆时只需限制4个自由度。</p><p>✅ 不完全定位 ≠ 欠定位！</p></div>"
   },
   {
@@ -140,7 +199,10 @@
     "type": "论述",
     "question": "确定工序加工余量时应该考虑的因素",
     "answer": "<span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>2. 上工序的表面粗糙度、表面破坏层</span>\n<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>3. 上工序的尺寸公差</span>\n<span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>4. 需要单独考虑的误差</span>\n<span style='background:#60a5fa; padding:3px 8px; border-radius:4px;'>5. 本工序的安装误差</span>",
-    "tags": ["加工余量", "工艺设计"],
+    "tags": [
+      "加工余量",
+      "工艺设计"
+    ],
     "memoryTips": "<div style='background:#f3e8ff; padding:15px; border-radius:12px; border-left:4px solid #a855f7;'><h4 style='color:#6b21a8; margin-bottom:10px;'>记忆口诀：粗破公单独装</h4><p>🔹 <span style='background:#fde047; padding:2px 4px;'>粗</span>糙度<br>🔹 表面破<span style='background:#fca5a5; padding:2px 4px;'>破</span>坏层<br>🔹 尺寸<span style='background:#86efac; padding:2px 4px;'>公</span>差<br>🔹 <span style='background:#c4b5fd; padding:2px 4px;'>单独</span>误差<br>🔹 <span style='background:#60a5fa; padding:2px 4px;'>装</span>配误差</p><p>📊 最小余量必须大于上工序表面缺陷深度，并考虑本工序安装误差。</p></div>"
   },
   {
@@ -149,7 +211,10 @@
     "type": "名词解释",
     "question": "六点定位原理",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>六点定位原理</span>：用六个支撑点去分别限制工件的六个自由度，从而使工件在空间得到确定位置的方法。",
-    "tags": ["六点定位", "定位原理"],
+    "tags": [
+      "六点定位",
+      "定位原理"
+    ],
     "memoryTips": "<div style='background:#e3f2fd; padding:15px; border-radius:12px; border-left:4px solid #1976d2;'><h4 style='color:#0d47a1; margin-bottom:10px;'>答案解析</h4><div style='background:#bbdefb; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#1565c0; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 需要说明<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>什么是六点定位</span>、<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>六个自由度</span>、<span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>如何限制</span>。</p></div><img src='images/six-point-positioning.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #1976d2;' alt='六点定位原理图'/><h5 style='color:#0d47a1; margin:15px 0 8px;'>六点定位要点</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#bbdefb;'><th style='padding:8px; border:1px solid #64b5f6;'>支点编号</th><th style='padding:8px; border:1px solid #64b5f6;'>限制自由度</th><th style='padding:8px; border:1px solid #64b5f6;'>位置</th></tr><tr><td style='padding:8px; border:1px solid #90caf9;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>1、2</span></td><td style='padding:8px; border:1px solid #90caf9;'>Z方向移动</td><td style='padding:8px; border:1px solid #90caf9;'>底面(主要定位面)</td></tr><tr style='background:#e3f2fd;'><td style='padding:8px; border:1px solid #90caf9;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>3、4</span></td><td style='padding:8px; border:1px solid #90caf9;'>X方向移动、Y转动</td><td style='padding:8px; border:1px solid #90caf9;'>侧面(导向面)</td></tr><tr><td style='padding:8px; border:1px solid #90caf9;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>5、6</span></td><td style='padding:8px; border:1px solid #90caf9;'>Y方向移动、X转动</td><td style='padding:8px; border:1px solid #90caf9;'>端面(止推面)</td></tr></table><div style='background:#e3f2fd; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #1976d2;'><p style='color:#0d47a1; margin:0;'><strong>记忆要点：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>底面3点、侧面2点、端面1点</span></p></div></div>"
   },
   {
@@ -158,7 +223,11 @@
     "type": "论述",
     "question": "误差复映及避免方法",
     "answer": "<div style='line-height:1.85;'><p><strong>误差复映：</strong>加工过程中，由于<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>毛坯余量不均</span>、<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>材料硬度波动</span>等原因，导致切削力变化，使<span style='background:#bfdbfe; padding:2px 6px; border-radius:4px;'>工艺系统受力变形不一致</span>，从而使毛坯的原始误差“复映”到加工后工件表面的现象。</p><p><strong>形状/位置误差复映：</strong>两者均可能发生复映。</p><p><strong>减少方法：</strong></p><ol style='margin:6px 0 0 20px;'><li><strong>划分加工阶段</strong>（粗—半精—精），逐步削弱毛坯误差影响。</li><li><strong>多次走刀/分层切削</strong>，降低单次切削力波动与系统变形。</li><li><strong>提高工艺系统刚度</strong>（机床/夹具/刀具/工件），减小受力变形。</li></ol></div>",
-    "tags": ["误差复映", "工艺系统", "加工精度"],
+    "tags": [
+      "误差复映",
+      "工艺系统",
+      "加工精度"
+    ],
     "memoryTips": "<div style='background:#ffe0b2; padding:15px; border-radius:12px; border-left:4px solid #e65100;'><h4 style='color:#bf360c; margin-bottom:10px;'>答案解析</h4><div style='background:#ffcc80; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#a04000; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 需要说明<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>什么是复映</span>、<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>产生原因</span>、<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>如何避免</span>。</p></div><img src='images/error-reflection.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #e65100;' alt='复映误差原理图'/><h5 style='color:#bf360c; margin:15px 0 8px;'>复映误差因果链</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#ffcc80;'><th style='padding:8px; border:1px solid #ff9800;'>环节</th><th style='padding:8px; border:1px solid #ff9800;'>具体内容</th></tr><tr><td style='padding:8px; border:1px solid #ffe0b2;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>毛坯误差</span></td><td style='padding:8px; border:1px solid #ffe0b2;'>余量不均、硬度变化</td></tr><tr style='background:#fff3e0;'><td style='padding:8px; border:1px solid #ffe0b2;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削力变化</span></td><td style='padding:8px; border:1px solid #ffe0b2;'>加工余量变化导致切削力波动</td></tr><tr><td style='padding:8px; border:1px solid #ffe0b2;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>系统变形</span></td><td style='padding:8px; border:1px solid #ffe0b2;'>工艺系统受力变形</td></tr><tr style='background:#fff3e0;'><td style='padding:8px; border:1px solid #ffe0b2;'><span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>工件误差</span></td><td style='padding:8px; border:1px solid #ffe0b2;'>尺寸误差和形状误差</td></tr></table><div style='background:#ffe0b2; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #e65100;'><p style='color:#bf360c; margin:0;'><strong>避免方法：</strong><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>提高工艺系统刚度</span></p></div></div>"
   },
   {
@@ -167,7 +236,12 @@
     "type": "名词解释",
     "question": "随机误差",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>随机误差</span>：加工一批零件中，这类误差的大小和方向是不规律的变化着的。如：毛坯误差的复映、定位误差、夹紧误差、多次调整误差、内应力引起的误差。",
-    "tags": ["随机误差", "2015年", "2016年", "加工误差"],
+    "tags": [
+      "随机误差",
+      "2015年",
+      "2016年",
+      "加工误差"
+    ],
     "memoryTips": "<div style='background:#fce4e4; padding:15px; border-radius:12px; border-left:4px solid #c0392b;'><h4 style='color:#a93226; margin-bottom:10px;'>答案解析</h4><div style='background:#f5b7b1; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#c0392b; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 随机误差是<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>大小和方向不规律</span>的变化，但<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>服从统计规律</span>（正态分布）。</p></div><h5 style='color:#a93226; margin:15px 0 8px;'>随机误差常见类型</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#f5b7b1;'><th style='padding:8px; border:1px solid #e74c3c;'>类型</th><th style='padding:8px; border:1px solid #e74c3c;'>说明</th></tr><tr><td style='padding:8px; border:1px solid #f1948a;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>毛坯误差复映</span></td><td style='padding:8px; border:1px solid #f1948a;'>毛坯硬度/余量变化导致切削力变化</td></tr><tr style='background:#fadbd8;'><td style='padding:8px; border:1px solid #f1948a;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>定位误差</span></td><td style='padding:8px; border:1px solid #f1948a;'>定位副制造不准确</td></tr><tr><td style='padding:8px; border:1px solid #f1948a;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>夹紧误差</span></td><td style='padding:8px; border:1px solid #f1948a;'>夹紧力不均匀</td></tr><tr style='background:#fadbd8;'><td style='padding:8px; border:1px solid #f1948a;'><span style='background:#fde68a; padding:2px 6px; border-radius:4px; font-weight:bold;'>多次调整误差</span></td><td style='padding:8px; border:1px solid #f1948a;'>多次找正/换装导致基准累积误差</td></tr><tr><td style='padding:8px; border:1px solid #f1948a;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>内应力变形</span></td><td style='padding:8px; border:1px solid #f1948a;'>残余应力重新分布</td></tr></table><div style='background:#fce4e4; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #c0392b;'><p style='color:#a93226; margin:0;'><strong>特点：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>无规律、不可预知、服从正态分布</span></p></div></div>"
   },
   {
@@ -176,7 +250,10 @@
     "type": "名词解释",
     "question": "封闭环",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>封闭环</span>：根据尺寸链的封闭性，最终被间接保证精度的那个环。",
-    "tags": ["封闭环", "尺寸链"],
+    "tags": [
+      "封闭环",
+      "尺寸链"
+    ],
     "memoryTips": "<div style='background:#e8eaf6; padding:15px; border-radius:12px; border-left:4px solid #3f51b5;'><h4 style='color:#1a237e; margin-bottom:10px;'>答案解析</h4><div style='background:#c5cae9; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#283593; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 封闭环是尺寸链中<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>最终被间接保证</span>的那个环，即<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>自然形成</span>或<span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>间接得到</span>的尺寸。</p></div><img src='images/closed-loop.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #3f51b5;' alt='封闭环示意图'/><h5 style='color:#1a237e; margin:15px 0 8px;'>封闭环特点</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#c5cae9;'><th style='padding:8px; border:1px solid #7986cb;'>特点</th><th style='padding:8px; border:1px solid #7986cb;'>说明</th></tr><tr><td style='padding:8px; border:1px solid #9fa8da;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>间接保证</span></td><td style='padding:8px; border:1px solid #9fa8da;'>不是直接加工出来的，而是通过其他尺寸间接保证</td></tr><tr style='background:#e8eaf6;'><td style='padding:8px; border:1px solid #9fa8da;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>自然形成</span></td><td style='padding:8px; border:1px solid #9fa8da;'>加工完成后自然形成的尺寸</td></tr><tr><td style='padding:8px; border:1px solid #9fa8da;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>公差最大</span></td><td style='padding:8px; border:1px solid #9fa8da;'>封闭环公差 = 各组成环公差之和</td></tr></table><div style='background:#e8eaf6; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #3f51b5;'><p style='color:#1a237e; margin:0;'><strong>记忆口诀：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>封闭环，间接保；自然成，公差大</span></p></div></div>"
   },
   {
@@ -185,7 +262,10 @@
     "type": "名词解释",
     "question": "刀具耐用度",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>刀具耐用度</span>：一把新刀从开始使用直至达到磨钝标准所经历的实际时间。",
-    "tags": ["刀具耐用度", "刀具寿命"],
+    "tags": [
+      "刀具耐用度",
+      "刀具寿命"
+    ],
     "memoryTips": "<div style='background:#d1c4e9; padding:15px; border-radius:12px; border-left:4px solid #512da8;'><h4 style='color:#311b92; margin-bottom:10px;'>答案解析</h4><div style='background:#b39ddb; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#4527a0; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 刀具耐用度是指<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>从开始使用到磨钝标准</span>所经历的<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>实际切削时间</span>。</p></div><img src='images/tool-life.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #512da8;' alt='刀具耐用度示意图'/><h5 style='color:#311b92; margin:15px 0 8px;'>刀具耐用度 vs 刀具寿命</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#b39ddb;'><th style='padding:8px; border:1px solid #9575cd;'>概念</th><th style='padding:8px; border:1px solid #9575cd;'>定义</th></tr><tr><td style='padding:8px; border:1px solid '#c5cae9';'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>刀具耐用度</span></td><td style='padding:8px; border:1px solid '#c5cae9';'>一次连续使用时间（磨钝前）</td></tr><tr style='background:#ede7f6;'><td style='padding:8px; border:1px solid '#c5cae9';'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>刀具寿命</span></td><td style='padding:8px; border:1px solid '#c5cae9';'>总使用时间（含多次重磨）</td></tr></table><div style='background:#d1c4e9; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #512da8;'><p style='color:#311b92; margin:0;'><strong>记忆口诀：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>耐用度看一次，寿命看总数</span></p></div></div>"
   },
   {
@@ -194,7 +274,11 @@
     "type": "论述",
     "question": "磨削烧伤是热处理吗？简述热处理在工艺过程中的积极作用？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>磨削烧伤不是热处理。</span>磨削烧伤是磨削过程中因高温（切削热集中）导致工件表面金相组织变化（如回火烧伤、淬火烧伤）的热损伤现象，属于加工缺陷；热处理是通过“加热-保温-冷却”专门工艺改变材料内部组织以获得所需性能（如调质、淬火）的独立工艺，二者本质不同。<br><br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>热处理在工艺过程中的积极作用：</span>热处理是加工工艺过程中的重要工序，预备热处理可以改善锻件。最终热处理可以提高工件的硬度和耐磨性等。",
-    "tags": ["磨削烧伤", "热处理", "工艺"],
+    "tags": [
+      "磨削烧伤",
+      "热处理",
+      "工艺"
+    ],
     "memoryTips": "<div style='background:#fff3e0; padding:15px; border-radius:12px; border-left:4px solid #fb8c00;'><h4 style='color:#e65100; margin-bottom:10px;'>答案解析</h4><div style='background:#ffe0b2; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#bf360c; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 需要区分<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>磨削烧伤</span>（缺陷）和<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>热处理</span>（工艺），并说明热处理的<span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>积极作用</span>。</p></div><img src='images/grinding-burn.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #fb8c00;' alt='磨削烧伤与热处理对比图'/><h5 style='color:#e65100; margin:15px 0 8px;'>核心对比</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#ffe0b2;'><th style='padding:8px; border:1px solid #ff9800;'>概念</th><th style='padding:8px; border:1px solid #ff9800;'>本质</th><th style='padding:8px; border:1px solid #ff9800;'>目的</th></tr><tr><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>磨削烧伤</span></td><td style='padding:8px; border:1px solid #ffcc80;'>热损伤（非有意）</td><td style='padding:8px; border:1px solid #ffcc80;'>缺陷，需避免</td></tr><tr style='background:#fff8e1;'><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>热处理</span></td><td style='padding:8px; border:1px solid #ffcc80;'>工艺（有意识）</td><td style='padding:8px; border:1px solid #ffcc80;'>改善性能</td></tr></table><div style='background:#fff3e0; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #fb8c00;'><p style='color:#e65100; margin:0;'><strong>热处理作用：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>预备</span>消除应力、改善切削性；<span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>最终</span>提高硬度、耐磨性、强度</p></div></div>"
   },
   {
@@ -203,7 +287,11 @@
     "type": "名词解释",
     "question": "积屑瘤",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>积屑瘤</span>：在切削速度不高又能形成连续切削的情况下常在刀具前刀面粘着一块副面有时呈三角状的硬块，在处于比较稳定的状态时能够代替切削力进行切削，这块冷焊在前刀面上的金属称为积屑瘤。",
-    "tags": ["积屑瘤", "2015年", "2017年"],
+    "tags": [
+      "积屑瘤",
+      "2015年",
+      "2017年"
+    ],
     "memoryTips": "<div style='background:#fee2e2; padding:15px; border-radius:12px; border-left:4px solid #ef4444;'><h4 style='color:#991b1b; margin-bottom:10px;'>答案解析</h4><div style='background:#fecaca; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#7f1d1d; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 词语解释需要包含<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>形成条件</span>、<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>位置</span>、<span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>形态</span>、<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>作用</span>、<span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>本质</span>五个要素。</p></div><img src='images/built-up-edge.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #ef4444;' alt='积屑瘤示意图'/><h5 style='color:#991b1b; margin:15px 0 8px;'>答案结构拆解</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#fecaca;'><th style='padding:8px; border:1px solid #f87171;'>要素</th><th style='padding:8px; border:1px solid #f87171;'>答案关键词</th></tr><tr><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>形成条件</span></td><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削速度不高</span> + <span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>连续切削</span></td></tr><tr style='background:#fef2f2;'><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>位置</span></td><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>前刀面</span></td></tr><tr><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>形态</span></td><td style='padding:8px; border:1px solid #fca5a5;'>有时呈<span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>三角状</span>的硬块</td></tr><tr style='background:#fef2f2;'><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>作用</span></td><td style='padding:8px; border:1px solid #fca5a5;'>稳定时<span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>代替切削刃</span>切削</td></tr><tr><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>本质</span></td><td style='padding:8px; border:1px solid #fca5a5;'><span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>冷焊</span>在刀面上的金属</td></tr></table></div>"
   },
   {
@@ -212,7 +300,12 @@
     "type": "名词解释",
     "question": "封闭环",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>封闭环</span>：根据尺寸链的封闭性，最终被间接保证精度的那个环。",
-    "tags": ["封闭环", "2016年", "2017年", "尺寸链"],
+    "tags": [
+      "封闭环",
+      "2016年",
+      "2017年",
+      "尺寸链"
+    ],
     "memoryTips": "<div style='background:#e8eaf6; padding:15px; border-radius:12px; border-left:4px solid #3f51b5;'><h4 style='color:#1a237e; margin-bottom:10px;'>答案解析</h4><div style='background:#c5cae9; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#283593; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 封闭环是尺寸链中<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>最终被间接保证</span>的那个环，即<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>自然形成</span>或<span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>间接得到</span>的尺寸。</p></div><img src='images/closed-loop.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #3f51b5;' alt='封闭环示意图'/><h5 style='color:#1a237e; margin:15px 0 8px;'>封闭环特点</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#c5cae9;'><th style='padding:8px; border:1px solid #7986cb;'>特点</th><th style='padding:8px; border:1px solid #7986cb;'>说明</th></tr><tr><td style='padding:8px; border:1px solid #9fa8da;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>间接保证</span></td><td style='padding:8px; border:1px solid #9fa8da;'>不是直接加工出来的，而是通过其他尺寸间接保证</td></tr><tr style='background:#e8eaf6;'><td style='padding:8px; border:1px solid #9fa8da;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>自然形成</span></td><td style='padding:8px; border:1px solid #9fa8da;'>加工完成后自然形成的尺寸</td></tr><tr><td style='padding:8px; border:1px solid #9fa8da;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>公差最大</span></td><td style='padding:8px; border:1px solid #9fa8da;'>封闭环公差 = 各组成环公差之和</td></tr></table><div style='background:#e8eaf6; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #3f51b5;'><p style='color:#1a237e; margin:0;'><strong>记忆口诀：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>封闭环，间接保；自然成，公差大</span></p></div></div>"
   },
   {
@@ -221,7 +314,12 @@
     "type": "名词解释",
     "question": "基准重合原则",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>基准重合原则</span>：在确定定位方案时使定位基准与设计基准重合的原则。",
-    "tags": ["基准重合原则", "2015年", "2017年", "定位"],
+    "tags": [
+      "基准重合原则",
+      "2015年",
+      "2017年",
+      "定位"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px; border-radius:12px; border-left:4px solid #1890ff;'><h4 style='color:#0050b3; margin-bottom:10px;'>答案解析</h4><div style='background:#bae7ff; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#003a8c; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 定位方案中，应使<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>定位基准</span>与<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>设计基准</span>重合，可避免<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>基准不重合误差</span>。</p></div><h5 style='color:#0050b3; margin:15px 0 8px;'>基准重合 vs 基准不重合</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#bae7ff;'><th style='padding:8px; border:1px solid #91d5ff;'>类型</th><th style='padding:8px; border:1px solid #91d5ff;'>定位基准</th><th style='padding:8px; border:1px solid #91d5ff;'>设计基准</th><th style='padding:8px; border:1px solid #91d5ff;'>误差</th></tr><tr><td style='padding:8px; border:1px solid #91d5ff;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>基准重合</span></td><td style='padding:8px; border:1px solid #91d5ff;'>与设计基准相同</td><td style='padding:8px; border:1px solid #91d5ff;'>A</td><td style='padding:8px; border:1px solid #91d5ff;'>无</td></tr><tr style='background:#e6f7ff;'><td style='padding:8px; border:1px solid #91d5ff;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>基准不重合</span></td><td style='padding:8px; border:1px solid #91d5ff;'>与设计基准不同</td><td style='padding:8px; border:1px solid #91d5ff;'>B</td><td style='padding:8px; border:1px solid #91d5ff;'>△jb存在</td></tr></table><div style='background:#e6f7ff; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #1890ff;'><p style='color:#0050b3; margin:0;'><strong>记忆口诀：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>基准重合误差无，基准不重合误差生</span></p></div></div>"
   },
   {
@@ -230,7 +328,12 @@
     "type": "名词解释",
     "question": "主偏角",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>主偏角</span>：在基面内测量的主切削刃在基面上的投影与进给运动方向的夹角。",
-    "tags": ["主偏角", "2015年", "2017年", "刀具角度"],
+    "tags": [
+      "主偏角",
+      "2015年",
+      "2017年",
+      "刀具角度"
+    ],
     "memoryTips": "<div style='background:#fef9e7; padding:15px; border-radius:12px; border-left:4px solid #f39c12;'><h4 style='color:#b45f06; margin-bottom:10px;'>答案解析</h4><div style='background:#fde7c9; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#92400e; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 主偏角是<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>基面内</span>主切削刃与<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>进给方向</span>的夹角。</p></div><h5 style='color:#b45f06; margin:15px 0 8px;'>常见主偏角角度与特点</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#fde7c9;'><th style='padding:8px; border:1px solid #f59e0b;'>主偏角</th><th style='padding:8px; border:1px solid #f59e0b;'>特点</th><th style='padding:8px; border:1px solid #f59e0b;'>应用</th></tr><tr><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>90°</span></td><td style='padding:8px; border:1px solid #fcd34d;'>径向力大</td><td style='padding:8px; border:1px solid #fcd34d;'>车削细长轴、端面加工</td></tr><tr style='background:#fffbeb;'><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>45°</span></td><td style='padding:8px; border:1px solid #fcd34d;'>综合性能好</td><td style='padding:8px; border:1px solid #fcd34d;'>外圆、车削、倒角</td></tr><tr><td style='padding:8px; border:1px solid #fcd34d;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>75°</span></td><td style='padding:8px; border:1px solid #fcd34d;'>切削效率高</td><td style='padding:8px; border:1px solid #fcd34d;'>粗加工、重切削</td></tr></table><div style='background:#fef9e7; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #f39c12;'><p style='color:#b45f06; margin:0;'><strong>记忆要点：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>主偏角在基面内，测量要靠进给方向</span></p></div></div>"
   },
   {
@@ -239,7 +342,12 @@
     "type": "名词解释",
     "question": "刀具耐用度",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>刀具耐用度</span>：一把新刀从开始使用直至达到磨钝标准所经历的实际时间。",
-    "tags": ["刀具耐用度", "2016年", "2017年", "刀具寿命"],
+    "tags": [
+      "刀具耐用度",
+      "2016年",
+      "2017年",
+      "刀具寿命"
+    ],
     "memoryTips": "<div style='background:#d1c4e9; padding:15px; border-radius:12px; border-left:4px solid #512da8;'><h4 style='color:#311b92; margin-bottom:10px;'>答案解析</h4><div style='background:#b39ddb; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#4527a0; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 刀具耐用度是指<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>从开始使用到磨钝标准</span>所经历的<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>实际切削时间</span>。</p></div><h5 style='color:#311b92; margin:15px 0 8px;'>刀具耐用度 vs 刀具寿命</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#b39ddb;'><th style='padding:8px; border:1px solid #9575cd;'>概念</th><th style='padding:8px; border:1px solid #9575cd;'>定义</th></tr><tr><td style='padding:8px; border:1px solid '#c5cae9';'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>刀具耐用度</span></td><td style='padding:8px; border:1px solid '#c5cae9';'>一次连续使用时间（磨钝前）</td></tr><tr style='background:#ede7f6;'><td style='padding:8px; border:1px solid '#c5cae9';'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>刀具寿命</span></td><td style='padding:8px; border:1px solid '#c5cae9';'>总使用时间（含多次重磨）</td></tr></table><div style='background:#d1c4e9; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #512da8;'><p style='color:#311b92; margin:0;'><strong>记忆口诀：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>耐用度看一次，寿命看总数</span></p></div></div>"
   },
   {
@@ -248,7 +356,12 @@
     "type": "名词解释",
     "question": "工序",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>工序</span>：组成机械加工工艺过程的基本单元，指一个工人在一台机床上对同一个工件所连续完成的那一部分工艺过程。",
-    "tags": ["工序", "2015年", "2017年", "工艺过程"],
+    "tags": [
+      "工序",
+      "2015年",
+      "2017年",
+      "工艺过程"
+    ],
     "memoryTips": "<div style='background:#e8f5e9; padding:15px; border-radius:12px; border-left:4px solid #388e3c;'><h4 style='color:#1b5e20; margin-bottom:10px;'>答案解析</h4><div style='background:#c8e6c9; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#2e7d32; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 工序是<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>机械加工工艺过程</span>的基本单元，需要满足<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>三同一连续</span>。</p></div><h5 style='color:#1b5e20; margin:15px 0 8px;'>工序三要素</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#c8e6c9;'><th style='padding:8px; border:1px solid #81c784;'>要素</th><th style='padding:8px; border:1px solid #81c784;'>含义</th></tr><tr><td style='padding:8px; border:1px solid #a5d6a7;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>同一工人</span></td><td style='padding:8px; border:1px solid #a5d6a7;'>不换操作者</td></tr><tr style='background:#e8f5e9;'><td style='padding:8px; border:1px solid #a5d6a7;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>同一机床</span></td><td style='padding:8px; border:1px solid #a5d6a7;'>不换设备</td></tr><tr><td style='padding:8px; border:1px solid #a5d6a7;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>同一工件</span></td><td style='padding:8px; border:1px solid #a5d6a7;'>不换工件</td></tr></table><div style='background:#e8f5e9; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #388e3c;'><p style='color:#1b5e20; margin:0;'><strong>判断标准：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>三要素任一改变 → 新的工序</span></p></div></div>"
   },
   {
@@ -257,7 +370,13 @@
     "type": "名词解释",
     "question": "随机误差",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>随机误差</span>：加工一批零件中，这类误差的大小和方向是不规律的变化着的。如：毛坯误差的复映、定位误差、夹紧误差、多次调整误差、内应力引起的误差。",
-    "tags": ["随机误差", "2015年", "2016年", "2017年", "加工误差"],
+    "tags": [
+      "随机误差",
+      "2015年",
+      "2016年",
+      "2017年",
+      "加工误差"
+    ],
     "memoryTips": "<div style='background:#fce4e4; padding:15px; border-radius:12px; border-left:4px solid #c0392b;'><h4 style='color:#a93226; margin-bottom:10px;'>答案解析</h4><div style='background:#f5b7b1; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#c0392b; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 随机误差是<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>大小和方向不规律</span>的变化，但<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>服从统计规律</span>（正态分布）。</p></div><h5 style='color:#a93226; margin:15px 0 8px;'>随机误差常见类型</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#f5b7b1;'><th style='padding:8px; border:1px solid #e74c3c;'>类型</th><th style='padding:8px; border:1px solid #e74c3c;'>说明</th></tr><tr><td style='padding:8px; border:1px solid #f1948a;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>毛坯误差复映</span></td><td style='padding:8px; border:1px solid #f1948a;'>毛坯硬度/余量变化导致切削力变化</td></tr><tr style='background:#fadbd8;'><td style='padding:8px; border:1px solid #f1948a;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>定位误差</span></td><td style='padding:8px; border:1px solid #f1948a;'>定位副制造不准确</td></tr><tr><td style='padding:8px; border:1px solid #f1948a;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>夹紧误差</span></td><td style='padding:8px; border:1px solid #f1948a;'>夹紧力不均匀</td></tr><tr style='background:#fadbd8;'><td style='padding:8px; border:1px solid #f1948a;'><span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>内应力变形</span></td><td style='padding:8px; border:1px solid #f1948a;'>残余应力重新分布</td></tr></table><div style='background:#fce4e4; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #c0392b;'><p style='color:#a93226; margin:0;'><strong>特点：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>无规律、不可预知、服从正态分布</span></p></div></div>"
   },
   {
@@ -266,7 +385,13 @@
     "type": "名词解释",
     "question": "不完全定位",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>不完全定位</span>：根据加工要求，工件在一个或几个方向上不需要限制自由度，这种允许少于六点的定位称为不完全定位。",
-    "tags": ["不完全定位", "2015年", "2017年", "定位", "自由度"],
+    "tags": [
+      "不完全定位",
+      "2015年",
+      "2017年",
+      "定位",
+      "自由度"
+    ],
     "memoryTips": "<div style='background:#d5f4e6; padding:15px; border-radius:12px; border-left:4px solid #118ab2;'><h4 style='color:#073b4c; margin-bottom:10px;'>答案解析</h4><div style='background:#a8e6cf; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#073b4c; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 不完全定位是<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>根据加工要求</span>，允许<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>少于六个自由度</span>的定位方式。</p></div><h5 style='color:#073b4c; margin:15px 0 8px;'>常见不完全定位示例</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#a8e6cf;'><th style='padding:8px; border:1px solid #81c784;'>加工情况</th><th style='padding:8px; border:1px solid #81c784;'>限制自由度</th></tr><tr><td style='padding:8px; border:1px solid #c8e6c9;'><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>车外圆</span></td><td style='padding:8px; border:1px solid #c8e6c9;'>4个（X转动、Y移动、Z转动不需限制）</td></tr><tr style='background:#e8f5e9;'><td style='padding:8px; border:1px solid #c8e6c9;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>铣平面</span></td><td style='padding:8px; border:1px solid #c8e6c9;'>3个（Z方向不需限制）</td></tr><tr><td style='padding:8px; border:1px solid #c8e6c9;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>钻孔</span></td><td style='padding:8px; border:1px solid #c8e6c9;'>5个（Z转动不需限制）</td></tr></table><div style='background:#d5f4e6; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #118ab2;'><p style='color:#073b4c; margin:0;'><strong>重要区别：</strong><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>不完全定位 ≠ 欠定位</span>（欠定位是未限制必要的自由度）</p></div></div>"
   },
   {
@@ -275,7 +400,10 @@
     "type": "判断",
     "question": "1. 在夹具设计中，不完全定位是绝对不允许的。（ ）<br>2. 刀具主偏角是主切削平面与假定工作平面间的夹角（即主切削刃在基面的投影与进给方向的夹角）。（ ）<br>3. 在刀具角度中，对切削力影响最大的是前角和后角。（ ）<br>4. 在刀具磨损的形式中，前刀面磨损对表面粗糙度影响最大，而后刀面磨损对加工精度影响最大。（ ）<br>5. 拉削相当于多刃创削，粗、半精和精加工一次完成，因而生产率高。（ ）<br>6. 增加刀具进给量，可减小表面粗糙度的值。（ ）<br>7. 强迫振动的固有频率总是与外界干扰力的频率相同。（ ）<br>8. 制订单件小批生产的工艺规程时，应采取工件分散原则。（ ）<br>9. 工序尺寸常按“入体原则”标注。（ ）<br>10. 互为基准可以使被加工表面余量均匀。（ ）",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>1. ×</span> 不完全定位在满足加工要求时是允许的。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>2. √</span> 主偏角定义正确。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>3. ×</span> 对切削力影响最大的是前角和主偏角，后角影响较小。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>4. ×</span> 前刀面磨损影响切屑变形和切削力，后刀面磨损影响加工表面质量和尺寸精度。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>5. √</span> 拉削可一次完成粗、精加工，生产率高。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>6. ×</span> 增加进给量会使表面粗糙度值增大。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>7. ×</span> 强迫振动的频率与干扰力频率相同，固有频率是系统自身特性。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>8. ×</span> 单件小批生产应采用工序集中原则。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>9. √</span> 工序尺寸按入体原则标注（即被包容面取上偏差为零，包容面取下偏差为零）。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>10. ×</span> 互为基准可使加工表面余量均匀？实际是使定位基准统一，提高精度，但不能使余量均匀。余量均匀是选择粗基准的任务。",
-    "tags": ["判断", "2017"],
+    "tags": [
+      "判断",
+      "2017"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px; border-radius:12px;'><h4>判断题解析</h4><p>🔹 1. 不完全定位允许（除非有特殊要求）→ 错<br>🔹 2. 主偏角定义正确 → 对<br>🔹 3. 对切削力影响最大的是前角、主偏角，后角影响小 → 错<br>🔹 4. 前刀面磨损与切屑变形有关，后刀面磨损影响尺寸和表面质量 → 错<br>🔹 5. 拉削特点正确 → 对<br>🔹 6. 进给量↑ → 粗糙度↑ → 错<br>🔹 7. 强迫振动频率等于干扰力频率，不是固有频率 → 错<br>🔹 8. 单件小批应工序集中 → 错<br>🔹 9. 入体原则正确 → 对<br>🔹 10. 互为基准使定位基准统一，余量均匀是粗基准任务 → 错</p></div>"
   },
   {
@@ -284,7 +412,10 @@
     "type": "论述",
     "question": "简述切削过程中三个变形区特点以及他们之间的关系。",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>第I变形区：</span>基本变形区，变形量大，切削层的塑性变形区常用来说明切削过程变形程度。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>第II变形区：</span>摩擦变形区，切屑与前刀面摩擦的区域，切屑底层再次发生塑性变形。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>第III变形区：</span>加工表面变形区，已加工表面与后刀面接触，影响已加工表面质量。<br><br><span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>关系：</span>这三个变形区汇集在切削刃附近，应力集中且复杂，金属被切削层在此与基体分离，一部分变成切屑，一小部分留在加工表面上。",
-    "tags": ["三个变形区", "切削"],
+    "tags": [
+      "三个变形区",
+      "切削"
+    ],
     "memoryTips": "<div style='background:#f3e8ff; padding:15px; border-radius:12px;'><h4>三个变形区记忆</h4><p>I区：剪切滑移（主变形）<br>II区：前刀面摩擦（二次变形）<br>III区：后刀面挤压（影响表面质量）</p><img src='images/three-zones.svg' style='max-width:100%;' alt='三个变形区示意图'></div>"
   },
   {
@@ -293,7 +424,11 @@
     "type": "论述",
     "question": "解释 CA6140 型号与 MG1432A 型号机床的含义。",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>CA6140：</span>C——车床类，A——结构特性代号，6——卧式车床组，1——卧式车床系，40——最大车削直径400mm。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>MG1432A：</span>M——磨床类，G——高精度，14——万能外圆磨床组，32——最大磨削直径320mm，A——第一次重大改进。",
-    "tags": ["机床型号", "CA6140", "MG1432A"],
+    "tags": [
+      "机床型号",
+      "CA6140",
+      "MG1432A"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px;'><p>📌 机床型号编制规则：类别+特性+组系+主参数+重大改进序号。</p></div>"
   },
   {
@@ -302,7 +437,10 @@
     "type": "论述",
     "question": "简述产生定位误差的原因是什么？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>定位误差产生的原因：</span><br>① 基准不重合误差（△jb）：定位基准与设计基准不重合；<br>② 基准位移误差（△jw）：定位副制造不准确，导致工件位置变动。",
-    "tags": ["定位误差", "夹具"],
+    "tags": [
+      "定位误差",
+      "夹具"
+    ],
     "memoryTips": "<div style='background:#fff3e0; padding:15px; border-radius:12px;'><p>⚙️ 定位误差 = 基准不重合误差 + 基准位移误差。</p><p>💡 基准不重合：设计基准与定位基准不一致；<br>基准位移：定位元件有制造误差或间隙。</p></div>"
   },
   {
@@ -311,7 +449,10 @@
     "type": "判断",
     "question": "1. T 类硬质合金的主要成分有 WC 和 Co。（ ）<br>2. 刀具的标注角度是随着刀具的安装条件和进给量的大小变化而变化。（ ）<br>3. 阶梯轴加工过程中“调头继续车削”属于变换了一次安装。（ ）<br>4. 在磨削平面时，周磨法与端磨法相比前者生产率高但加工质量较低。（ ）<br>5. 在机械加工中不允许有加工原理误差。（ ）<br>6. 安装次数越多，生产率越低；加工精度越低。（ ）<br>7. 一个工序的定义强调工作地点固定和工作连续。（ ）<br>8. 选择不加工表面为粗基准可以无定位误差。（ ）<br>9. 基准统一（即基准不变）原则特点是使定位误差减小。（ ）<br>10. 零件表面残余应力为压应力时，可以提高零件的疲劳强度。（ ）",
     "answer": "<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>1. √</span> T类硬质合金（钨钴类）主要成分为WC和Co。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>2. ×</span> 标注角度是在静止状态下定义的，不随安装和进给变化；工作角度才会变化。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>3. √</span> 调头车削改变了安装（可能多次装夹）。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>4. ×</span> 周磨法加工质量高但生产率低，端磨法生产率高但质量较低。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>5. ×</span> “完全不允许原理误差”表述过严；<u>近似加工方法</u>（如齿轮滚刀展成、样板研磨、螺纹展成等）允许存在<i>可控</i>的原理误差以换取效率/可制造性。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>6. √</span> 安装次数增加，辅助时间增加，且多次安装引入误差。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>7. √</span> 工序定义强调工作地点、工人、工件连续完成。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>8. ×</span> 选择不加工表面为粗基准可保证加工表面与不加工表面的位置精度，但不能消除定位误差。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>9. ×</span> 基准统一可减少基准变换带来的误差，但不能直接减小定位误差；定位误差由基准不重合与基准位移构成。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>10. √</span> 表面残余压应力可提高疲劳强度（如喷丸处理）。",
-    "tags": ["是非题", "2018"],
+    "tags": [
+      "是非题",
+      "2018"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px; border-radius:12px; border-left:4px solid #38bdf8;'><h4 style='color:#075985; margin-bottom:10px;'>解析要点</h4><p style='line-height:1.8;'>1. T类硬质合金成分 → 对<br>2. 标注角度固定，工作角度随工况变 → 错<br>3. 调头即新的安装 → 对<br>4. 周磨质量高、端磨效率高 → 错<br>5. “完全不允许原理误差”过严；<u>近似法允许可控原理误差</u>（齿轮展成、样板研磨等）→ 错<br>6. 安装越多精度越低 → 对<br>7. 工序定义 → 对<br>8. 粗基准选不加工面可保证位置，但不能消除定位误差 → 错<br>9. 基准统一减少变换误差，不直接减定位误差（误差=基准不重合+位移）→ 错<br>10. 残余压应力有利于疲劳强度 → 对</p></div>"
   },
   {
@@ -320,7 +461,11 @@
     "type": "论述",
     "question": "简述产生定位误差的原因是什么？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>定位误差产生的原因：</span><br>a. 定位基准与设计基准不重合产生的定位误差——基准不重合误差△jb<br>b. 定位副制造不准确产生的基准位移误差——基准位移误差△jw",
-    "tags": ["定位误差", "2017年", "2018年"],
+    "tags": [
+      "定位误差",
+      "2017年",
+      "2018年"
+    ],
     "memoryTips": "<div style='background:#fff3e0; padding:15px; border-radius:12px; border-left:4px solid #fb8c00;'><h4 style='color:#e65100; margin-bottom:10px;'>答案解析</h4><div style='background:#ffe0b2; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#bf360c; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 定位误差由<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>两大原因</span>产生：基准不重合和基准位移。</p></div><h5 style='color:#e65100; margin:15px 0 8px;'>定位误差两大原因</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#ffe0b2;'><th style='padding:8px; border:1px solid #ff9800;'>类型</th><th style='padding:8px; border:1px solid #ff9800;'>符号</th><th style='padding:8px; border:1px solid #ff9800;'>产生原因</th></tr><tr><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>基准不重合误差</span></td><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>△jb</span></td><td style='padding:8px; border:1px solid #ffcc80;'>定位基准与设计基准不重合</td></tr><tr style='background:#fff3e0;'><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#dbeafe; padding:2px 6px; border-radius:4px; font-weight:bold;'>基准位移误差</span></td><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>△jw</span></td><td style='padding:8px; border:1px solid #ffcc80;'>定位副制造不准确</td></tr></table><div style='background:#fff3e0; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #fb8c00;'><p style='color:#e65100; margin:0;'><strong>记忆口诀：</strong><span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>定位误差两原因：基准不重合 + 基准位移</span></p></div></div>"
   },
   {
@@ -329,7 +474,9 @@
     "type": "论述",
     "question": "切削过程三个变形区是哪三个？哪个对已加工表面影响最大？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>三个变形区：</span>第一变形区（剪切滑移）、第二变形区（前刀面摩擦）、第三变形区（后刀面挤压）。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>对已加工表面影响最大的是第三变形区。</span>",
-    "tags": ["三个变形区"],
+    "tags": [
+      "三个变形区"
+    ],
     "memoryTips": "<div style='background:#f3e8ff; padding:15px; border-radius:12px; border-left:4px solid #8b5cf6;'><h4 style='color:#5b21b6; margin-bottom:10px;'>答案解析</h4><div style='background:#ddd6fe; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#4c1d95; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 切削变形区按<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>位置</span>分为三个区，其中<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>第III区</span>直接影响已加工表面质量。</p></div><h5 style='color:#5b21b6; margin:15px 0 8px;'>三个变形区</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#ddd6fe;'><th style='padding:8px; border:1px solid #a78bfa;'>变形区</th><th style='padding:8px; border:1px solid #a78bfa;'>位置</th><th style='padding:8px; border:1px solid #a78bfa;'>特点</th></tr><tr><td style='padding:8px; border:1px solid #ede9fe;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>第I区</span></td><td style='padding:8px; border:1px solid #ede9fe;'>切削层</td><td style='padding:8px; border:1px solid #ede9fe;'>剪切滑移，变形最大</td></tr><tr style='background:#f5f3ff;'><td style='padding:8px; border:1px solid #ede9fe;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>第II区</span></td><td style='padding:8px; border:1px solid #ede9fe;'>前刀面</td><td style='padding:8px; border:1px solid #ede9fe;'>摩擦变形区</td></tr><tr><td style='padding:8px; border:1px solid #ede9fe;'><span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>第III区</span></td><td style='padding:8px; border:1px solid #ede9fe;'>后刀面</td><td style='padding:8px; border:1px solid #ede9fe;'>挤压摩擦，影响表面质量</td></tr></table><div style='background:#f3e8ff; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #8b5cf6;'><p style='color:#5b21b6; margin:0;'><strong>关键点：</strong><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>第III变形区</span>直接影响已加工表面质量（加工硬化、残余应力）</p></div></div>"
   },
   {
@@ -338,7 +485,9 @@
     "type": "论述",
     "question": "说明下列机床型号带下划线字母的含义： (1) Y3150<u>E</u> (2) <u>M</u>G1432 (3) <u>X</u>5025 (4) C<u>M</u>6132 (5) <u>B</u>6050",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>(1) Y3150E：</span>Y——齿轮加工机床类，31——滚齿机，50——最大工件直径500mm，E——重大改进序号。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>(2) MG1432：</span>M——磨床类，G——高精度，14——万能外圆磨床，32——最大磨削直径320mm。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>(3) X5025：</span>X——铣床类，50——立式铣床，25——工作台宽度250mm。<br><span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>(4) CM6132：</span>C——车床类，M——精密特性，61——卧式车床，32——最大车削直径320mm。<br><span style='background:#60a5fa; padding:3px 8px; border-radius:4px;'>(5) B6050：</span>B——刨床类，60——牛头刨床，50——最大刨削长度500mm。",
-    "tags": ["机床型号"],
+    "tags": [
+      "机床型号"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px;'><p>机床型号编制规则：类别代号 + 特性代号 + 组系代号 + 主参数 + 重大改进序号。</p></div>"
   },
   {
@@ -347,7 +496,10 @@
     "type": "论述",
     "question": "刀具正常磨损过程分为几个阶段？刀具磨损应该限制在哪一个阶段？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>刀具正常磨损过程分为三个阶段：</span>初期磨损阶段、正常磨损阶段、急剧磨损阶段。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>刀具磨损应该限制在正常磨损阶段后期（达到磨钝标准前）。</span>",
-    "tags": ["刀具磨损", "2018年"],
+    "tags": [
+      "刀具磨损",
+      "2018年"
+    ],
     "memoryTips": "<div style='background:#fff3e0; padding:15px; border-radius:12px; border-left:4px solid #fb8c00;'><h4 style='color:#e65100; margin-bottom:10px;'>答案解析</h4><div style='background:#ffe0b2; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#bf360c; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 刀具磨损过程分<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>三个阶段</span>，其中<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>正常磨损阶段</span>是最佳工作区间。</p></div><img src='images/tool-wear-stages.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #fb8c00;' alt='刀具磨损三阶段图'/><h5 style='color:#e65100; margin:15px 0 8px;'>三个磨损阶段</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#ffe0b2;'><th style='padding:8px; border:1px solid #ff9800;'>阶段</th><th style='padding:8px; border:1px solid #ff9800;'>特点</th><th style='padding:8px; border:1px solid #ff9800;'>建议</th></tr><tr><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>初期磨损</span></td><td style='padding:8px; border:1px solid #ffcc80;'>磨损较快，斜率大</td><td style='padding:8px; border:1px solid #ffcc80;'>可提前检查刀具</td></tr><tr style='background:#fff3e0;'><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>正常磨损</span></td><td style='padding:8px; border:1px solid #ffcc80;'>磨损稳定，斜率恒定</td><td style='padding:8px; border:1px solid:#ffcc80;'>最佳工作区间</td></tr><tr><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>急剧磨损</span></td><td style='padding:8px; border:1px solid #ffcc80;'>磨损加剧，损坏刀具</td><td style='padding:8px; border:1px solid #ffcc80;'>必须避免</td></tr></table><div style='background:#fff3e0; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #fb8c00;'><p style='color:#e65100; margin:0;'><strong>关键点：</strong><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>刀具磨损应限制在正常磨损阶段后期</span>（达到磨钝标准前换刀）</p></div></div>"
   },
   {
@@ -356,7 +508,11 @@
     "type": "是非题",
     "question": "1. 刀具主偏角是主切削平面与假定工作平面间的夹角（即主切削刃在基面的投影与进给方向的夹角。）（ ）<br>2. 拉削相当于多刀创削，粗、半精和精加工一次完成，因而生产率高。（ ）<br>3. 工序尺寸常按“入体原则”标注。（ ）<br>4. 刀具的标注角度是随着刀具的安装条件和进给量的大小变化而变化。（ ）<br>5. 基准统一（即基准不变）原则特点是使定位误差减小。（ ）<br>6. 零件表面残余应力为压应力时，可以提高零件的疲劳强度。（ ）<br>7. 欠定位是绝对不允许的。（ ）<br>8. 一个尺寸链中必然有减环。（ ）<br>9. 机械加工工艺过程是有一系列的工位组成。（ ）<br>10. 为保证不加工表面与加工表面之间的相对位置要求一般应选择加工表面为粗基准。（ ）",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>1. ×</span> 主偏角定义正确，但标注角度是静态的，不会随安装和进给变化，故错误。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>2. √</span> 拉削可一次完成粗精加工，生产率高。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>3. √</span> 工序尺寸常按入体原则标注（被包容面取上偏差为零，包容面取下偏差为零）。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>4. ×</span> 标注角度是刀具图纸上的角度，不随安装和进给变化；工作角度才会变化。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>5. ×</span> 基准统一可减少基准变换带来的误差，但不能直接减小定位误差。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>6. √</span> 残余压应力可提高疲劳强度（如喷丸处理）。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>7. √</span> 欠定位无法满足加工要求，绝对不允许。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>8. ×</span> 尺寸链中不一定有减环，可能全是增环（如并联尺寸链）。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>9. ×</span> 机械加工工艺过程由一系列工序组成，工位是工序的一部分。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>10. ×</span> 应选择不加工表面为粗基准，以保证加工面与不加工面的位置精度。",
-    "tags": ["是非题", "2019", "工艺基础"],
+    "tags": [
+      "是非题",
+      "2019",
+      "工艺基础"
+    ],
     "memoryTips": "<div style='background:#f3e8ff; padding:15px; border-radius:12px;'><h4>2019 是非题速记</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#e9d5ff;'><th style='padding:8px; border:1px solid #c084fc;'>条目</th><th style='padding:8px; border:1px solid #c084fc;'>判断</th><th style='padding:8px; border:1px solid #c084fc;'>关键词</th><th style='padding:8px; border:1px solid #c084fc;'>提示</th></tr><tr><td style='padding:8px; border:1px solid #ddd;'>主偏角/标注角度</td><td style='padding:8px; border:1px solid #ddd; color:#ef4444;'>错</td><td style='padding:8px; border:1px solid #ddd;'>标注角度不随安装变</td><td style='padding:8px; border:1px solid #ddd;'>别混淆工作角</td></tr><tr style='background:#faf5ff;'><td style='padding:8px; border:1px solid #ddd;'>拉削多阶段</td><td style='padding:8px; border:1px solid #ddd; color:#16a34a;'>对</td><td style='padding:8px; border:1px solid #ddd;'>多齿/效率高</td><td style='padding:8px; border:1px solid #ddd;'>记住特点</td></tr><tr><td style='padding:8px; border:1px solid #ddd;'>入体原则</td><td style='padding:8px; border:1px solid #ddd; color:#16a34a;'>对</td><td style='padding:8px; border:1px solid #ddd;'>包容/被包容</td><td style='padding:8px; border:1px solid #ddd;'>偏差为0</td></tr><tr style='background:#faf5ff;'><td style='padding:8px; border:1px solid #ddd;'>基准统一</td><td style='padding:8px; border:1px solid #ddd; color:#ef4444;'>错</td><td style='padding:8px; border:1px solid #ddd;'>减少变换误差</td><td style='padding:8px; border:1px solid #ddd;'>非定位误差</td></tr></table><img src='images/true-false-2019.svg' alt='2019判断题要点' style='max-width:100%; border-radius:10px; border:2px solid #c084fc; margin-top:12px;'></div>"
   },
   {
@@ -365,7 +521,10 @@
     "type": "简答题",
     "question": "简述切削过程中三个变形区特点以及他们之间的关系。",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>第I变形区：</span>变形量最大，切削层的塑性变形区。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>第II变形区：</span>切屑与前刀面摩擦区，切屑底层再次塑性变形。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>第III变形区：</span>已加工表面与后刀面接触区，影响表面质量。<br><br><span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>关系：</span>三个变形区汇集在切削刃附近，应力集中，金属被切削层在此与基体分离，形成切屑和已加工表面。",
-    "tags": ["三个变形区", "切削"],
+    "tags": [
+      "三个变形区",
+      "切削"
+    ],
     "memoryTips": "<div style='background:#f3e8ff; padding:15px;'><p>I区：剪切滑移（主变形）<br>II区：前刀面摩擦（二次变形）<br>III区：后刀面挤压（影响表面质量）</p><img src='images/three-zones.svg' style='max-width:100%;' alt='三个变形区示意图'></div>"
   },
   {
@@ -374,7 +533,9 @@
     "type": "简答题",
     "question": "刀具正常磨损过程分为几个阶段？刀具磨损应该限制在哪一个阶段？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>三个阶段：</span>初期磨损阶段、正常磨损阶段、急剧磨损阶段。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>刀具磨损应该限制在正常磨损阶段后期（达到磨钝标准前）。</span>",
-    "tags": ["刀具磨损"],
+    "tags": [
+      "刀具磨损"
+    ],
     "memoryTips": "<div style='background:#fff7ed; padding:15px; border-radius:12px; border-left:4px solid #fb923c;'><h4 style='color:#9a3412;'>三阶段与更换点</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#fed7aa;'><th style='padding:8px; border:1px solid #fb923c;'>阶段</th><th style='padding:8px; border:1px solid #fb923c;'>特征</th><th style='padding:8px; border:1px solid #fb923c;'>建议</th></tr><tr><td style='padding:8px; border:1px solid #fca5a5;'>初期磨损</td><td style='padding:8px; border:1px solid #fca5a5;'>磨损快</td><td style='padding:8px; border:1px solid #fca5a5;'>观察</td></tr><tr style='background:#fff7ed;'><td style='padding:8px; border:1px solid #86efac;'>正常磨损</td><td style='padding:8px; border:1px solid #86efac;'>稳定</td><td style='padding:8px; border:1px solid #86efac;'>末期更换</td></tr><tr><td style='padding:8px; border:1px solid #fde047;'>急剧磨损</td><td style='padding:8px; border:1px solid #fde047;'>失效</td><td style='padding:8px; border:1px solid #fde047;'>避免</td></tr></table><img src='images/tool-wear-stages-extended.svg' alt='刀具磨损三阶段' style='max-width:100%; border-radius:10px; border:2px solid #fb923c; margin-top:12px;'></div>"
   },
   {
@@ -383,7 +544,10 @@
     "type": "选择题",
     "question": "1. 生产类型的划分主要取决于（ ）。A. 生产纲领 B. 批量 C. 尺寸和精度<br>2. 组成环不变，增环增大，封闭环（ ）。A. 变大 B. 变小 C. 不变<br>3. 机床导轨受热变形后，加工造成工件（ ）相。A. 中间 B. 两头 C. 都有可能<br>4. 机床导轨应保证（ ）方向的精度：A. 水平 B. 垂直 C. 都有可能<br>5. 误差复映应控制在什么范围内（ ）。A. 1 B > 1 B. < 1 C. <<1<br>6. 切削脆性材料时，它的切屑属于（ ）。A. 带状切屑 B. 节状切屑 C. 粒状切屑 D. 崩碎切削<br>7. 进给量及背吃刀量不变，（ ）会增加切屑的宽：A. 前角增大 B. 后角增大 C. 主偏角减小 D. 副偏角减小<br>8. 调头继续车削属于改变了（ ）。A. 工序 B. 工步 C. 安装<br>9. 产品加工的经济精度最大是指（ ）。A. 用钱最少 B. 精度最好 C. 正常加工条件下所能达到的加工精度<br>10. 安装次数越多，生产率和加工精度（ ）。A. 越高 B. 越低 C. 都有可能 D. 不变",
     "answer": "<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>1. A</span> 生产类型主要取决于生产纲领。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>2. A</span> 增环增大，封闭环变大。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>3. B</span> 导轨受热变形，中间凸起，加工工件呈两头小中间大？实际常见是中间大？根据答案选B（两头）。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>4. C</span> 导轨精度包括水平和垂直方向，根据答案选C。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>5. C</span> 误差复映系数应远小于1，选C（<<1）。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>6. D</span> 脆性材料切屑为崩碎切屑。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>7. C</span> 主偏角减小，切削宽度增加。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>8. C</span> 调头车削改变了安装。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>9. C</span> 经济精度指正常条件下能达到的精度。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>10. B</span> 安装次数越多，精度和生产率越低。",
-    "tags": ["选择题", "2023"],
+    "tags": [
+      "选择题",
+      "2023"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px; border-radius:12px; border-left:4px solid #38bdf8;'><h4 style='color:#075985;'>选择题关键字</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#bae6fd;'><th style='padding:8px; border:1px solid #38bdf8;'>题号</th><th style='padding:8px; border:1px solid #38bdf8;'>答案</th><th style='padding:8px; border:1px solid #38bdf8;'>关键词</th></tr><tr><td style='padding:8px; border:1px solid #7dd3fc;'>1</td><td style='padding:8px; border:1px solid #7dd3fc;'>A</td><td style='padding:8px; border:1px solid #7dd3fc;'>生产纲领</td></tr><tr style='background:#ecfeff;'><td style='padding:8px; border:1px solid #7dd3fc;'>2</td><td style='padding:8px; border:1px solid #7dd3fc;'>A</td><td style='padding:8px; border:1px solid #7dd3fc;'>增环↑→TF↑</td></tr><tr><td style='padding:8px; border:1px solid #7dd3fc;'>5</td><td style='padding:8px; border:1px solid #7dd3fc;'>C</td><td style='padding:8px; border:1px; border-color:#7dd3fc;'>ε≪1</td></tr><tr style='background:#ecfeff;'><td style='padding:8px; border:1px solid #7dd3fc;'>6</td><td style='padding:8px; border:1px solid #7dd3fc;'>D</td><td style='padding:8px; border:1px solid #7dd3fc;'>脆→崩碎</td></tr></table><img src='images/mcq-2023.svg' alt='2023选择题速记卡' style='max-width:100%; border-radius:10px; border:2px solid #38bdf8; margin-top:12px;'></div>"
   },
   {
@@ -392,7 +556,10 @@
     "type": "简答题",
     "question": "积屑瘤及其影响？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>积屑瘤：</span>在切削速度不高又能形成连续切削的情况下，常在刀具前刀面粘着一块断面呈三角状的硬块，硬度很高，为工件硬度的2-3倍，这块金属称为积屑瘤。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>影响：</span>使刀具前角增大，切削厚度变化，加工表面粗糙度增大，影响刀具寿命。",
-    "tags": ["积屑瘤", "切削"],
+    "tags": [
+      "积屑瘤",
+      "切削"
+    ],
     "memoryTips": "<div style='background:#fdf2f8; padding:15px; border-radius:12px; border-left:4px solid #e11d48;'><h4 style='color:#9f1239;'>形成与影响</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#fecdd3;'><th style='padding:8px; border:1px solid #fb7185;'>方面</th><th style='padding:8px; border:1px solid #fb7185;'>要点</th></tr><tr><td style='padding:8px; border:1px solid #fb7185;'>形成</td><td style='padding:8px; border:1px solid #fb7185;'>低速+连续切削+摩擦冷焊</td></tr><tr style='background:#fff1f2;'><td style='padding:8px; border:1px solid #fb7185;'>影响</td><td style='padding:8px; border:1px solid #fb7185;'>前角↑有利；表面粗糙↑不利</td></tr></table><img src='images/built-up-edge-effects.svg' alt='积屑瘤形成与影响' style='max-width:100%; border-radius:10px; border:2px solid #e11d48; margin-top:12px;'></div>"
   },
   {
@@ -401,7 +568,10 @@
     "type": "简答题",
     "question": "主动运动和进给运动的区别，举例说明？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>主运动：</span>切除工件表面多余材料所需的最基本的运动，速度最高，消耗功率最大。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>进给运动：</span>使工件切削层材料继续投入切削从而加工完整表面所需的运动，速度较低。<br><span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>举例：</span>车床上，工件旋转是主运动，刀具移动是进给运动。",
-    "tags": ["主运动", "进给运动"],
+    "tags": [
+      "主运动",
+      "进给运动"
+    ],
     "memoryTips": "<div style='background:#ecfeff; padding:15px; border-radius:12px; border-left:4px solid #06b6d4;'><h4 style='color:#155e75;'>主运动 vs 进给运动</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#a5f3fc;'><th style='padding:8px; border:1px solid #22d3ee;'>类别</th><th style='padding:8px; border:1px solid #22d3ee;'>定义</th><th style='padding:8px; border:1px solid #22d3ee;'>车削示例</th></tr><tr><td style='padding:8px; border:1px solid #7dd3fc;'>主运动</td><td style='padding:8px; border:1px solid #7dd3fc;'>提供切削速度</td><td style='padding:8px; border:1px solid #7dd3fc;'>工件旋转</td></tr><tr style='background:#ecfeff;'><td style='padding:8px; border:1px solid #7dd3fc;'>进给</td><td style='padding:8px; border:1px solid #7dd3fc;'>维持连续切削</td><td style='padding:8px; border:1px solid #7dd3fc;'>刀具移动</td></tr></table><img src='images/motions-cutting-vs-feed.svg' alt='主运动与进给运动' style='max-width:100%; border-radius:10px; border:2px solid #06b6d4; margin-top:12px;'></div>"
   },
   {
@@ -410,7 +580,10 @@
     "type": "简答题",
     "question": "车外圆时车刀比工件偏高了，前角和后角怎么变，画图说明。",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>当刀尖高于工件中心时：</span>前角增大，后角减小。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>解释：</span>刀具安装高度变化改变了参考平面，使工作角度变化。",
-    "tags": ["刀具角度", "安装"],
+    "tags": [
+      "刀具角度",
+      "安装"
+    ],
     "memoryTips": "<div style='background:#fef9c3; padding:15px; border-radius:12px; border-left:4px solid #f59e0b;'><h4 style='color:#b45309;'>安装高度与工作角</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#fde68a;'><th style='padding:8px; border:1px solid #f59e0b;'>情况</th><th style='padding:8px; border:1px solid #f59e0b;'>前角</th><th style='padding:8px; border:1px solid #f59e0b;'>后角</th></tr><tr><td style='padding:8px; border:1px solid #f59e0b;'>刀尖高于中心</td><td style='padding:8px; border:1px solid #f59e0b;'>↑</td><td style='padding:8px; border:1px solid #f59e0b;'>↓</td></tr><tr style='background:#fffbeb;'><td style='padding:8px; border:1px solid #f59e0b;'>刀尖低于中心</td><td style='padding:8px; border:1px solid #f59e0b;'>↓</td><td style='padding:8px; border:1px solid #f59e0b;'>↑</td></tr></table><img src='images/tool-angle-height.svg' alt='刀尖高低与角度' style='max-width:100%; border-radius:10px; border:2px solid #f59e0b; margin-top:12px;'></div>"
   },
   {
@@ -419,7 +592,9 @@
     "type": "简答题",
     "question": "误差复映及避免方法",
     "answer": "<div style='line-height:1.85;'><p><strong>误差复映：</strong>加工过程中，由于<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>毛坯余量不均</span>、<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>材料硬度波动</span>等原因，导致切削力变化，使<span style='background:#bfdbfe; padding:2px 6px; border-radius:4px;'>工艺系统受力变形不一致</span>，从而使毛坯的原始误差“复映”到加工后工件表面的现象。</p><p><strong>形状/位置误差复映：</strong>两者均可能发生复映。</p><p><strong>减少方法：</strong></p><ol style='margin:6px 0 0 20px;'><li><strong>划分加工阶段</strong>（粗—半精—精），逐步削弱毛坯误差影响。</li><li><strong>多次走刀/分层切削</strong>，降低单次切削力波动与系统变形。</li><li><strong>提高工艺系统刚度</strong>（机床/夹具/刀具/工件），减小受力变形。</li></ol></div>",
-    "tags": ["误差复映"],
+    "tags": [
+      "误差复映"
+    ],
     "memoryTips": "<div style='background:#ede9fe; padding:15px; border-radius:12px; border-left:4px solid #8b5cf6;'><h4 style='color:#5b21b6; margin-bottom:10px;'>答案解析</h4><div style='background:#ddd6fe; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#4c1d95; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 需要解释<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>什么是误差复映</span>、<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>产生原因</span>、<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>如何避免</span>三个层次。</p></div><img src='images/error-propagation.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #8b5cf6;' alt='误差复映原理图'/><h5 style='color:#5b21b6; margin:15px 0 8px;'>误差复映的因果链</h5><div style='background:#f5f3ff; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#4c1d95; margin:0; font-family:monospace; font-size:13px; line-height:2;'>1. <span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>毛坯误差</span> (余量不均/硬度变化)<br>2. <span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削力变化</span><br>3. <span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>工艺系统变形</span><br>4. <span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>工件误差</span> (复映)</p></div><h5 style='color:#5b21b6; margin:15px 0 8px;'>答案关键词</h5><ul style='color:#334155; margin:0; padding-left:20px; line-height:2;'><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>毛坯误差</span>：<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>余量和硬度变化</span>是根源</li><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削力变化</span>：导致<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>系统受力</span>的变化</li><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>工艺系统变形</span>：<span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>误差传递</span>的中间环节</li><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>尺寸误差和形状误差</span>：最终<span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>表现结果</span></li></ul><div style='background:#ede9fe; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #8b5cf6;'><p style='color:#5b21b6; margin:0;'><strong>避免方法核心：</strong><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>提高工艺系统刚度</span>（减少变形）是根本解决之道</p></div></div>"
   },
   {
@@ -428,7 +603,10 @@
     "type": "判断题",
     "question": "1. YT 类硬质合金的主要成分是 WC 和 Co（ ）<br>2. 阶梯轴安装过程中，调头继续车削等同于一次安装（ ）<br>3. 刀具的工作角度随着安装条件和进给量的大小变化而变化（ ）<br>4. 基准统一原则特点是减少定位误差（ ）<br>5. 零件表面残余应力是压应力，可以提高零件疲劳强度（ ）<br>6. 安装次数越多，加工精度越低，生产率越低（ ）<br>7. 机床导轨的误差敏感度在垂直方向上较大（ ）<br>8. 选择不加工表面作为粗基准可以无定位误差（ ）<br>9. 一个工序的定义强调工作地点固定和工作连续（ ）<br>10. 在机械加工中不允许有加工原理误差（ ）",
     "answer": "<span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>1. ×</span> YT类主要成分是WC、Co和TiC。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>2. ×</span> 调头属于新的安装。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>3. √</span> 工作角度会随安装和进给变化。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>4. ×</span> 基准统一可提高精度，但不直接减少定位误差。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>5. √</span> 残余压应力有益疲劳强度。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>6. √</span> 安装次数多，精度和生产率降低。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>7. √</span> 垂直方向为误差敏感方向。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>8. ×</span> 不能完全消除定位误差，只能减少。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>9. √</span> 工序定义正确。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>10. ×</span> 原理误差有时允许（如齿轮滚刀）。",
-    "tags": ["判断题", "2024"],
+    "tags": [
+      "判断题",
+      "2024"
+    ],
     "memoryTips": "<div style='background:#f3e8ff; padding:15px;'><h4>2024判断题解析</h4><ul><li>YT类含TiC，第1题错</li><li>调头是新安装，第2题错</li><li>工作角度变化，第3题对</li><li>基准统一不减小定位误差，第4题错</li><li>残余压应力有益，第5题对</li><li>安装次数多精度低，第6题对</li><li>垂直方向敏感，第7题对</li><li>粗基准不能消除定位误差，第8题错</li><li>工序定义正确，第9题对</li><li>原理误差允许，第10题错</li></ul></div>"
   },
   {
@@ -437,7 +615,9 @@
     "type": "简答题",
     "question": "定位误差是什么？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>定位误差：</span>在机械加工中，由于工件在机床上定位不准确，导致实际加工位置与理论位置之间的偏差。主要由基准不重合误差和基准位移误差组成。",
-    "tags": ["定位误差"],
+    "tags": [
+      "定位误差"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px; border-radius:12px; border-left:4px solid #3b82f6;'><h4 style='color:#1e40af;'>定位误差组成</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#bfdbfe;'><th style='padding:8px; border:1px solid #60a5fa;'>组成</th><th style='padding:8px; border:1px solid #60a5fa;'>含义</th><th style='padding:8px; border:1px solid #60a5fa;'>来源</th></tr><tr><td style='padding:8px; border:1px solid #93c5fd;'>△jb</td><td style='padding:8px; border:1px solid #93c5fd;'>基准不重合</td><td style='padding:8px; border:1px solid #93c5fd;'>定位基准≠设计基准</td></tr><tr style='background:#eff6ff;'><td style='padding:8px; border:1px solid #93c5fd;'>△jw</td><td style='padding:8px; border:1px solid #93c5fd;'>基准位移</td><td style='padding:8px; border:1px solid #93c5fd;'>定位副误差/间隙</td></tr></table><img src='images/locating-error-components.svg' alt='定位误差组成' style='max-width:100%; border-radius:10px; border:2px solid #3b82f6; margin-top:12px;'></div>"
   },
   {
@@ -446,7 +626,9 @@
     "type": "简答题",
     "question": "切削过程三个变形区是哪三个？哪个对已加工表面影响最大？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>三个变形区：</span>第一变形区（剪切滑移）、第二变形区（前刀面摩擦）、第三变形区（后刀面挤压）。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>对已加工表面影响最大的是第三变形区。</span>",
-    "tags": ["三个变形区"],
+    "tags": [
+      "三个变形区"
+    ],
     "memoryTips": "<div style='background:#f3e8ff; padding:15px; border-radius:12px; border-left:4px solid #8b5cf6;'><h4 style='color:#5b21b6;'>三个变形区</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#ddd6fe;'><th style='padding:8px; border:1px solid #a78bfa;'>区</th><th style='padding:8px; border:1px solid #a78bfa;'>位置</th><th style='padding:8px; border:1px solid #a78bfa;'>特点</th></tr><tr><td style='padding:8px; border:1px solid #a78bfa;'>I</td><td style='padding:8px; border:1px solid #a78bfa;'>切削层</td><td style='padding:8px; border:1px solid #a78bfa;'>剪切滑移</td></tr><tr style='background:#f5f3ff;'><td style='padding:8px; border:1px solid #a78bfa;'>II</td><td style='padding:8px; border:1px solid #a78bfa;'>前刀面</td><td style='padding:8px; border:1px solid #a78bfa;'>摩擦变形</td></tr><tr><td style='padding:8px; border:1px solid #a78bfa;'>III</td><td style='padding:8px; border:1px solid #a78bfa;'>后刀面</td><td style='padding:8px; border:1px solid #a78bfa;'>挤压摩擦，影响表面质量</td></tr></table><img src='images/three-zones.svg' alt='三个变形区' style='max-width:100%; border-radius:10px; border:2px solid #8b5cf6; margin-top:12px;'></div>"
   },
   {
@@ -455,7 +637,9 @@
     "type": "简答题",
     "question": "误差复映及避免方法",
     "answer": "<div style='line-height:1.85;'><p><strong>误差复映：</strong>加工过程中，由于<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>毛坯余量不均</span>、<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>材料硬度波动</span>等原因，导致切削力变化，使<span style='background:#bfdbfe; padding:2px 6px; border-radius:4px;'>工艺系统受力变形不一致</span>，从而使毛坯的原始误差“复映”到加工后工件表面的现象。</p><p><strong>形状/位置误差复映：</strong>两者均可能发生复映。</p><p><strong>减少方法：</strong></p><ol style='margin:6px 0 0 20px;'><li><strong>划分加工阶段</strong>（粗—半精—精），逐步削弱毛坯误差影响。</li><li><strong>多次走刀/分层切削</strong>，降低单次切削力波动与系统变形。</li><li><strong>提高工艺系统刚度</strong>（机床/夹具/刀具/工件），减小受力变形。</li></ol></div>",
-    "tags": ["误差复映"],
+    "tags": [
+      "误差复映"
+    ],
     "memoryTips": "<div style='background:#ffe0b2; padding:15px; border-radius:12px; border-left:4px solid #fb8c00;'><h4 style='color:#a04000;'>复映的控制</h4><p style='margin:8px 0;'>提高系统刚度、走刀细分、优化用量与冷却。</p><img src='images/error-reflection.svg' alt='复映误差控制' style='max-width:100%; border-radius:10px; border:2px solid #fb8c00; margin-top:12px;'></div>"
   },
   {
@@ -464,7 +648,9 @@
     "type": "简答题",
     "question": "刀具正常磨损过程分为几个阶段？刀具磨损应该限制在哪一个阶段？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>刀具正常磨损过程分为三个阶段：</span>初期磨损阶段、正常磨损阶段、急剧磨损阶段。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>刀具磨损应该限制在正常磨损阶段后期（达到磨钝标准前）。</span>",
-    "tags": ["刀具磨损"],
+    "tags": [
+      "刀具磨损"
+    ],
     "memoryTips": "<div style='background:#fff3e0; padding:15px; border-radius:12px; border-left:4px solid #fb8c00;'><h4 style='color:#e65100; margin-bottom:10px;'>答案解析</h4><div style='background:#ffe0b2; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#bf360c; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 刀具磨损过程分<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>三个阶段</span>，其中<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>正常磨损阶段</span>是最佳工作区间。</p></div><img src='images/tool-wear-stages.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #fb8c00;' alt='刀具磨损三阶段图'/><h5 style='color:#e65100; margin:15px 0 8px;'>三个磨损阶段</h5><table style='width:100%; margin:10px 0; border-collapse:collapse; font-size:13px;'><tr style='background:#ffe0b2;'><th style='padding:8px; border:1px solid #ff9800;'>阶段</th><th style='padding:8px; border:1px solid #ff9800;'>特点</th><th style='padding:8px; border:1px solid #ff9800;'>建议</th></tr><tr><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>初期磨损</span></td><td style='padding:8px; border:1px solid #ffcc80;'>磨损较快，斜率大</td><td style='padding:8px; border:1px solid #ffcc80;'>可提前检查刀具</td></tr><tr style='background:#fff3e0;'><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>正常磨损</span></td><td style='padding:8px; border:1px solid #ffcc80;'>磨损稳定，斜率恒定</td><td style='padding:8px; border:1px solid:#ffcc80;'>最佳工作区间</td></tr><tr><td style='padding:8px; border:1px solid #ffcc80;'><span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>急剧磨损</span></td><td style='padding:8px; border:1px solid #ffcc80;'>磨损加剧，损坏刀具</td><td style='padding:8px; border:1px solid #ffcc80;'>必须避免</td></tr></table><div style='background:#fff3e0; padding:10px; border-radius:8px; margin:15px 0; border:1px dashed #fb8c00;'><p style='color:#e65100; margin:0;'><strong>关键点：</strong><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>刀具磨损应限制在正常磨损阶段后期</span>（达到磨钝标准前换刀）</p></div></div>"
   },
   {
@@ -473,7 +659,9 @@
     "type": "简答题",
     "question": "说明下列机床型号带下划线字母的含义： (1) Y3150<u>E</u> (2) <u>M</u>G1432 (3) <u>X</u>5025 (4) C<u>M</u>6132 (5) <u>B</u>6050",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>(1) Y3150E：</span>Y——齿轮加工机床，31——滚齿机，50——最大工件直径500mm，E——重大改进序号。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>(2) MG1432：</span>M——磨床，G——高精度，14——万能外圆磨床，32——最大磨削直径320mm。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>(3) X5025：</span>X——铣床，50——立式铣床，25——工作台宽度250mm。<br><span style='background:#c4b5fd; padding:3px 8px; border-radius:4px;'>(4) CM6132：</span>C——车床，M——精密，61——卧式车床，32——最大车削直径320mm。<br><span style='background:#60a5fa; padding:3px 8px; border-radius:4px;'>(5) B6050：</span>B——刨床，60——牛头刨床，50——最大刨削长度500mm。",
-    "tags": ["机床型号"],
+    "tags": [
+      "机床型号"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px; border-radius:12px; border-left:4px solid #38bdf8;'><h4 style='color:#075985;'>字母含义速记</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#bae6fd;'><th style='padding:8px; border:1px solid #38bdf8;'>示例</th><th style='padding:8px; border:1px solid #38bdf8;'>类别</th><th style='padding:8px; border:1px solid #38bdf8;'>特性</th><th style='padding:8px; border:1px solid #38bdf8;'>组系</th><th style='padding:8px; border:1px solid #38bdf8;'>主参数</th></tr><tr><td style='padding:8px; border:1px solid #7dd3fc;'>Y3150E</td><td style='padding:8px; border:1px solid #7dd3fc;'>Y 齿轮</td><td style='padding:8px; border:1px solid #7dd3fc;'>—</td><td style='padding:8px; border:1px solid #7dd3fc;'>31 滚齿</td><td style='padding:8px; border:1px solid #7dd3fc;'>50 ⌀500</td></tr></table><img src='images/machine-codes.svg' alt='机床型号字母含义' style='max-width:100%; border-radius:10px; border:2px solid #38bdf8; margin-top:12px;'></div>"
   },
   {
@@ -482,7 +670,10 @@
     "type": "简答题",
     "question": "误差复映及避免方法",
     "answer": "<div style='line-height:1.85;'><p><strong>误差复映：</strong>加工过程中，由于<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>毛坯余量不均</span>、<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>材料硬度波动</span>等原因，导致切削力变化，使<span style='background:#bfdbfe; padding:2px 6px; border-radius:4px;'>工艺系统受力变形不一致</span>，从而使毛坯的原始误差“复映”到加工后工件表面的现象。</p><p><strong>形状/位置误差复映：</strong>两者均可能发生复映。</p><p><strong>减少方法：</strong></p><ol style='margin:6px 0 0 20px;'><li><strong>划分加工阶段</strong>（粗—半精—精），逐步削弱毛坯误差影响。</li><li><strong>多次走刀/分层切削</strong>，降低单次切削力波动与系统变形。</li><li><strong>提高工艺系统刚度</strong>（机床/夹具/刀具/工件），减小受力变形。</li></ol></div>",
-    "tags": ["误差复映", "2025"],
+    "tags": [
+      "误差复映",
+      "2025"
+    ],
     "memoryTips": "<div style='background:#ffe0b2; padding:15px; border-radius:12px; border-left:4px solid #fb8c00;'><h4 style='color:#a04000; margin-bottom:8px;'>记忆要点</h4><p style='margin:6px 0; color:#7c2d12;'>因果链：<strong>毛坯不均/硬度波动</strong> → <strong>切削力变化</strong> → <strong>工艺系统变形</strong> → <strong>表面误差复映</strong></p><p style='margin:6px 0; color:#7c2d12;'>减少方法（3+）：① <strong>分阶段</strong>（粗-半精-精）；② <strong>多次走刀</strong>（分层切削）；③ <strong>提高刚度</strong>（机床/夹具/刀具/工件）；④ 均匀余量与材料；⑤ 合理用量与冷却；⑥ 改善装夹，减小松动。</p><p style='margin:6px 0; color:#7c2d12;'><strong>口诀：</strong>“毛坯-力-变形-表误差；分段多刀提刚度”。</p></div>"
   },
   {
@@ -491,7 +682,10 @@
     "type": "简答题",
     "question": "积屑瘤的产生原因是什么？如何解决？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>产生原因：</span>在切削速度不高而又能形成带状切屑的情况下，加工钢材或铝合金等塑性材料时，切屑与前刀面剧烈摩擦冷焊形成。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>控制措施：</span>正确选用切削速度（避开积屑瘤区），使用润滑性能好的切削液，增大刀具前角，适当提高工件材料硬度。",
-    "tags": ["积屑瘤", "2025"],
+    "tags": [
+      "积屑瘤",
+      "2025"
+    ],
     "memoryTips": "<div style='background:#fdf2f8; padding:15px; border-radius:12px; border-left:4px solid #e11d48;'><h4 style='color:#9f1239;'>控制思路</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#fecdd3;'><th style='padding:8px; border:1px solid #fb7185;'>手段</th><th style='padding:8px; border:1px solid #fb7185;'>作用</th></tr><tr><td style='padding:8px; border:1px solid #fb7185;'>速度调整</td><td style='padding:8px; border:1px solid #fb7185;'>避开积屑瘤区</td></tr><tr style='background:#fff1f2;'><td style='padding:8px; border:1px solid #fb7185;'>切削液</td><td style='padding:8px; border:1px solid #fb7185;'>润滑降温</td></tr><tr><td style='padding:8px; border:1px solid #fb7185;'>刀具几何</td><td style='padding:8px; border:1px solid #fb7185;'>前角↑</td></tr></table><img src='images/built-up-edge-effects.svg' alt='积屑瘤控制' style='max-width:100%; border-radius:10px; border:2px solid #e11d48; margin-top:12px;'></div>"
   },
   {
@@ -500,7 +694,11 @@
     "type": "简答题",
     "question": "刀具安装高度对刀具角度的影响？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>当刀尖安装低于工件中心时：</span>前角变小，后角变大。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>当刀尖安装高于工件中心时：</span>前角变大，后角变小。",
-    "tags": ["刀具安装", "角度", "2025"],
+    "tags": [
+      "刀具安装",
+      "角度",
+      "2025"
+    ],
     "memoryTips": "<div style='background:#fef9c3; padding:15px; border-radius:12px; border-left:4px solid #f59e0b;'><h4 style='color:#b45309;'>安装高度与角度</h4><p>刀尖低：前角↓ 后角↑；刀尖高：前角↑ 后角↓。</p><img src='images/tool-angle-height.svg' alt='安装高度与工作角' style='max-width:100%; border-radius:10px; border:2px solid #f59e0b; margin-top:12px;'></div>"
   },
   {
@@ -508,8 +706,12 @@
     "year": 2025,
     "type": "简答题",
     "question": "插削直齿圆柱齿轮时候，插齿机必须具备的基本运动有哪些？",
-    "answer": "<div style='background:linear-gradient(135deg,#fff7ed,#eff6ff); border:1px solid #fdba74; border-radius:14px; padding:16px 18px; box-shadow:0 10px 24px rgba(15,23,42,0.08);'><div style='font-size:15px; font-weight:700; color:#9a3412; margin-bottom:12px;'>插齿机必须具备的基本运动</div><div style='display:grid; gap:10px;'><div style='background:#ffffff; border-left:5px solid #f97316; border-radius:10px; padding:10px 12px; line-height:1.75;'><span style='display:inline-block; min-width:88px; font-weight:700; color:#c2410c;'>1. 主运动：</span><span style='color:#1f2937;'>插齿刀的上下往复直线运动。</span></div><div style='background:#ffffff; border-left:5px solid #0ea5e9; border-radius:10px; padding:10px 12px; line-height:1.75;'><span style='display:inline-block; min-width:88px; font-weight:700; color:#0369a1;'>2. 展成运动：</span><span style='color:#1f2937;'>插齿刀与工件按啮合关系做回转运动。</span></div><div style='background:#ffffff; border-left:5px solid #10b981; border-radius:10px; padding:10px 12px; line-height:1.75;'><span style='display:inline-block; min-width:88px; font-weight:700; color:#047857;'>3. 圆周进给运动：</span><span style='color:#1f2937;'>插齿刀转动，带动工件完成分齿。</span></div><div style='background:#ffffff; border-left:5px solid #8b5cf6; border-radius:10px; padding:10px 12px; line-height:1.75;'><span style='display:inline-block; min-width:88px; font-weight:700; color:#6d28d9;'>4. 径向进给运动：</span><span style='color:#1f2937;'>刀具逐渐切入工件至全齿深。</span></div></div></div>",
-    "tags": ["插齿", "齿轮加工", "2025"],
+    "answer": "1. 主运动：插齿刀的上下往复直线运动。<br>2. 展成运动：插齿刀与工作按啮合关系做回转运动。<br>3. 圆周进给运动：插齿刀转动，带动工作完成分齿。<br>4. 径向进给运动：刀具逐渐切入工作至全齿深。",
+    "tags": [
+      "插齿",
+      "齿轮加工",
+      "2025"
+    ],
     "memoryTips": "<div style='background:#ecfeff; padding:15px; border-radius:12px; border-left:4px solid #06b6d4;'><h4 style='color:#155e75;'>插齿五大运动</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#a5f3fc;'><th style='padding:8px; border:1px solid #22d3ee;'>运动</th><th style='padding:8px; border:1px solid #22d3ee;'>含义</th></tr><tr><td style='padding:8px; border:1px solid #7dd3fc;'>主切削</td><td style='padding:8px; border:1px solid #7dd3fc;'>插齿刀直线往复</td></tr><tr style='background:#ecfeff;'><td style='padding:8px; border:1px solid #7dd3fc;'>展成</td><td style='padding:8px; border:1px solid #7dd3fc;'>刀工同步旋转</td></tr><tr><td style='padding:8px; border:1px solid #7dd3fc;'>圆周进给</td><td style='padding:8px; border:1px solid #7dd3fc;'>跨齿槽</td></tr><tr style='background:#ecfeff;'><td style='padding:8px; border:1px solid #7dd3fc;'>径向进给</td><td style='padding:8px; border:1px solid #7dd3fc;'>逐步加深</td></tr><tr><td style='padding:8px; border:1px solid #7dd3fc;'>让刀</td><td style='padding:8px; border:1px solid #7dd3fc;'>退刀避让</td></tr></table><img src='images/gear-shaping-motions.svg' alt='插齿机基本运动' style='max-width:100%; border-radius:10px; border:2px solid #06b6d4; margin-top:12px;'></div>"
   },
   {
@@ -518,7 +720,11 @@
     "type": "简答题",
     "question": "铣削通槽和不通槽的时候分别需要限制几个自由度？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>铣通槽：</span>需要限制5个自由度（除沿槽方向移动）。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>铣不通槽：</span>需要限制6个自由度（完全定位）。",
-    "tags": ["铣削", "自由度", "2025"],
+    "tags": [
+      "铣削",
+      "自由度",
+      "2025"
+    ],
     "memoryTips": "<div style='background:#dcfce7; padding:15px; border-radius:12px; border-left:4px solid #10b981;'><h4 style='color:#065f46;'>定位自由度对比</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#bbf7d0;'><th style='padding:8px; border:1px solid #34d399;'>类型</th><th style='padding:8px; border:1px solid #34d399;'>限制自由度</th><th style='padding:8px; border:1px solid #34d399;'>说明</th></tr><tr><td style='padding:8px; border:1px solid #a7f3d0;'>通槽</td><td style='padding:8px; border:1px solid #a7f3d0;'>5</td><td style='padding:8px; border:1px solid #a7f3d0;'>沿槽方向不限</td></tr><tr style='background:#ecfdf5;'><td style='padding:8px; border:1px solid #a7f3d0;'>不通槽</td><td style='padding:8px; border:1px solid #a7f3d0;'>6</td><td style='padding:8px; border:1px solid #a7f3d0;'>完全定位</td></tr></table><img src='images/slotting-dof.svg' alt='铣槽定位自由度' style='max-width:100%; border-radius:10px; border:2px solid #10b981; margin-top:12px;'></div>"
   },
   {
@@ -527,7 +733,10 @@
     "type": "简答题",
     "question": "什么叫六点定位原理？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>六点定位原理：</span>用6个按一定规律布置的支承点，分别限制工件的6个自由度（X/Y/Z平移及绕X/Y/Z转动），使工件在夹具中获得唯一确定位置的方法。",
-    "tags": ["六点定位", "2025"],
+    "tags": [
+      "六点定位",
+      "2025"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px; border-radius:12px; border-left:4px solid #3b82f6;'><h4 style='color:#1e40af;'>3-2-1 典型实现</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#bfdbfe;'><th style='padding:8px; border:1px solid #60a5fa;'>支点</th><th style='padding:8px; border:1px solid #60a5fa;'>限制自由度</th></tr><tr><td style='padding:8px; border:1px solid #93c5fd;'>底面三点</td><td style='padding:8px; border:1px solid #93c5fd;'>Z 平移、绕X/绕Y</td></tr><tr style='background:#eff6ff;'><td style='padding:8px; border:1px solid #93c5fd;'>侧面两点</td><td style='padding:8px; border:1px solid #93c5fd;'>X 平移、绕Z</td></tr><tr><td style='padding:8px; border:1px solid #93c5fd;'>端面一点</td><td style='padding:8px; border:1px solid #93c5fd;'>Y 平移</td></tr></table><img src='images/six-point-positioning.svg' alt='六点定位原理图' style='max-width:100%; border-radius:10px; border:2px solid #3b82f6; margin-top:12px;'></div>"
   },
   {
@@ -536,7 +745,11 @@
     "type": "是非题",
     "question": "【学硕】2023 复试（学）判断题（10）<br>1. 刀具的工作角度随着安装条件的改变而改变（ ）<br>2. 在磨削中，周磨法与端磨法相比，前者效率高但加工质量低（ ）<br>3. 阶梯轴的加工过程中，“调头继续车削”视为一次安装（ ）<br>4. 车削细长轴时，容易出现腰鼓形的圆柱体误差（ ）<br>5. 一个工序的定义是强调工作地点的固定和工作的连续性（ ）<br>6. 选用不加工表面为粗基准可以防止产生定位误差（ ）<br>7. YG 类硬质合金主要成分包括 WC 和 Co（ ）<br>8. 安装次数越多，生产率越低，加工精度越低（ ）<br>9. 零件表面残余应力为压应力时，可以提高零件的疲劳强度（ ）<br>10. 基准统一原则有助于使定位误差减小（ ）",
     "answer": "<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>1. 对</span> 工作角随安装/进给变；标注角度不变。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>2. 对</span> 周磨质量高、端磨效率高；命题给定判定为对。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>3. 对</span> 调头即新安装，定位/基准发生改变。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>4. 对</span> 细长轴刚性不足，切削力致挠曲→腰鼓误差。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>5. 对</span> 工序定义强调地点固定与工作的连续性。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>6. 错</span> 选不加工面为粗基准可保证位置关系，但不能消除定位误差。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>7. 对</span> YG（WC+Co）为典型组合。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>8. 对</span> 装夹次数↑ → 辅助时间↑、误差叠加 → 精度降低。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>9. 对</span> 残余压应力提升疲劳强度（喷丸等）。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>10. 对</span> 基准统一减少基准变换误差，有助于减小定位误差。",
-    "tags": ["学硕", "判断", "复试"],
+    "tags": [
+      "学硕",
+      "判断",
+      "复试"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px; border-radius:12px; border-left:4px solid #38bdf8;'><h4 style='color:#075985; margin:0 0 10px;'>速记与易错点</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#bae6fd;'><th style='padding:8px; border:1px solid #38bdf8;'>主题</th><th style='padding:8px; border:1px solid #38bdf8;'>要点</th><th style='padding:8px; border:1px solid #38bdf8;'>口诀</th></tr><tr><td style='padding:8px; border:1px solid #7dd3fc;'>角度</td><td style='padding:8px; border:1px solid #7dd3fc;'>工作角随安装/进给变；标注角固定</td><td style='padding:8px; border:1px solid #7dd3fc;'>“工变标不变”</td></tr><tr style='background:#eff6ff;'><td style='padding:8px; border:1px solid #7dd3fc;'>磨削</td><td style='padding:8px; border:1px solid #7dd3fc;'>周磨质高、端磨快</td><td style='padding:8px; border:1px solid #7dd3fc;'>“周质端快”</td></tr><tr><td style='padding:8px; border:1px solid #7dd3fc;'>定位</td><td style='padding:8px; border:1px solid #7dd3fc;'>粗基准≠无定位误差；基准统一可减误差</td><td style='padding:8px; border:1px solid #7dd3fc;'>“粗不免、统一减”</td></tr><tr style='background:#eff6ff;'><td style='padding:8px; border:1px solid #7dd3fc;'>材料</td><td style='padding:8px; border:1px solid #7dd3fc;'>YG=WC+Co；YT含TiC</td><td style='padding:8px; border:1px solid #7dd3fc;'>“YG钨钴、YT含钛”</td></tr><tr><td style='padding:8px; border:1px solid #7dd3fc;'>工艺系统</td><td style='padding:8px; border:1px solid #7dd3fc;'>装夹次数↑ → 时间↑ + 误差叠加</td><td style='padding:8px; border:1px solid #7dd3fc;'>“多装必差”</td></tr><tr style='background:#eff6ff;'><td style='padding:8px; border:1px solid #7dd3fc;'>疲劳</td><td style='padding:8px; border:1px solid #7dd3fc;'>残余压应力有益</td><td style='padding:8px; border:1px solid #7dd3fc;'>“压益拉害”</td></tr></table><div style='margin-top:10px; color:#075985;'>建议：做判断题优先抓<strong>常识规则</strong>（角度、基准、硬质合金命名、工艺系统、残余应力）。</div></div>"
   },
   {
@@ -545,7 +758,11 @@
     "type": "简答题",
     "question": "【学硕】2023：刀具的基本角度有哪些？为什么角度以切削刃上的点为依据？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>基本角度：</span>前角、后角、主偏角、副偏角、刃倾角。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>依据：</span>刀具参考系建立在<span style='background:#dbeafe; padding:2px 6px; border-radius:4px;'>切削刃上的选定点</span>，工作时各处受力与运动不同，以该点定义角度便于统一描述与计算。",
-    "tags": ["学硕", "简答", "复试"],
+    "tags": [
+      "学硕",
+      "简答",
+      "复试"
+    ],
     "memoryTips": "<div style='background:#fff3e0; padding:15px; border-radius:12px; border-left:4px solid #fb8c00;'><h4 style='color:#9a3412; margin:0 0 10px;'>角度对加工影响</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#fde68a;'><th style='padding:8px; border:1px solid #f59e0b;'>符号</th><th style='padding:8px; border:1px solid #f59e0b;'>名称</th><th style='padding:8px; border:1px solid #f59e0b;'>增大趋势</th></tr><tr><td style='padding:8px; border:1px solid #fed7aa;'>γ</td><td style='padding:8px; border:1px solid #fed7aa;'>前角</td><td style='padding:8px; border:1px solid #fed7aa;'>切削力↓、刃口强度↓</td></tr><tr style='background:#fff7ed;'><td style='padding:8px; border:1px solid #fed7aa;'>α</td><td style='padding:8px; border:1px solid #fed7aa;'>后角</td><td style='padding:8px; border:1px solid #fed7aa;'>后刀面摩擦↓、强度↓</td></tr><tr><td style='padding:8px; border:1px solid #fed7aa;'>κr</td><td style='padding:8px; border:1px solid #fed7aa;'>主偏角</td><td style='padding:8px; border:1px solid #fed7aa;'>切削力方向分解变化</td></tr><tr style='background:#fff7ed;'><td style='padding:8px; border:1px solid #fed7aa;'>λs</td><td style='padding:8px; border:1px solid #fed7aa;'>刃倾角</td><td style='padding:8px; border:1px solid #fed7aa;'>切屑流向改变</td></tr></table><p style='margin:10px 0 0;'>记忆：<strong>γ控力、α控摩、κr控向、λs控流</strong>；角度基于<strong>刃上点</strong>统一定义。</p></div>"
   },
   {
@@ -554,7 +771,11 @@
     "type": "简答题",
     "question": "切削过程三个变形区是哪三个？哪个对已加工表面影响最大？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>三个变形区：</span>第一变形区（剪切滑移）、第二变形区（前刀面摩擦）、第三变形区（后刀面挤压）。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>对已加工表面影响最大的是第三变形区。</span>",
-    "tags": ["学硕", "三个变形区", "复试"],
+    "tags": [
+      "学硕",
+      "三个变形区",
+      "复试"
+    ],
     "memoryTips": "<div style='background:#f3e8ff; padding:15px; border-radius:12px; border-left:4px solid #8b5cf6;'><h4 style='color:#5b21b6;'>三个变形区</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#ddd6fe;'><th style='padding:8px; border:1px solid #a78bfa;'>区</th><th style='padding:8px; border:1px solid #a78bfa;'>位置</th><th style='padding:8px; border:1px solid #a78bfa;'>特点</th></tr><tr><td style='padding:8px; border:1px solid #a78bfa;'>I</td><td style='padding:8px; border:1px solid #a78bfa;'>切削层</td><td style='padding:8px; border:1px solid #a78bfa;'>剪切滑移</td></tr><tr style='background:#f5f3ff;'><td style='padding:8px; border:1px solid #a78bfa;'>II</td><td style='padding:8px; border:1px solid #a78bfa;'>前刀面</td><td style='padding:8px; border:1px solid #a78bfa;'>摩擦变形</td></tr><tr><td style='padding:8px; border:1px solid #a78bfa;'>III</td><td style='padding:8px; border:1px solid #a78bfa;'>后刀面</td><td style='padding:8px; border:1px solid #a78bfa;'>挤压摩擦，影响表面质量</td></tr></table><img src='images/three-zones.svg' alt='三个变形区' style='max-width:100%; border-radius:10px; border:2px solid #8b5cf6; margin-top:12px;'></div>"
   },
   {
@@ -563,7 +784,11 @@
     "type": "简答题",
     "question": "刀具正常磨损过程分为几个阶段？刀具磨损应该限制在哪一个阶段？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>阶段：</span>初期磨损→正常磨损→急剧磨损。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>控制：</span>在<span style='background:#d1fae5; padding:2px 6px; border-radius:4px;'>正常磨损末期</span>更换刀具。",
-    "tags": ["学硕", "刀具磨损", "复试"],
+    "tags": [
+      "学硕",
+      "刀具磨损",
+      "复试"
+    ],
     "memoryTips": "<div style='background:#fff7ed; padding:15px; border-radius:12px; border-left:4px solid #fb923c;'><h4 style='color:#9a3412; margin:0 0 8px;'>磨损曲线与更换点</h4><p style='margin:0 0 8px;'>VB后刀面磨损随时间：<strong>快-稳-陡</strong>三阶段；在稳定段末（临近磨钝标准）更换。</p><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#fed7aa;'><th style='padding:8px; border:1px solid #fb923c;'>阶段</th><th style='padding:8px; border:1px solid #fb923c;'>特征</th><th style='padding:8px; border:1px solid #fb923c;'>策略</th></tr><tr><td style='padding:8px; border:1px solid #fdba74;'>初期</td><td style='padding:8px; border:1px solid #fdba74;'>磨损快、稳定性差</td><td style='padding:8px; border:1px solid #fdba74;'>短暂跑合</td></tr><tr style='background:#fff7ed;'><td style='padding:8px; border:1px solid #fdba74;'>稳定</td><td style='padding:8px; border:1px solid #fdba74;'>磨损均衡、效率高</td><td style='padding:8px; border:1px solid #fdba74;'><strong>最佳加工</strong></td></tr><tr><td style='padding:8px; border:1px solid #fdba74;'>急剧</td><td style='padding:8px; border:1px solid #fdba74;'>磨损激增、风险高</td><td style='padding:8px; border:1px solid #fdba74;'>避免进入</td></tr></table></div>"
   },
   {
@@ -572,7 +797,11 @@
     "type": "简答题",
     "question": "误差复映及避免方法",
     "answer": "<div style='line-height:1.85;'><p><strong>误差复映：</strong>加工过程中，由于<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>毛坯余量不均</span>、<span style='background:#fde68a; padding:2px 6px; border-radius:4px;'>材料硬度波动</span>等原因，导致切削力变化，使<span style='background:#bfdbfe; padding:2px 6px; border-radius:4px;'>工艺系统受力变形不一致</span>，从而使毛坯的原始误差“复映”到加工后工件表面的现象。</p><p><strong>形状/位置误差复映：</strong>两者均可能发生复映。</p><p><strong>减少方法：</strong></p><ol style='margin:6px 0 0 20px;'><li><strong>划分加工阶段</strong>（粗—半精—精），逐步削弱毛坯误差影响。</li><li><strong>多次走刀/分层切削</strong>，降低单次切削力波动与系统变形。</li><li><strong>提高工艺系统刚度</strong>（机床/夹具/刀具/工件），减小受力变形。</li></ol></div>",
-    "tags": ["学硕", "误差复映", "复试"],
+    "tags": [
+      "学硕",
+      "误差复映",
+      "复试"
+    ],
     "memoryTips": "<div style='background:#ede9fe; padding:15px; border-radius:12px; border-left:4px solid #8b5cf6;'><h4 style='color:#5b21b6; margin-bottom:10px;'>答案解析</h4><div style='background:#ddd6fe; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#4c1d95; margin:0; line-height:1.8;'><strong>为什么这样答？</strong> 需要解释<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>什么是误差复映</span>、<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>产生原因</span>、<span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>如何避免</span>三个层次。</p></div><img src='images/error-propagation.svg' style='max-width:100%; border-radius:8px; margin:15px 0; border:2px solid #8b5cf6;' alt='误差复映原理图'/><h5 style='color:#5b21b6; margin:15px 0 8px;'>误差复映的因果链</h5><div style='background:#f5f3ff; padding:12px; border-radius:8px; margin:10px 0;'><p style='color:#4c1d95; margin:0; font-family:monospace; font-size:13px; line-height:2;'>1. <span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>毛坯误差</span> (余量不均/硬度变化)<br>2. <span style='background:#fde047; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削力变化</span><br>3. <span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>工艺系统变形</span><br>4. <span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>工件误差</span> (复映)</p></div><h5 style='color:#5b21b6; margin:15px 0 8px;'>答案关键词</h5><ul style='color:#334155; margin:0; padding-left:20px; line-height:2;'><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>毛坯误差</span>：<span style='background:#fef08a; padding:2px 6px; border-radius:4px; font-weight:bold;'>余量和硬度变化</span>是根源</li><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>切削力变化</span>：导致<span style='background:#fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;'>系统受力</span>的变化</li><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>工艺系统变形</span>：<span style='background:#c4b5fd; padding:2px 6px; border-radius:4px; font-weight:bold;'>误差传递</span>的中间环节</li><li><span style='background:#dcfce7; padding:2px 6px; border-radius:4px; font-weight:bold;'>尺寸误差和形状误差</span>：最终<span style='background:#f472b6; padding:2px 6px; border-radius:4px; font-weight:bold;'>表现结果</span></li></ul><div style='background:#ede9fe; padding:12px; border-radius:8px; margin:15px 0; border:1px dashed #8b5cf6;'><p style='color:#5b21b6; margin:0;'><strong>避免方法核心：</strong><span style='background:#86efac; padding:2px 6px; border-radius:4px; font-weight:bold;'>提高工艺系统刚度</span>（减少变形）是根本解决之道</p></div></div>"
   },
   {
@@ -581,7 +810,11 @@
     "type": "简答题",
     "question": "【学硕】2023：积屑瘤的产生、影响与控制？",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>产生：</span>低速大进给切削塑性材料，前刀面黏结硬块。<br><span style='background:#fde047; padding:3px 8px; border-radius:4px;'>影响：</span>利：保护刃口；弊：粗糙度与尺寸波动。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>控制：</span>提高 v、增大前角、切削液、预热处理。",
-    "tags": ["学硕", "积屑瘤", "复试"],
+    "tags": [
+      "学硕",
+      "积屑瘤",
+      "复试"
+    ],
     "memoryTips": "<div style='background:#fdf2f8; padding:15px; border-radius:12px; border-left:4px solid #e11d48;'><h4 style='color:#9f1239; margin:0 0 8px;'>BUE（积屑瘤）速记</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#fecdd3;'><th style='padding:8px; border:1px solid #fb7185;'>条件</th><th style='padding:8px; border:1px solid #fb7185;'>影响</th><th style='padding:8px; border:1px solid #fb7185;'>控制</th></tr><tr><td style='padding:8px; border:1px solid #fb7185;'>低v/大f/塑性材料</td><td style='padding:8px; border:1px solid #fb7185;'>刀口附着硬块</td><td style='padding:8px; border:1px solid #fb7185;'>提速、增前角、冷却</td></tr><tr style='background:#fff1f2;'><td style='padding:8px; border:1px solid #fb7185;'>前刀面摩擦大</td><td style='padding:8px; border:1px solid #fb7185;'>粗糙度/尺寸波动</td><td style='padding:8px; border:1px solid #fb7185;'>改善刃口/材料预处理</td></tr></table></div>"
   },
   {
@@ -590,7 +823,11 @@
     "type": "是非题",
     "question": "【学硕】2024 复试（学）判断题（9）<br>1. 车削细长轴时，容易出现腰鼓状的圆柱度误差。<br>2. 刀具的工作角度随着安装条件和进给量的大小变化而变化。<br>3. 零件表面残余应力为压应力，可以提高零件的疲劳强度。<br>4. YT 类硬质合金的主要成分是 WC 和 Co。<br>5. 一个工序的定义强调工作地点的固定和工作的连续。<br>6. 影响刀具耐久度的因素 ap≫v>f。<br>7. 选择不加工表面为粗基准可以无定位误差。<br>8. 切削塑性材料时切削温度最高处是刀刃处。<br>9. 由于切削力的确定较复杂，所以一般使用计算法确定切削力。",
     "answer": "<span style='background:#86efac; padding:3px 8px; border-radius:4px;'>1. 对</span> 车削细长轴刚性不足，切削力致挠曲→腰鼓误差。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>2. 对</span> 工作角随安装/进给变；<u>标注角度</u>不随工况变。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>3. 对</span> 残余压应力抑制裂纹萌生/扩展，提升疲劳强度。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>4. 错</span> 常用表示为 YG（WC+Co）；YT含 TiC，并非 WC+Co。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>5. 对</span> 工序定义强调地点固定与工作的连续性。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>6. 错</span> 影响刀具耐久度因素综合，<span style='background:#fde047; padding:2px 6px; border-radius:4px;'>一般 v 的影响最大</span>，非一概 ap≫v>f。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>7. 错</span> 选不加工面为粗基准不能保证<span style='background:#dbeafe; padding:2px 6px; border-radius:4px;'>无</span>定位误差。<br><span style='background:#fca5a5; padding:3px 8px; border-radius:4px;'>8. 错</span> 最高温区通常在切削区接触/摩擦区域而非刀尖。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>9. 对</span> 切削力求解常用经验公式/图表或计算法。",
-    "tags": ["学硕", "判断", "复试"],
+    "tags": [
+      "学硕",
+      "判断",
+      "复试"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px; border-radius:12px; border-left:4px solid #38bdf8;'><h4 style='color:#075985; margin:0 0 8px;'>考点清单</h4><ul style='margin:0; padding-left:18px; line-height:1.8; color:#0c4a6e;'><li>工作角≠标注角：前者随工况变，后者是图纸角</li><li>YG（WC+Co），YT含TiC，勿混淆</li><li>v 对耐用度影响通常最大，ap/f 兼顾</li><li>最高温区在切削接触/摩擦区</li><li>粗基准≠无定位误差；基准统一可减误差</li></ul></div>"
   },
   {
@@ -599,7 +836,11 @@
     "type": "名词解释",
     "question": "【学硕】2024：热电偶测温原理",
     "answer": "塞贝克效应：两种不同材料构成回路，存在温差→产生热电势；通过测电势换算温差。",
-    "tags": ["学硕", "名词解释", "复试"],
+    "tags": [
+      "学硕",
+      "名词解释",
+      "复试"
+    ],
     "memoryTips": "<div style='background:#fff3e0; padding:15px; border-radius:12px; border-left:4px solid #fb8c00;'><h4 style='color:#b45309; margin:0 0 8px;'>应用与类型</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#fde68a;'><th style='padding:8px; border:1px solid #f59e0b;'>类型</th><th style='padding:8px; border:1px solid #f59e0b;'>材料</th><th style='padding:8px; border:1px solid #f59e0b;'>场景</th></tr><tr><td style='padding:8px; border:1px solid #fcd34d;'>K</td><td style='padding:8px; border:1px solid #fcd34d;'>镍铬-镍硅</td><td style='padding:8px; border:1px solid #fcd34d;'>通用、耐高温</td></tr><tr style='background:#fff7ed;'><td style='padding:8px; border:1px solid #fcd34d;'>J</td><td style='padding:8px; border:1px solid #fcd34d;'>铁-铜镍</td><td style='padding:8px; border:1px solid #fcd34d;'>中低温</td></tr></table><p style='margin:10px 0 0;'>记忆：<strong>电势比温差</strong>（塞贝克）→ 测电势推温差。</p></div>"
   },
   {
@@ -608,16 +849,24 @@
     "type": "简答题",
     "question": "【学硕】2024：积屑瘤的优缺点与控制",
     "answer": "<span style='background:#fde047; padding:3px 8px; border-radius:4px;'>优：</span>保护刃口。<br><span style='background:#fde047; padding:3px 8px; border-radius:4px;'>缺：</span>表面粗糙度差、尺寸波动。<br><span style='background:#86efac; padding:3px 8px; border-radius:4px;'>控制：</span>提高切削速度、增大前角、使用切削液、预处理。",
-    "tags": ["学硕", "积屑瘤", "复试"],
+    "tags": [
+      "学硕",
+      "积屑瘤",
+      "复试"
+    ],
     "memoryTips": "<div style='background:#fdf2f8; padding:15px; border-radius:12px; border-left:4px solid #e11d48;'><h4 style='color:#9f1239; margin:0 0 8px;'>利弊与控制矩阵</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#fecdd3;'><th style='padding:8px; border:1px solid #fb7185;'>方面</th><th style='padding:8px; border:1px solid #fb7185;'>内容</th></tr><tr><td style='padding:8px; border:1px solid #fb7185;'>优点</td><td style='padding:8px; border:1px solid #fb7185;'>保护刃口、降低磨损速率</td></tr><tr style='background:#fff1f2;'><td style='padding:8px; border:1px solid #fb7185;'>缺点</td><td style='padding:8px; border:1px solid #fb7185;'>粗糙度差、尺寸波动</td></tr><tr><td style='padding:8px; border:1px solid #fb7185;'>控制</td><td style='padding:8px; border:1px solid #fb7185;'>提v、增γ、冷却、材料/刃口预处理</td></tr></table></div>"
   },
   {
     "id": 65,
     "year": 2024,
     "type": "简答题",
-    "question": "【学硕】2024：范成法切齿斜齿轮传动链",
-    "answer": "由<span style='background:#86efac; padding:2px 6px; border-radius:4px;'>主传动链</span>（供旋转）、<span style='background:#86efac; padding:2px 6px; border-radius:4px;'>进给传动链</span>（供相对运动）与<span style='background:#86efac; padding:2px 6px; border-radius:4px;'>斜角传动链</span>（实现螺旋角）协同工作，保证齿形精度。",
-    "tags": ["学硕", "切齿", "范成法"],
+    "question": "【学硕】2024：范成法切齿斜齿轮传动链有哪几条",
+    "answer": "范成法切斜齿轮的传动链主要包括：<br>主传动链：提供主轴的旋转运动，带动工作旋转。<br>进给传动链：提供刀具的进给运动，实现切削过程。<br>分度传动链：实现工件的分度运动，保证齿轮的齿形精度。<br>斜齿轮传动链：实现工件的倾斜运动，以形成斜齿轮的螺旋角。",
+    "tags": [
+      "学硕",
+      "切齿",
+      "范成法"
+    ],
     "memoryTips": "<div style='background:#e6f7ff; padding:15px; border-radius:12px; border-left:4px solid #38bdf8;'><h4 style='color:#075985; margin:0 0 8px;'>三传动链职责</h4><ul style='margin:0; padding-left:18px; line-height:1.8; color:#0c4a6e;'><li><strong>主传动链</strong>：供旋转/展成基准</li><li><strong>进给链</strong>：实现相对运动，控制齿距</li><li><strong>斜角链</strong>：实现螺旋角，保证齿向</li></ul></div>"
   },
   {
@@ -625,8 +874,12 @@
     "year": 2024,
     "type": "名词解释",
     "question": "【学硕】2024：砂轮硬度与磨粒硬度的区别",
-    "answer": "砂轮硬度：砂轮整体结合强度；磨粒硬度：磨粒材料本体硬度，二者非同一概念。",
-    "tags": ["学硕", "砂轮硬度", "磨粒硬度"],
+    "answer": "磨粒硬度：指磨料本身的硬度，是磨粒的固有物理性能。<br>砂轮硬度：指砂轮表面磨粒在外力作用下脱落的难易程度，反映结合剂对磨粒的粘结强度。",
+    "tags": [
+      "学硕",
+      "砂轮硬度",
+      "磨粒硬度"
+    ],
     "memoryTips": "<div style='background:#f3e8ff; padding:15px; border-radius:12px; border-left:4px solid #8b5cf6;'><h4 style='color:#5b21b6; margin:0 0 8px;'>对比</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#ddd6fe;'><th style='padding:8px; border:1px solid #a78bfa;'>概念</th><th style='padding:8px; border:1px solid #a78bfa;'>定义</th><th style='padding:8px; border:1px solid #a78bfa;'>决定因素</th></tr><tr><td style='padding:8px; border:1px solid #a78bfa;'>砂轮硬度</td><td style='padding:8px; border:1px solid #a78bfa;'>磨粒被结合剂保持的难易程度</td><td style='padding:8px; border:1px solid #a78bfa;'>结合剂性质/含量</td></tr><tr style='background:#f5f3ff;'><td style='padding:8px; border:1px solid #a78bfa;'>磨粒硬度</td><td style='padding:8px; border:1px solid #a78bfa;'>磨粒材料本体硬度</td><td style='padding:8px; border:1px solid #a78bfa;'>磨粒材质（刚玉/碳化硅等）</td></tr></table></div>"
   },
   {
@@ -634,8 +887,11 @@
     "year": 2024,
     "type": "简答题",
     "question": "【学硕】2024：不同材料与切削液的匹配要点",
-    "answer": "铸铁加工对冷却需求低，重在防粘附与排屑；有色金属易粘附发热，需良好冷却/润滑与防粘配方。",
-    "tags": ["学硕", "切削液"],
+    "answer": "1. 钢件：用乳化液或极压切削液，冷却、润滑、极压抗磨。<br>2. 铸铁：一般不用切削液，粗加工可用煤油。<br>3. 有色金属：用乳化液或煤油，禁用硫基切削液。<br>4. 难加工材料：用极压切削液，强化润滑与冷却。",
+    "tags": [
+      "学硕",
+      "切削液"
+    ],
     "memoryTips": "<div style='background:#fff7ed; padding:15px; border-radius:12px; border-left:4px solid #fb923c;'><h4 style='color:#9a3412; margin:0 0 8px;'>材料×切削液选择</h4><table style='width:100%; border-collapse:collapse; font-size:13px;'><tr style='background:#fde68a;'><th style='padding:8px; border:1px solid #f59e0b;'>材料</th><th style='padding:8px; border:1px solid #f59e0b;'>侧重</th><th style='padding:8px; border:1px solid #f59e0b;'>说明</th></tr><tr><td style='padding:8px; border:1px solid #fcd34d;'>铸铁</td><td style='padding:8px; border:1px solid #fcd34d;'>防粘/排屑</td><td style='padding:8px; border:1px solid #fcd34d;'>碎屑好排，不宜过多冷却</td></tr><tr style='background:#fff7ed;'><td style='padding:8px; border:1px solid #fcd34d;'>有色金属</td><td style='padding:8px; border:1px solid #fcd34d;'>冷却+润滑</td><td style='padding:8px; border:1px solid #fcd34d;'>抑制粘附/积屑瘤</td></tr></table></div>"
   }
 ]
