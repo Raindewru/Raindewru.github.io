@@ -43,7 +43,7 @@
       padding: 14px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.03);
       display: grid;
-      grid-template-columns: 320px 110px 280px 110px;
+      grid-template-columns: 180px 200px 1fr 140px 110px;
       gap: 12px;
       align-items: center;
       justify-content: space-between;
@@ -387,6 +387,10 @@
     <p>分类筛选｜关键词搜索｜展开查看答案与要点，高亮重点便于速记</p>
   </header>
   <section class="toolbar">
+    <select id="bookSelect">
+      <option value="detail" selected>面试考点</option>
+      <option value="core">核心考点</option>
+    </select>
     <input id="search" type="search" placeholder="搜索题干/标签，例如：齿轮、液压、热处理" />
     <button id="prevChapter" class="btn-nav" type="button">上一章</button>
     <select id="version">
@@ -413,6 +417,7 @@
     const bookEl = document.getElementById('book');
     const searchEl = document.getElementById('search');
     const verEl = document.getElementById('version');
+    const bookSelect = document.getElementById('bookSelect');
     const prevChapterBtn = document.getElementById('prevChapter');
     const nextChapterBtn = document.getElementById('nextChapter');
     const fabLove = document.getElementById('fabLove');
@@ -422,8 +427,10 @@
     let categories = [];
     let allAnswersOpen = true;
     let chapterLoaded = false;
+    let currentBook = 'detail';
     const sources = {
-      detail: './data/detail.json'
+      detail: './data/detail.json',
+      core: './data/core.json'
     };
     const chapterTitles = {
       chapter1: '一、热处理与材料改性',
@@ -613,8 +620,11 @@
           .join('');
         const ansShow = allAnswersOpen ? ' show' : '';
         const tipsShow = allAnswersOpen ? ' show' : '';
-        const ansBtn = allAnswersOpen ? '📖 隐藏答案' : '📖 显示答案';
-        const tipsBtn = allAnswersOpen ? '🧠 隐藏要点' : '🧠 记忆要点';
+        const answerLabel = currentBook === 'core' ? '核心解析' : '答案解析';
+        const tipsLabel = currentBook === 'core' ? '提示 / 拓展' : '提示';
+        const msysLabel = '面试延申';
+        const ansBtn = allAnswersOpen ? `📖 收起${answerLabel}` : `📖 展开${answerLabel}`;
+        const tipsBtn = allAnswersOpen ? `🧠 收起${tipsLabel}` : `🧠 展开${tipsLabel}`;
         return `
           <div class="card" data-id="${item.id}">
             <div class="meta">
@@ -627,13 +637,19 @@
               ${item.tips ? `<button class="btn btn-tips" data-id="${item.id}">${tipsBtn}</button>` : ''}
             </div>
             <div class="panel panel-answer">
-              <div class="panel-head">答案</div>
+              <div class="panel-head">${answerLabel}</div>
               <div class="panel-body answer${ansShow}" id="ans-${item.id}" style="display:${allAnswersOpen ? 'block' : 'none'}">${renderContent(item.answer)}</div>
             </div>
             ${item.tips ? `
               <div class="panel panel-tips">
-                <div class="panel-head">记忆要点</div>
+                <div class="panel-head">${tipsLabel}</div>
                 <div class="panel-body tips${tipsShow}" id="tips-${item.id}" style="display:${allAnswersOpen ? 'block' : 'none'}">${renderContent(item.tips)}</div>
+              </div>
+            ` : ''}
+            ${(currentBook === 'core' && item.msys) ? `
+              <div class="panel panel-tips">
+                <div class="panel-head">${msysLabel}</div>
+                <div class="panel-body tips${tipsShow}" style="display:${allAnswersOpen ? 'block' : 'none'}">${renderContent(item.msys)}</div>
               </div>
             ` : ''}
             <div class="panel panel-note">
@@ -841,9 +857,11 @@
         ? (it.tips != null ? it.tips : it.answer_core)
         : '';
       const tags = (it && Array.isArray(it.tags)) ? it.tags : (category ? [category] : []);
-      return { id, category, question, answer, tips, tags };
+      const msys = (currentBook === 'core' && it && it.msys) ? it.msys : '';
+      return { id, category, question, answer, tips, tags, msys };
     }
     function getSelectedChapterTitle() {
+      if (currentBook === 'core') return '';
       const v = verEl.value;
       return chapterTitles[v] || '';
     }
@@ -853,8 +871,9 @@
         updateChapterNavButtons();
         return;
       }
-      listEl.innerHTML = '<p style=\"text-align:center; color:#718096; padding:2rem;\">正在加载 data/detail.json...</p>';
-      fetch(sources.detail)
+      const src = currentBook === 'core' ? sources.core : sources.detail;
+      listEl.innerHTML = `<p style=\"text-align:center; color:#718096; padding:2rem;\">正在加载 ${src}...</p>`;
+      fetch(src)
         .then(r => {
           if (!r.ok) throw new Error('HTTP ' + r.status);
           return r.json();
@@ -865,12 +884,21 @@
           updateChapterNavButtons();
         })
         .catch(() => {
-          listEl.innerHTML = '<p style=\"text-align:center; color:#ef4444; padding:2rem;\">数据加载失败，请检查 data/detail.json 是否存在且为合法 JSON。</p>';
+          listEl.innerHTML = `<p style=\"text-align:center; color:#ef4444; padding:2rem;\">数据加载失败，请检查 ${src} 是否存在且为合法 JSON。</p>`;
         });
     }
     searchEl.addEventListener('input', applyFilters);
     verEl.addEventListener('change', () => {
       searchEl.value = '';
+      loadData();
+    });
+    bookSelect.addEventListener('change', () => {
+      currentBook = bookSelect.value;
+      fullData = [];
+      data = [];
+      filtered = [];
+      categories = [];
+      listEl.innerHTML = '';
       loadData();
     });
     function renderChapter(doc) {
