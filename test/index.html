@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>📚 考研复试 · 资料 + 口语工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            border-left: 8px solid #2563eb;
+            padding-left: 1.2rem;
+        }
+
+        .subhead {
+            color: #475569;
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            margin-top: 0.5rem;
+            padding-left: 2rem;
+        }
+
+        /* 模块卡片网格 */
+        .modules-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .module-card {
+            border-radius: 2rem;
+            padding: 1.8rem 2rem;
+            box-shadow: 0 8px 20px -6px rgba(0, 20, 40, 0.15);
+            transition: transform 0.1s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .module-title {
+            font-size: 2rem;
+            font-weight: 650;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border-bottom: 3px solid rgba(255,255,255,0.5);
+            padding-bottom: 0.5rem;
+        }
+
+        .module-title span {
+            background: rgba(0,0,0,0.04);
+            border-radius: 40px;
+            padding: 0.2rem 1rem;
+            font-size: 1rem;
+            color: #2d3c53;
+        }
+
+        /* 文件列表网格 */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .file-item {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(2px);
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.2rem 1.2rem 1.5rem;
+            border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            transition: background 0.15s;
+        }
+
+        .file-item:hover {
+            background: white;
+            border-color: #bdd3f0;
+        }
+
+        .pdf-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+        }
+
+        .file-content {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #0f172a;
+            margin-bottom: 0.25rem;
+            word-break: break-word;
+        }
+
+        .file-desc {
+            font-size: 0.85rem;
+            color: #334155;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+
+        /* 不同模块背景色 (柔和) */
+        .module-1 { background: #ffe9db; }  /* 自我介绍与简历 */
+        .module-2 { background: #dcf2fe; }  /* 英语口语 */
+        .module-3 { background: #e3f2e8; }  /* 常见问题 & 调剂 */
+        .module-web { background: #fff2cf; } /* 口语Web端 */
+
+        /* Web端特色卡片 */
+        .web-feature-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .feature-item {
+            background: rgba(255,255,255,0.6);
+            border-radius: 1.8rem;
+            padding: 1.2rem 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1 1 200px;
+            border: 1px solid #fff;
+            backdrop-filter: blur(2px);
+        }
+        .feature-icon {
+            font-size: 2.2rem;
+        }
+        .feature-text {
+            font-weight: 500;
+            color: #1e293b;
+        }
+        .feature-desc {
+            font-size: 0.95rem;
+            color: #334155;
+        }
+
+        .web-link-note {
+            margin-top: 1.5rem;
+            background: rgba(0,0,0,0.02);
+            border-radius: 3rem;
+            padding: 0.8rem 1.8rem;
+            display: inline-block;
+            font-size: 1rem;
+            border: 1px dashed #64748b;
+        }
+
+        /* 适配小屏 */
+        @media (max-width: 600px) {
+            body { padding: 1.2rem; }
+            .main-title { font-size: 2rem; }
+            .module-card { padding: 1.2rem; }
+            .module-title { font-size: 1.8rem; }
+            .file-grid { grid-template-columns: 1fr; }
+        }
+
+        .footer-note {
+            margin-top: 2.5rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px dashed #cbd5e1;
+            padding-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <h1 class="main-title">🎓 考研复试 · 精华资料包 + 口语工具</h1>
+        <div class="subhead">八个PDF分类 · 附赠交互式口语练习Web端</div>
+
+        <div class="modules-grid">
+            <!-- 口语练习Web端 -->
+            <section class="module-card module-web">
+                <h2 class="module-title">
+                    🌐 配套口语练习Web端
+                    <span>手机/电脑可用</span>
+                </h2>
+                <div class="web-feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">📱💻</span>
+                        <div class="feature-text">跨平台访问<br><span class="feature-desc">手机/电脑自适应</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎲</span>
+                        <div class="feature-text">随机抽题<br><span class="feature-desc">从50+话题中随机选题</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔊</span>
+                        <div class="feature-text">英文提问 + 朗读<br><span class="feature-desc">点击喇叭可发音</span></div>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: #3b3f46; font-size: 0.95rem; background: rgba(255,255,240,0.7); padding: 0.8rem 1.5rem; border-radius: 2rem;">
+                    🎯 功能介绍：随机抽取英文问题，隐藏答案，点击「显示答案」可查看要点及中英范例，所有文本均可点击喇叭朗读（自动识别中英文）。完全免费，即开即用。
+                </p>
+            </section>
+
+            <!-- 模块1: 自我介绍与简历 -->
+            <section class="module-card module-1">
+                <h2 class="module-title">
+                    📄 自我介绍 & 简历
+                    <span>2份</span>
+                </h2>
+                <div class="file-grid">
+                    <div class="file-item">
+                        <div class="pdf-icon">📁</div>
+                        <div class="file-content">
+                            <div class="file-name">考研复试中英文自我介绍.pdf</div>
+                            <div class="file-desc">中英文范文 + 撰写技巧，打造亮眼第一印象</div>
+                        </div>
+                    </div>
+                    <div class="file-item">
+                        <div class="pdf-icon">📁</div>
+                        <div class="file-content">
+                            <div class="file-name">185款：研究生复试简历模板</div>
+                            <div class="file-desc">185款不同风格模板，助你制作专业简历</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 模块2: 英语口语专项 -->
+            <section class="module-card module-2">
+                <h2 class="module-title">
+                    🗣️ 英语口语专项
+                    <span>3份</span>
+                </h2>
+                <div class="file-grid">
+                    <div class="file-item">
+                        <div class="pdf-icon">📁</div>
+                        <div class="file-content">
+                            <div class="file-name">考研英语复试口语讲义.pdf</div>
+                            <div class="file-desc">系统讲解话题、思路与表达技巧，提升应答能力</div>
+                        </div>
+                    </div>
+                    <div class="file-item">
+                        <div class="pdf-icon">📁</div>
+                        <div class="file-content">
+                            <div class="file-name">口语高频对话模板.pdf</div>
+                            <div class="file-desc">高频问答模板，快速掌握常用对话模式</div>
+                        </div>
+                    </div>
+                    <div class="file-item">
+                        <div class="pdf-icon">📁</div>
+                        <div class="file-content">
+                            <div class="file-name">最新全国70多所高校英语口语复试真题.pdf</div>
+                            <div class="file-desc">70余所高校口语真题，实战演练</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 模块3: 常见问题 & 调剂指导 (合并) -->
+            <section class="module-card module-3">
+                <h2 class="module-title">
+                    ❓ 常见问题 & 调剂指导
+                    <span>3份</span>
+                </h2>
+                <div class="file-grid">
+                    <div class="file-item">
+                        <div class="pdf-icon">📁</div>
+                        <div class="file-content">
+                            <div class="file-name">考研复试刁钻的问题.pdf</div>
+                            <div class="file-desc">偏难刁钻问题及应对思路，从容面对压力面试</div>
+                        </div>
+                    </div>
+                    <div class="file-item">
+                        <div class="pdf-icon">📁</div>
+                        <div class="file-content">
+                            <div class="file-name">考研复试备考精华50问.pdf</div>
+                            <div class="file-desc">最常问50个问题及回答要点，高效备考</div>
+                        </div>
+                    </div>
+                    <div class="file-item">
+                        <div class="pdf-icon">📁</div>
+                        <div class="file-content">
+                            <div class="file-name">考研复试调剂一本通.pdf</div>
+                            <div class="file-desc">调剂流程、策略与注意事项，把握最后机会</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="footer-note">
+            ⭐ 共8份PDF + 1个口语练习Web工具 · 手机电脑均可使用
+        </div>
+    </div>
+</body>
+</html>
