@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -476,40 +476,37 @@
 <body>
     <!-- 登录界面 -->
     <div id="loginPanel" class="login-container">
-        <div class="login-title">🔐 考研口语</div>
-        <div class="login-sub">仅限已购用户 · 每月更新</div>
+        <div class="login-title">口语练习</div>
+        <div class="login-sub">输入密码进入题库，随机抽题练习口语</div>
         <label class="password-label" for="passwordInput">访问密码</label>
         <div class="password-input-wrapper">
-            <input type="password" id="passwordInput" placeholder="输入当月密码" autofocus>
+            <input type="password" id="passwordInput" placeholder="请输入密码" autofocus>
         </div>
         <button class="login-btn" id="loginBtn">进入练习</button>
         <div id="loginError" class="error-message"></div>
-        <div class="demo-hint">
-            ?演示密码: <code style="background: #e2e8f0; padding: 3px 8px; border-radius: 30px;">ky666</code> (点击登录)<br>
-            📁 将读取同目录?<code>data.json</code> 文件
-        </div>
+        <div class="demo-hint">体验密码：<code style="background: #e2e8f0; padding: 3px 8px; border-radius: 30px;">ky666</code><br>如需更新题库，请编辑同目录的 <code>data.json</code></div>
     </div>
 
     <!-- 主内容区 -->
     <div id="mainPanel" class="main-container">
         <div class="header">
-            <h1>🗣?话题口语?/h1>
+            <h1>&#128483; 话题口语</h1>
             <button class="random-btn" id="randomBtn">
-                <span class="icon">🎲</span> 随机抽题
+                <span class="icon">&#127922;</span> 随机抽题
             </button>
         </div>
 
         <!-- 当前题目卡片 (动态渲? -->
         <div class="current-card" id="currentQuestionCard">
-            <div class="loading">加载题库?..</div>
+            <div class="loading">正在加载题目...</div>
         </div>
 
         <!-- 控制全部题库折叠/展开 -->
-        <button class="toggle-all-btn" id="toggleAllBtn">Show all questions</button>
+        <button class="toggle-all-btn" id="toggleAllBtn">展开全部话题</button>
 
         <!-- 全部题库区域 -->
         <div id="allQuestionsArea" class="all-questions-area">
-            <div class="grid-title">📋 全部话题 · 点击喇叭可发?/div>
+            <div class="grid-title">全部话题 · 点击喇叭可发音</div>
             <div class="question-grid" id="questionGrid"></div>
         </div>
         <div class="subtle-note">—?先思考，再点“显示答案?—?/div>
@@ -579,9 +576,9 @@
                     console.error(error);
                     currentCard.innerHTML = `
                         <div class="loading error-state">
-                            ???? data.json: ${error.message}<br>
-                            ??? data.json ????? index.html ??????<br>
-                            ???????????? ky ????? <code>python -m http.server 8000</code>????? <code>http://localhost:8000/ky/</code>?
+                            无法加载 data.json: ${error.message}<br>
+                            请确认 data.json 已填充并与 index.html 在同一目录。<br>
+                            建议在 ky 目录运行 <code>python -m http.server 8000</code>，然后访问 <code>http://localhost:8000/ky/</code>。
                         </div>`;
                 }
             }
@@ -593,7 +590,7 @@
                 renderAllQuestionsGrid();
                 // 确保全部题库区域折叠
                 allQuestionsArea.style.display = 'none';
-                toggleAllBtn.innerHTML = 'Show all questions';
+                toggleAllBtn.innerHTML = '展开全部话题';
             }
 
             // ---------- 随机抽题 (同时隐藏答案) ----------
@@ -615,14 +612,14 @@
                 if (!currentTopic) return;
 
                 const questionTextClass = questionHidden ? 'question-text blur' : 'question-text';
-                const overlayHtml = questionHidden ? `<div class="question-reveal-overlay" id="questionReveal">Click to show question</div>` : '';
+                const overlayHtml = questionHidden ? `<div class="question-reveal-overlay" id="questionReveal">点击显示题目</div>` : '';
                 const questionZh = questionHidden ? '' : `<div class="question-zh">${currentTopic.topic || ''}</div>`;
 
                 const questionLine = `
                     <div class="question-line">
                         <span class="${questionTextClass}">${currentQuestion}${overlayHtml}</span>
                         <span class="speaker-icon" data-speak="${currentQuestion.replace(/"/g, '&quot;')}"> </span>
-                        <button class="show-answer-btn" id="replayQuestionBtn" style="margin-left:8px; padding:10px 14px;">Replay</button>
+                        <button class="show-answer-btn" id="replayQuestionBtn" style="margin-left:8px; padding:10px 14px;">🔁 重播题目</button>
                     </div>
                     ${questionZh}
                 `;
@@ -632,7 +629,7 @@
                     const keyPoints = currentTopic.key_points || '';
                     const keyPointsHtml = `
                         <div class="key-points-item">
-                            <span class="key-points-text"><span class="badge">Key points</span> ${keyPoints}</span>
+                            <span class="key-points-text"><span class="badge">要点</span> ${keyPoints}</span>
                             <span class="speaker-icon small" data-speak="${keyPoints.replace(/"/g, '&quot;')}"> </span>
                         </div>
                     `;
@@ -658,7 +655,7 @@
 
                 const answersSection = `
                     <div class="answers-section">
-                        <button class="show-answer-btn" id="showAnswerBtn">${answerVisible ? 'Hide answers' : 'Show answers'}</button>
+                        <button class="show-answer-btn" id="showAnswerBtn">${answerVisible ? '收起答案' : '显示答案'}</button>
                         <div class="answers-list" id="answersList" style="display: ${answerVisible ? 'block' : 'none'};">
                             ${answersHtml}
                         </div>
@@ -716,7 +713,7 @@
                     topic.question_variants.forEach(v => {
                         variantsHtml += `
                             <div class="variant-item">
-                                <span class="variant-text">?${v}</span>
+                                <span class="variant-text">🗣 ${v}</span>
                                 <span class="speaker-icon small" data-speak="${v.replace(/"/g, '&quot;')}"> </span>
                             </div>
                         `;
@@ -726,7 +723,7 @@
                     // key points
                     const keyPointsHtml = `
                         <div class="grid-key-points">
-                            <span class="key-points-text">📌 要点?span class="badge">Key points</span> ${topic.key_points}</span>
+                            <span class="key-points-text">Key points</span> ${topic.key_points}</span>
                             <span class="speaker-icon small" data-speak="${topic.key_points.replace(/"/g, '&quot;')}"> </span>
                         </div>
                     `;
@@ -795,10 +792,10 @@
             toggleAllBtn.addEventListener('click', function() {
                 if (allQuestionsArea.style.display === 'none' || getComputedStyle(allQuestionsArea).display === 'none') {
                     allQuestionsArea.style.display = 'block';
-                    toggleAllBtn.innerHTML = 'Hide all questions';
+                    toggleAllBtn.innerHTML = '收起全部话题';
                 } else {
                     allQuestionsArea.style.display = 'none';
-                    toggleAllBtn.innerHTML = 'Show all questions';
+                    toggleAllBtn.innerHTML = '展开全部话题';
                 }
             });
 
@@ -809,3 +806,4 @@
     </script>
 </body>
 </html>
+

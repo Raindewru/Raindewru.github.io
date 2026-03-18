@@ -56,7 +56,8 @@
     "id": 3,
     "topic": "缺点",
     "question_variants": [
-      "What do you think about your weaknesses/shortcoming?"
+      "What do you think about your weaknesses/shortcoming?",
+      "What do you think about your shortcoming?"
     ],
     "key_points": "在被问到“缺点”时，要注意你所说的缺点不能是对研究生学习有绝对影响的缺点，比如懒惰、拖延症等等，可以选择具有两面性的性格特点或小缺点，比如性格内向、完美主义等等。（1）点明自己的缺点；（2）把缺点包装成优点并说说怎么做能使自己变得更好。",
     "examples": [
@@ -197,8 +198,7 @@
     "id": 11,
     "topic": "本科最喜欢的课程",
     "question_variants": [
-      "What's your favorite subject/course?",
-      "And why?"
+      "What's your favorite subject/course?And why?"
     ],
     "key_points": "(1) 点明本科最习惯的课程; (2) 喜欢这门课程的原因; (3) 学习这门课程的收获。",
     "examples": [
@@ -247,7 +247,8 @@
     "topic": "考研原因",
     "question_variants": [
       "Why do you want to go to graduate school?",
-      "Why did you prepare for the graduate school entrance exam/this year's postgraduate entrance examination?"
+      "Why did you prepare for the graduate school entrance exam?",
+      "Why did you prepare for this year's postgraduate entrance examination?"
     ],
     "key_points": "（1）客观原因：比如未来的工作需要 （2）主观原因：比如热爱科研",
     "examples": [
