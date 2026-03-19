@@ -24,15 +24,20 @@
         .control-bar {
             background: linear-gradient(145deg, #ffffff, #f8fcff);
             border-radius: 40px;
-            padding: 12px 18px;
+            padding: 14px 18px 16px;
             margin-bottom: 20px;
             box-shadow: 0 8px 20px rgba(0, 40, 70, 0.08);
             display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border: 1px solid rgba(30, 111, 159, 0.15);
+        }
+        .control-top {
+            display: flex;
             flex-wrap: wrap;
             align-items: center;
-            justify-content: space-between;
-            gap: 12px 10px;
-            border: 1px solid rgba(30, 111, 159, 0.15);
+            justify-content: flex-start;
+            gap: 10px;
         }
         .encourage {
             display: flex;
@@ -45,6 +50,7 @@
             font-weight: 500;
             color: #0b4b6b;
             white-space: nowrap;
+            margin: 0;
         }
         .encourage i {
             font-size: 1rem;
@@ -54,8 +60,9 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            margin-left: 30px;
         }
-        .btn-random, .btn-reveal {
+        .btn-random, .btn-replay {
             background: white;
             border: 1.5px solid #1e6f9f;
             color: #1e6f9f;
@@ -71,7 +78,7 @@
             transition: 0.15s;
             box-shadow: 0 2px 6px rgba(0,0,0,0.02);
         }
-        .btn-random:hover, .btn-reveal:hover {
+        .btn-random:hover, .btn-replay:hover {
             background: #1e6f9f;
             color: white;
         }
@@ -99,6 +106,99 @@
             min-width: 38px;
             text-align: right;
             font-weight: 600;
+        }
+        .preview-box {
+            position: relative;
+            width: 100%;
+            background: #eef5fb;
+            border: 1px dashed #9dbad4;
+            border-radius: 24px;
+            padding: 14px 16px;
+            overflow: hidden;
+        }
+        .preview-title {
+            font-weight: 700;
+            color: #0a3147;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .preview-title i { color: #1e6f9f; }
+        .preview-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: filter 0.25s ease;
+        }
+        .preview-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .preview-row .label {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #1e6f9f;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+        }
+        .preview-text {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid #d3e1ef;
+            padding: 12px 14px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            position: relative;
+        }
+        .preview-en {
+            color: #0b3b5c;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+        .preview-zh {
+            color: #0b2a3b;
+            font-size: 0.95rem;
+            line-height: 1.35;
+        }
+        .preview-text .speaker {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+        }
+        .preview-mask {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0a3147;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            text-shadow: 0 1px 3px rgba(255,255,255,0.6);
+        }
+        .preview-box.revealed .preview-content {
+            filter: none;
+        }
+        .preview-box:not(.revealed) .preview-content {
+            filter: blur(8px);
+        }
+        .preview-box.revealed .preview-mask {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .expressions-card {
@@ -390,11 +490,13 @@
             .encourage {
                 font-size: 0.8rem;
                 padding: 4px 12px;
+                margin: 0;
             }
-            .btn-random, .btn-reveal {
+            .btn-random, .btn-replay {
                 padding: 5px 12px;
                 font-size: 0.8rem;
             }
+            .btn-group { margin-left: 0; }
             .teacher-zh {
                 font-size: 1.05rem;
             }
@@ -460,17 +562,23 @@
 </div>
 <div class="container">
     <div class="control-bar">
-        <div class="encourage">
-            <i class="fa-regular fa-star"></i> 你一定可以·上理在等你
+        <div class="control-top">
+            <div class="encourage">
+                <i class="fa-regular fa-star"></i> 你一定可以·上理在等你
+            </div>
+            <div class="btn-group">
+                <button class="btn-random" id="randomBtn"><i class="fa-solid fa-shuffle"></i> 随机导师问句</button>
+                <button class="btn-replay" id="replayBtn"><i class="fa-solid fa-rotate-right"></i> 重播</button>
+            </div>
+            <div class="speed-slider">
+                <span><i class="fa-regular fa-clock"></i> 语速</span>
+                <input type="range" id="rateSlider" min="0.5" max="2" value="1" step="0.05">
+                <span id="speedValue">1.0x</span>
+            </div>
         </div>
-        <div class="btn-group">
-            <button class="btn-random" id="randomBtn"><i class="fa-solid fa-shuffle"></i> 随机导师问句</button>
-            <button class="btn-reveal" id="revealBtn"><i class="fa-regular fa-eye"></i> 展示问答</button>
-        </div>
-        <div class="speed-slider">
-            <span><i class="fa-regular fa-clock"></i> 语速</span>
-            <input type="range" id="rateSlider" min="0.5" max="2" value="1" step="0.05">
-            <span id="speedValue">1.0x</span>
+        <div class="preview-box" id="previewBox">
+            <div class="preview-content" id="previewContent"></div>
+            <div class="preview-mask" id="previewMask">点击揭开问答</div>
         </div>
     </div>
 
@@ -827,6 +935,9 @@
     }));
 
     const container = document.getElementById('qaContainer');
+    const previewBox = document.getElementById('previewBox');
+    const previewContent = document.getElementById('previewContent');
+    const previewMask = document.getElementById('previewMask');
 
     function renderCards() {
         let html = '';
@@ -879,29 +990,55 @@
         }
     }
 
+    function renderPreview(index) {
+        const item = dialogues[index] || dialogues[0];
+        const safeTeacher = item.teacherEnRaw.replace(/"/g, '&quot;');
+        const safeStudent = item.studentEnRaw.replace(/"/g, '&quot;');
+        previewContent.innerHTML = `
+            <div class="preview-title"><i class="fa-regular fa-circle-question"></i> 随机导师问答</div>
+            <div class="preview-row">
+                <div class="label">Q</div>
+                <div class="preview-text">
+                    <span class="preview-en">${item.teacherEnEnhanced}</span>
+                    <i class="fas fa-volume-high speaker" data-text="${safeTeacher}"></i>
+                    <span class="preview-zh">${item.teacherZh}</span>
+                </div>
+            </div>
+            <div class="preview-row">
+                <div class="label">A</div>
+                <div class="preview-text">
+                    <span class="preview-en">${item.studentEnEnhanced}</span>
+                    <i class="fas fa-volume-high speaker" data-text="${safeStudent}"></i>
+                    <span class="preview-zh">${item.studentZh}</span>
+                </div>
+            </div>
+        `;
+    }
+
+    function hidePreviewMask() {
+        previewBox.classList.add('revealed');
+    }
+    function showPreviewMask() {
+        previewBox.classList.remove('revealed');
+    }
+
+    previewMask.addEventListener('click', hidePreviewMask);
+
     // 随机状态（只随机导师问题）
     let randomIndex = 0; // 仅导师索引
 
     document.getElementById('randomBtn').addEventListener('click', function() {
-        const total = dialogues.length; // 20条导师问题
+        const total = dialogues.length;
         randomIndex = Math.floor(Math.random() * total);
+        renderPreview(randomIndex);
+        showPreviewMask();
         const textToSpeak = dialogues[randomIndex].teacherEnRaw;
         speakText(textToSpeak);
     });
 
-    document.getElementById('revealBtn').addEventListener('click', function() {
-        const card = document.getElementById(`card-${randomIndex}`);
-        if (!card) return;
-        document.querySelectorAll('.card').forEach(c => c.classList.remove('highlight-card'));
-        card.classList.add('highlight-card');
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-        const studentDiv = card.querySelector('.student-answer');
-        const btn = card.querySelector('.btn-show');
-        if (studentDiv && studentDiv.hasAttribute('hidden')) {
-            studentDiv.removeAttribute('hidden');
-            if (btn) btn.innerHTML = '<i class="fa-regular fa-eye-slash"></i> 隐藏回答';
-        }
+    document.getElementById('replayBtn').addEventListener('click', function() {
+        const textToSpeak = (dialogues[randomIndex] || dialogues[0]).teacherEnRaw;
+        speakText(textToSpeak);
     });
 
     // 全局喇叭点击（确保常用表达也能播放）
@@ -933,6 +1070,8 @@
     function init() {
         renderCards(); // 渲染问答卡片
         randomIndex = 0; // 默认为第一个问题
+        renderPreview(randomIndex);
+        showPreviewMask();
         if (!ttsSupported) {
             document.querySelectorAll('.speaker').forEach(el => {
                 el.style.opacity = '0.4';

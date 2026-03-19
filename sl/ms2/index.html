@@ -901,6 +901,12 @@
                 }
                 chapterSelect.disabled = false;
 
+                // 全部展开选项
+                const optAll = document.createElement('option');
+                optAll.value = '__all';
+                optAll.textContent = '🔓 展开全部章节';
+                chapterSelect.appendChild(optAll);
+
                 chapters.forEach((ch, index) => {
                     const option = document.createElement('option');
                     option.value = ch.id;
@@ -914,14 +920,19 @@
                     chapterSelect.appendChild(option);
                 });
 
-                const exists = chapters.some(ch => ch.id === currentChapterId);
+                const exists = currentChapterId === '__all' || chapters.some(ch => ch.id === currentChapterId);
                 if (!exists && chapters.length) {
                     currentChapterId = chapters[0].id;
                     chapterSelect.value = currentChapterId;
                 }
                 if (chapters.length) {
-                    const curCh = chapters.find(ch => ch.id === currentChapterId);
-                    currentChapterSpan.textContent = curCh ? curCh.title : chapters[0].title;
+                    if (currentChapterId === '__all') {
+                        currentChapterSpan.textContent = '展开全部章节';
+                        chapterSelect.value = '__all';
+                    } else {
+                        const curCh = chapters.find(ch => ch.id === currentChapterId);
+                        currentChapterSpan.textContent = curCh ? curCh.title : chapters[0].title;
+                    }
                 } else {
                     currentChapterSpan.textContent = '';
                 }
@@ -952,72 +963,99 @@
                     container.innerHTML = `<div class="empty-state">🍼 这本书还没有小题目呢，换一本试试吧～</div>`;
                     return;
                 }
-                const chapter = chapters.find(ch => ch.id === currentChapterId);
-                if (!chapter || !chapter.questions || chapter.questions.length === 0) {
+
+                // 决定要展示哪些章节
+                let chapterList = [];
+                if (currentChapterId === '__all') {
+                    chapterList = chapters;
+                } else {
+                    const chapter = chapters.find(ch => ch.id === currentChapterId);
+                    if (chapter) chapterList = [chapter];
+                }
+
+                if (!chapterList.length) {
                     container.innerHTML = `<div class="empty-state">🌸 当前章节还没有问题哦，去看看别的吧</div>`;
                     return;
                 }
 
                 container.innerHTML = '';
 
-                chapter.questions.forEach(q => {
-                    const coreWithBold = processBold(q.coreAnswer || '');
-                    const extWithBold = processBold(q.interviewExtension || '');
+                chapterList.forEach(chapter => {
+                    // 如果是展开全部，为每个章节打一个小标签
+                    if (currentChapterId === '__all') {
+                        const tag = document.createElement('div');
+                        tag.className = 'sub-label';
+                        tag.textContent = `📖 ${chapter.title}`;
+                        tag.style.marginBottom = '10px';
+                        container.appendChild(tag);
+                    }
 
-                    const card = document.createElement('div');
-                    card.className = 'question-card';
-                    card.setAttribute('data-qid', q.id);
+                    (chapter.questions || []).forEach(q => {
+                        const coreWithBold = processBold(q.coreAnswer || '');
+                        const extWithBold = processBold(q.interviewExtension || '');
 
-                    const titleDiv = document.createElement('div');
-                    titleDiv.className = 'q-title';
-                    titleDiv.textContent = q.title;
-                    card.appendChild(titleDiv);
+                        const card = document.createElement('div');
+                        card.className = 'question-card';
+                        card.setAttribute('data-qid', q.id);
 
-                    const coreDiv = document.createElement('div');
-                    coreDiv.className = 'core-answer';
-                    const coreLabel = document.createElement('span');
-                    coreLabel.className = 'sub-label';
-                    coreLabel.textContent = '🍬 核心答案';
-                    const coreContent = document.createElement('div');
-                    coreContent.innerHTML = coreWithBold;
-                    coreDiv.appendChild(coreLabel);
-                    coreDiv.appendChild(coreContent);
-                    card.appendChild(coreDiv);
+                        const titleDiv = document.createElement('div');
+                        titleDiv.className = 'q-title';
+                        titleDiv.textContent = q.title;
+                        card.appendChild(titleDiv);
 
-                    const extDiv = document.createElement('div');
-                    extDiv.className = 'interview-ext';
-                    const extLabel = document.createElement('span');
-                    extLabel.className = 'sub-label';
-                    extLabel.textContent = '🍡 面试延伸';
-                    const extContent = document.createElement('div');
-                    extContent.innerHTML = extWithBold;
-                    extDiv.appendChild(extLabel);
-                    extDiv.appendChild(extContent);
-                    card.appendChild(extDiv);
+                        const coreDiv = document.createElement('div');
+                        coreDiv.className = 'core-answer';
+                        const coreLabel = document.createElement('span');
+                        coreLabel.className = 'sub-label';
+                        coreLabel.textContent = '🍬 核心答案';
+                        const coreContent = document.createElement('div');
+                        coreContent.innerHTML = coreWithBold;
+                        coreDiv.appendChild(coreLabel);
+                        coreDiv.appendChild(coreContent);
+                        card.appendChild(coreDiv);
 
-                    const footer = document.createElement('div');
-                    footer.className = 'card-footer';
-                    const toggleBtn = document.createElement('button');
-                    toggleBtn.className = 'toggle-card-btn';
-                    toggleBtn.textContent = '🔍 展开本卡答案';
-                    footer.appendChild(toggleBtn);
-                    card.appendChild(footer);
+                        const extDiv = document.createElement('div');
+                        extDiv.className = 'interview-ext';
+                        const extLabel = document.createElement('span');
+                        extLabel.className = 'sub-label';
+                        extLabel.textContent = '🍡 面试延伸';
+                        const extContent = document.createElement('div');
+                        extContent.innerHTML = extWithBold;
+                        extDiv.appendChild(extLabel);
+                        extDiv.appendChild(extContent);
+                        card.appendChild(extDiv);
 
-                    container.appendChild(card);
+                        const footer = document.createElement('div');
+                        footer.className = 'card-footer';
+                        const toggleBtn = document.createElement('button');
+                        toggleBtn.className = 'toggle-card-btn';
+                        toggleBtn.textContent = '🔍 展开本卡答案';
+                        footer.appendChild(toggleBtn);
+                        card.appendChild(footer);
 
-                    toggleBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const isHidden = coreDiv.style.display === 'none' || coreDiv.style.display === '';
-                        if (isHidden) {
-                            coreDiv.style.display = 'block';
-                            extDiv.style.display = 'block';
-                            toggleBtn.textContent = '📌 折叠答案';
-                        } else {
-                            coreDiv.style.display = 'none';
-                            extDiv.style.display = 'none';
-                            toggleBtn.textContent = '🔍 展开本卡答案';
-                        }
+                        container.appendChild(card);
+
+                        toggleBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const isHidden = coreDiv.style.display === 'none' || coreDiv.style.display === '';
+                            if (isHidden) {
+                                coreDiv.style.display = 'block';
+                                extDiv.style.display = 'block';
+                                toggleBtn.textContent = '📌 折叠答案';
+                            } else {
+                                coreDiv.style.display = 'none';
+                                extDiv.style.display = 'none';
+                                toggleBtn.textContent = '🔍 展开本卡答案';
+                            }
+                        });
                     });
+
+                    // 章节末尾留一点空隙
+                    if (currentChapterId === '__all') {
+                        const spacer = document.createElement('div');
+                        spacer.style.height = '10px';
+                        container.appendChild(spacer);
+                    }
                 });
 
                 // 渲染公式
@@ -1072,8 +1110,12 @@
 
             chapterSelect.addEventListener('change', (e) => {
                 currentChapterId = e.target.value;
-                const chapter = chapters.find(ch => ch.id === currentChapterId);
-                if (chapter) currentChapterSpan.textContent = chapter.title;
+                if (currentChapterId === '__all') {
+                    currentChapterSpan.textContent = '展开全部章节';
+                } else {
+                    const chapter = chapters.find(ch => ch.id === currentChapterId);
+                    if (chapter) currentChapterSpan.textContent = chapter.title;
+                }
                 renderQuestions();
             });
 
