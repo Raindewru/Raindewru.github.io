@@ -153,7 +153,7 @@
             background: white;
             border-radius: 14px;
             border: 1px solid #d3e1ef;
-            padding: 12px 14px;
+            padding: 12px 46px 12px 14px;
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -1025,11 +1025,30 @@
     previewMask.addEventListener('click', hidePreviewMask);
 
     // 随机状态（只随机导师问题）
-    let randomIndex = 0; // 仅导师索引
+    let randomIndex = 0; // 当前导师索引
+    let remainingRandomIndexes = []; // 当前轮次尚未抽到的索引
+
+    function refillRandomPool(total) {
+        remainingRandomIndexes = Array.from({ length: total }, (_, index) => index);
+        if (total > 1) {
+            remainingRandomIndexes = remainingRandomIndexes.filter(index => index !== randomIndex);
+        }
+    }
+
+    function pickNextRandomIndex() {
+        const total = dialogues.length;
+        if (!total) return 0;
+        if (remainingRandomIndexes.length === 0) {
+            refillRandomPool(total);
+        }
+        const poolIndex = Math.floor(Math.random() * remainingRandomIndexes.length);
+        const nextIndex = remainingRandomIndexes[poolIndex];
+        remainingRandomIndexes.splice(poolIndex, 1);
+        return nextIndex;
+    }
 
     document.getElementById('randomBtn').addEventListener('click', function() {
-        const total = dialogues.length;
-        randomIndex = Math.floor(Math.random() * total);
+        randomIndex = pickNextRandomIndex();
         renderPreview(randomIndex);
         showPreviewMask();
         const textToSpeak = dialogues[randomIndex].teacherEnRaw;
