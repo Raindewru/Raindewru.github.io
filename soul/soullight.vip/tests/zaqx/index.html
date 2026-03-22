@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Mirrored from soullight.vip/tests/zaqx/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 22 Mar 2026 14:12:46 GMT -->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自爱倾向测试 - 爱你老己</title>
+    <!-- Tailwind CSS (local build for zaqx) -->
+    <link rel="stylesheet" href="../../static/vendor/tailwind/tailwind.min.css">
+    <!-- Chart.js (local) -->
+    <script src="../animal/lib/chart.umd.min.js"></script>
+    <!-- Fonts (local) -->
+    <link rel="stylesheet" href="../../static/social-compass/assets_local/fonts/inter.css">
+    <!-- Authorization SDK (local) -->
+    <link rel="stylesheet" href="../../authorization/auth-modal.css">
+    <script src="../../authorization/authorization-sdk.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        /* Custom scrollbar for result view */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f43f5e; 
+            border-radius: 3px;
+        }
+        /* Quiz layout helper classes */
+        .quiz-shell {
+            height: 100vh;
+            max-height: 100vh;
+            width: 100%;
+        }
+        .quiz-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 0 18px 18px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+        .quiz-options {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            padding-bottom: 6px;
+            scrollbar-gutter: stable;
+        }
+        .quiz-option {
+            padding: 12px 14px;
+            font-size: 15px;
+            line-height: 1.45;
+            height: 72px;
+            overflow-y: auto;
+            word-break: break-word;
+            width: 100%;
+            scrollbar-gutter: stable;
+        }
+        .quiz-question {
+            font-size: 18px;
+            line-height: 1.45;
+        }
+        .question-card {
+            flex-shrink: 0;
+            height: 170px;
+            overflow-y: auto;
+            scrollbar-gutter: stable;
+        }
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.9);
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .nav-button:not(:disabled):hover {
+            background: #f8fafc;
+            color: #1f2937;
+        }
+        .nav-button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+        @media (max-width: 480px) {
+            .quiz-body { padding: 0 14px 14px; gap: 12px; }
+            .quiz-option { padding: 10px 12px; font-size: 14px; height: 70px; }
+            .quiz-question { font-size: 16px; }
+            .nav-button { padding: 8px 10px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body class="bg-rose-50 text-slate-800 antialiased selection:bg-rose-200 selection:text-rose-900">
+    
+    <!-- Root Container -->
+    <div id="root" class="min-h-screen flex flex-col">
+        <!-- Content will be injected here by JavaScript -->
+    </div>
+
+    <script>
+        // --- DATA & CONSTANTS ---
+        
+        const Dimension = {
+            SelfAcceptance: '自我接纳',
+            EmotionalHealth: '情绪健康',
+            Boundaries: '边界确立',
+            LifeQuality: '生活品质',
+            Growth: '成长与未来',
+            Social: '社交与关系',
+        };
+
+        const QUESTIONS = [
+            // --- 1. 自我接纳 ---
+            { id: 1, dimension: Dimension.SelfAcceptance, question: "当你在镜子里看到自己脸上的瑕疵（如痘痘、皱纹）时，你的第一反应是？", options: [{ text: "非常焦虑，不想出门见人", score: 1 }, { text: "有点在意，会想尽办法遮盖", score: 2 }, { text: "虽然不喜欢，但接受这是我的一部分", score: 3 }, { text: "不仅接纳，还觉得这很真实可爱", score: 4 }] },
+            { id: 2, dimension: Dimension.SelfAcceptance, question: "如果工作或学习上犯了一个小错误，你会？", options: [{ text: "反复责怪自己蠢，一整天都很难过", score: 1 }, { text: "会有些内疚，担心别人的看法", score: 2 }, { text: "承认错误，并思考下次如何改进", score: 3 }, { text: "原谅自己，谁都会犯错，这没什么大不了", score: 4 }] },
+            { id: 3, dimension: Dimension.SelfAcceptance, question: "对于自己的身材，你目前的看法是？", options: [{ text: "非常不满，总是在节食或想整容", score: 1 }, { text: "有很多不满意的地方，但也懒得改", score: 2 }, { text: "为了健康在管理，但不苛求完美", score: 3 }, { text: "无论胖瘦，我都欣赏并爱惜我的身体", score: 4 }] },
+            { id: 4, dimension: Dimension.SelfAcceptance, question: "当别人夸奖你时，你会？", options: [{ text: "觉得那是客套话，立马否认", score: 1 }, { text: "感到局促不安，不知道说什么", score: 2 }, { text: "礼貌地说谢谢，但心里有点虚", score: 3 }, { text: "大大方方接受，并真诚感谢", score: 4 }] },
+            { id: 5, dimension: Dimension.SelfAcceptance, question: "回顾过去让你后悔的选择，你会？", options: [{ text: "深陷其中，幻想如果当初...就好了", score: 1 }, { text: "偶尔想起会觉得遗憾刺痛", score: 2 }, { text: "认为那是当时的阅历所能做的最好决定", score: 3 }, { text: "感谢过去的经历造就了现在的我", score: 4 }] },
+
+            // --- 2. 情绪健康 ---
+            { id: 6, dimension: Dimension.EmotionalHealth, question: "当你感到非常悲伤或想哭时？", options: [{ text: "憋着，觉得哭是软弱的表现", score: 1 }, { text: "找借口转移注意力，不想面对", score: 2 }, { text: "找个没人的地方哭一场发泄", score: 3 }, { text: "允许情绪流淌，温柔地安抚自己", score: 4 }] },
+            { id: 7, dimension: Dimension.EmotionalHealth, question: "面对巨大的压力，你的应对方式通常是？", options: [{ text: "暴饮暴食或彻底摆烂", score: 1 }, { text: "疯狂工作/学习来麻痹自己", score: 2 }, { text: "找朋友倾诉或寻求帮助", score: 3 }, { text: "暂停一下，通过冥想或休息来调整状态", score: 4 }] },
+            { id: 8, dimension: Dimension.EmotionalHealth, question: "你允许自己有“负面”情绪（如嫉妒、愤怒）吗？", options: [{ text: "绝不允许，这让我觉得自己是个坏人", score: 1 }, { text: "偶尔会有，但会尽快压下去", score: 2 }, { text: "知道这是正常的，但还是会不舒服", score: 3 }, { text: "完全允许，情绪是信号，我在倾听它", score: 4 }] },
+            { id: 9, dimension: Dimension.EmotionalHealth, question: "如果今天什么都没做，只是发呆，你会？", options: [{ text: "极度焦虑，觉得自己浪费了生命", score: 1 }, { text: "有点慌，赶紧找点事做", score: 2 }, { text: "告诉自己偶尔休息也没关系", score: 3 }, { text: "享受无所事事，这也是一种充电", score: 4 }] },
+            { id: 10, dimension: Dimension.EmotionalHealth, question: "当心里不舒服时，你能准确识别出原因吗？", options: [{ text: "完全不能，只觉得烦躁", score: 1 }, { text: "大概知道，但不想深究", score: 2 }, { text: "能分析出一部分原因", score: 3 }, { text: "能敏锐觉察并接纳当下的感受", score: 4 }] },
+
+            // --- 3. 边界确立 ---
+            { id: 11, dimension: Dimension.Boundaries, question: "朋友提出了一个你很为难的请求，你会？", options: [{ text: "虽然不愿意，但还是答应了", score: 1 }, { text: "找个蹩脚的理由推脱", score: 2 }, { text: "犹豫很久，最后勉强答应", score: 3 }, { text: "温和而坚定地拒绝，不带负罪感", score: 4 }] },
+            { id: 12, dimension: Dimension.Boundaries, question: "在亲密关系中，如果伴侣做了你不喜欢的事？", options: [{ text: "忍气吞声，怕破坏关系", score: 1 }, { text: "生闷气，等着对方发现", score: 2 }, { text: "发脾气，指责对方", score: 3 }, { text: "直接沟通我的感受和底线", score: 4 }] },
+            { id: 13, dimension: Dimension.Boundaries, question: "对于不喜欢的工作聚餐或社交局？", options: [{ text: "每次都去，怕被边缘化", score: 1 }, { text: "大部分会去，即使在玩手机", score: 2 }, { text: "看心情，偶尔去", score: 3 }, { text: "果断拒绝，我的时间属于我自己", score: 4 }] },
+            { id: 14, dimension: Dimension.Boundaries, question: "当别人对你的生活指指点点时（如催婚、评判工作）？", options: [{ text: "非常生气，并开始自我怀疑", score: 1 }, { text: "表面附和，心里不爽", score: 2 }, { text: "解释反驳，试图说服对方", score: 3 }, { text: "一笑置之，我知道自己要什么", score: 4 }] },
+            { id: 15, dimension: Dimension.Boundaries, question: "你会为了取悦他人而改变自己的决定吗？", options: [{ text: "经常会，我很在意别人的看法", score: 1 }, { text: "有时候会，为了避免冲突", score: 2 }, { text: "很少，除非对方非常有道理", score: 3 }, { text: "不会，我忠于自己的内心", score: 4 }] },
+
+            // --- 4. 生活品质 ---
+            { id: 16, dimension: Dimension.LifeQuality, question: "周末的午后，你通常会选择怎么度过？", options: [{ text: "躺在床上刷手机直到头晕眼花", score: 1 }, { text: "去酒吧或者Livehouse，享受酒精", score: 2 }, { text: "精心打扮，去网红店拍照发朋友圈", score: 3 }, { text: "在阳光洒满的窗边看书，喝一杯柠檬水", score: 4 }] },
+            { id: 17, dimension: Dimension.LifeQuality, question: "关于吃饭这件事，你平时的状态是？", options: [{ text: "随便点外卖，填饱肚子就行", score: 1 }, { text: "一边看剧一边吃，不知道吃了啥", score: 2 }, { text: "偶尔会去吃顿好的犒劳自己", score: 3 }, { text: "注重营养搭配，享受咀嚼食物的过程", score: 4 }] },
+            { id: 18, dimension: Dimension.LifeQuality, question: "你的居住环境通常是？", options: [{ text: "杂乱无章，只有睡觉才回去", score: 1 }, { text: "虽然乱，但定期会大扫除", score: 2 }, { text: "整洁干净，基本舒适", score: 3 }, { text: "精心布置，有鲜花或香薰，充满生活气息", score: 4 }] },
+            { id: 19, dimension: Dimension.LifeQuality, question: "你会为自己买礼物吗？", options: [{ text: "从来不买，觉得浪费钱", score: 1 }, { text: "只买必需品，很少买无用的东西", score: 2 }, { text: "心情不好时会冲动消费", score: 3 }, { text: "会定期买喜欢的东西奖励自己，无论贵贱", score: 4 }] },
+            { id: 20, dimension: Dimension.LifeQuality, question: "睡前的半小时，你通常在做什么？", options: [{ text: "刷短视频，熬夜不想睡", score: 1 }, { text: "焦虑明天的工作，翻来覆去", score: 2 }, { text: "和朋友聊天或看剧", score: 3 }, { text: "护肤、阅读或冥想，安稳入睡", score: 4 }] },
+
+            // --- 5. 成长与未来 ---
+            { id: 21, dimension: Dimension.Growth, question: "对于学习新技能或培养新爱好？", options: [{ text: "觉得太晚了/太累了，不想动", score: 1 }, { text: "买了课/器材，但总是三分钟热度", score: 2 }, { text: "为了升职加薪被迫学习", score: 3 }, { text: "保持好奇心，享受学习带来的充实感", score: 4 }] },
+            { id: 22, dimension: Dimension.Growth, question: "如果现在的状态不如意，你会？", options: [{ text: "自暴自弃，觉得自己这辈子完了", score: 1 }, { text: "抱怨环境，抱怨运气不好", score: 2 }, { text: "制定计划，逼自己努力改变", score: 3 }, { text: "接纳现状，从小事做起，相信未来", score: 4 }] },
+            { id: 23, dimension: Dimension.Growth, question: "你花在自我提升上的时间和金钱？", options: [{ text: "基本为零", score: 1 }, { text: "很少，更愿意花在娱乐上", score: 2 }, { text: "有一定的投入，但比较随性", score: 3 }, { text: "这对我来说是最重要的投资", score: 4 }] },
+            { id: 24, dimension: Dimension.Growth, question: "你如何看待自己的梦想？", options: [{ text: "那是小时候的事，现在只想生存", score: 1 }, { text: "偶尔想想，但觉得遥不可及", score: 2 }, { text: "正在努力接近，虽然很辛苦", score: 3 }, { text: "我在过着甚至超越梦想的生活，或在路上享受风景", score: 4 }] },
+            { id: 25, dimension: Dimension.Growth, question: "你相信自己值得拥有美好的未来吗？", options: [{ text: "不相信，我总觉得好事轮不到我", score: 1 }, { text: "半信半疑，看运气吧", score: 2 }, { text: "相信，只要我足够努力", score: 3 }, { text: "深信不疑，我配得上一切美好", score: 4 }] },
+
+            // --- 6. 社交与关系 ---
+            { id: 26, dimension: Dimension.Social, question: "在朋友圈里，你通常扮演什么角色？", options: [{ text: "总是讨好别人，怕被排挤", score: 1 }, { text: "小透明，很少发表意见", score: 2 }, { text: "倾听者，总是接收别人的垃圾情绪", score: 3 }, { text: "真实做自己，吸引同频的人", score: 4 }] },
+            { id: 27, dimension: Dimension.Social, question: "对于消耗你能量的朋友（比如总抱怨、打压你）？", options: [{ text: "虽然痛苦，但不知道怎么断交", score: 1 }, { text: "尽量忍受，偶尔躲避", score: 2 }, { text: "减少联系，保持表面客气", score: 3 }, { text: "果断远离，保护自己的能量场", score: 4 }] },
+            { id: 28, dimension: Dimension.Social, question: "你能够坦然接受别人的帮助吗？", options: [{ text: "很难，觉得欠人情很焦虑", score: 1 }, { text: "尽量不麻烦别人，万不得已才开口", score: 2 }, { text: "接受帮助后会尽快回报", score: 3 }, { text: "坦然接受并感谢，知道关系是流动的", score: 4 }] },
+            { id: 29, dimension: Dimension.Social, question: "在一段关系中，你敢于展露自己的脆弱吗？", options: [{ text: "绝不，必须时刻保持完美/强大", score: 1 }, { text: "只在喝醉或崩溃时才会", score: 2 }, { text: "只对极少数特别信任的人", score: 3 }, { text: "愿意适度展露，这能拉近彼此距离", score: 4 }] },
+            { id: 30, dimension: Dimension.Social, question: "你如何看待独处？", options: [{ text: "非常恐惧，必须有人陪", score: 1 }, { text: "无聊，只能刷手机打发时间", score: 2 }, { text: "偶尔独处还不错，但久了会寂寞", score: 3 }, { text: "享受独处，那是我和自己约会的时间", score: 4 }] },
+        ];
+
+        const RESULT_LEVELS = [
+            {
+                minScore: 0,
+                maxScore: 40,
+                title: "严重亏欠老己",
+                description: "亲爱的，看到这个分数真的有点心疼你。你似乎习惯了把全世界都扛在肩上，却唯独把自己遗忘在角落。你对别人的要求有求必应，却对自己的需求视而不见。爱自己不是自私，是你在这个残酷世界里唯一的铠甲。请立刻停止自我攻击，从今天开始，把你分给别人的爱，收回来一点点，给自己。",
+                color: "text-slate-500",
+                keywords: ["#需要抱抱", "#讨好型人格预警"],
+                flowerName: "满天星",
+                flowerEmoji: "🌿",
+                flowerQuote: "做惯了配角，别忘了你也是自己故事的主角。",
+                compatibleZodiac: "♋️ 巨蟹座",
+                compatibleMBTI: "ENFJ",
+                compatibilityDesc: "你现在最需要温暖的陪伴和无条件的包容，他们能给你这种安全感。"
+            },
+            {
+                minScore: 41,
+                maxScore: 60,
+                title: "有点对不起老己",
+                description: "你维持着体面的生活，看起来情绪稳定，但内心深处常感到莫名的疲惫和空虚。你往往在“想做自己”和“害怕让别人失望”之间反复拉扯，最后通常是后者赢了。你总是很懂事，但这并没有让你更快乐。试着在这个周末，对那些消耗你的人和事说一声“不”，你会发现天塌不下来。",
+                color: "text-orange-600",
+                keywords: ["#假装坚强", "#忽视信号"],
+                flowerName: "雏菊",
+                flowerEmoji: "🌼",
+                flowerQuote: "总是温暖别人，今天请把阳光留给自己。",
+                compatibleZodiac: "♎️ 天秤座",
+                compatibleMBTI: "ESFP",
+                compatibilityDesc: "能带给你快乐、陪你一起疯的人是你的最佳充电宝，别总是太紧绷。"
+            },
+            {
+                minScore: 61,
+                maxScore: 75,
+                title: "正在学会爱老己",
+                description: "恭喜你，你已经有了很棒的自我觉察！你知道什么对自己是好的，只是偶尔会被外界的声音干扰，或者在压力大时又习惯性退缩。你处于“想要爱自己”和“习惯性惯性”的博弈期。不必苛求完美，爱自己是一个螺旋上升的过程。保持现在的觉知，你正在慢慢找回属于你的力量。",
+                color: "text-blue-600",
+                keywords: ["#觉醒期", "#自爱练习生"],
+                flowerName: "郁金香",
+                flowerEmoji: "🌷",
+                flowerQuote: "在春天到来之前，不仅要扎根，更要爱惜羽毛。",
+                compatibleZodiac: "♍️ 处女座",
+                compatibleMBTI: "ISTJ",
+                compatibilityDesc: "情绪稳定的实干家能让你感到安心，在成长的路上给你最稳的支持。"
+            },
+            {
+                minScore: 76,
+                maxScore: 90,
+                title: "和老己热恋中",
+                description: "你的状态很棒！你把自己当成了最好的朋友来相处。你懂得建立健康的边界，也懂得在忙碌中为自己留出喘息的空间。虽然偶尔也会自我怀疑，但你能很快把自己哄好。你身上已经散发出一种让人舒服的松弛感。请继续保持这份对生活的热爱，你已经成为了很多人的小太阳。",
+                color: "text-rose-500",
+                keywords: ["#松弛感", "#最佳损友"],
+                flowerName: "向日葵",
+                flowerEmoji: "🌻",
+                flowerQuote: "你不需要追逐光，因为你本身就是光源。",
+                compatibleZodiac: "♐️ 射手座",
+                compatibleMBTI: "ENTP",
+                compatibilityDesc: "你们是彼此的开心果，一起探索世界、交换脑洞会碰撞出奇妙火花。"
+            },
+            {
+                minScore: 91,
+                maxScore: 100,
+                title: "超级爱你老己",
+                description: "哇！你就是那个传说中的“自爱教科书”！你拥有强大的内核，不依附、不讨好、不委屈。你全然接纳自己的优点和缺点，你的快乐是自给自足的，不需要外界来定义。你的存在本身就是一种美好。你不仅滋养了自己，你溢出来的爱意也正在治愈身边的人。请务必保持这份光芒！",
+                color: "text-rose-600",
+                keywords: ["#人间清醒", "#满级内核"],
+                flowerName: "红玫瑰",
+                flowerEmoji: "🌹",
+                flowerQuote: "带刺是边界，盛放是姿态，你爱自己的样子真美。",
+                compatibleZodiac: "♌️ 狮子座",
+                compatibleMBTI: "INTJ",
+                compatibilityDesc: "势均力敌的强者，能读懂你独立的灵魂，通过深度交流产生极高共鸣。"
+            },
+        ];
+
+        const ADVICE_BY_DIMENSION = {
+            [Dimension.SelfAcceptance]: {
+                title: "给追求完美的你",
+                items: ["今天照镜子时，找出 3 个你喜欢的部位并夸出声来。", "停止一句即将说出口的自我贬低，换成‘我已经做得很好了’。", "买一件穿上让你觉得自信舒适的衣服，不为取悦任何人。"]
+            },
+            [Dimension.EmotionalHealth]: {
+                title: "给习惯隐忍的你",
+                items: ["如果你想哭，今天就痛快地哭一场，不要憋着。", "哪怕只有 10 分钟，允许自己什么都不做，单纯地发呆。", "当感到愤怒时，试着写下来或者去运动，而不是压在心里。"]
+            },
+            [Dimension.Boundaries]: {
+                title: "给总是心软的你",
+                items: ["对一个你不想去的聚会或不想帮的忙，尝试说一次‘不’。", "如果有人让你不舒服，今天试着冷处理，不秒回消息。", "列出你的底线清单，提醒自己：你的感受比别人的评价重要。"]
+            },
+            [Dimension.LifeQuality]: {
+                title: "给生活匆忙的你",
+                items: ["今晚放下手机，点个香薰或泡个澡，好好睡一觉。", "去买一束花插在瓶子里，或者买一个你喜欢的杯子喝水。", "认真地吃一顿饭，细嚼慢咽，感受食物的味道。"]
+            },
+            [Dimension.Growth]: {
+                title: "给有些迷茫的你",
+                items: ["原谅自己过去犯的一个错误，告诉自己：那也是成长的一部分。", "去学一个你一直想学但没敢开始的小技能（哪怕是折纸）。", "写下 3 个你未来的愿望，用‘我值得’作为开头。"]
+            },
+            [Dimension.Social]: {
+                title: "给渴望连接的你",
+                items: ["主动约一个让你感到放松和快乐的朋友出来喝杯咖啡。", "删除或屏蔽一个总是让你感到焦虑或自卑的社交账号。", "给那个一直陪伴你的人打个电话，或者给自己写一封感谢信。"]
+            },
+        };
+
+        const DIMENSION_ANALYSIS = {
+            [Dimension.SelfAcceptance]: {
+                low: "你的内在小孩似乎总是缩在角落哭泣。你习惯拿显微镜审视自己的缺点，却对自己的闪光点视而不见。",
+                mid: "这是一个摇摆的阶段。理智上你知道没人完美，但感性上还是容易因为一句评价而陷入自我怀疑。",
+                high: "你已经与那个不完美的自己达成了和解。现在的你，不仅爱自己的光芒，也温柔地接纳自己的阴影。"
+            },
+            [Dimension.EmotionalHealth]: {
+                low: "情绪对你来说像洪水猛兽，你要么死死堵住它直到崩溃，要么任由它将你淹没。",
+                mid: "你正在学习成为情绪的观察者，虽然偶尔还是会失控，但你已经开始尝试理解情绪背后的需求。",
+                high: "你的内心有一个稳固的容器。喜怒哀乐穿过你，你依然是你。这种情绪的流动性让你鲜活而有力量。"
+            },
+            [Dimension.Boundaries]: {
+                low: "你的世界像一个没有门的公园，谁都可以进来踩一脚。你的善良没有长出牙齿，容易受伤。",
+                mid: "你开始意识到“不”字的力量，但在拒绝别人时，内心依然会伴随着淡淡的愧疚感。",
+                high: "清晰的边界让你赢得了真正的尊重。你深知：照顾好自己的感受，是对这段关系最大的负责。"
+            },
+            [Dimension.LifeQuality]: {
+                low: "你活在“生存模式”里，总觉得快乐要等到“有钱了/有空了”以后。当下对你来说只是过渡。",
+                mid: "你会有意识地犒劳自己，但这种关爱往往依赖于消费。你还在寻找那种不花钱也能获得的内心富足。",
+                high: "你把日子过成了诗。无论是路边的一朵野花，还是清晨的一杯水，你都能从中汲取到滋养生命的能量。"
+            },
+            [Dimension.Growth]: {
+                low: "你把自己困在了过去，觉得“我就这样了”。习得性无助让你看不到改变的可能。",
+                mid: "你很想变好，但常常陷入“间歇性踌躇满志，持续性混吃等死”的循环，焦虑多于行动。",
+                high: "你拥有迷人的生长型思维。失败对你来说不是否定，而是反馈。你享受变强的过程，更享受当下的努力。"
+            },
+            [Dimension.Social]: {
+                low: "在关系中，你把自己放得很低。你误以为讨好能换来爱，却只换来了对方的理所当然。",
+                mid: "你的社交圈看起来很热闹，但深夜散场后，你依然感到难以名状的孤独。",
+                high: "你的关系清爽而有深度。你不依附谁，也不控制谁。你像一棵树，即使独自站立也很美，但也乐于拥抱风。"
+            }
+        };
+
+        // --- STATE MANAGEMENT ---
+        
+        let state = {
+            screen: 'welcome', // welcome, quiz, result
+            currentQuestionIndex: 0,
+            answers: {}, // questionId -> score
+            isTransitioning: false
+        };
+
+	        const root = document.getElementById('root');
+	        let authController = null;
+	        let authInitPromise = null;
+            let resultAuthController = null;
+            let resultAuthInitPromise = null;
+            const authState = { unlocked: false, latestRadarData: null };
+
+	        // --- SERVICE LOGIC ---
+
+	        function startQuiz() {
+	            state.screen = 'quiz';
+	            state.currentQuestionIndex = 0;
+	            state.answers = {};
+	            renderQuiz();
+	        }
+
+	        function handleStartClick(event) {
+	            event.preventDefault();
+	            (async () => {
+	                if (window.AuthorizationSDK) {
+	                    const controller = authController || await initAuth();
+	                    if (controller && typeof controller.ensureAuthorized === 'function') {
+	                        controller.ensureAuthorized(startQuiz);
+	                        return;
+	                    }
+	                }
+	                startQuiz();
+	            })();
+	        }
+
+	        async function initAuth() {
+	            if (authInitPromise) return authInitPromise;
+	            authInitPromise = (async () => {
+	                if (!window.AuthorizationSDK) return null;
+	                try {
+	                    const apiBase = await resolveApiBase();
+	                    authController = await AuthorizationSDK.init({
+	                        testType: 'zaqx',
+	                        apiBase,
+	                        startButtons: [],
+	                        autoRun: false,
+	                        onAuthorized: startQuiz,
+                            authContext: 'start',
+	                    });
+	                } catch (error) {
+	                    console.warn('[auth] init failed', error);
+	                    authController = null;
+	                }
+	                return authController;
+	            })();
+	            return authInitPromise;
+	        }
+
+            async function resolveApiBase() {
+                try {
+                    const cfg = await fetch('/config/app-config.json', { cache: 'no-store' }).then((res) => res.json());
+                    const apiBase = (cfg && cfg.apiBase ? String(cfg.apiBase) : '').trim();
+                    if (apiBase) return apiBase;
+                } catch (_) {
+                    // ignore
+                }
+                return window.location.origin;
+            }
+
+            function setFullReportVisible(isVisible) {
+                const fullReport = document.getElementById('full-report');
+                const unlockCard = document.getElementById('unlock-card');
+                if (fullReport) {
+                    fullReport.style.display = isVisible ? 'block' : 'none';
+                }
+                if (unlockCard) {
+                    unlockCard.style.display = isVisible ? 'none' : 'block';
+                }
+            }
+
+            function unlockFullReport() {
+                if (authState.unlocked) return;
+                authState.unlocked = true;
+                setFullReportVisible(true);
+                if (authState.latestRadarData) {
+                    initChart(authState.latestRadarData);
+                }
+            }
+
+            async function initResultAuth() {
+                if (resultAuthInitPromise) return resultAuthInitPromise;
+                resultAuthInitPromise = (async () => {
+                    if (!window.AuthorizationSDK) return null;
+                    try {
+                        const apiBase = await resolveApiBase();
+                        resultAuthController = await AuthorizationSDK.init({
+                            testType: 'zaqx',
+                            apiBase,
+                            startButtons: ['#unlock-btn'],
+                            autoRun: false,
+                            onAuthorized: unlockFullReport,
+                            authContext: 'result',
+                        });
+                    } catch (error) {
+                        console.warn('[auth] result init failed', error);
+                        resultAuthController = null;
+                    }
+                    return resultAuthController;
+                })();
+                return resultAuthInitPromise;
+            }
+
+            async function setupResultGate() {
+                const unlockButton = document.getElementById('unlock-btn');
+                if (!unlockButton || !window.AuthorizationSDK) return;
+                const controller = resultAuthController || await initResultAuth();
+                const config = controller?.state?.config;
+                if (config && config.auth_required === 0) {
+                    unlockFullReport();
+                    return;
+                }
+                const mode = (config && config.auth_mode) ? String(config.auth_mode).toLowerCase() : 'start';
+                if (mode !== 'result') {
+                    unlockFullReport();
+                    return;
+                }
+                if (controller && controller.isSessionActive()) {
+                    unlockFullReport();
+                }
+            }
+
+        function calculateTotalScore(answers) {
+            let totalScore = 0;
+            Object.values(answers).forEach(score => {
+                totalScore += score;
+            });
+            // Normalize: Min 30, Max 120. Range 90.
+            const normalizedScore = Math.round(((totalScore - 30) / 90) * 100);
+            return Math.max(0, Math.min(100, normalizedScore));
+        }
+
+        function getResultLevel(score) {
+            return RESULT_LEVELS.find(level => score >= level.minScore && score <= level.maxScore) || RESULT_LEVELS[0];
+        }
+
+        function calculateDimensionScores(answers) {
+            const dimensionTotals = {};
+            // Init
+            Object.values(Dimension).forEach(dim => {
+                dimensionTotals[dim] = { current: 0, max: 0 };
+            });
+
+            QUESTIONS.forEach(q => {
+                const userScore = answers[q.id] || 0;
+                if (!dimensionTotals[q.dimension]) return;
+                dimensionTotals[q.dimension].current += userScore;
+                dimensionTotals[q.dimension].max += 4;
+            });
+
+            return Object.entries(dimensionTotals).map(([key, value]) => ({
+                subject: key,
+                A: value.max === 0 ? 0 : Math.round((value.current / value.max) * 100)
+            }));
+        }
+
+        function getAdviceForLowestDimension(answers) {
+            const dimensionScores = {};
+            // Init
+            Object.values(Dimension).forEach(dim => dimensionScores[dim] = 0);
+            
+            QUESTIONS.forEach(q => {
+                const userScore = answers[q.id] || 0;
+                dimensionScores[q.dimension] += userScore;
+            });
+
+            let minScore = Infinity;
+            let lowestDimension = Dimension.SelfAcceptance;
+
+            Object.keys(dimensionScores).forEach(dim => {
+                if (dimensionScores[dim] < minScore) {
+                    minScore = dimensionScores[dim];
+                    lowestDimension = dim;
+                }
+            });
+
+            return ADVICE_BY_DIMENSION[lowestDimension];
+        }
+
+        // --- UI COMPONENTS ---
+
+        function HeartIcon() {
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" /></svg>`;
+        }
+
+        function CheckIcon() {
+            return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-rose-500"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+        }
+
+        // --- RENDER FUNCTIONS ---
+
+        function renderWelcome() {
+            root.innerHTML = `
+                <div class="flex flex-col items-center justify-center min-h-screen p-6 text-center w-full max-w-md mx-auto relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-64 h-64 bg-rose-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+                    <div class="absolute -bottom-8 left-20 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+
+                    <div class="relative glass-panel p-8 rounded-3xl shadow-xl border border-white/50 w-full">
+                        <div class="mb-6 flex justify-center text-rose-500">
+                            <div class="p-4 bg-rose-100 rounded-full animate-bounce">
+                                ${HeartIcon()}
+                            </div>
+                        </div>
+                        <h1 class="text-3xl font-bold mb-4 text-slate-800 font-serif">自爱倾向测试</h1>
+                        <p class="text-gray-600 mb-8 leading-relaxed">
+                            爱自己，是终身浪漫的开始。<br/>
+                            在这个喧嚣的世界里，你是否记得给内心留一份温柔？<br/>
+                            通过6个维度、30道生活情境题，<br/>
+                            测测你现在的自爱能量值。
+                        </p>
+                        <div class="space-y-3">
+                            <button id="start-btn" class="w-full py-3 px-8 rounded-full font-bold transition-all duration-300 transform active:scale-95 shadow-lg flex items-center justify-center bg-rose-500 hover:bg-rose-600 text-white shadow-rose-200 text-lg">
+                                开始测试
+                            </button>
+                            <a href="../../index-2.html" class="block text-sm font-semibold text-rose-500 hover:text-rose-600 text-center">返回测试合集首页</a>
+                        </div>
+                        <p class="mt-4 text-xs text-gray-400">纯净体验 · 无需登录 · 结果仅供娱乐</p>
+                    </div>
+                </div>
+            `;
+            const startBtn = document.getElementById('start-btn');
+            if (startBtn) {
+                startBtn.addEventListener('click', handleStartClick);
+            }
+        }
+
+        function renderQuiz() {
+            const question = QUESTIONS[state.currentQuestionIndex];
+            const progress = ((state.currentQuestionIndex + 1) / QUESTIONS.length) * 100;
+            const isFirstQuestion = state.currentQuestionIndex === 0;
+
+            const optionsHtml = question.options.map((opt, idx) => {
+                const isSelected = state.answers[question.id] === opt.score;
+                return `
+                <button data-score="${opt.score}" class="quiz-option w-full text-left rounded-xl border-2 transition-all duration-200 ${isSelected ? 'border-rose-500 bg-rose-50 text-rose-700 shadow-sm' : 'border-gray-100 hover:border-rose-200 hover:bg-gray-50 text-gray-700'}">
+                    ${opt.text}
+                </button>`;
+            }).join('');
+
+            root.innerHTML = `
+                <div class="quiz-shell w-full max-w-md mx-auto bg-white sm:shadow-xl sm:rounded-3xl flex flex-col overflow-hidden relative">
+                    <div class="px-4 pt-4 pb-3 flex items-center justify-between">
+                        <button id="prev-btn" class="nav-button" ${isFirstQuestion ? 'disabled' : ''}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                            </svg>
+                            <span>上一题</span>
+                        </button>
+                        <div class="text-xs font-semibold text-slate-600">
+                            第 ${state.currentQuestionIndex + 1}/${QUESTIONS.length} 题
+                        </div>
+                    </div>
+                    <div class="px-4 pb-2">
+                        <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-rose-500 h-2 transition-all duration-500 ease-out" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-body">
+                        <div class="question-card bg-rose-50 border border-rose-100 rounded-2xl p-4 shadow-sm">
+                            <span class="text-rose-500 font-bold text-[11px] tracking-wide uppercase mb-2 block">能量场：${question.dimension}</span>
+                            <h2 class="quiz-question font-bold text-slate-800">
+                                ${question.question}
+                            </h2>
+                        </div>
+
+                        <div class="quiz-options">
+                            ${optionsHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Bind Option Events
+            document.querySelectorAll('.quiz-option').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    if (state.isTransitioning) return;
+                    
+                    const score = parseInt(btn.getAttribute('data-score'));
+                    state.isTransitioning = true;
+                    state.answers[question.id] = score;
+
+                    // Re-render to show selection
+                    btn.className = 'quiz-option w-full text-left rounded-xl border-2 transition-all duration-200 border-rose-500 bg-rose-50 text-rose-700 shadow-sm';
+
+                    setTimeout(() => {
+                        if (state.currentQuestionIndex < QUESTIONS.length - 1) {
+                            state.currentQuestionIndex++;
+                            state.isTransitioning = false;
+                            renderQuiz();
+                        } else {
+                            state.screen = 'result';
+                            state.isTransitioning = false;
+                            renderResult();
+                        }
+                    }, 400);
+                });
+            });
+
+            // Bind Prev Button Event
+            const prevBtn = document.getElementById('prev-btn');
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    if (state.currentQuestionIndex > 0) {
+                        state.currentQuestionIndex--;
+                        renderQuiz();
+                    }
+                });
+            }
+        }
+
+        function renderResult() {
+            const totalScore = calculateTotalScore(state.answers);
+            const resultLevel = getResultLevel(totalScore);
+            const radarData = calculateDimensionScores(state.answers);
+            const advice = getAdviceForLowestDimension(state.answers);
+
+            // Generate Radar Bars
+            const radarBarsHtml = radarData.map(d => `
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-600 w-24">${d.subject}</span>
+                    <div class="flex-1 h-2 bg-gray-100 rounded-full mx-3 overflow-hidden">
+                        <div class="h-full rounded-full ${d.A >= 80 ? 'bg-green-400' : d.A >= 60 ? 'bg-rose-400' : 'bg-orange-400'}" style="width: ${d.A}%"></div>
+                    </div>
+                    <span class="font-bold text-gray-700 w-8 text-right">${d.A}</span>
+                </div>
+            `).join('');
+
+            // Generate Detailed Analysis
+            const analysisHtml = radarData.map(d => {
+                const score = d.A;
+                const dimension = d.subject;
+                const analysis = DIMENSION_ANALYSIS[dimension];
+                let content = '';
+                let tag = '';
+                let tagColor = '';
+
+                if (score >= 80) {
+                    content = analysis.high;
+                    tag = '能量满格';
+                    tagColor = 'bg-rose-100 text-rose-600';
+                } else if (score >= 60) {
+                    content = analysis.mid;
+                    tag = '良性循环';
+                    tagColor = 'bg-blue-50 text-blue-600';
+                } else {
+                    content = analysis.low;
+                    tag = '亟待关注';
+                    tagColor = 'bg-orange-50 text-orange-600';
+                }
+
+                return `
+                <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 px-2 py-1 text-[10px] font-bold rounded-bl-lg ${tagColor}">
+                        ${tag}
+                    </div>
+                    <h4 class="font-bold text-slate-700 text-sm mb-1">${dimension} <span class="text-gray-400 font-normal ml-1">${score}分</span></h4>
+                    <p class="text-xs text-slate-500 leading-relaxed text-justify">${content}</p>
+                </div>`;
+            }).join('');
+
+            // Generate Advice Items
+            const adviceItemsHtml = advice.items.map(item => `
+                <li class="flex items-start gap-3 text-left">
+                    <span class="mt-0.5 flex-shrink-0">${CheckIcon()}</span>
+                    <span class="text-slate-600 text-sm leading-relaxed border-b border-gray-100 pb-2 w-full">${item}</span>
+                </li>
+            `).join('');
+
+            // Random Advice Number
+            const adviceNo = Math.floor(Math.random() * 9000) + 1000;
+
+            // Heart Progress Logic (Visual only here, simplified from React)
+            const offset = 100 - totalScore;
+
+            authState.latestRadarData = radarData;
+
+            root.innerHTML = `
+                <div class="flex flex-col min-h-screen w-full max-w-md mx-auto bg-white sm:shadow-xl sm:my-8 sm:rounded-3xl overflow-hidden relative">
+                    <div class="flex-1 overflow-y-auto p-6 scroll-smooth">
+                        
+                        <div data-auth-basic="true">
+                            <!-- Score Overview -->
+                            <div class="text-center mb-6 relative pt-2">
+                                <div class="relative w-48 h-48 mx-auto mb-6">
+                                    <svg viewBox="0 0 24 24" class="w-full h-full drop-shadow-xl overflow-visible">
+                                        <defs>
+                                            <linearGradient id="heartProgressGradient" x1="0" x2="0" y1="0" y2="1">
+                                                <stop offset="${offset}%" stop-color="#ffe4e6" />
+                                                <stop offset="${offset}%" stop-color="#f43f5e" />
+                                            </linearGradient>
+                                        </defs>
+                                        <path fill="url(#heartProgressGradient)" stroke="#f43f5e" stroke-width="0.5" d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                                    </svg>
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center pt-3 pointer-events-none">
+                                        <span id="score-display" class="text-5xl font-black font-serif drop-shadow-sm text-rose-600">0%</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-2 mb-4 relative z-10">
+                                    <div class="text-xs text-gray-400 uppercase tracking-wide">自爱指数</div>
+                                    <div class="text-2xl font-bold ${resultLevel.color} mt-1">${resultLevel.title}</div>
+                                </div>
+                                
+                                <div class="bg-rose-50/80 p-5 rounded-2xl text-left border border-rose-100">
+                                    <p class="text-gray-700 leading-relaxed text-sm">${resultLevel.description}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="unlock-card" class="mb-8 rounded-2xl border border-rose-200 bg-rose-50/80 p-5 text-center">
+                            <h3 class="text-lg font-bold text-rose-600">解锁完整报告</h3>
+                            <p class="text-sm text-rose-700/80 mt-2">查看维度能量分析、详细解读与专属处方。</p>
+                            <button id="unlock-btn" data-auth-unlock-btn="true" class="mt-4 inline-flex items-center justify-center px-8 py-3 rounded-full bg-rose-500 text-white font-bold shadow-lg shadow-rose-200/70 hover:bg-rose-600 transition-all duration-300 whitespace-nowrap">
+                                输入授权码解锁
+                            </button>
+                            <div class="text-xs text-rose-500/80 mt-2">已购买用户输入授权码即可解锁完整内容</div>
+                        </div>
+
+                        <div id="full-report" data-auth-lock="true" style="display: none;">
+                            <!-- Radar Chart -->
+                            <div class="mb-8 w-full relative">
+                                <canvas id="radarChart"></canvas>
+                            </div>
+
+                            <div class="space-y-3 mb-8">
+                                <h3 class="font-bold text-slate-800 mb-4 px-2 border-l-4 border-rose-400">维度能量分析</h3>
+                                ${radarBarsHtml}
+                            </div>
+
+                            <!-- Detailed Dimension Analysis -->
+                            <div class="space-y-4 mb-8">
+                                <h3 class="font-bold text-slate-800 mb-4 px-2 border-l-4 border-rose-400">维度详细解读</h3>
+                                <div class="grid grid-cols-1 gap-3">
+                                    ${analysisHtml}
+                                </div>
+                            </div>
+
+                            <!-- Prescription Card -->
+                            <div class="mx-0 mt-8 mb-8 relative group">
+                                <div class="absolute inset-0 bg-gray-200 transform translate-x-1 translate-y-1 rounded-xl"></div>
+                                <div class="relative bg-white border-2 border-dashed border-rose-300 rounded-xl p-6">
+                                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-rose-100/80 backdrop-blur-sm rotate-1 shadow-sm border-l border-r border-white/50"></div>
+                                    <div class="text-center mb-4">
+                                        <h3 class="text-sm text-rose-500 font-bold tracking-widest uppercase">今日自爱处方</h3>
+                                        <h4 class="text-xl font-serif font-bold text-slate-700 mt-1">${advice.title}</h4>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <p class="text-xs text-gray-400 text-center mb-4 italic">—— 你亏欠自己的 3 件小事 ——</p>
+                                        <ul class="space-y-3">
+                                            ${adviceItemsHtml}
+                                        </ul>
+                                    </div>
+                                    <div class="mt-4 pt-3 border-t border-dashed border-gray-200 flex justify-between items-center text-xs text-gray-400 font-mono">
+                                        <span>No. ${adviceNo}</span>
+                                        <span>有效期：永久</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Soul Compatibility -->
+                            <div class="mb-8">
+                                <div class="text-center text-sm font-bold tracking-widest uppercase text-rose-400 mb-4">🔮 灵魂默契度 🔮</div>
+                                <div class="bg-gradient-to-r from-purple-50 to-indigo-50 border border-indigo-100 rounded-2xl p-5 relative overflow-hidden">
+                                    <div class="flex gap-4 mb-4">
+                                        <div class="flex-1 bg-white p-3 rounded-xl shadow-sm text-center border border-indigo-50">
+                                            <div class="text-xs text-gray-400 uppercase mb-1">最佳拍档星座</div>
+                                            <div class="text-lg font-bold text-indigo-700">${resultLevel.compatibleZodiac}</div>
+                                        </div>
+                                        <div class="flex-1 bg-white p-3 rounded-xl shadow-sm text-center border border-indigo-50">
+                                            <div class="text-xs text-gray-400 uppercase mb-1">灵魂共鸣MBTI</div>
+                                            <div class="text-lg font-bold text-indigo-700 font-mono">${resultLevel.compatibleMBTI}</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-sm text-indigo-800/80 leading-relaxed font-medium">${resultLevel.compatibilityDesc}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Flower Reveal -->
+                            <div class="mb-8">
+                                <div class="text-center text-sm font-bold tracking-widest uppercase text-rose-400 mb-4">✨ 你的本命花 ✨</div>
+                                <div class="bg-gradient-to-br from-white to-rose-50 border border-white shadow-lg rounded-2xl p-6 relative overflow-hidden group text-center">
+                                    <div class="absolute top-0 right-0 w-24 h-24 bg-rose-200 rounded-full mix-blend-multiply filter blur-xl opacity-50 -translate-y-1/2 translate-x-1/2"></div>
+                                    <div class="absolute bottom-0 left-0 w-20 h-20 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-50 translate-y-1/2 -translate-x-1/2"></div>
+                                    <div class="relative z-10">
+                                        <div class="text-8xl mb-4 filter drop-shadow-sm transform group-hover:scale-110 transition-transform duration-500">${resultLevel.flowerEmoji}</div>
+                                        <h2 class="text-3xl font-serif font-bold text-slate-800 mb-2">${resultLevel.flowerName}</h2>
+                                        <p class="text-sm text-rose-600 font-bold mb-4 italic font-serif">"${resultLevel.flowerQuote}"</p>
+                                        <div class="flex flex-wrap justify-center gap-2 mb-2">
+                                            ${resultLevel.keywords.map(k => `<span class="px-3 py-1 bg-white/80 backdrop-blur-sm rounded-full text-xs font-bold text-gray-500 border border-gray-100 shadow-sm">${k}</span>`).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+	                        <div class="space-y-3 pb-8">
+	                            <button id="share-btn" class="w-full py-3 px-8 rounded-full font-bold transition-all duration-300 transform active:scale-95 shadow-lg flex items-center justify-center bg-rose-500 text-white hover:bg-rose-600">
+	                                分享结果
+	                            </button>
+	                            <a href="../../tg/index.html" target="_blank" rel="noopener" class="w-full py-3 px-8 rounded-full font-bold transition-all duration-300 transform active:scale-95 shadow-lg flex items-center justify-center bg-white text-rose-600 hover:bg-rose-50 border-2 border-rose-500">
+	                                加入测试交流群
+	                            </a>
+	                            <button id="restart-btn" class="w-full py-3 px-8 rounded-full font-bold transition-all duration-300 transform active:scale-95 shadow-lg flex items-center justify-center bg-transparent border-2 border-rose-500 text-rose-500 hover:bg-rose-50">
+	                                再测一次
+	                            </button>
+	                        </div>
+                    </div>
+                </div>
+            `;
+
+            resultAuthController = null;
+            resultAuthInitPromise = null;
+            authState.unlocked = false;
+            setFullReportVisible(false);
+            setupResultGate();
+
+            // Score Animation
+            animateScore(totalScore);
+
+            // Bind Restart
+            document.getElementById('restart-btn').addEventListener('click', () => {
+                state.screen = 'welcome';
+                renderWelcome();
+            });
+            const shareBtn = document.getElementById('share-btn');
+            if (shareBtn) {
+                shareBtn.addEventListener('click', shareResult);
+            }
+        }
+
+        function shareResult() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '恋爱安全感测试',
+                    text: '我刚完成了恋爱安全感测试，你也来试试吧！',
+                    url: window.location.href,
+                }).catch(console.error);
+            } else {
+                alert('截屏即可分享结果给朋友哦！');
+            }
+        }
+
+        function animateScore(target) {
+            let current = 0;
+            const element = document.getElementById('score-display');
+            const duration = 1000;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 3);
+                current = Math.round(target * ease);
+                
+                element.innerText = current + '%';
+                if (current > 55) element.style.color = 'white';
+                
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        function initChart(data) {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: data.map(d => d.subject),
+                    datasets: [{
+                        label: 'Self Love',
+                        data: data.map(d => d.A),
+                        backgroundColor: 'rgba(244, 63, 94, 0.4)', // Rose-500 with opacity
+                        borderColor: '#f43f5e',
+                        pointBackgroundColor: '#f43f5e',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e5e7eb' },
+                            grid: { color: '#e5e7eb' },
+                            pointLabels: {
+                                font: { size: 10 },
+                                color: '#64748b'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { display: false } // Hide numbers on axis
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    maintainAspectRatio: true,
+                }
+            });
+        }
+
+        // --- INIT ---
+        initAuth();
+        renderWelcome();
+
+    </script>
+</body>
+
+<!-- Mirrored from soullight.vip/tests/zaqx/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 22 Mar 2026 14:12:48 GMT -->
+</html>

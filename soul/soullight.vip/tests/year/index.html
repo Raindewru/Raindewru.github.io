@@ -1,0 +1,4547 @@
+
+    <!DOCTYPE html>
+    <html lang="zh-CN">
+    
+<!-- Mirrored from soullight.vip/tests/year/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 22 Mar 2026 14:12:45 GMT -->
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>年上年下恋爱倾向测试 AYP专业测评</title>
+    </head>
+    <body>
+      <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>年上年下恋爱倾向测试 | AYP专业测评</title>
+    <link rel="stylesheet" href="../../authorization/auth-modal.css"/>
+    <link rel="icon" href="../../static/images/favicon.png" type="image/png">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* CSS变量 - 红蓝主题 */
+        :root {
+            --primary: #FF3366; /* 主色调 - 红色 */
+            --primary-light: #FF6B9C;
+            --primary-dark: #E62E5C;
+            --secondary: #3366FF; /* 辅色调 - 蓝色 */
+            --secondary-light: #6B9CFF;
+            --secondary-dark: #2E5CE6;
+            --primary-foreground: #ffffff;
+            --secondary-foreground: #ffffff;
+            --accent: #D1E0FF;
+            --accent-foreground: #333333;
+            --background: linear-gradient(135deg, #FFF5F5 0%, #F0F5FF 100%);
+            --foreground: #333333;
+            --muted: #F8FAFF;
+            --muted-foreground: #666666;
+            --card: #ffffff;
+            --card-foreground: #333333;
+            --border: #D1E0FF;
+            --input: #F8FAFF;
+            --ring: #FF3366;
+            --radius: 12px;
+            --success: #07c160;
+            --warning: #ff9500;
+            --danger: #ff3b30;
+            --shadow: rgba(51, 102, 255, 0.15);
+            --info: #007aff;
+            --result-text: #FF3366;
+        }
+
+        /* 深色模式支持 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background: #1a1a1a;
+                --foreground: #ffffff;
+                --muted: #2a2a2a;
+                --muted-foreground: #aaaaaa;
+                --card: #2a2a2a;
+                --card-foreground: #ffffff;
+                --border: #444444;
+                --input: #2a2a2a;
+            }
+        }
+
+        /* 基础样式 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--foreground);
+            background: var(--background);
+            min-height: 100vh;
+            padding: 1rem;
+            -webkit-overflow-scrolling: touch;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* 容器样式 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.75rem;
+            }
+        }
+
+        /* 标题样式 */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background-clip: padding-box -box;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: var(--muted-foreground);
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .global-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .global-actions__btn {
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .global-actions__btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(255,51,102,0.15);
+        }
+        .global-actions__btn--primary {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: #fff;
+        }
+        .global-actions__btn--ghost {
+            border: 1px solid rgba(255,51,102,0.35);
+            background: rgba(255,51,102,0.08);
+            color: var(--primary);
+        }
+
+        /* 测试选择区域 */
+        .test-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .test-selection {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin: 1.5rem 0;
+            }
+        }
+
+        .test-option {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .test-option {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .test-option {
+                padding: 1rem;
+            }
+        }
+
+        .test-option:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px var(--shadow);
+        }
+
+        @media (max-width: 768px) {
+            .test-option:hover {
+                transform: translateY(-2px);
+            }
+        }
+
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .option-header h3 {
+            color: var(--primary);
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            font-weight: 600;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--primary-foreground);
+            padding: 0.375rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .option-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .badge {
+                align-self: flex-start;
+            }
+        }
+
+        .option-content h4 {
+            color: var(--foreground);
+            margin-bottom: 1rem;
+            font-size: clamp(1rem, 3vw, 1.1rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .option-content ul {
+            list-style: none;
+            margin-bottom: 1.25rem;
+        }
+
+        .option-content li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+            display: flex;
+            align-items: center;
+        }
+
+        .test-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted-foreground);
+            font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+            margin-bottom: 1.25rem;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--primary-foreground);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px var(--shadow);
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* 选项组样式 */
+        .option-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .option-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--foreground);
+            font-size: clamp(0.95rem, 3vw, 1rem);
+        }
+
+        /* 表单样式 - 新增 */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--foreground);
+            font-size: clamp(0.95rem, 3vw, 1rem);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--input);
+            color: var(--foreground);
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 51, 102, 0.1);
+        }
+
+        .form-select:hover {
+            border-color: var(--primary-light);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        /* 进度条 */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--muted);
+            border-radius: 4px;
+            margin: 1.25rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            transition: width 0.5s ease;
+            width: 0%;
+            border-radius: 4px;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 1.5rem;
+                margin: 1rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 1rem;
+            }
+        }
+
+        .question-card {
+            position: relative;
+        }
+
+        .question-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: var(--radius) 0 0 var(--radius);
+        }
+
+        /* 标签样式 */
+        .tag {
+            display: inline-block;
+            background: var(--muted);
+            color: var(--muted-foreground);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tag-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--primary-foreground);
+        }
+
+        /* 问题文本 */
+        .question-text {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            margin: 1.25rem 0;
+            line-height: 1.6;
+            color: var(--foreground);
+            font-weight: 500;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* 评分选项 */
+        .rating-options {
+            display: grid;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .rating-btn {
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--card);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        @media (max-width: 480px) {
+            .rating-btn {
+                padding: 0.8rem;
+            }
+        }
+
+        .rating-btn:hover {
+            border-color: var(--primary);
+            background: var(--muted);
+        }
+
+        .rating-btn.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--primary-foreground);
+        }
+
+        .rating-btn .option-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--muted-foreground);
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 480px) {
+            .rating-btn .option-number {
+                width: 25px;
+                height: 25px;
+            }
+        }
+
+        .rating-btn.selected .option-number {
+            background: var(--primary-foreground);
+            color: var(--primary);
+        }
+
+        /* 测试页面导航按钮 */
+        .test-nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 480px) {
+            .test-nav-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+                margin-top: 1.5rem;
+            }
+        }
+
+        .test-nav-btn {
+            flex: 1;
+        }
+
+        /* 结果页面样式 */
+        .score-display {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--muted);
+            border-radius: var(--radius);
+        }
+
+        @media (max-width: 768px) {
+            .score-display {
+                padding: 1.5rem;
+                margin: 1.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .score-display {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+        }
+
+        .heart-icon-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .heart-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        @media (max-width: 480px) {
+            .heart-circle {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        .heart-circle::before {
+            content: "♡"; /* 改为空心爱心 */
+            font-size: 36px;
+            color: var(--primary);
+        }
+
+        @media (max-width: 480px) {
+            .heart-circle::before {
+                font-size: 28px;
+            }
+        }
+
+        .score-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) 0% 25%, var(--muted) 25% 100%);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        @media (max-width: 480px) {
+            .score-circle {
+                width: 130px;
+                height: 130px;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .score-circle::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            background: var(--primary);
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .score-inner {
+            width: 120px;
+            height: 120px;
+            background: var(--card);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        @media (max-width: 480px) {
+            .score-inner {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        .rpi-title {
+            color: var(--primary);
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-level {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--result-text);
+        }
+
+        .score-description {
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: var(--result-text);
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        .score-description strong {
+            font-weight: 700;
+            color: var(--result-text);
+        }
+
+        /* 能量条样式 */
+        .energy-bar-container {
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+
+        @media (max-width: 768px) {
+            .energy-bar-container {
+                margin: 1.5rem auto;
+            }
+        }
+
+        .energy-bar {
+            height: 30px;
+            background: var(--muted);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .energy-bar {
+                height: 25px;
+                margin-bottom: 8px;
+                border-radius: 12px;
+                margin-top: 10px;
+                margin-bottom: 15px;
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+                box-sizing: border-box;
+            }
+        }
+
+        .energy-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 15px;
+            transition: width 1s ease;
+            width: 0%;
+        }
+
+        @media (max-width: 480px) {
+            .energy-fill {
+                border-radius: 12px;
+            }
+        }
+
+        .energy-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            color: var(--muted-foreground);
+        }
+
+        /* 维度得分能量条 */
+        .dimension-scores {
+            margin: 2rem 0;
+        }
+
+        .dimension-score {
+            margin-bottom: 1.5rem;
+        }
+
+        .dimension-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .dimension-name {
+            font-weight: 600;
+            color: var(--foreground);
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        .dimension-value {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        .dimension-energy-bar {
+            height: 20px;
+            background: var(--muted);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dimension-energy-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 10px;
+            transition: width 1s ease;
+            width: 0%;
+        }
+
+        /* 结果解释样式 */
+        .result-explanation {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--muted);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .result-explanation {
+                margin: 1.5rem 0;
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .result-explanation {
+                margin: 1rem 0;
+                padding: 1rem;
+            }
+        }
+
+        .explanation-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .explanation-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .explanation-title {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .explanation-content {
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        .high-dimensions {
+            margin: 1.5rem 0;
+        }
+
+        .high-dimensions h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: clamp(0.95rem, 3vw, 1rem);
+        }
+
+        /* 个性化建议样式 */
+        .personalized-advice {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--accent);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .personalized-advice {
+                margin: 1.5rem 0;
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .personalized-advice {
+                margin: 1rem 0;
+                padding: 1rem;
+            }
+        }
+
+        .advice-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .advice-icon {
+            margin-right: 10px;
+            color: var(--primary);
+            font-size: clamp(1rem, 4vw, 1.2rem);
+        }
+
+        .advice-title {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .advice-list {
+            list-style: none;
+        }
+
+        .advice-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .advice-check {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--info);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        @media (max-width: 480px) {
+            .advice-check {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        .advice-check::after {
+            content: "✓";
+            color: var(--info);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .advice-text {
+            flex: 1;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        /* 人格类型分析卡片样式 */
+        .personality-type-card {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--muted);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .personality-type-card {
+                margin: 1.5rem 0;
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .personality-type-card {
+                margin: 1rem 0;
+                padding: 1rem;
+            }
+        }
+
+        .personality-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .personality-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .personality-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1.2rem;
+            }
+        }
+
+        .personality-title {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .type-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        .type-features {
+            margin: 1.5rem 0;
+        }
+
+        .type-features h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: clamp(0.95rem, 3vw, 1rem);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-bullet {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--primary);
+            margin-right: 10px;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        /* 大表情符号样式 */
+        .big-emoji {
+            font-size: clamp(2rem, 8vw, 3rem);
+            display: block;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .type-summary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+            font-size: clamp(1.2rem, 5vw, 1.5rem);
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .type-summary-emoji {
+            font-size: clamp(2rem, 6vw, 2.5rem);
+        }
+
+        /* 改善建议样式 */
+        .improvement-advice {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: var(--accent);
+            border-radius: var(--radius);
+        }
+
+        @media (max-width: 480px) {
+            .improvement-advice {
+                padding: 0.8rem;
+                margin: 1.25rem 0;
+            }
+        }
+
+        /* 可视化分析样式 */
+        .visual-analysis {
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .visual-analysis {
+                margin: 1.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .visual-analysis {
+                margin: 1rem 0;
+            }
+        }
+
+        .analysis-title {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: 600;
+            color: var(--foreground);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .analysis-title::before {
+            content: "📊";
+            margin-right: 8px;
+            color: var(--info);
+            font-size: 1.1rem;
+        }
+
+        /* 雷达图容器 */
+        .radar-container {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .radar-chart {
+            width: 280px;
+            height: 280px;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .radar-chart {
+                width: 240px;
+                height: 240px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .radar-chart {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        /* 依恋类型雷达图 */
+        .attachment-radar {
+            margin-top: 2rem;
+        }
+
+        .dominant-type {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        .dominant-type span {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* 路径分析图样式 - 优化版本 */
+        .path-analysis {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background: var(--muted);
+            border-radius: var(--radius);
+            overflow: visible;
+            position: relative;
+            min-height: 200px; /* 进一步缩小高度 */
+            margin: 0 auto;
+            max-width: 95%; /* 限制最大宽度 */
+        }
+
+        @media (max-width: 768px) {
+            .path-analysis {
+                padding: 8px;
+                min-height: 180px;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .path-analysis {
+                padding: 5px;
+                min-height: 150px;
+                max-width: 100%;
+            }
+        }
+
+        .path-columns-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: visible;
+        }
+
+        @media (max-width: 768px) {
+            .path-columns-container {
+                flex-direction: column;
+                height: auto;
+            }
+        }
+
+        .path-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 100%;
+            position: relative;
+            width: 25%;
+            text-align: center;
+            padding: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .path-column {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                padding: 5px 0;
+                overflow-x: visible;
+            }
+        }
+
+        .path-node {
+            width: 45px; /* 进一步缩小节点大小 */
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 5px;
+            box-sizing: border-box;
+            font-size: 0.6rem; /* 进一步缩小字体 */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 5px auto;
+            word-break: break-word;
+            overflow: hidden;
+            flex-shrink: 0;
+            line-height: 1.2;
+        }
+
+        @media (max-width: 1024px) {
+            .path-node {
+                width: 40px;
+                height: 40px;
+                font-size: 0.55rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .path-node {
+                width: 35px;
+                height: 35px;
+                font-size: 0.5rem;
+                margin: 3px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .path-node {
+                width: 30px;
+                height: 30px;
+                font-size: 0.45rem;
+            }
+        }
+
+        .path-connection {
+            position: absolute;
+            height: 2px; /* 减小连接线粗细 */
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            z-index: 1;
+            transform-origin: 0 0;
+            opacity: 0.7;
+        }
+
+        /* 星座分析 */
+        .zodiac-analysis {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .zodiac-analysis {
+                padding: 15px;
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .zodiac-analysis {
+                padding: 12px;
+                margin-top: 15px;
+            }
+        }
+
+        .zodiac-icon {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            margin-right: 10px;
+        }
+
+        .zodiac-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .zodiac-title {
+            font-size: clamp(1.1rem, 4vw, 1.3rem);
+            font-weight: 700;
+            color: #333;
+        }
+        
+        /* 星座分析内部标题样式 */
+        .zodiac-analysis h4 {
+            color: #555;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        
+        /* 星座分析内部段落样式 */
+        .zodiac-analysis p {
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* 星座分析建议列表项样式 */
+        .zodiac-analysis .tip-item {
+            background-color: #f5f5f5;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            color: #333;
+        }
+
+        /* 专业心理学元素 */
+        .psychology-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            background: rgba(255, 51, 102, 0.1);
+            color: var(--primary);
+            border-radius: 12px;
+            font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .psychology-badge::before {
+            content: "🧠";
+        }
+
+        /* 专业心理学解读 */
+        .professional-interpretation {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--muted);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .professional-interpretation {
+                margin: 1.5rem 0;
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .professional-interpretation {
+                margin: 1rem 0;
+                padding: 1rem;
+            }
+        }
+
+        .interpretation-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .interpretation-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .interpretation-title {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .interpretation-content {
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        /* 导航按钮 */
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 480px) {
+            .nav-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+                margin-top: 1.5rem;
+            }
+        }
+
+        .nav-btn {
+            flex: 1;
+        }
+
+        /* 隐私区域 */
+        .privacy-section {
+            text-align: center;
+            padding: 2rem;
+            background: var(--muted);
+            border-radius: var(--radius);
+            margin-top: 2.5rem;
+            border: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .privacy-section {
+                padding: 1.5rem;
+                margin-top: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .privacy-section {
+                padding: 1rem;
+                margin-top: 1.5rem;
+            }
+        }
+
+        .privacy-section h2 {
+            margin-bottom: 1.25rem;
+            color: var(--primary);
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
+        }
+
+        .privacy-features {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .privacy-features {
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .privacy-features {
+                gap: 1.5rem;
+            }
+        }
+
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature .icon {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+        }
+
+        .feature span {
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            color: var(--foreground);
+            font-weight: 500;
+        }
+
+        /* 隐藏类 */
+        .hidden {
+            display: none;
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        /* 理论介绍 */
+        .theory-intro {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--muted);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .theory-intro {
+                margin: 1.5rem 0;
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .theory-intro {
+                margin: 1rem 0;
+                padding: 1rem;
+            }
+        }
+
+        .theory-title {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* 图表容器 */
+        .chart-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                margin: 15px 0;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chart-container {
+                margin: 10px 0;
+                padding: 12px;
+            }
+        }
+
+        .chart-title {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* 科学认证 */
+        .science-certification {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--muted);
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .science-certification {
+                margin: 1.5rem 0;
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .science-certification {
+                margin: 1rem 0;
+                padding: 1rem;
+            }
+        }
+
+        .certification-title {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .certification-logos {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .certification-logos {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .certification-logos {
+                gap: 1rem;
+            }
+        }
+
+        .certification-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .certification-logo .icon {
+            font-size: clamp(2rem, 6vw, 2.5rem);
+            color: var(--primary);
+        }
+
+        .certification-logo span {
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            color: var(--muted-foreground);
+        }
+
+        /* 额外响应式调整 */
+        @media (max-width: 480px) {
+            .result-section {
+                margin-bottom: 1.5rem;
+            }
+            
+            .tips-list .tip-item {
+                margin-bottom: 0.75rem;
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+        }
+
+
+
+
+
+
+        /* 路径分析图连接线优化 */
+        @media (max-width: 768px) {
+            .path-connection {
+                display: block !important; /* 强制显示连接线 */
+            }
+        }
+
+        /* 首页优化样式 */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-icon {
+            font-size: clamp(3rem, 10vw, 4rem);
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .feature-highlights {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .feature-highlights {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        .feature-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--shadow);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--foreground);
+        }
+
+        .feature-description {
+            font-size: 0.9rem;
+            color: var(--muted-foreground);
+            line-height: 1.5;
+        }
+
+        .copyright-notice {
+            text-align: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #fff5f5;
+            border-radius: var(--radius);
+            border: 1px solid #ffcccc;
+            color: #d63031;
+            font-weight: 600;
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 首页 -->
+        <div id="home-page" class="fade-in">
+            <header class="header">
+                <div class="hero-section">
+                    <div class="hero-icon">❤️</div>
+                    <h1>年上年下恋爱倾向测试</h1>
+                    <p class="subtitle">专业心理测评工具 | 基于依恋理论和关系心理学，科学评估您的恋爱关系模式</p>
+                </div>
+            </header>
+            <div class="global-actions">
+                <a href="../../index-2.html" class="global-actions__btn global-actions__btn--primary">返回测试合集首页</a>
+            </div>
+
+            <!-- 特色亮点 -->
+            <div class="feature-highlights">
+                <div class="feature-card">
+                    <div class="feature-icon">🔬</div>
+                    <div class="feature-title">科学评估</div>
+                    <div class="feature-description">基于心理学理论的专业量表，确保测试结果的科学性和准确性</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">多维分析</div>
+                    <div class="feature-description">从多个维度全面评估您的恋爱倾向，提供深度人格分析</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <div class="feature-title">个性建议</div>
+                    <div class="feature-description">根据测试结果提供个性化的恋爱建议和关系指导</div>
+                </div>
+            </div>
+
+            <!-- 测试选择区域 -->
+            <div class="test-selection">
+                <div class="test-option">
+                    <div class="option-header">
+                        <h3>给自己测</h3>
+                        <span class="badge">深入了解自己</span>
+                    </div>
+                    <div class="option-content">
+                        <h4>评估维度</h4>
+                        <ul>
+                            <li>成熟偏好量表</li>
+                            <li>照顾需求强度量表</li>
+                            <li>引导欲望量表</li>
+                            <li>独立倾向量表</li>
+                        </ul>
+                        <div class="test-meta">
+                            <span>预计用时: 10-15分钟</span>
+                            <span>题目数量: 40题</span>
+                        </div>
+                    </div>
+                    <button id="startTest" class="btn btn-primary btn-full" onclick="startTest('self')">开始自我测评</button>
+                </div>
+
+                <div class="test-option">
+                    <div class="option-header">
+                        <h3>为恋人测</h3>
+                        <span class="badge">了解恋人特点</span>
+                    </div>
+                    <div class="option-content">
+                        <h4>评估维度</h4>
+                        <ul>
+                            <li>恋人成熟偏好量表</li>
+                            <li>恋人照顾需求强度量表</li>
+                            <li>恋人引导欲望量表</li>
+                            <li>恋人独立倾向量表</li>
+                        </ul>
+                        <div class="test-meta">
+                            <span>预计用时: 10-15分钟</span>
+                            <span>题目数量: 40题</span>
+                        </div>
+                    </div>
+                    <button id="startTest2" class="btn btn-primary btn-full" onclick="startTest('partner')">开始恋人测评</button>
+                </div>
+            </div>
+
+            <!-- 版权声明 -->
+            <div class="copyright-notice">
+                本测试为专业心理测评工具，仅供个人参考使用
+            </div>
+
+            <div class="theory-intro">
+                <div class="theory-title">理论基础</div>
+                <p>本测评基于依恋理论、关系心理学和情感调节理论，通过多维度的科学评估，帮助您了解自己在恋爱关系中的行为模式和情感需求。</p>
+                <div class="psychology-badge">依恋理论</div>
+                <div class="psychology-badge">关系心理学</div>
+                <div class="psychology-badge">情感调节</div>
+            </div>
+
+            <div class="science-certification">
+                <div class="certification-title">科学认证</div>
+                <div class="certification-logos">
+                    <div class="certification-logo">
+                        <div class="icon">🔬</div>
+                        <span>心理学量表</span>
+                    </div>
+                    <div class="certification-logo">
+                        <div class="icon">📊</div>
+                        <span>统计分析</span>
+                    </div>
+                    <div class="certification-logo">
+                        <div class="icon">🧪</div>
+                        <span>科学验证</span>
+                    </div>
+                    <div class="certification-logo">
+                        <div class="icon">📈</div>
+                        <span>数据驱动</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-section">
+                <h2><span>🔒</span> 您的隐私是我们的重要关注</h2>
+                <div class="privacy-features">
+                    <div class="feature">
+                        <span class="icon">🔐</span>
+                        <span>本地数据存储</span>
+                    </div>
+                    <div class="feature">
+                        <span class="icon">🎭</span>
+                        <span>完全匿名化</span>
+                    </div>
+                    <div class="feature">
+                        <span class="icon">🗑️</span>
+                        <span>可随时删除</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 基本信息页面 -->
+        <div id="info-page" class="hidden">
+            <header class="header">
+                <h1>基本信息收集</h1>
+                <p class="subtitle">为了更好地分析您的结果，请提供以下基本信息</p>
+            </header>
+
+            <div class="card">
+                <div class="form-group">
+                    <label class="form-label">年龄</label>
+                    <select class="form-select" id="age-select">
+                        <option value="">请选择您的年龄</option>
+                        <option value="under-18">18岁以下</option>
+                        <option value="18-22">18-22岁</option>
+                        <option value="23-27">23-27岁</option>
+                        <option value="28-32">28-32岁</option>
+                        <option value="33-37">33-37岁</option>
+                        <option value="38-42">38-42岁</option>
+                        <option value="43-47">43-47岁</option>
+                        <option value="48+">48岁及以上</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">性别</label>
+                    <select class="form-select" id="gender-select">
+                        <option value="">请选择您的性别</option>
+                        <option value="male">男性</option>
+                        <option value="female">女性</option>
+                        <option value="other">其他</option>
+                        <option value="prefer-not-to-say">不愿透露</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">星座</label>
+                    <select class="form-select" id="zodiac-select">
+                        <option value="">请选择您的星座</option>
+                        <option value="aries">白羊座</option>
+                        <option value="taurus">金牛座</option>
+                        <option value="gemini">双子座</option>
+                        <option value="cancer">巨蟹座</option>
+                        <option value="leo">狮子座</option>
+                        <option value="virgo">处女座</option>
+                        <option value="libra">天秤座</option>
+                        <option value="scorpio">天蝎座</option>
+                        <option value="sagittarius">射手座</option>
+                        <option value="capricorn">摩羯座</option>
+                        <option value="aquarius">水瓶座</option>
+                        <option value="pisces">双鱼座</option>
+                    </select>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn btn-outline nav-btn" onclick="showPage('home-page')">
+                        <span>⬅️</span> 返回
+                    </button>
+                    <button class="btn btn-primary nav-btn" onclick="startQuestions()">
+                        开始测试 <span>➡️</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 测试页面 -->
+        <div id="test-page" class="hidden">
+            <header class="header">
+                <h1>年上年下恋爱倾向测试</h1>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-bar"></div>
+                </div>
+                <div id="progress-text" class="subtitle">维度 1/4 · 题目 1/10</div>
+            </header>
+
+            <div class="card question-card">
+                <div class="tag tag-primary" id="dimension-name">成熟偏好</div>
+                <div class="question-text" id="question-text">题目加载中...</div>
+                
+                <div class="rating-options" id="rating-options">
+                    <!-- 评分选项由JavaScript动态生成 -->
+                </div>
+                
+                <!-- 新增的导航按钮 -->
+                <div class="test-nav-buttons">
+                    <button class="btn btn-outline test-nav-btn" id="prev-question-btn" onclick="previousQuestion()">
+                        <span>⬅️</span> 上一题
+                    </button>
+                    <button class="btn btn-outline test-nav-btn" onclick="showPage('home-page')">
+                        <span>🏠</span> 返回首页
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 结果页面 -->
+        <div id="result-page" class="hidden">
+            <header class="header">
+                <h1>您的测试结果</h1>
+                <p class="subtitle">基于科学量表的专业分析，助你找到最适合的恋爱关系模式 ❤️</p>
+            </header>
+
+            <div class="card" id="result-card">
+                <!-- 年上年下倾向指数展示 -->
+                <div class="score-display" data-auth-basic="true">
+                    <div class="heart-icon-container">
+                        <div class="heart-circle"></div>
+                    </div>
+                    <div class="rpi-title">年上年下倾向指数 (AYP)</div>
+                    <div class="score-circle" id="score-circle">
+                        <div class="score-inner" id="total-score">0</div>
+                    </div>
+                    <div class="score-level" id="score-level">分析中...</div>
+                    <div class="score-description" id="score-description"></div>
+                </div>
+
+                <!-- 能量条 -->
+                <div class="energy-bar-container" data-auth-basic="true">
+                    <div class="energy-bar">
+                        <div class="energy-fill" id="energy-fill"></div>
+                    </div>
+                    <div class="energy-labels">
+                        <span>0 (年下倾向)</span>
+                        <span>50 (平衡型)</span>
+                        <span>100 (年上倾向)</span>
+                    </div>
+                </div>
+
+                <!-- 结果解释 -->
+                <div class="result-explanation" data-auth-basic="true">
+                    <div class="explanation-header">
+                        <div class="explanation-icon">!</div>
+                        <div class="explanation-title">结果解释</div>
+                    </div>
+                    <div class="explanation-content" id="explanation-content">
+                        <!-- 结果解释内容由JavaScript动态生成 -->
+                    </div>
+                    <div class="high-dimensions" id="high-dimensions">
+                        <!-- 高得分维度由JavaScript动态生成 -->
+                    </div>
+                </div>
+
+                <div id="unlock-card" class="result-explanation">
+                    <div class="explanation-header">
+                        <div class="explanation-icon">🔒</div>
+                        <div class="explanation-title">解锁完整报告</div>
+                    </div>
+                    <div class="explanation-content">
+                        查看四维度详情、人格分析、可视化图表与专业解读。
+                    </div>
+                    <button id="unlock-btn" data-auth-unlock-btn="true" class="btn btn-primary nav-btn">
+                        输入授权码解锁
+                    </button>
+                    <div class="high-dimensions" style="margin-top: 12px;">
+                        <p style="color: var(--muted-foreground);">已购买用户输入授权码即可解锁完整结果</p>
+                    </div>
+                </div>
+
+                <div id="full-report" data-auth-lock="true" style="display: none;">
+                    <!-- 四个维度得分能量条 -->
+                    <div class="dimension-scores" id="dimension-scores">
+                        <!-- 维度得分由JavaScript动态生成 -->
+                    </div>
+
+                    <!-- 年上年下恋爱人格类型分析 -->
+                    <div class="personality-type-card" id="relationship-personality">
+                        <!-- 年上年下恋爱人格类型分析由JavaScript动态生成 -->
+                    </div>
+
+                    <!-- 依恋类型人格分析 -->
+                    <div class="personality-type-card" id="attachment-personality">
+                        <!-- 依恋类型人格分析由JavaScript动态生成 -->
+                    </div>
+
+                    <!-- 个性化建议 -->
+                    <div class="personalized-advice">
+                        <div class="advice-header">
+                            <div class="advice-icon">🚀</div>
+                            <div class="advice-title">个性化建议</div>
+                        </div>
+                        <ul class="advice-list" id="advice-list">
+                            <!-- 建议列表由JavaScript动态生成 -->
+                        </ul>
+                    </div>
+
+                    <!-- 可视化分析 -->
+                    <div class="visual-analysis">
+                        <div class="analysis-title">可视化分析</div>
+                        
+                        <!-- 四维度雷达图 -->
+                        <div class="chart-container">
+                            <div class="chart-title">四维度分析雷达图</div>
+                            <div class="radar-container">
+                                <div class="radar-chart" id="radar-chart">
+                                    <!-- 雷达图由JavaScript动态生成 -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 依恋类型雷达图 -->
+                        <div class="chart-container attachment-radar">
+                            <div class="chart-title">依恋类型分析</div>
+                            <div class="radar-container">
+                                <div class="radar-chart" id="attachment-radar">
+                                    <!-- 依恋类型雷达图由JavaScript动态生成 -->
+                                </div>
+                            </div>
+                            <div class="dominant-type" id="dominant-type">
+                                <!-- 主导类型由JavaScript动态生成 -->
+                            </div>
+                        </div>
+
+                        <!-- 路径分析图 -->
+                        <div class="chart-container">
+                            <div class="chart-title">关系模式路径分析</div>
+                            <div class="path-analysis" id="path-analysis">
+                                <!-- 路径分析图由JavaScript动态生成 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 星座分析 -->
+                    <div class="zodiac-analysis" id="zodiac-analysis">
+                        <!-- 星座分析由JavaScript动态生成 -->
+                    </div>
+
+                    <!-- 专业心理学解读 -->
+                    <div class="professional-interpretation" id="professional-interpretation">
+                        <!-- 专业心理学解读由JavaScript动态生成 -->
+                    </div>
+                </div>
+
+	                <div class="nav-buttons">
+	                    <button class="btn btn-outline nav-btn" onclick="showPage('home-page')">
+	                        <span>🔄</span> 重新测试
+	                    </button>
+	                    <button class="btn btn-outline nav-btn" onclick="shareYearResult()">
+	                        <span>🔗</span> 分享结果
+	                    </button>
+	                    <a class="btn btn-outline nav-btn" href="../../tg/index.html" target="_blank" rel="noopener">
+	                        <span>👥</span> 加入测试交流群
+	                    </a>
+	                    <button class="btn btn-primary nav-btn" onclick="showPage('home-page')">
+	                        <span>🏠</span> 返回首页
+	                    </button>
+	                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        // 测试题目数据 - 年上年下恋爱倾向测试（已更新）
+        const QUESTION_SETS = {
+            self: [
+                {
+                    dimension: "成熟偏好",
+                    questions: [
+                        "约会规划行程时，你更希望的状态是？",
+                        "工作 / 学习被批评后，你更需要伴侣怎么回应？",
+                        "生活中想尝试新事物（如学滑板、探店），你希望伴侣？",
+                        "吵架时，你更能接受的沟通节奏是？",
+                        "买大件物品（如家电、首饰），你更倾向于？",
+                        "生病卧床时，你希望伴侣的照顾是？",
+                        "聊到未来（如结婚、定居），你更期待的是？",
+                        "外出旅游遇到迷路，你的第一反应是？",
+                        "伴侣忘记你们的纪念日，你会怎么想？",
+                        "日常相处中，你更喜欢哪种相处氛围？"
+                    ]
+                },
+                {
+                    dimension: "照顾需求", 
+                    questions: [
+                        "伴侣想换工作，你更倾向于给出哪种态度？",
+                        "一起看电影，选片时你会？",
+                        "生活中遇到麻烦（如水管漏水、家电坏了），你会？",
+                        "伴侣情绪低落时，你更想怎么做？",
+                        "约会时伴侣迟到了，你会怎么反应？",
+                        "聊到消费观，你更认同哪种相处方式？",
+                        "一起做家务，你更希望是？",
+                        "伴侣想学习新技能（如学外语、乐器），你会？",
+                        "遇到陌生人找茬（如排队被插队、被误解），你希望？",
+                        "聊到家庭关系（如和父母相处），你更需要伴侣？"
+                    ]
+                },
+                {
+                    dimension: "引导欲望",
+                    questions: [
+                        "一起去运动，你更希望的方式是？",
+                        "伴侣工作太忙忽略你，你会怎么想？",
+                        "一起做饭，你更倾向于？",
+                        "聊到兴趣爱好，你更希望伴侣？",
+                        "外出住酒店，遇到房间问题（如卫生差、空调坏），你会？",
+                        "伴侣取得小成就（如升职、获奖），你会怎么回应？",
+                        "生活中想偷懒（如不想做饭、不想打扫），你希望伴侣？",
+                        "聊到异地恋，你更能接受的相处模式是？",
+                        "伴侣不小心弄坏了你心爱的东西，你会？",
+                        "一起逛超市，你更希望的购物方式是？"
+                    ]
+                },
+                {
+                    dimension: "独立倾向",
+                    questions: [
+                        "聊到职场人际关系，你更需要伴侣？",
+                        "一起看比赛（如球赛、选秀），你会？",
+                        "生活中遇到经济压力（如房贷、车贷），你会？",
+                        "伴侣想养宠物，你会？",
+                        "约会时遇到下雨，你会？",
+                        "聊到婚姻中的分工，你更认同？",
+                        "伴侣学习成绩 / 工作业绩下滑，你会？",
+                        "一起去爬山，你更希望的相处方式是？",
+                        "聊到社交圈，你更希望伴侣？",
+                        "当你对未来感到迷茫时，你更需要伴侣？"
+                    ]
+                }
+            ],
+            partner: [
+                {
+                    dimension: "恋人成熟偏好",
+                    questions: [
+                        "约会规划行程时，你的伴侣更倾向于？",
+                        "你工作 / 学习遇到困难时，你的伴侣通常会？",
+                        "你生病时，你的伴侣的照顾方式更接近？",
+                        "你们吵架后，你的伴侣更习惯怎么和好？",
+                        "选礼物给你时，你的伴侣更倾向于？",
+                        "聊到未来规划（如买房、结婚），你的伴侣更倾向于？",
+                        "外出游玩遇到突发状况（如丢东西、迷路），你的伴侣会？",
+                        "你忘记你们的纪念日时，你的伴侣会怎么反应？",
+                        "日常相处中，你的伴侣更享受哪种角色？",
+                        "你想换工作时，你的伴侣通常会？"
+                    ]
+                },
+                {
+                    dimension: "恋人照顾需求", 
+                    questions: [
+                        "一起看电影选片时，你的伴侣会？",
+                        "生活中遇到麻烦（如水管漏水、家电坏了），你的伴侣会？",
+                        "你情绪低落时，你的伴侣更会怎么做？",
+                        "你约会迟到时，你的伴侣会怎么反应？",
+                        "聊到消费观，你的伴侣更认同哪种方式？",
+                        "一起做家务时，你的伴侣更倾向于？",
+                        "你想学习新技能（如学外语、乐器），你的伴侣会？",
+                        "遇到陌生人找茬（如排队被插队、被误解），你的伴侣会？",
+                        "你聊到家庭矛盾时，你的伴侣会？",
+                        "一起去运动时，你的伴侣更会？"
+                    ]
+                },
+                {
+                    dimension: "恋人引导欲望",
+                    questions: [
+                        "你工作太忙忽略他 / 她时，你的伴侣会？",
+                        "一起做饭时，你的伴侣更倾向于？",
+                        "聊到你的兴趣爱好时，你的伴侣会？",
+                        "住酒店遇到房间问题（如卫生差、空调坏），你的伴侣会？",
+                        "你取得小成就（如升职、获奖）时，你的伴侣会？",
+                        "你想偷懒（如不想做饭、不想打扫）时，你的伴侣会？",
+                        "面对异地恋，你的伴侣更倾向于哪种相处模式？",
+                        "你不小心弄坏他 / 她心爱的东西时，你的伴侣会？",
+                        "一起逛超市时，你的伴侣更会？",
+                        "你聊到职场人际关系烦恼时，你的伴侣会？"
+                    ]
+                },
+                {
+                    dimension: "恋人独立倾向",
+                    questions: [
+                        "一起看比赛（如球赛、选秀）时，你的伴侣会？",
+                        "面对经济压力（如房贷、车贷）时，你的伴侣会？",
+                        "你想养宠物时，你的伴侣会？",
+                        "约会时遇到下雨，你的伴侣会？",
+                        "聊到婚姻分工时，你的伴侣更认同？",
+                        "你学习成绩 / 工作业绩下滑时，你的伴侣会？",
+                        "一起去爬山时，你的伴侣会？",
+                        "聊到你的社交圈时，你的伴侣会？",
+                        "你对未来感到迷茫时，你的伴侣会？",
+                        "日常相处中，你的伴侣和你相处时更像？"
+                    ]
+                }
+            ]
+        };
+
+        // 为自己测的选项得分映射
+        const OPTION_SCORES_SELF = {
+            // 成熟偏好维度 (1-10题)
+            "约会规划行程时，你更希望的状态是？": [5, 3, 1, 4, 2],
+            "工作 / 学习被批评后，你更需要伴侣怎么回应？": [5, 2, 3, 1, 4],
+            "生活中想尝试新事物（如学滑板、探店），你希望伴侣？": [5, 3, 1, 4, 2],
+            "吵架时，你更能接受的沟通节奏是？": [5, 3, 1, 2, 4],
+            "买大件物品（如家电、首饰），你更倾向于？": [5, 3, 1, 4, 2],
+            "生病卧床时，你希望伴侣的照顾是？": [5, 3, 1, 4, 2],
+            "聊到未来（如结婚、定居），你更期待的是？": [5, 3, 1, 4, 2],
+            "外出旅游遇到迷路，你的第一反应是？": [5, 3, 1, 2, 4],
+            "伴侣忘记你们的纪念日，你会怎么想？": [4, 3, 1, 2, 5],
+            "日常相处中，你更喜欢哪种相处氛围？": [5, 3, 1, 2, 4],
+
+            // 照顾需求维度 (11-20题)
+            "伴侣想换工作，你更倾向于给出哪种态度？": [1, 3, 4, 2, 5],
+            "一起看电影，选片时你会？": [5, 3, 1, 4, 2],
+            "生活中遇到麻烦（如水管漏水、家电坏了），你会？": [5, 3, 1, 2, 4],
+            "伴侣情绪低落时，你更想怎么做？": [1, 4, 2, 3, 5],
+            "约会时伴侣迟到了，你会怎么反应？": [4, 3, 1, 2, 5],
+            "聊到消费观，你更认同哪种相处方式？": [5, 3, 1, 2, 4],
+            "一起做家务，你更希望是？": [5, 3, 1, 2, 4],
+            "伴侣想学习新技能（如学外语、乐器），你会？": [1, 3, 4, 2, 5],
+            "遇到陌生人找茬（如排队被插队、被误解），你希望？": [5, 3, 1, 2, 4],
+            "聊到家庭关系（如和父母相处），你更需要伴侣？": [1, 4, 3, 2, 5],
+
+            // 引导欲望维度 (21-30题)
+            "一起去运动，你更希望的方式是？": [5, 3, 1, 2, 4],
+            "伴侣工作太忙忽略你，你会怎么想？": [4, 3, 1, 2, 5],
+            "一起做饭，你更倾向于？": [5, 3, 1, 2, 4],
+            "聊到兴趣爱好，你更希望伴侣？": [5, 3, 1, 2, 4],
+            "外出住酒店，遇到房间问题（如卫生差、空调坏），你会？": [5, 3, 1, 2, 4],
+            "伴侣取得小成就（如升职、获奖），你会怎么回应？": [1, 4, 2, 3, 5],
+            "生活中想偷懒（如不想做饭、不想打扫），你希望伴侣？": [5, 3, 1, 2, 4],
+            "聊到异地恋，你更能接受的相处模式是？": [5, 3, 1, 2, 4],
+            "伴侣不小心弄坏了你心爱的东西，你会？": [4, 3, 1, 2, 5],
+            "一起逛超市，你更希望的购物方式是？": [5, 3, 1, 2, 4],
+
+            // 独立倾向维度 (31-40题)
+            "聊到职场人际关系，你更需要伴侣？": [1, 4, 3, 2, 5],
+            "一起看比赛（如球赛、选秀），你会？": [5, 3, 1, 2, 4],
+            "生活中遇到经济压力（如房贷、车贷），你会？": [5, 3, 1, 2, 4],
+            "伴侣想养宠物，你会？": [1, 3, 2, 4, 5],
+            "约会时遇到下雨，你会？": [5, 3, 1, 2, 4],
+            "聊到婚姻中的分工，你更认同？": [5, 3, 1, 2, 4],
+            "伴侣学习成绩 / 工作业绩下滑，你会？": [1, 4, 3, 2, 5],
+            "一起去爬山，你更希望的相处方式是？": [5, 3, 1, 2, 4],
+            "聊到社交圈，你更希望伴侣？": [5, 3, 1, 2, 4],
+            "当你对未来感到迷茫时，你更需要伴侣？": [1, 4, 3, 2, 5]
+        };
+
+        // 为恋人测的选项得分映射
+        const OPTION_SCORES_PARTNER = {
+            // 恋人成熟偏好维度 (1-10题)
+            "约会规划行程时，你的伴侣更倾向于？": [5, 3, 1, 4, 2],
+            "你工作 / 学习遇到困难时，你的伴侣通常会？": [5, 2, 3, 4, 1],
+            "你生病时，你的伴侣的照顾方式更接近？": [5, 3, 4, 2, 1],
+            "你们吵架后，你的伴侣更习惯怎么和好？": [5, 3, 4, 2, 1],
+            "选礼物给你时，你的伴侣更倾向于？": [5, 3, 4, 2, 1],
+            "聊到未来规划（如买房、结婚），你的伴侣更倾向于？": [5, 3, 1, 4, 2],
+            "外出游玩遇到突发状况（如丢东西、迷路），你的伴侣会？": [5, 3, 1, 4, 2],
+            "你忘记你们的纪念日时，你的伴侣会怎么反应？": [4, 3, 2, 1, 5],
+            "日常相处中，你的伴侣更享受哪种角色？": [5, 3, 1, 4, 2],
+            "你想换工作时，你的伴侣通常会？": [5, 3, 4, 2, 1],
+
+            // 恋人照顾需求维度 (11-20题)
+            "一起看电影选片时，你的伴侣会？": [5, 3, 1, 4, 2],
+            "生活中遇到麻烦（如水管漏水、家电坏了），你的伴侣会？": [5, 3, 1, 4, 2],
+            "你情绪低落时，你的伴侣更会怎么做？": [1, 4, 2, 3, 5],
+            "你约会迟到时，你的伴侣会怎么反应？": [1, 3, 2, 4, 5],
+            "聊到消费观，你的伴侣更认同哪种方式？": [5, 3, 1, 2, 4],
+            "一起做家务时，你的伴侣更倾向于？": [5, 3, 1, 2, 4],
+            "你想学习新技能（如学外语、乐器），你的伴侣会？": [1, 3, 4, 2, 5],
+            "遇到陌生人找茬（如排队被插队、被误解），你的伴侣会？": [5, 3, 1, 4, 2],
+            "你聊到家庭矛盾时，你的伴侣会？": [1, 4, 3, 2, 5],
+            "一起去运动时，你的伴侣更会？": [5, 3, 1, 2, 4],
+
+            // 恋人引导欲望维度 (21-30题)
+            "你工作太忙忽略他 / 她时，你的伴侣会？": [4, 3, 1, 2, 5],
+            "一起做饭时，你的伴侣更倾向于？": [5, 3, 1, 2, 4],
+            "聊到你的兴趣爱好时，你的伴侣会？": [5, 3, 1, 2, 4],
+            "住酒店遇到房间问题（如卫生差、空调坏），你的伴侣会？": [5, 3, 1, 4, 2],
+            "你取得小成就（如升职、获奖）时，你的伴侣会？": [1, 4, 2, 3, 5],
+            "你想偷懒（如不想做饭、不想打扫）时，你的伴侣会？": [5, 3, 1, 2, 4],
+            "面对异地恋，你的伴侣更倾向于哪种相处模式？": [5, 3, 1, 2, 4],
+            "你不小心弄坏他 / 她心爱的东西时，你的伴侣会？": [4, 3, 2, 1, 5],
+            "一起逛超市时，你的伴侣更会？": [5, 3, 1, 2, 4],
+            "你聊到职场人际关系烦恼时，你的伴侣会？": [1, 4, 3, 2, 5],
+
+            // 恋人独立倾向维度 (31-40题)
+            "一起看比赛（如球赛、选秀）时，你的伴侣会？": [5, 3, 1, 2, 4],
+            "面对经济压力（如房贷、车贷）时，你的伴侣会？": [5, 3, 1, 2, 4],
+            "你想养宠物时，你的伴侣会？": [1, 3, 2, 4, 5],
+            "约会时遇到下雨，你的伴侣会？": [5, 3, 1, 2, 4],
+            "聊到婚姻分工时，你的伴侣更认同？": [5, 3, 1, 2, 4],
+            "你学习成绩 / 工作业绩下滑时，你的伴侣会？": [1, 4, 3, 2, 5],
+            "一起去爬山时，你的伴侣会？": [5, 3, 1, 2, 4],
+            "聊到你的社交圈时，你的伴侣会？": [5, 3, 1, 2, 4],
+            "你对未来感到迷茫时，你的伴侣会？": [1, 4, 3, 2, 5],
+            "日常相处中，你的伴侣和你相处时更像？": [5, 3, 1, 2, 4]
+        };
+
+        // 选项数据 - 为自己测
+        const OPTIONS_SELF = {
+            "约会规划行程时，你更希望的状态是？": [
+                "A. 伴侣把时间、地点、路线都安排妥当，我只需准时赴约",
+                "B. 和伴侣一起讨论，各自提想法，最终敲定方案",
+                "C. 我来做主要规划，伴侣只需要配合我的节奏",
+                "D. 先听伴侣的建议，觉得不合适再一起调整",
+                "E. 随便，谁定都无所谓，重点是和伴侣一起待着"
+            ],
+            "工作 / 学习被批评后，你更需要伴侣怎么回应？": [
+                "A. 用经验开导我，告诉我怎么改进，帮我避坑",
+                "B. 陪我吐槽委屈，不评判也不指导，单纯共情",
+                "C. 相信我能处理好，鼓励我 \"你很棒，下次会更好\"",
+                "D. 用小惊喜（比如买奶茶、看电影）转移我的坏情绪",
+                "E. 帮我梳理问题，一起找解决办法，平等讨论"
+            ],
+            "生活中想尝试新事物（如学滑板、探店），你希望伴侣？": [
+                "A. 已经会，能带着我、教我，避免我受伤 / 踩雷",
+                "B. 和我一起从零开始学，互相鼓励吐槽",
+                "C. 乖乖跟着我，我教他 / 她怎么玩",
+                "D. 提出可行的尝试计划，我跟着执行",
+                "E. 不参与也不反对，尊重我的个人兴趣"
+            ],
+            "吵架时，你更能接受的沟通节奏是？": [
+                "A. 伴侣先冷静，然后耐心哄我，慢慢讲道理",
+                "B. 吵完各自冷静一会儿，再平等地复盘问题",
+                "C. 我先冷静下来，主动安抚伴侣，化解矛盾",
+                "D. 当下就把话说开，不管谁对谁错，先发泄情绪",
+                "E. 伴侣先认错，不管对错，态度比道理重要"
+            ],
+            "买大件物品（如家电、首饰），你更倾向于？": [
+                "A. 伴侣拿主意，我只负责点头或摇头",
+                "B. 一起查攻略、比价格，商量着做决定",
+                "C. 我做主要调研，定好后告知伴侣",
+                "D. 听伴侣分析利弊，再结合我的想法定",
+                "E. 抓阄或随机选，不想费时间纠结"
+            ],
+            "生病卧床时，你希望伴侣的照顾是？": [
+                "A. 把药、水、吃的都端到床头，细致又周到",
+                "B. 轮流照顾，他 / 她忙时我自己扛，我好转后照顾他 / 她",
+                "C. 我指挥，他 / 她照着做，比如 \"帮我拿个毯子\"",
+                "D. 一边照顾我，一边讲笑话逗我开心，缓解难受",
+                "E. 默默陪在身边，我需要时随叫随到"
+            ],
+            "聊到未来（如结婚、定居），你更期待的是？": [
+                "A. 伴侣已经有清晰规划，我跟着他 / 她的节奏走",
+                "B. 我们一起画蓝图，各自说出想法，慢慢完善",
+                "C. 我来定大方向，伴侣支持并配合我的规划",
+                "D. 先听伴侣的规划，提出我的修改意见，一起调整",
+                "E. 暂时不想规划，走一步看一步，顺其自然"
+            ],
+            "外出旅游遇到迷路，你的第一反应是？": [
+                "A. 把手机给伴侣，让他 / 她查路线、找方向",
+                "B. 一起查地图，一人看导航一人看路标",
+                "C. 我来查路线，带着伴侣走",
+                "D. 找路人问路，谁开口都可以",
+                "E. 不慌，随缘走，说不定能发现意外美景"
+            ],
+            "伴侣忘记你们的纪念日，你会怎么想？": [
+                "A. 有点失落，希望他 / 她赶紧道歉并补过，成熟点",
+                "B. 理解可能是忙忘了，提醒后一起补过就好",
+                "C. 没关系，我来准备补过的惊喜，包容他 / 她的粗心",
+                "D. 有点生气，但会听他 / 她解释，再一起想办法弥补",
+                "E. 不怎么在意，纪念日只是个形式，感情好就行"
+            ],
+            "日常相处中，你更喜欢哪种相处氛围？": [
+                "A. 伴侣像个 \"大家长\"，照顾我的饮食起居",
+                "B. 像朋友一样，平等聊天、互相调侃",
+                "C. 我像个 \"小大人\"，操心伴侣的生活细节",
+                "D. 时而他 / 她照顾我，时而我照顾他 / 她，灵活切换",
+                "E. 各自有空间，相处时轻松不约束"
+            ],
+            "伴侣想换工作，你更倾向于给出哪种态度？": [
+                "A. 凭借我的经验帮他 / 她分析行业前景，推荐合适的方向",
+                "B. 听他 / 她的想法，一起讨论利弊，不替他 / 她做决定",
+                "C. 支持他 / 她的选择，相信他 / 她有自己的判断，做后盾",
+                "D. 帮他 / 她筛选招聘信息，一起准备面试",
+                "E. 不干涉，让他 / 她自己处理，有需要再帮忙"
+            ],
+            "一起看电影，选片时你会？": [
+                "A. 让伴侣选，他 / 她选的肯定有品位，我跟着看",
+                "B. 各自列想看的片单，交叉选择",
+                "C. 我选片，伴侣跟着我的喜好来，我负责找好片",
+                "D. 先看伴侣选的，下次再看我选的，轮流来",
+                "E. 随机选，看哪个场次合适就看哪个"
+            ],
+            "生活中遇到麻烦（如水管漏水、家电坏了），你会？": [
+                "A. 第一时间喊伴侣来修，我在旁边看着就行",
+                "B. 和伴侣一起查维修教程，试着自己修",
+                "C. 我来想办法修，修不好再找专业人士，不让伴侣操心",
+                "D. 一起找维修电话，协商谁来联系",
+                "E. 不管谁修，只要能解决问题就行，不纠结谁动手"
+            ],
+            "伴侣情绪低落时，你更想怎么做？": [
+                "A. 用过来人的经验开导他 / 她，帮他 / 她走出低谷",
+                "B. 静静陪着他 / 她，听他 / 她倾诉，不打断不评判",
+                "C. 想办法逗他 / 她开心，比如讲笑话、做鬼脸，像哄小孩",
+                "D. 帮他 / 她分析情绪来源，一起找缓解的办法",
+                "E. 尊重他 / 她的独处需求，不打扰，需要时再出现"
+            ],
+            "约会时伴侣迟到了，你会怎么反应？": [
+                "A. 有点生气，希望他 / 她赶紧道歉并解释，成熟点应对",
+                "B. 理解可能有意外，问清楚情况，不随便发脾气",
+                "C. 不生气，反过来安慰他 / 她 \"别急，我等你\"",
+                "D. 有点小情绪，但会听他 / 她解释，然后一起开始约会",
+                "E. 无所谓，迟到一会儿而已，不影响整体心情"
+            ],
+            "聊到消费观，你更认同哪种相处方式？": [
+                "A. 伴侣管钱，我需要就说，不用操心理财",
+                "B. 各自管各自的，大额支出一起商量",
+                "C. 我来管钱，规划日常开销，让伴侣放心",
+                "D. 设立共同账户，各自也留私人账户，灵活分配",
+                "E. 谁有钱谁多花点，不刻意计较谁花得多"
+            ],
+            "一起做家务，你更希望是？": [
+                "A. 伴侣安排好分工，我照着做就行",
+                "B. 一起商量分工，各自做擅长的事",
+                "C. 我来安排分工，伴侣配合我的节奏",
+                "D. 不分工，看到什么做什么，互相搭把手",
+                "E. 谁有空谁做，不用固定谁做什么"
+            ],
+            "伴侣想学习新技能（如学外语、乐器），你会？": [
+                "A. 帮他 / 她找靠谱的老师、资料，凭借经验给出建议",
+                "B. 和他 / 她一起学，互相监督打卡",
+                "C. 鼓励他 / 她坚持，做他 / 她的 \"头号粉丝\"，为他 / 她加油",
+                "D. 帮他 / 她制定学习计划，一起执行",
+                "E. 不干涉，他 / 她想学就支持，有需要再帮忙"
+            ],
+            "遇到陌生人找茬（如排队被插队、被误解），你希望？": [
+                "A. 伴侣站出来解决，成熟处理，不让我受委屈",
+                "B. 和伴侣一起面对，互相撑腰，平等沟通解决",
+                "C. 我站出来保护伴侣，不让他 / 她被欺负",
+                "D. 一起冷静沟通，先弄清情况，再解决问题",
+                "E. 能躲就躲，不想惹麻烦，不纠结谁出头"
+            ],
+            "聊到家庭关系（如和父母相处），你更需要伴侣？": [
+                "A. 凭借经验教我怎么和父母沟通，处理矛盾",
+                "B. 听我吐槽家庭琐事，和我一起吐槽或共情",
+                "C. 支持我的决定，不管我怎么做都站在我这边",
+                "D. 帮我分析父母的想法，一起找相处的平衡点",
+                "E. 不参与我的家庭事，尊重我的私人空间"
+            ],
+            "一起去运动，你更希望的方式是？": [
+                "A. 伴侣带着我练，教我正确姿势，避免受伤",
+                "B. 一起从零开始学，互相纠正动作",
+                "C. 我带着伴侣练，展示我的运动技能",
+                "D. 各自练各自的，累了就一起休息聊天",
+                "E. 随便动一动，不追求技能，重点是出汗放松"
+            ],
+            "伴侣工作太忙忽略你，你会怎么想？": [
+                "A. 希望他 / 她能平衡好工作和生活，成熟点顾及我的感受",
+                "B. 理解工作的重要性，自己找事做，不打扰他 / 她",
+                "C. 心疼他 / 她太累，主动照顾他 / 她的生活，让他 / 她安心工作",
+                "D. 找机会和他 / 她沟通，希望他 / 她多花点时间陪我",
+                "E. 无所谓，各自有工作，不用时刻黏在一起"
+            ],
+            "一起做饭，你更倾向于？": [
+                "A. 伴侣负责掌勺，我打打下手（洗菜、切菜）",
+                "B. 各自做一道擅长的菜，一起分享",
+                "C. 我负责掌勺，伴侣打打下手，听我指挥",
+                "D. 一起研究菜谱，边做边学，互相指导",
+                "E. 随便做点，能吃就行，不讲究厨艺"
+            ],
+            "聊到兴趣爱好，你更希望伴侣？": [
+                "A. 带我接触他 / 她的兴趣圈，让我涨见识",
+                "B. 尊重我的兴趣，也让我了解他 / 她的兴趣，互相包容",
+                "C. 愿意尝试我的兴趣爱好，融入我的圈子",
+                "D. 一起培养新的共同兴趣，增进感情",
+                "E. 各自保持独立兴趣，不互相干涉"
+            ],
+            "外出住酒店，遇到房间问题（如卫生差、空调坏），你会？": [
+                "A. 让伴侣去和前台沟通解决，我在房间等着",
+                "B. 和伴侣一起去前台，说明情况协商解决",
+                "C. 我去和前台沟通，争取更好的解决方案",
+                "D. 先打电话反映，不行再一起去前台",
+                "E. 能忍就忍，不想麻烦，不纠结谁去沟通"
+            ],
+            "伴侣取得小成就（如升职、获奖），你会怎么回应？": [
+                "A. 肯定他 / 她的努力，用经验提醒他 / 她 \"戒骄戒躁，继续加油\"",
+                "B. 真心为他 / 她开心，和他 / 她一起庆祝",
+                "C. 像粉丝一样崇拜他 / 她，说 \"你太厉害了，我以你为荣\"",
+                "D. 帮他 / 她规划下一步目标，一起努力",
+                "E. 简单说句 \"恭喜\"，不刻意庆祝，心里为他 / 她高兴"
+            ],
+            "生活中想偷懒（如不想做饭、不想打扫），你希望伴侣？": [
+                "A. 主动承担，说 \"你歇着，我来做\"",
+                "B. 和我一起偷懒，比如点外卖、攒到明天打扫",
+                "C. 我来安排偷懒方式，比如点什么外卖，伴侣同意就行",
+                "D. 商量着来，一人偷懒一人干活，轮流来",
+                "E. 随便，谁想做谁做，不想做就凑活"
+            ],
+            "聊到异地恋，你更能接受的相处模式是？": [
+                "A. 伴侣制定异地沟通计划（如每天几点视频），我跟着执行",
+                "B. 一起商量沟通频率，互相配合，不勉强",
+                "C. 我制定沟通计划，提醒伴侣按时视频、聊天",
+                "D. 不固定计划，想伴侣了就联系，灵活沟通",
+                "E. 少联系，各自好好生活，见面时再好好相处"
+            ],
+            "伴侣不小心弄坏了你心爱的东西，你会？": [
+                "A. 有点难过，希望他 / 她真诚道歉，以后细心点",
+                "B. 理解是不小心，安慰他 / 她 \"没事，东西而已\"",
+                "C. 不怪他 / 她，反过来安慰 \"没关系，我再买一个就行\"",
+                "D. 有点小情绪，但会听他 / 她解释，然后一起想办法补救",
+                "E. 无所谓，东西坏了就坏了，不影响感情"
+            ],
+            "一起逛超市，你更希望的购物方式是？": [
+                "A. 伴侣列好购物清单，我跟着一起买，不操心",
+                "B. 一起列清单，各自找需要的东西，互相帮忙拿",
+                "C. 我列清单，伴侣跟着我，帮我拎东西、找商品",
+                "D. 不列清单，想到什么买什么，互相提醒需要的东西",
+                "E. 各自买自己需要的，结账时一起付"
+            ],
+            "聊到职场人际关系，你更需要伴侣？": [
+                "A. 用经验教我怎么处理复杂关系，避开职场坑",
+                "B. 听我吐槽职场琐事，和我一起吐槽解压",
+                "C. 相信我能处理好，鼓励我 \"你很优秀，不用怕\"",
+                "D. 帮我分析同事的想法，一起找应对办法",
+                "E. 不参与我的职场事，让我自己消化"
+            ],
+            "一起看比赛（如球赛、选秀），你会？": [
+                "A. 听伴侣讲解规则、分析局势，我跟着看热闹",
+                "B. 和伴侣一起讨论局势，各自发表看法",
+                "C. 我给伴侣讲解规则、分析局势，带他 / 她入坑",
+                "D. 不管懂不懂，一起为喜欢的队伍 / 选手加油",
+                "E. 各看各的，不互相打扰，偶尔分享感受"
+            ],
+            "生活中遇到经济压力（如房贷、车贷），你会？": [
+                "A. 希望伴侣拿出成熟的解决方案，带我一起度过难关",
+                "B. 和伴侣一起商量，制定还款计划，共同承担",
+                "C. 我来制定还款计划，努力赚钱，不让伴侣操心",
+                "D. 一起省吃俭用，互相鼓励，慢慢缓解压力",
+                "E. 顺其自然，船到桥头自然直，不刻意规划"
+            ],
+            "伴侣想养宠物，你会？": [
+                "A. 帮他 / 她查宠物饲养知识，凭借经验给出建议",
+                "B. 和他 / 她一起查资料，商量着养，共同负责",
+                "C. 支持他 / 她的想法，主动承担饲养责任，照顾宠物",
+                "D. 帮他 / 她挑选宠物，一起学习怎么照顾",
+                "E. 不喜欢也不反对，他 / 她想养就养，我不参与照顾"
+            ],
+            "约会时遇到下雨，你会？": [
+                "A. 让伴侣想办法（如找伞、打车），我在原地等",
+                "B. 和伴侣一起找伞、打车，互相照顾",
+                "C. 我来想办法，找伞或联系车，保护伴侣不淋雨",
+                "D. 一起躲雨，等雨小了再走，趁机聊聊天",
+                "E. 无所谓，淋雨也挺浪漫，不纠结怎么应对"
+            ],
+            "聊到婚姻中的分工，你更认同？": [
+                "A. 伴侣主外（赚钱），我主内（家务、照顾家人）",
+                "B. 不分主外主内，谁擅长谁做，互相配合",
+                "C. 我主外，伴侣主内，我赚钱养家，让伴侣安心",
+                "D. 一起赚钱，一起做家务，平等分工",
+                "E. 不固定分工，看实际情况灵活调整"
+            ],
+            "伴侣学习成绩 / 工作业绩下滑，你会？": [
+                "A. 帮他 / 她分析原因，用经验给出改进方法",
+                "B. 安慰他 / 她，陪他 / 她一起努力，慢慢提升",
+                "C. 鼓励他 / 她 \"没关系，下次加油\"，相信他 / 她能做好",
+                "D. 帮他 / 她制定学习 / 工作计划，一起执行",
+                "E. 不干涉，让他 / 她自己调整，有需要再帮忙"
+            ],
+            "一起去爬山，你更希望的相处方式是？": [
+                "A. 伴侣走在前面，照顾我，提醒我注意安全",
+                "B. 并排走，互相搀扶，一起欣赏风景",
+                "C. 我走在前面，照顾伴侣，拉着他 / 她爬山",
+                "D. 各自按自己的节奏走，累了就一起休息",
+                "E. 随便走，爬到哪算哪，不追求山顶"
+            ],
+            "聊到社交圈，你更希望伴侣？": [
+                "A. 带我融入他 / 她的社交圈，介绍朋友给我认识",
+                "B. 尊重我的社交圈，也让我了解他 / 她的，互不干涉",
+                "C. 愿意融入我的社交圈，和我的朋友好好相处",
+                "D. 一起拓展新的社交圈，认识更多共同朋友",
+                "E. 各自有自己的社交圈，不互相参与"
+            ],
+            "当你对未来感到迷茫时，你更需要伴侣？": [
+                "A. 像人生导师一样，给我指明方向，帮我做规划",
+                "B. 陪我一起迷茫，一起探索，不催我做决定",
+                "C. 相信我能找到方向，做我最坚实的后盾",
+                "D. 帮我分析自身优势，一起寻找适合的方向",
+                "E. 不打扰我，让我自己想清楚，需要时再出现"
+            ]
+        };
+
+        // 选项数据 - 为伴侣测
+        const OPTIONS_PARTNER = {
+            "约会规划行程时，你的伴侣更倾向于？": [
+                "A. 把一切都安排妥当，让你完全不用操心",
+                "B. 和你一起讨论，尊重你的想法，共同决定",
+                "C. 让你做主要规划，他 / 她只负责配合",
+                "D. 先提出几个方案，让你选一个，再微调",
+                "E. 不做规划，跟着你的节奏走，随性而为"
+            ],
+            "你工作 / 学习遇到困难时，你的伴侣通常会？": [
+                "A. 凭借自己的经验，给你具体的解决方案",
+                "B. 耐心听你倾诉，陪你一起吐槽，不急于指导",
+                "C. 鼓励你相信自己，说 \"你能行，我支持你\"",
+                "D. 帮你查资料、找资源，一起分析问题",
+                "E. 用轻松的方式逗你开心，等你心情好再聊"
+            ],
+            "你生病时，你的伴侣的照顾方式更接近？": [
+                "A. 细致入微，端药倒水、做饭打扫，全程照顾",
+                "B. 平等照顾，你难受时他 / 她多做，你好转后互相照顾",
+                "C. 有点笨拙但很认真，会问你 \"需要我做什么\"",
+                "D. 帮你找医生、拿药，其余时间默默陪着你",
+                "E. 尊重你的习惯，不过度打扰，需要时随叫随到"
+            ],
+            "你们吵架后，你的伴侣更习惯怎么和好？": [
+                "A. 主动道歉，耐心哄你，讲道理化解矛盾",
+                "B. 冷静后和你平等沟通，各自认错，一起改进",
+                "C. 不好意思直接道歉，会用送礼物、做美食的方式示好",
+                "D. 先听你吐槽，等你发泄完再慢慢解释",
+                "E. 不纠结对错，先主动找你说话，恢复相处氛围"
+            ],
+            "选礼物给你时，你的伴侣更倾向于？": [
+                "A. 精准抓住你的需求，送你实用又喜欢的东西",
+                "B. 问你的喜好，或者一起挑选，避免踩雷",
+                "C. 凭自己的感觉选，虽然偶尔踩雷，但很用心",
+                "D. 送自己擅长领域的东西，希望你了解他 / 她的爱好",
+                "E. 随便送点小物件，重点是表达心意"
+            ],
+            "聊到未来规划（如买房、结婚），你的伴侣更倾向于？": [
+                "A. 有清晰的规划，告诉你 \"跟着我，我都安排好了\"",
+                "B. 和你一起讨论，让你参与每一个决策",
+                "C. 问你的想法，以你的规划为主，自己配合",
+                "D. 提出大致方向，让你补充细节，一起完善",
+                "E. 暂时不想规划，觉得 \"顺其自然就好\""
+            ],
+            "外出游玩遇到突发状况（如丢东西、迷路），你的伴侣会？": [
+                "A. 冷静应对，立刻想办法解决，不让你慌",
+                "B. 和你一起商量，分工合作，共同处理",
+                "C. 有点手足无措，会问你 \"怎么办\"",
+                "D. 先安抚你的情绪，再慢慢找解决办法",
+                "E. 不慌不忙，觉得 \"总会有办法的\""
+            ],
+            "你忘记你们的纪念日时，你的伴侣会怎么反应？": [
+                "A. 有点失落，但会理解你，提醒你下次注意",
+                "B. 不生气，和你一起补过，说 \"纪念日本就是为了开心\"",
+                "C. 假装生气逗你，其实根本没放在心上",
+                "D. 有点委屈，会吐槽你 \"怎么又忘了\"，但很快原谅",
+                "E. 完全不在意，觉得 \"感情好每天都是纪念日\""
+            ],
+            "日常相处中，你的伴侣更享受哪种角色？": [
+                "A. 照顾者，操心你的饮食起居，像个 \"大家长\"",
+                "B. 同伴，和你平等相处，一起玩一起努力",
+                "C. 被照顾者，偶尔依赖你，享受你的关心",
+                "D. 支持者，在你身后鼓励你，做你坚强的后盾",
+                "E. 陪伴者，默默陪着你，不刻意扮演角色"
+            ],
+            "你想换工作时，你的伴侣通常会？": [
+                "A. 帮你分析行业前景，推荐合适的工作，给你经验建议",
+                "B. 听你的想法，一起讨论利弊，不替你做决定",
+                "C. 支持你的任何选择，说 \"你想做就去做，我相信你\"",
+                "D. 帮你筛选招聘信息，一起准备面试",
+                "E. 不干涉你的决定，让你自己做主"
+            ],
+            "一起看电影选片时，你的伴侣会？": [
+                "A. 选口碑好、有深度的电影，想让你有好体验",
+                "B. 让你选，或者各自选一部，轮流看",
+                "C. 选你喜欢的类型，哪怕自己不感兴趣",
+                "D. 提出几部候选，和你一起讨论决定",
+                "E. 随便选，看哪个场次方便就看哪个"
+            ],
+            "生活中遇到麻烦（如水管漏水、家电坏了），你的伴侣会？": [
+                "A. 主动动手修理，修不好再找专业人士",
+                "B. 和你一起查教程，试着自己解决",
+                "C. 让你想办法，自己在旁边帮忙打下手",
+                "D. 立刻联系维修人员，协商好时间",
+                "E. 不着急，先放一放，等有空再处理"
+            ],
+            "你情绪低落时，你的伴侣更会怎么做？": [
+                "A. 用自己的经历开导你，帮你走出负面情绪",
+                "B. 静静陪着你，听你倾诉，不打断不评判",
+                "C. 想各种办法逗你开心，比如讲笑话、做鬼脸",
+                "D. 帮你分析情绪原因，一起找缓解的办法",
+                "E. 给你独处空间，不打扰，需要时再出现"
+            ],
+            "你约会迟到时，你的伴侣会怎么反应？": [
+                "A. 不生气，笑着说 \"没事，我也刚到不久\"",
+                "B. 问清楚迟到原因，理解你，不抱怨",
+                "C. 有点小委屈，但会说 \"下次早点哦\"",
+                "D. 假装生气，其实是担心你，等你解释",
+                "E. 无所谓，迟到一会儿而已，不影响约会"
+            ],
+            "聊到消费观，你的伴侣更认同哪种方式？": [
+                "A. 主动承担大额支出，说 \"赚钱就是给你花的\"",
+                "B. 各自管钱，大额支出一起商量，AA 或按能力出",
+                "C. 让你管钱，自己需要时再问你要",
+                "D. 设立共同账户，一起存钱，一起规划开销",
+                "E. 谁有钱谁多花点，不刻意计较"
+            ],
+            "一起做家务时，你的伴侣更倾向于？": [
+                "A. 主动承担大部分家务，让你多休息",
+                "B. 和你商量分工，各自做擅长的事",
+                "C. 让你安排分工，自己照着做",
+                "D. 不分工，看到什么做什么，互相搭把手",
+                "E. 偶尔做一点，主要靠你做"
+            ],
+            "你想学习新技能（如学外语、乐器），你的伴侣会？": [
+                "A. 帮你找老师、资料，凭借经验给你学习建议",
+                "B. 和你一起学，互相监督，共同进步",
+                "C. 鼓励你坚持，做你最忠实的听众 / 观众",
+                "D. 帮你制定学习计划，提醒你按时学习",
+                "E. 不参与，尊重你的兴趣，有需要再帮忙"
+            ],
+            "遇到陌生人找茬（如排队被插队、被误解），你的伴侣会？": [
+                "A. 立刻站出来保护你，成熟处理，不让你受委屈",
+                "B. 和你一起面对，互相撑腰，平等沟通",
+                "C. 有点害怕，但会努力站在你身边",
+                "D. 先冷静沟通，不行再找工作人员帮忙",
+                "E. 拉着你离开，不想惹麻烦"
+            ],
+            "你聊到家庭矛盾时，你的伴侣会？": [
+                "A. 帮你分析问题，教你怎么和家人沟通",
+                "B. 听你吐槽，和你一起共情，不评判你的家人",
+                "C. 站在你这边，说 \"不管怎样我都支持你\"",
+                "D. 帮你找和家人相处的平衡点，一起想办法",
+                "E. 不参与你的家庭事，让你自己处理"
+            ],
+            "一起去运动时，你的伴侣更会？": [
+                "A. 带着你练，教你正确姿势，保护你不受伤",
+                "B. 和你一起练，互相纠正动作，一起进步",
+                "C. 跟着你练，让你当 \"教练\"",
+                "D. 各自按自己的节奏练，累了一起休息",
+                "E. 随便动一动，重点是陪你，不追求运动效果"
+            ],
+            "你工作太忙忽略他 / 她时，你的伴侣会？": [
+                "A. 理解你的辛苦，默默照顾你的生活，不抱怨",
+                "B. 找合适的时间和你沟通，希望你多花点时间陪他 / 她",
+                "C. 有点失落，会用小脾气提醒你注意他 / 她",
+                "D. 自己找事做，不打扰你，等你忙完再陪他 / 她",
+                "E. 无所谓，各自有工作，不用时刻黏在一起"
+            ],
+            "一起做饭时，你的伴侣更倾向于？": [
+                "A. 掌勺做饭，让你打打下手，享受照顾你的感觉",
+                "B. 和你一起做，各自做一道擅长的菜",
+                "C. 打打下手，让你掌勺，夸你做饭好吃",
+                "D. 一起研究菜谱，边做边学，互相指导",
+                "E. 不怎么会做，在旁边看着，偶尔帮忙递东西"
+            ],
+            "聊到你的兴趣爱好时，你的伴侣会？": [
+                "A. 主动了解你的兴趣，融入你的兴趣圈",
+                "B. 尊重你的兴趣，也和你分享自己的兴趣",
+                "C. 愿意尝试你的兴趣，哪怕自己不擅长",
+                "D. 帮你收集兴趣相关的资料，支持你的爱好",
+                "E. 不干涉你的兴趣，也不参与"
+            ],
+            "住酒店遇到房间问题（如卫生差、空调坏），你的伴侣会？": [
+                "A. 立刻找前台沟通，争取换房或解决问题",
+                "B. 和你一起去前台，说明情况，协商解决",
+                "C. 问你的意见，让你决定怎么处理",
+                "D. 先打电话反映，不行再亲自去沟通",
+                "E. 能忍就忍，不想麻烦，不纠结"
+            ],
+            "你取得小成就（如升职、获奖）时，你的伴侣会？": [
+                "A. 真心为你骄傲，肯定你的努力，也提醒你戒骄戒躁",
+                "B. 和你一起庆祝，分享你的喜悦",
+                "C. 像粉丝一样崇拜你，说 \"你太厉害了\"",
+                "D. 帮你规划下一步，一起努力变得更好",
+                "E. 简单恭喜你，心里为你开心，但不刻意庆祝"
+            ],
+            "你想偷懒（如不想做饭、不想打扫）时，你的伴侣会？": [
+                "A. 主动说 \"你歇着，我来做\"，包揽所有事",
+                "B. 和你一起偷懒，比如点外卖、攒到明天做",
+                "C. 听你的安排，你想偷懒就一起偷",
+                "D. 商量着来，一人偷懒一人干活，轮流来",
+                "E. 自己去做，不勉强你，也不抱怨"
+            ],
+            "面对异地恋，你的伴侣更倾向于哪种相处模式？": [
+                "A. 制定沟通计划（如每天视频、每周分享生活），认真执行",
+                "B. 和你一起商量沟通频率，互相配合",
+                "C. 听你的安排，你想什么时候联系就什么时候联系",
+                "D. 不固定计划，想你了就联系，灵活沟通",
+                "E. 少联系，各自好好生活，见面时再好好相处"
+            ],
+            "你不小心弄坏他 / 她心爱的东西时，你的伴侣会？": [
+                "A. 有点难过，但会说 \"没事，东西而已，你没受伤就好\"",
+                "B. 理解你是不小心，不怪你，一起想办法补救",
+                "C. 假装生气逗你，其实根本没放在心上",
+                "D. 有点委屈，但会很快原谅你",
+                "E. 无所谓，东西坏了可以再买，不影响感情"
+            ],
+            "一起逛超市时，你的伴侣更会？": [
+                "A. 列好购物清单，带着你买，不遗漏需要的东西",
+                "B. 和你一起列清单，各自找东西，互相帮忙",
+                "C. 跟着你，帮你拎东西，听你安排买什么",
+                "D. 不列清单，想到什么买什么，互相提醒",
+                "E. 各自买自己需要的，结账时一起付"
+            ],
+            "你聊到职场人际关系烦恼时，你的伴侣会？": [
+                "A. 用自己的职场经验教你怎么处理，避开坑",
+                "B. 听你吐槽，和你一起吐槽，帮你解压",
+                "C. 鼓励你 \"别在意，做好自己就行\"",
+                "D. 帮你分析同事的想法，一起找应对办法",
+                "E. 不参与，让你自己消化，有需要再帮忙"
+            ],
+            "一起看比赛（如球赛、选秀）时，你的伴侣会？": [
+                "A. 给你讲解规则、分析局势，让你看懂比赛",
+                "B. 和你一起讨论局势，各自发表看法",
+                "C. 跟着你支持，你喜欢谁他 / 她就喜欢谁",
+                "D. 不管懂不懂，一起为喜欢的队伍 / 选手加油",
+                "E. 各看各的，不互相打扰"
+            ],
+            "面对经济压力（如房贷、车贷）时，你的伴侣会？": [
+                "A. 主动承担更多责任，说 \"我来想办法，你别担心\"",
+                "B. 和你一起商量，制定还款计划，共同承担",
+                "C. 问你的想法，跟着你的计划走，一起努力",
+                "D. 省吃俭用，和你一起慢慢缓解压力",
+                "E. 顺其自然，不焦虑，相信总会过去"
+            ],
+            "你想养宠物时，你的伴侣会？": [
+                "A. 帮你查饲养知识，评估可行性，给出专业建议",
+                "B. 和你一起查资料，商量着养，共同负责",
+                "C. 支持你的想法，主动承担饲养责任",
+                "D. 帮你挑选宠物，一起学习怎么照顾",
+                "E. 不喜欢但不反对，你想养就养，他 / 她不参与"
+            ],
+            "约会时遇到下雨，你的伴侣会？": [
+                "A. 立刻找伞、打车，不让你淋雨",
+                "B. 和你一起躲雨，等雨小了再走，趁机聊天",
+                "C. 问你 \"怎么办\"，听你的安排",
+                "D. 把外套脱给你，一起淋雨跑向目的地",
+                "E. 无所谓，淋雨也挺浪漫"
+            ],
+            "聊到婚姻分工时，你的伴侣更认同？": [
+                "A. 自己主外赚钱，让你主内照顾家庭",
+                "B. 不分主外主内，谁擅长谁做，互相配合",
+                "C. 让你主外，自己主内，好好照顾家庭",
+                "D. 一起赚钱，一起做家务，平等分工",
+                "E. 不固定分工，看实际情况调整"
+            ],
+            "你学习成绩 / 工作业绩下滑时，你的伴侣会？": [
+                "A. 帮你分析原因，给你改进方法，陪你一起努力",
+                "B. 安慰你，说 \"没关系，下次加油\"，不指责",
+                "C. 相信你能调整好，做你最坚实的后盾",
+                "D. 帮你制定学习 / 工作计划，一起执行",
+                "E. 不干涉，让你自己调整，有需要再帮忙"
+            ],
+            "一起去爬山时，你的伴侣会？": [
+                "A. 走在前面，拉着你，提醒你注意安全",
+                "B. 并排走，互相搀扶，一起欣赏风景",
+                "C. 跟在你后面，让你照顾他 / 她",
+                "D. 各自按自己的节奏走，累了一起休息",
+                "E. 爬到一半就放弃，一起在山下休息聊天"
+            ],
+            "聊到你的社交圈时，你的伴侣会？": [
+                "A. 主动融入你的社交圈，和你的朋友好好相处",
+                "B. 尊重你的社交圈，不干涉也不刻意融入",
+                "C. 让你带着他 / 她认识你的朋友，想了解你的生活",
+                "D. 帮你维护社交关系，比如记住你朋友的喜好",
+                "E. 不参与你的社交，各自有自己的朋友"
+            ],
+            "你对未来感到迷茫时，你的伴侣会？": [
+                "A. 帮你分析自身优势，给你指明方向，做你的人生导师",
+                "B. 陪你一起迷茫，一起探索，不催你做决定",
+                "C. 相信你能找到方向，说 \"不管怎样我都支持你\"",
+                "D. 帮你制定短期目标，一起一步步实现",
+                "E. 不打扰你，让你自己想清楚，需要时再出现"
+            ],
+            "日常相处中，你的伴侣和你相处时更像？": [
+                "A. 成熟的长辈，照顾你、引领你",
+                "B. 平等的朋友，一起玩、一起成长",
+                "C. 可爱的小孩，依赖你、需要你照顾",
+                "D. 忠实的粉丝，崇拜你、支持你",
+                "E. 靠谱的伙伴，互相扶持、共同面对"
+            ]
+        };
+
+        const RATING_OPTIONS = [
+            { value: 1, label: "A" },
+            { value: 2, label: "B" },
+            { value: 3, label: "C" },
+            { value: 4, label: "D" },
+            { value: 5, label: "E" }
+        ];
+
+        // 星座数据
+        const ZODIAC_DATA = {
+            aries: {
+                name: "白羊座",
+                icon: "♈",
+                traits: ["热情", "直接", "冲动", "勇敢"],
+                relationship: "白羊座在恋爱中通常直接而热情，但有时会因为冲动而表现出较强的占有欲。"
+            },
+            taurus: {
+                name: "金牛座",
+                icon: "♉",
+                traits: ["稳定", "忠诚", "固执", "务实"],
+                relationship: "金牛座重视稳定和忠诚，占有欲通常表现为对关系安全感的强烈需求。"
+            },
+            gemini: {
+                name: "双子座",
+                icon: "♊",
+                traits: ["好奇", "善变", "沟通", "自由"],
+                relationship: "双子座需要自由和变化，但也会因为不安全感而表现出占有欲。"
+            },
+            cancer: {
+                name: "巨蟹座",
+                icon: "♋",
+                traits: ["情感丰富", "保护性强", "敏感", "家庭导向"],
+                relationship: "巨蟹座情感丰富，保护欲强，占有欲通常源于对家庭和情感安全的需求。"
+            },
+            leo: {
+                name: "狮子座",
+                icon: "♌",
+                traits: ["自信", "热情", "占有欲强", "领导力"],
+                relationship: "狮子座自信热情，占有欲较强，希望成为伴侣生活的中心。"
+            },
+            virgo: {
+                name: "处女座",
+                icon: "♍",
+                traits: ["细致", "分析力强", "挑剔", "务实"],
+                relationship: "处女座注重细节和完美，占有欲可能表现为对伴侣行为的过度关注。"
+            },
+            libra: {
+                name: "天秤座",
+                icon: "♎",
+                traits: ["平衡", "社交", "优柔寡断", "和谐"],
+                relationship: "天秤座追求平衡和谐，占有欲通常不会过于强烈，但会在关系中寻求公平。"
+            },
+            scorpio: {
+                name: "天蝎座",
+                icon: "♏",
+                traits: ["强烈", "神秘", "忠诚", "占有欲强"],
+                relationship: "天蝎座情感强烈，忠诚度高，占有欲在十二星座中通常最为明显。"
+            },
+            sagittarius: {
+                name: "射手座",
+                icon: "♐",
+                traits: ["自由", "乐观", "冒险", "独立"],
+                relationship: "射手座热爱自由，占有欲相对较低，但也会在关系中寻求情感连接。"
+            },
+            capricorn: {
+                name: "摩羯座",
+                icon: "♑",
+                traits: ["务实", "责任感强", "保守", "目标导向"],
+                relationship: "摩羯座务实且有责任感，占有欲通常表现为对关系稳定性的重视。"
+            },
+            aquarius: {
+                name: "水瓶座",
+                icon: "♒",
+                traits: ["独立", "创新", "理性", "友善"],
+                relationship: "水瓶座重视独立和个人空间，占有欲相对较低，更注重精神连接。"
+            },
+            pisces: {
+                name: "双鱼座",
+                icon: "♓",
+                traits: ["敏感", "浪漫", "同情心强", "理想化"],
+                relationship: "双鱼座浪漫敏感，占有欲可能表现为对情感连接的强烈需求。"
+            }
+        };
+
+        // 年上年下恋爱人格类型数据
+        const RELATIONSHIP_PERSONALITY_TYPES = {
+            "年上恋人型": {
+                scoreRange: [81, 100],
+                description: "你倾向于寻找比自己年长的伴侣，享受被照顾和引导的感觉，在关系中更愿意扮演被保护的角色。",
+                features: [
+                    "喜欢被年长伴侣照顾和指导",
+                    "享受被保护和被宠爱的感觉",
+                    "在关系中更愿意扮演依赖者的角色",
+                    "重视伴侣的成熟度和经验",
+                    "倾向于寻找能提供安全感和稳定性的伴侣",
+                    "欣赏年长者的智慧和人生阅历"
+                ],
+                psychology: "根据心理学研究，年上恋人型个体通常具有较高的依赖需求，倾向于寻找能提供安全感和稳定性的伴侣。这种倾向可能与童年期的依恋模式有关，研究表明这类个体往往在关系中寻求情感上的指导和支持。",
+                emoji: "🧓", 
+                summary: "年上倾向恋人",
+                bigEmoji: "🧓", 
+                advice: [
+                    "寻找能够提供稳定性和安全感的年长伴侣",
+                    "学习在依赖和独立之间找到平衡点",
+                    "培养自己的独立性，避免过度依赖伴侣",
+                    "寻找能够尊重你成长空间的伴侣",
+                    "与伴侣建立清晰的沟通模式，表达你的情感需求",
+                    "保持个人兴趣爱好，确保在关系中有足够的自我空间"
+                ]
+            },
+            "年下恋人型": {
+                scoreRange: [0, 20],
+                description: "你倾向于寻找比自己年轻的伴侣，享受引导和照顾对方的感觉，在关系中更愿意扮演保护者的角色。",
+                features: [
+                    "喜欢照顾和引导年轻伴侣",
+                    "享受被依赖和被需要的感觉",
+                    "在关系中更愿意扮演保护者的角色",
+                    "重视伴侣的活力和新鲜感",
+                    "倾向于在关系中承担更多责任",
+                    "欣赏年轻伴侣的创造力和活力"
+                ],
+                psychology: "年下恋人型个体通常具有较高的照顾欲望和领导倾向，倾向于在关系中扮演指导者和保护者的角色。心理学研究表明，这类个体往往具有较高的责任感和自我效能感，喜欢在关系中发挥主导作用。",
+                emoji: "🧒", 
+                summary: "年下倾向恋人",
+                bigEmoji: "🧒", 
+                advice: [
+                    "寻找能够欣赏你成熟和经验的年轻伴侣",
+                    "学习给予伴侣适当的自由和成长空间",
+                    "避免过度控制，尊重伴侣的独立性",
+                    "寻找能够激发你活力和创造力的伴侣",
+                    "与伴侣建立平等的沟通模式，避免单向指导",
+                    "保持开放心态，学习从年轻伴侣身上获取新视角"
+                ]
+            },
+            "平衡型": {
+                scoreRange: [41, 60],
+                description: "你在恋爱关系中保持平衡，既能够享受被照顾的感觉，也能够照顾伴侣，年龄差距对你来说不是关键因素。",
+                features: [
+                    "能够在依赖和独立之间找到平衡",
+                    "既享受被照顾也乐于照顾他人",
+                    "年龄差距不是选择伴侣的关键因素",
+                    "重视关系的平等和相互支持",
+                    "能够根据情境调整自己在关系中的角色",
+                    "重视伴侣的性格特质而非年龄"
+                ],
+                psychology: "平衡型个体通常具有健康的关系模式，能够在亲密和独立之间找到平衡，建立相互支持的关系。心理学研究表明，这类个体往往具有较高的情感调节能力和关系适应能力，能够在不同情境下灵活调整自己的角色。",
+                emoji: "⚖️", 
+                summary: "平衡型恋人",
+                bigEmoji: "⚖️", 
+                advice: [
+                    "寻找能够相互支持和理解的伴侣",
+                    "继续维持关系中的平衡和相互尊重",
+                    "关注伴侣的情感需求，建立深度连接",
+                    "培养共同兴趣爱好，增强关系纽带",
+                    "保持开放沟通，及时调整关系中的不平衡",
+                    "重视伴侣的性格特质和价值观匹配度"
+                ]
+            },
+            "成熟偏好型": {
+                scoreRange: [61, 80],
+                description: "你重视伴侣的成熟度和稳定性，倾向于选择能够提供安全感和指导的伴侣，但也能保持一定的独立性。",
+                features: [
+                    "重视伴侣的成熟度和人生经验",
+                    "喜欢被引导但也能保持独立",
+                    "在关系中寻求安全感和稳定性",
+                    "能够平衡依赖和自主的需求",
+                    "欣赏有责任感和可靠性的伴侣",
+                    "重视长期关系的稳定发展"
+                ],
+                psychology: "成熟偏好型个体通常具有适度的依赖需求，倾向于寻找能够提供安全感和指导但不过度控制的伴侣。研究表明，这类个体往往在关系中寻求情感安全的同时，也重视个人的独立性和自主权。",
+                emoji: "👨‍🏫", 
+                summary: "成熟偏好恋人",
+                bigEmoji: "👨‍🏫", 
+                advice: [
+                    "寻找能够提供指导但尊重你独立性的伴侣",
+                    "培养自己的决策能力，减少对伴侣的过度依赖",
+                    "学习在关系中表达自己的需求和界限",
+                    "寻找能够共同成长和学习的伴侣",
+                    "建立健康的依赖模式，避免过度独立或过度依赖",
+                    "重视伴侣的情绪稳定性和责任感"
+                ]
+            },
+            "活力偏好型": {
+                scoreRange: [21, 40],
+                description: "你重视伴侣的活力和新鲜感，倾向于选择能够带来刺激和变化的伴侣，但也能提供适当的照顾和指导。",
+                features: [
+                    "重视伴侣的活力和创造力",
+                    "喜欢引导但也能接受被引导",
+                    "在关系中寻求新鲜感和刺激",
+                    "能够提供照顾但也重视个人空间",
+                    "欣赏有冒险精神和开放心态的伴侣",
+                    "重视关系中的乐趣和共同成长"
+                ],
+                psychology: "活力偏好型个体通常具有较高的活力和创造力，倾向于寻找能够带来新鲜感和刺激的伴侣。心理学研究表明，这类个体往往具有较高的开放性和外向性，喜欢在关系中探索新的可能性和体验。",
+                emoji: "🎭", 
+                summary: "活力偏好恋人",
+                bigEmoji: "🎭", 
+                advice: [
+                    "寻找能够带来活力和新鲜感的伴侣",
+                    "学习在引导和跟随之间灵活转换",
+                    "保持个人空间的独立性",
+                    "寻找能够欣赏你创造力和活力的伴侣",
+                    "建立充满乐趣和探索的关系模式",
+                    "平衡关系中的稳定性和新鲜感"
+                ]
+            }
+        };
+
+        // 依恋类型数据 - 更新为更独特科学的版本
+        const ATTACHMENT_TYPES = {
+            "安全-自主平衡型": {
+                description: "你属于'安全-自主平衡型依恋'，既需要感情中的'稳定感'，也不希望失去'新鲜感'。你能接受伴侣的成熟照顾，也享受和伴侣一起探索未知；可以理性讨论未来，也能放下顾虑享受当下。你的适配关键不在于'年龄'，而在于'伴侣的性格特质是否能匹配你的动态需求'。",
+                features: [
+                    "能在稳定和新鲜感之间找到平衡",
+                    "既能接受照顾也能保持独立自主",
+                    "理性与感性并重，能够灵活适应关系变化",
+                    "重视关系中的平等和相互成长",
+                    "能够建立健康的情感边界",
+                    "在关系中保持适度的依赖和独立"
+                ],
+                psychology: "安全-自主平衡型是健康的依恋模式，研究表明这类个体在关系中体验更高的满意度和幸福感，能够建立持久而富有活力的亲密关系。这类个体通常具有较高的情绪调节能力和关系适应能力，能够在不同情境下保持关系的平衡和健康。",
+                emoji: "⚖️", 
+                color: "#4CAF50",
+                summary: "安全-自主平衡型",
+                bigEmoji: "⚖️", 
+                advice: [
+                    "寻找能够平衡稳定与新鲜感的伴侣",
+                    "保持自主性，同时享受关系的亲密感",
+                    "在关系中保持开放心态，尝试新的相处方式",
+                    "与伴侣共同制定关系目标，确保双方需求得到满足",
+                    "建立清晰的沟通模式，及时表达情感需求",
+                    "保持个人空间，同时培养共享的兴趣爱好"
+                ]
+            },
+            "探索-依赖型": {
+                description: "你渴望关系中的新鲜感和探索乐趣，同时也需要情感上的依赖和支持。你享受与伴侣一起发现新事物，但也需要确定感来获得安全感。在关系中，你既能扮演探索者的角色，也愿意在需要时依赖伴侣。",
+                features: [
+                    "渴望关系中的新鲜感和探索乐趣",
+                    "需要情感依赖但同时保持一定的独立性",
+                    "享受与伴侣共同成长和学习的过程",
+                    "在稳定和变化之间寻求平衡",
+                    "能够适应关系中的动态变化",
+                    "重视情感连接和共同体验"
+                ],
+                psychology: "探索-依赖型结合了对新鲜感的追求和情感依赖的需求，这类个体通常具有较高的适应性和创造力，能够在关系中保持活力和深度。研究表明，这类个体往往在关系中寻求情感安全的同时，也重视个人的成长和探索。",
+                emoji: "🌊", 
+                color: "#FF3366",
+                summary: "探索-依赖型",
+                bigEmoji: "🌊", 
+                advice: [
+                    "寻找能够陪你探索世界同时也提供情感支持的伴侣",
+                    "学习在依赖和独立之间找到个人舒适区",
+                    "与伴侣分享你的探索欲望和情感需求",
+                    "建立关系仪式感，平衡新鲜感和稳定性",
+                    "保持开放的沟通，及时调整关系中的不平衡",
+                    "培养共同兴趣爱好，增强关系纽带"
+                ]
+            },
+            "独立-回避型": {
+                description: "你高度重视个人空间和独立性，在关系中需要足够的自由度。你能够自我满足，不依赖他人来获得幸福感，但也能够建立有意义的连接。在关系中，你更倾向于平等相处，避免过度依赖或控制。",
+                features: [
+                    "高度重视个人空间和独立性",
+                    "能够自我满足，不依赖他人获得幸福感",
+                    "在关系中需要足够的自由和自主权",
+                    "能够建立有深度但不过度依赖的关系",
+                    "重视平等和相互尊重的相处模式",
+                    "能够清晰表达个人边界和需求"
+                ],
+                psychology: "独立-回避型个体通常具有较高的自我价值感和内在安全感，能够建立健康的关系边界，避免过度依赖或控制。研究表明，这类个体往往在关系中保持适度的情感距离，同时能够建立深度和有意义的连接。",
+                emoji: "🏔️", 
+                color: "#2196F3",
+                summary: "独立-回避型",
+                bigEmoji: "🏔️", 
+                advice: [
+                    "寻找尊重你独立性的伴侣",
+                    "学习在保持独立的同时表达情感需求",
+                    "与伴侣沟通你对个人空间的需求",
+                    "建立清晰的关系边界，确保双方舒适",
+                    "培养共享活动，增强情感连接",
+                    "保持适度的开放性，允许自己逐渐建立信任"
+                ]
+            },
+            "矛盾-动态型": {
+                description: "你在关系中表现出矛盾的倾向，既渴望亲密又需要空间，既想依赖又害怕失去自主权。你的需求会随着情境变化而动态调整，需要在关系中找到个性化的平衡点。",
+                features: [
+                    "在亲密和独立之间表现出矛盾倾向",
+                    "需求会随着情境变化而动态调整",
+                    "既渴望深度连接又重视个人自由",
+                    "在关系中需要灵活的空间和界限",
+                    "情感需求较为复杂和多变",
+                    "能够适应不同关系模式的切换"
+                ],
+                psychology: "矛盾-动态型反映了复杂的情感需求模式，这类个体通常具有较高的情感敏感度和适应性，需要在关系中找到个性化的平衡点。研究表明，这类个体往往在关系中经历较多的情感波动，但同时也具有较强的适应能力和关系调整能力。",
+                emoji: "🌪️", 
+                color: "#9C27B0",
+                summary: "矛盾-动态型",
+                bigEmoji: "🌪️", 
+                advice: [
+                    "寻找能够理解你动态需求的伴侣",
+                    "学习识别和表达你变化的情感需求",
+                    "与伴侣建立灵活的相处模式",
+                    "培养自我觉察，了解情感波动的规律",
+                    "建立清晰但可调整的关系边界",
+                    "寻找能够提供稳定基础同时尊重你变化的伴侣"
+                ]
+            }
+        };
+
+        // 全局状态
+        let currentTest = {
+            type: null,
+            currentDimension: 0,
+            currentQuestion: 0,
+            answers: [],
+            startTime: null,
+            userInfo: {
+                age: "",
+                gender: "",
+                zodiac: ""
+            }
+        };
+        const authState = { unlocked: false, controller: null, latestScores: null };
+        const unlockCard = document.getElementById('unlock-card');
+        const unlockButton = document.getElementById('unlock-btn');
+        const fullReport = document.getElementById('full-report');
+
+        function setFullReportVisible(isVisible) {
+            if (fullReport) {
+                fullReport.style.display = isVisible ? 'block' : 'none';
+            }
+            if (unlockCard) {
+                unlockCard.style.display = isVisible ? 'none' : 'block';
+            }
+        }
+
+        function renderFullReport(scores) {
+            if (!scores) return;
+            const totalScore = isNaN(scores.total) ? 0 : scores.total;
+
+            createDimensionScores(scores);
+            createRelationshipPersonalityAnalysis(totalScore);
+            createAttachmentPersonalityAnalysis(scores);
+
+            const adviceList = document.getElementById('advice-list');
+            adviceList.innerHTML = '';
+
+            let adviceItems = [];
+            if (totalScore >= 80) {
+                adviceItems = [
+                    "寻找能够提供稳定性和安全感的年长伴侣",
+                    "学习在依赖和独立之间找到平衡点",
+                    "培养自己的独立性，避免过度依赖伴侣",
+                    "寻找能够尊重你成长空间的伴侣"
+                ];
+            } else if (totalScore >= 60) {
+                adviceItems = [
+                    "寻找能够提供指导但尊重你独立性的伴侣",
+                    "培养自己的决策能力，减少对伴侣的过度依赖",
+                    "学习在关系中表达自己的需求和界限",
+                    "寻找能够共同成长和学习的伴侣"
+                ];
+            } else if (totalScore >= 40) {
+                adviceItems = [
+                    "寻找能够相互支持和理解的伴侣",
+                    "继续维持关系中的平衡和相互尊重",
+                    "关注伴侣的情感需求，建立深度连接",
+                    "培养共同兴趣爱好，增强关系纽带"
+                ];
+            } else if (totalScore >= 20) {
+                adviceItems = [
+                    "寻找能够带来活力和新鲜感的伴侣",
+                    "学习在引导和跟随之间灵活转换",
+                    "保持个人空间的独立性",
+                    "寻找能够欣赏你创造力和活力的伴侣"
+                ];
+            } else {
+                adviceItems = [
+                    "寻找能够欣赏你成熟和经验的年轻伴侣",
+                    "学习给予伴侣适当的自由和成长空间",
+                    "避免过度控制，尊重伴侣的独立性",
+                    "寻找能够激发你活力和创造力的伴侣"
+                ];
+            }
+
+            adviceItems.forEach(advice => {
+                const li = document.createElement('li');
+                li.className = 'advice-item';
+                li.innerHTML = `
+                    <div class="advice-check"></div>
+                    <div class="advice-text">${advice}</div>
+                `;
+                adviceList.appendChild(li);
+            });
+
+            createRadarChart(scores);
+            createAttachmentRadar(scores);
+            createPathAnalysis(scores);
+            createZodiacAnalysis();
+            createProfessionalInterpretation(totalScore, scores);
+        }
+
+        function unlockFullReport() {
+            if (authState.unlocked) return;
+            authState.unlocked = true;
+            setFullReportVisible(true);
+            renderFullReport(authState.latestScores);
+        }
+
+        async function resolveApiBase() {
+            try {
+                const res = await fetch('/config/app-config.json', { cache: 'no-store' });
+                if (res.ok) {
+                    const cfg = await res.json();
+                    if (cfg && cfg.apiBase) {
+                        return String(cfg.apiBase).trim();
+                    }
+                }
+            } catch (err) {
+                console.warn('无法读取 app-config.json，将使用当前域名:', err);
+            }
+            return window.location.origin;
+        }
+
+        async function setupAuthGate() {
+            if (!window.AuthorizationSDK || !unlockButton) {
+                return;
+            }
+            if (!authState.controller) {
+                const apiBase = await resolveApiBase();
+                authState.controller = await AuthorizationSDK.init({
+                    testType: 'year',
+                    apiBase,
+                    startButtons: ['#unlock-btn'],
+                    onAuthorized: unlockFullReport,
+                    authContext: 'result'
+                });
+            }
+            const config = authState.controller?.state?.config;
+            if (config && config.auth_required === 0) {
+                unlockFullReport();
+                return;
+            }
+            const mode = (config && config.auth_mode) ? String(config.auth_mode).toLowerCase() : 'start';
+            if (mode !== 'result') {
+                unlockFullReport();
+                return;
+            }
+            if (authState.controller.isSessionActive()) {
+                unlockFullReport();
+            }
+        }
+
+        // 页面显示控制
+        function showPage(pageId) {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('info-page').classList.add('hidden');
+            document.getElementById('test-page').classList.add('hidden');
+            document.getElementById('result-page').classList.add('hidden');
+            document.getElementById(pageId).classList.remove('hidden');
+            
+
+            
+            // 添加淡入动画
+            document.getElementById(pageId).classList.add('fade-in');
+            setTimeout(() => {
+                document.getElementById(pageId).classList.remove('fade-in');
+            }, 500);
+            if (pageId === 'result-page') {
+                setFullReportVisible(authState.unlocked);
+                setupAuthGate();
+            }
+        }
+
+        // 开始测试
+        function startTest(type) {
+            currentTest.type = type;
+            currentTest.userInfo = { age: "", gender: "", zodiac: "" };
+            // showPage('info-page');
+        }
+
+        function loadQuestions(){
+            showPage('info-page');
+        }
+
+        // 开始问题
+        function startQuestions() {
+            // 收集用户信息
+            const ageSelect = document.getElementById('age-select');
+            const genderSelect = document.getElementById('gender-select');
+            const zodiacSelect = document.getElementById('zodiac-select');
+            
+            if (!ageSelect.value || !genderSelect.value || !zodiacSelect.value) {
+                alert('请填写完整的基本信息');
+                return;
+            }
+            
+            currentTest.userInfo.age = ageSelect.value;
+            currentTest.userInfo.gender = genderSelect.value;
+            currentTest.userInfo.zodiac = zodiacSelect.value;
+            
+            currentTest.currentDimension = 0;
+            currentTest.currentQuestion = 0;
+            currentTest.answers = [];
+            currentTest.startTime = new Date();
+            
+            showPage('test-page');
+            loadTestQuestion();
+        }
+
+        // 加载测试题目
+        function loadTestQuestion() {
+            const questionSet = QUESTION_SETS[currentTest.type];
+            const dimension = questionSet[currentTest.currentDimension];
+            const question = dimension.questions[currentTest.currentQuestion];
+            
+            // 更新页面显示
+            document.getElementById('dimension-name').textContent = dimension.dimension;
+            document.getElementById('progress-text').textContent = 
+                `维度 ${currentTest.currentDimension + 1}/${questionSet.length} · 题目 ${currentTest.currentQuestion + 1}/${dimension.questions.length}`;
+            
+            const progressPercent = ((currentTest.currentDimension * 10 + currentTest.currentQuestion) / 40) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+            
+            document.getElementById('question-text').textContent = question;
+            
+            // 创建评分选项
+            const optionsContainer = document.getElementById('rating-options');
+            optionsContainer.innerHTML = '';
+            
+            // 根据测试类型和题目获取选项
+            let options;
+            if (currentTest.type === 'self') {
+                options = OPTIONS_SELF[question];
+            } else {
+                options = OPTIONS_PARTNER[question];
+            }
+            
+            // 如果找不到选项，使用默认选项
+            if (!options) {
+                options = [
+                    "A. 非常不符合",
+                    "B. 不太符合",
+                    "C. 一般",
+                    "D. 比较符合",
+                    "E. 非常符合"
+                ];
+            }
+            
+            options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'rating-btn';
+                button.innerHTML = `
+                    <span class="option-number">${String.fromCharCode(65 + index)}</span>
+                    <span>${option}</span>
+                `;
+                button.onclick = () => selectRating(index + 1);
+                optionsContainer.appendChild(button);
+            });
+            
+            // 更新上一题按钮状态
+            updatePrevButtonState();
+        }
+
+        // 更新上一题按钮状态
+        function updatePrevButtonState() {
+            const prevButton = document.getElementById('prev-question-btn');
+            if (currentTest.currentDimension === 0 && currentTest.currentQuestion === 0) {
+                prevButton.disabled = true;
+                prevButton.style.opacity = '0.5';
+                prevButton.style.cursor = 'not-allowed';
+            } else {
+                prevButton.disabled = false;
+                prevButton.style.opacity = '1';
+                prevButton.style.cursor = 'pointer';
+            }
+        }
+
+        // 上一题功能
+        function previousQuestion() {
+            // 检查是否已经是第一题
+            if (currentTest.currentDimension === 0 && currentTest.currentQuestion === 0) {
+                return;
+            }
+            
+            // 移除当前题目的答案
+            currentTest.answers.pop();
+            
+            // 更新题目位置
+            const questionSet = QUESTION_SETS[currentTest.type];
+            
+            if (currentTest.currentQuestion > 0) {
+                currentTest.currentQuestion--;
+            } else {
+                currentTest.currentDimension--;
+                currentTest.currentQuestion = questionSet[currentTest.currentDimension].questions.length - 1;
+            }
+            
+            // 重新加载题目
+            loadTestQuestion();
+        }
+
+        // 选择评分
+        function selectRating(rating) {
+            // 保存答案
+            currentTest.answers.push({
+                dimension: currentTest.currentDimension,
+                question: currentTest.currentQuestion,
+                rating: parseInt(rating) || 0
+            });
+            
+            // 更新进度
+            const questionSet = QUESTION_SETS[currentTest.type];
+            const currentDimension = questionSet[currentTest.currentDimension];
+            
+            if (currentTest.currentQuestion < currentDimension.questions.length - 1) {
+                currentTest.currentQuestion++;
+            } else if (currentTest.currentDimension < questionSet.length - 1) {
+                currentTest.currentDimension++;
+                currentTest.currentQuestion = 0;
+            } else {
+                completeTest();
+                return;
+            }
+            
+            loadTestQuestion();
+        }
+
+        // 完成测试
+        function completeTest() {
+            const scores = calculateScores();
+            showResults(scores);
+        }
+
+        // 计算得分 - 使用新的得分映射
+        function calculateScores() {
+            // 根据测试类型初始化分数对象
+            let scores = {};
+            
+            if (currentTest.type === 'self') {
+                scores = {
+                    "成熟偏好": 0,
+                    "照顾需求": 0,
+                    "引导欲望": 0,
+                    "独立倾向": 0
+                };
+            } else {
+                scores = {
+                    "恋人成熟偏好": 0,
+                    "恋人照顾需求": 0,
+                    "恋人引导欲望": 0,
+                    "恋人独立倾向": 0
+                };
+            }
+            
+            // 计算每个维度的原始得分（使用新的得分映射）
+            currentTest.answers.forEach(answer => {
+                const dimensionNames = currentTest.type === 'self' ? 
+                    ["成熟偏好", "照顾需求", "引导欲望", "独立倾向"] :
+                    ["恋人成熟偏好", "恋人照顾需求", "恋人引导欲望", "恋人独立倾向"];
+                
+                const dimensionName = dimensionNames[answer.dimension];
+                const questionText = QUESTION_SETS[currentTest.type][answer.dimension].questions[answer.question];
+                
+                // 使用新的得分映射
+                let questionScore = 0;
+                if (currentTest.type === 'self') {
+                    questionScore = OPTION_SCORES_SELF[questionText][answer.rating - 1] || 0;
+                } else {
+                    questionScore = OPTION_SCORES_PARTNER[questionText][answer.rating - 1] || 0;
+                }
+                
+                scores[dimensionName] += questionScore;
+            });
+            
+            // 将每个维度的得分转换为0-100分
+            // 原始总分范围：10-50分（10题×1-5分）
+            // 转换为0-100分：(原始总分-10) * (100/40) = (原始总分-10)*2.5
+            const convertedScores = {};
+            Object.keys(scores).forEach(dimension => {
+                const rawScore = scores[dimension];
+                // 确保分数在合理范围内
+                const convertedScore = Math.max(0, Math.min(100, Math.round((rawScore - 10) * 2.5)));
+                convertedScores[dimension] = convertedScore;
+            });
+            
+            // 计算总分（四个维度的平均值）
+            const dimensionValues = Object.values(convertedScores);
+            const totalScore = Math.round(dimensionValues.reduce((sum, score) => sum + score, 0) / dimensionValues.length);
+            
+            // 返回包含转换后分数和总分的对象
+            return {
+                ...convertedScores,
+                total: totalScore
+            };
+        }
+
+        // 显示结果
+        function showResults(scores) {
+            // 确保总分是有效数字
+            const totalScore = isNaN(scores.total) ? 0 : scores.total;
+            document.getElementById('total-score').textContent = totalScore;
+            
+            // 设置能量条
+            document.getElementById('energy-fill').style.width = `${totalScore}%`;
+            
+            // 确定水平描述
+            let level, description;
+            if (totalScore <= 20) {
+                level = "强烈年下倾向";
+                description = "年下恋人型";
+            } else if (totalScore <= 40) {
+                level = "年下倾向";
+                description = "活力偏好型";
+            } else if (totalScore <= 60) {
+                level = "平衡型";
+                description = "平衡型恋人";
+            } else if (totalScore <= 80) {
+                level = "年上倾向";
+                description = "成熟偏好型";
+            } else {
+                level = "强烈年上倾向";
+                description = "年上恋人型";
+            }
+            
+            // 设置分数等级和详细描述
+            document.getElementById('score-level').textContent = `${level} (${description})`;
+            document.getElementById('score-description').innerHTML = `你的年上年下倾向指数为<strong>${totalScore}</strong>，属于<strong>${level}</strong>`;
+            
+            // 设置圆形进度条
+            const percent = totalScore;
+            document.getElementById('score-circle').style.background = 
+                `conic-gradient(var(--primary) 0% ${percent}%, var(--muted) ${percent}% 100%)`;
+            
+            // 显示结果解释
+            document.getElementById('explanation-content').innerHTML = `
+                <p>你的年上年下倾向指数为${totalScore}分，属于<strong>[${level} (${description})]</strong>。</p>
+                <p>这表明你在恋爱关系中${level === "强烈年上倾向" ? "更倾向于寻找比自己年长的伴侣" : level === "年上倾向" ? "比较倾向于寻找比自己年长的伴侣" : level === "平衡型" ? "对伴侣年龄没有特别偏好" : level === "年下倾向" ? "比较倾向于寻找比自己年轻的伴侣" : "更倾向于寻找比自己年轻的伴侣"}。</p>
+            `;
+            
+            // 显示高得分维度
+            const highDimensions = [];
+            const dimensionScores = {};
+            
+            Object.keys(scores).forEach(dimension => {
+                if (dimension !== 'total') {
+                    const dimensionScore = scores[dimension];
+                    dimensionScores[dimension] = dimensionScore;
+                    
+                    // 科学判断：得分比例 >= 80% 为较高
+                    if (dimensionScore >= 80) {
+                        highDimensions.push(dimension);
+                    }
+                }
+            });
+            
+            if (highDimensions.length > 0) {
+                document.getElementById('high-dimensions').innerHTML = `
+                    <h4>在以下维度得分较高</h4>
+                    <p>${highDimensions.join('、')}</p>
+                `;
+            } else {
+                document.getElementById('high-dimensions').innerHTML = `
+                    <h4>各维度得分较为均衡</h4>
+                    <p>你的恋爱关系模式在各维度上表现较为均衡。</p>
+                `;
+            }
+            
+            authState.latestScores = scores;
+            authState.unlocked = false;
+            setFullReportVisible(false);
+            showPage('result-page');
+        }
+
+        // 创建四个维度得分能量条
+        function createDimensionScores(scores) {
+            const dimensionScoresContainer = document.getElementById('dimension-scores');
+            dimensionScoresContainer.innerHTML = '';
+            
+            // 创建四个维度的得分能量条
+            Object.keys(scores).forEach(dimension => {
+                if (dimension !== 'total') {
+                    const dimensionScore = scores[dimension];
+                    
+                    const dimensionScoreElement = document.createElement('div');
+                    dimensionScoreElement.className = 'dimension-score';
+                    dimensionScoreElement.innerHTML = `
+                        <div class="dimension-header">
+                            <div class="dimension-name">${dimension}</div>
+                            <div class="dimension-value">${dimensionScore}分</div>
+                        </div>
+                        <div class="dimension-energy-bar">
+                            <div class="dimension-energy-fill" style="width: ${dimensionScore}%"></div>
+                        </div>
+                    `;
+                    
+                    dimensionScoresContainer.appendChild(dimensionScoreElement);
+                }
+            });
+        }
+
+        // 创建年上年下恋爱人格类型分析
+        function createRelationshipPersonalityAnalysis(totalScore) {
+            // 确定人格类型
+            let personalityType = "";
+            for (const [type, data] of Object.entries(RELATIONSHIP_PERSONALITY_TYPES)) {
+                if (totalScore >= data.scoreRange[0] && totalScore <= data.scoreRange[1]) {
+                    personalityType = type;
+                    break;
+                }
+            }
+            
+            const typeData = RELATIONSHIP_PERSONALITY_TYPES[personalityType];
+            
+            // 创建特征列表HTML
+            const featuresHTML = typeData.features.map(feature => `
+                <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <div>${feature}</div>
+                </div>
+            `).join('');
+            
+            // 创建建议列表HTML
+            const adviceHTML = typeData.advice.map(advice => `
+                <div class="advice-item">
+                    <div class="advice-check"></div>
+                    <div class="advice-text">${advice}</div>
+                </div>
+            `).join('');
+            
+            // 创建人格类型分析卡片
+            document.getElementById('relationship-personality').innerHTML = `
+                <div class="personality-header">
+                    <div class="personality-icon">${typeData.emoji}</div>
+                    <div class="personality-title">年上年下恋爱人格类型分析</div>
+                </div>
+                <div class="type-description">
+                    <p>根据您的测试得分，您的年上年下恋爱人格类型为：</p>
+                    <div class="big-emoji">${typeData.bigEmoji}</div>
+                    <p><strong>${personalityType}</strong></p>
+                    <p>${typeData.description}</p>
+                </div>
+                <div class="type-summary">
+                    <span>${typeData.summary}</span>
+                    <span class="type-summary-emoji">${typeData.bigEmoji}</span>
+                </div>
+                <div class="type-features">
+                    <h4>主要特征</h4>
+                    <div class="feature-list">
+                        ${featuresHTML}
+                    </div>
+                </div>
+                <div class="type-features">
+                    <h4>心理学解读</h4>
+                    <p>${typeData.psychology}</p>
+                </div>
+                <div class="improvement-advice">
+                    <div class="advice-header">
+                        <div class="advice-icon">💡</div>
+                        <div class="advice-title">恋爱建议</div>
+                    </div>
+                    <ul class="advice-list">
+                        ${adviceHTML}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // 创建依恋类型人格分析
+        function createAttachmentPersonalityAnalysis(scores) {
+            // 计算依恋类型得分 - 基于四个维度的科学换算
+            const maturityScore = scores["成熟偏好"];
+            const careScore = scores["照顾需求"];
+            const guidanceScore = scores["引导欲望"];
+            const independenceScore = scores["独立倾向"];
+            
+            // 科学换算公式
+            const attachmentScores = {
+                "安全-自主平衡型": Math.max(0, 100 - Math.abs(50 - maturityScore) / 2),
+                "探索-依赖型": (careScore + (100 - independenceScore)) / 2,
+                "独立-回避型": (independenceScore + (100 - careScore)) / 2,
+                "矛盾-动态型": (Math.abs(50 - maturityScore) + Math.abs(50 - guidanceScore)) / 2
+            };
+            
+            // 确定主导类型
+            const sortedTypes = Object.entries(attachmentScores)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 2);
+            
+            const mainType = sortedTypes[0][0];
+            const secondaryType = sortedTypes[1][0];
+            
+            const mainTypeData = ATTACHMENT_TYPES[mainType];
+            const secondaryTypeData = ATTACHMENT_TYPES[secondaryType];
+            
+            // 创建特征列表HTML
+            const mainFeaturesHTML = mainTypeData.features.map(feature => `
+                <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <div>${feature}</div>
+                </div>
+            `).join('');
+            
+            const secondaryFeaturesHTML = secondaryTypeData.features.map(feature => `
+                <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <div>${feature}</div>
+                </div>
+            `).join('');
+            
+            // 创建建议列表HTML
+            const mainAdviceHTML = mainTypeData.advice.map(advice => `
+                <div class="advice-item">
+                    <div class="advice-check"></div>
+                    <div class="advice-text">${advice}</div>
+                </div>
+            `).join('');
+            
+            // 创建依恋类型人格分析卡片
+            document.getElementById('attachment-personality').innerHTML = `
+                <div class="personality-header">
+                    <div class="personality-icon">${mainTypeData.emoji}</div>
+                    <div class="personality-title">依恋类型人格分析</div>
+                </div>
+                <div class="type-description">
+                    <p>根据心理学依恋理论，您的依恋类型为：</p>
+                    <div class="big-emoji">${mainTypeData.bigEmoji}</div>
+                    <p><strong>${mainType}</strong>（主导） + <strong>${secondaryType}</strong>（次要）</p>
+                    <p>${mainTypeData.description}</p>
+                </div>
+                <div class="type-summary">
+                    <span>${mainTypeData.summary}</span>
+                    <span class="type-summary-emoji">${mainTypeData.bigEmoji}</span>
+                </div>
+                <div class="type-features">
+                    <h4>${mainType}的主要特征</h4>
+                    <div class="feature-list">
+                        ${mainFeaturesHTML}
+                    </div>
+                </div>
+                <div class="type-features">
+                    <h4>${secondaryType}的次要特征</h4>
+                    <div class="feature-list">
+                        ${secondaryFeaturesHTML}
+                    </div>
+                </div>
+                <div class="type-features">
+                    <h4>心理学解读</h4>
+                    <p>${mainTypeData.psychology}</p>
+                    <p>${secondaryTypeData.psychology}</p>
+                </div>
+                <div class="improvement-advice">
+                    <div class="advice-header">
+                        <div class="advice-icon">💡</div>
+                        <div class="advice-title">改善建议</div>
+                    </div>
+                    <ul class="advice-list">
+                        ${mainAdviceHTML}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // 创建四维度雷达图
+        function createRadarChart(scores) {
+            const radarChart = document.getElementById('radar-chart');
+            radarChart.innerHTML = '';
+            
+            // 创建SVG元素
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(svgNS, "svg");
+            svg.setAttribute("width", "100%");
+            svg.setAttribute("height", "100%");
+            svg.setAttribute("viewBox", "0 0 300 300");
+            
+            // 中心点坐标
+            const centerX = 150;
+            const centerY = 150;
+            const maxRadius = 100; // 修改为100，与刻度一致
+            
+            // 创建雷达网格 - 5个同心圆
+            for (let i = 1; i <= 5; i++) {
+                const radius = (maxRadius / 5) * i;
+                const circle = document.createElementNS(svgNS, "circle");
+                circle.setAttribute("cx", centerX);
+                circle.setAttribute("cy", centerY);
+                circle.setAttribute("r", radius);
+                circle.setAttribute("fill", "none");
+                circle.setAttribute("stroke", "#e0e0e0");
+                circle.setAttribute("stroke-width", "1");
+                svg.appendChild(circle);
+                
+                // 添加刻度标签
+                const scaleValue = i * 20;
+                const text = document.createElementNS(svgNS, "text");
+                text.setAttribute("x", centerX + 5);
+                text.setAttribute("y", centerY - radius + 3);
+                text.setAttribute("font-size", "10");
+                text.setAttribute("fill", "#666");
+                text.textContent = scaleValue;
+                svg.appendChild(text);
+            }
+            
+            // 创建维度轴
+            const dimensions = Object.keys(scores).filter(d => d !== 'total');
+            const angleStep = (2 * Math.PI) / dimensions.length;
+            
+            dimensions.forEach((dimension, index) => {
+                const angle = index * angleStep - Math.PI / 2; // 从顶部开始
+                const x = centerX + maxRadius * Math.cos(angle);
+                const y = centerY + maxRadius * Math.sin(angle);
+                
+                const line = document.createElementNS(svgNS, "line");
+                line.setAttribute("x1", centerX);
+                line.setAttribute("y1", centerY);
+                line.setAttribute("x2", x);
+                line.setAttribute("y2", y);
+                line.setAttribute("stroke", "#e0e0e0");
+                line.setAttribute("stroke-width", "1");
+                svg.appendChild(line);
+                
+                // 创建维度标签
+                const labelX = centerX + (maxRadius + 20) * Math.cos(angle);
+                const labelY = centerY + (maxRadius + 20) * Math.sin(angle);
+                
+                const text = document.createElementNS(svgNS, "text");
+                text.setAttribute("x", labelX);
+                text.setAttribute("y", labelY);
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("dominant-baseline", "middle");
+                text.setAttribute("font-size", "12");
+                text.setAttribute("fill", "#666");
+                text.textContent = dimension;
+                svg.appendChild(text);
+            });
+            
+            // 创建雷达多边形
+            const points = [];
+            dimensions.forEach((dimension, index) => {
+                const score = scores[dimension];
+                const percent = score / 100;
+                const radius = maxRadius * percent;
+                const angle = index * angleStep - Math.PI / 2; // 从顶部开始
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                points.push(`${x},${y}`);
+            });
+            
+            const polygon = document.createElementNS(svgNS, "polygon");
+            polygon.setAttribute("points", points.join(" "));
+            polygon.setAttribute("fill", "var(--primary)");
+            polygon.setAttribute("fill-opacity", "0.3");
+            polygon.setAttribute("stroke", "var(--primary)");
+            polygon.setAttribute("stroke-width", "2");
+            svg.appendChild(polygon);
+            
+            radarChart.appendChild(svg);
+        }
+
+        // 创建依恋类型雷达图
+        function createAttachmentRadar(scores) {
+            const attachmentRadar = document.getElementById('attachment-radar');
+            attachmentRadar.innerHTML = '';
+            
+            // 计算依恋类型得分 - 基于四个维度的科学换算
+            const maturityScore = scores["成熟偏好"];
+            const careScore = scores["照顾需求"];
+            const guidanceScore = scores["引导欲望"];
+            const independenceScore = scores["独立倾向"];
+            
+            // 科学换算公式
+            const attachmentScores = {
+                "安全-自主平衡型": Math.max(0, 100 - Math.abs(50 - maturityScore) / 2),
+                "探索-依赖型": (careScore + (100 - independenceScore)) / 2,
+                "独立-回避型": (independenceScore + (100 - careScore)) / 2,
+                "矛盾-动态型": (Math.abs(50 - maturityScore) + Math.abs(50 - guidanceScore)) / 2
+            };
+            
+            // 创建SVG元素
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(svgNS, "svg");
+            svg.setAttribute("width", "100%");
+            svg.setAttribute("height", "100%");
+            svg.setAttribute("viewBox", "0 0 300 300");
+            
+            // 中心点坐标
+            const centerX = 150;
+            const centerY = 150;
+            const maxRadius = 100; // 修改为100，与刻度一致
+            
+            // 创建雷达网格 - 5个同心圆
+            for (let i = 1; i <= 5; i++) {
+                const radius = (maxRadius / 5) * i;
+                const circle = document.createElementNS(svgNS, "circle");
+                circle.setAttribute("cx", centerX);
+                circle.setAttribute("cy", centerY);
+                circle.setAttribute("r", radius);
+                circle.setAttribute("fill", "none");
+                circle.setAttribute("stroke", "#e0e0e0");
+                circle.setAttribute("stroke-width", "1");
+                svg.appendChild(circle);
+                
+                // 添加刻度标签
+                const scaleValue = i * 20;
+                const text = document.createElementNS(svgNS, "text");
+                text.setAttribute("x", centerX + 5);
+                text.setAttribute("y", centerY - radius + 3);
+                text.setAttribute("font-size", "10");
+                text.setAttribute("fill", "#666");
+                text.textContent = scaleValue;
+                svg.appendChild(text);
+            }
+            
+            // 创建维度轴
+            const attachmentTypes = Object.keys(attachmentScores);
+            const angleStep = (2 * Math.PI) / attachmentTypes.length;
+            
+            attachmentTypes.forEach((type, index) => {
+                const angle = index * angleStep - Math.PI / 2; // 从顶部开始
+                const x = centerX + maxRadius * Math.cos(angle);
+                const y = centerY + maxRadius * Math.sin(angle);
+                
+                const line = document.createElementNS(svgNS, "line");
+                line.setAttribute("x1", centerX);
+                line.setAttribute("y1", centerY);
+                line.setAttribute("x2", x);
+                line.setAttribute("y2", y);
+                line.setAttribute("stroke", "#e0e0e0");
+                line.setAttribute("stroke-width", "1");
+                svg.appendChild(line);
+                
+                // 创建类型标签
+                const labelX = centerX + (maxRadius + 20) * Math.cos(angle);
+                const labelY = centerY + (maxRadius + 20) * Math.sin(angle);
+                
+                const text = document.createElementNS(svgNS, "text");
+                text.setAttribute("x", labelX);
+                text.setAttribute("y", labelY);
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("dominant-baseline", "middle");
+                text.setAttribute("font-size", "12");
+                text.setAttribute("fill", "#666");
+                text.textContent = type;
+                svg.appendChild(text);
+            });
+            
+            // 创建雷达多边形
+            const points = [];
+            attachmentTypes.forEach((type, index) => {
+                const score = attachmentScores[type];
+                const percent = score / 100;
+                const radius = maxRadius * percent;
+                const angle = index * angleStep - Math.PI / 2; // 从顶部开始
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                points.push(`${x},${y}`);
+            });
+            
+            const polygon = document.createElementNS(svgNS, "polygon");
+            polygon.setAttribute("points", points.join(" "));
+            polygon.setAttribute("fill", "var(--primary)");
+            polygon.setAttribute("fill-opacity", "0.3");
+            polygon.setAttribute("stroke", "var(--primary)");
+            polygon.setAttribute("stroke-width", "2");
+            svg.appendChild(polygon);
+            
+            attachmentRadar.appendChild(svg);
+            
+            // 显示主导类型
+            const sortedTypes = Object.entries(attachmentScores)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 2);
+                
+            document.getElementById('dominant-type').innerHTML = `
+                <strong>主导类型:</strong> <span style="color: var(--primary)">${sortedTypes[0][0]}</span> + <span style="color: var(--primary); opacity: 0.7">${sortedTypes[1][0]}</span>
+            `;
+        }
+
+        // 创建路径分析图
+        function createPathAnalysis(scores) {
+            const pathAnalysis = document.getElementById('path-analysis');
+            pathAnalysis.innerHTML = '';
+            
+            // 计算依恋类型得分
+            const maturityScore = scores["成熟偏好"];
+            const careScore = scores["照顾需求"];
+            const guidanceScore = scores["引导欲望"];
+            const independenceScore = scores["独立倾向"];
+            
+            const attachmentScores = {
+                "安全-自主平衡型": Math.max(0, 100 - Math.abs(50 - maturityScore) / 2),
+                "探索-依赖型": (careScore + (100 - independenceScore)) / 2,
+                "独立-回避型": (independenceScore + (100 - careScore)) / 2,
+                "矛盾-动态型": (Math.abs(50 - maturityScore) + Math.abs(50 - guidanceScore)) / 2
+            };
+            
+            // 确定主导类型
+            const sortedTypes = Object.entries(attachmentScores)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 2);
+            
+            const mainType = sortedTypes[0][0];
+            const secondaryType = sortedTypes[1][0];
+            
+            // 定义情绪/感受映射
+            const emotionMappings = {
+                "安全-自主平衡型": ["稳定感", "新鲜感", "平衡感"],
+                "探索-依赖型": ["探索欲", "依赖感", "成长需求"],
+                "独立-回避型": ["独立需求", "自主感", "空间需求"],
+                "矛盾-动态型": ["矛盾感", "动态需求", "灵活性"]
+            };
+            
+            // 创建四列布局
+            const columns = [
+                { 
+                    title: "四个维度", 
+                    nodes: ["成熟偏好", "照顾需求", "引导欲望", "独立倾向"], 
+                    color: "#FF9800"
+                },
+                { 
+                    title: "依恋类型", 
+                    nodes: Object.keys(attachmentScores), 
+                    color: "var(--primary)"
+                },
+                { 
+                    title: "恋爱情绪/感受", 
+                    nodes: [...new Set([...emotionMappings[mainType], ...emotionMappings[secondaryType]])], 
+                    color: "#4CAF50"
+                },
+                { 
+                    title: "AYP得分", 
+                    nodes: [`AYP(${scores.total})`], 
+                    color: "var(--primary)"
+                }
+            ];
+            
+            // 创建列和节点
+            const columnsContainer = document.createElement('div');
+            columnsContainer.className = 'path-columns-container';
+            
+            columns.forEach((column, colIndex) => {
+                const col = document.createElement('div');
+                col.className = 'path-column';
+                
+                // 添加列标题
+                const title = document.createElement('div');
+                title.className = 'path-node';
+                title.textContent = column.title;
+                title.style.background = column.color;
+                title.style.fontSize = '0.6rem';
+                title.style.marginBottom = '15px';
+                col.appendChild(title);
+                
+                // 添加节点
+                column.nodes.forEach((node, nodeIndex) => {
+                    const nodeEl = document.createElement('div');
+                    nodeEl.className = 'path-node';
+                    nodeEl.textContent = node;
+                    nodeEl.style.background = column.color;
+                    
+                    // 特殊处理依恋类型节点
+                    if (column.title === "依恋类型") {
+                        if (node === mainType) {
+                            nodeEl.style.background = 'var(--primary)';
+                        } else if (node === secondaryType) {
+                            nodeEl.style.background = 'var(--primary)';
+                            nodeEl.style.opacity = '0.7';
+                        } else {
+                            nodeEl.style.background = '#9E9E9E';
+                            nodeEl.style.opacity = '0.5';
+                        }
+                    }
+                    
+                    // 特殊处理AYP得分节点
+                    if (column.title === "AYP得分") {
+                        nodeEl.style.background = 'var(--primary)';
+                        nodeEl.style.width = '50px';
+                        nodeEl.style.height = '50px';
+                        nodeEl.style.fontSize = '0.7rem';
+                    }
+                    
+                    col.appendChild(nodeEl);
+                });
+                
+                columnsContainer.appendChild(col);
+            });
+            
+            pathAnalysis.appendChild(columnsContainer);
+            
+            // 使用setTimeout确保DOM已渲染，然后绘制连接线
+            setTimeout(() => {
+                drawPathConnections(pathAnalysis, scores, attachmentScores, mainType, secondaryType, emotionMappings);
+            }, 100);
+        }
+
+        // 绘制路径连接线
+        function drawPathConnections(container, scores, attachmentScores, mainType, secondaryType, emotionMappings) {
+            const columns = container.querySelector('.path-columns-container').children;
+            
+            // 第一列到第二列（四个维度到依恋类型）
+            const dimensionCol = columns[0];
+            const attachmentCol = columns[1];
+            
+            // 根据维度得分高低，连接到相应的依恋类型
+            const dimensionScores = [
+                { name: "成熟偏好", score: scores["成熟偏好"] },
+                { name: "照顾需求", score: scores["照顾需求"] },
+                { name: "引导欲望", score: scores["引导欲望"] },
+                { name: "独立倾向", score: scores["独立倾向"] }
+            ];
+            
+            // 排序维度得分
+            dimensionScores.sort((a, b) => b.score - a.score);
+            
+            // 连接最高分的两个维度到主要依恋类型
+            for (let i = 0; i < 2; i++) {
+                const dimensionName = dimensionScores[i].name;
+                const dimensionNode = Array.from(dimensionCol.children).find(
+                    node => node.textContent === dimensionName
+                );
+                
+                const attachmentNode = Array.from(attachmentCol.children).find(
+                    node => node.textContent === mainType
+                );
+                
+                if (dimensionNode && attachmentNode) {
+                    createConnection(dimensionNode, attachmentNode, container, 0.8);
+                }
+            }
+            
+            // 连接其他两个维度到次要依恋类型
+            for (let i = 2; i < 4; i++) {
+                const dimensionName = dimensionScores[i].name;
+                const dimensionNode = Array.from(dimensionCol.children).find(
+                    node => node.textContent === dimensionName
+                );
+                
+                const attachmentNode = Array.from(attachmentCol.children).find(
+                    node => node.textContent === secondaryType
+                );
+                
+                if (dimensionNode && attachmentNode) {
+                    createConnection(dimensionNode, attachmentNode, container, 0.6);
+                }
+            }
+            
+            // 第二列到第三列（依恋类型到情绪/感受）
+            const emotionCol = columns[2];
+            
+            // 主要依恋类型连接到对应的情绪/感受
+            const mainAttachmentNode = Array.from(attachmentCol.children).find(
+                node => node.textContent === mainType
+            );
+            
+            if (mainAttachmentNode) {
+                emotionMappings[mainType].forEach(emotion => {
+                    const emotionNode = Array.from(emotionCol.children).find(
+                        node => node.textContent === emotion
+                    );
+                    
+                    if (emotionNode) {
+                        createConnection(mainAttachmentNode, emotionNode, container, 0.7);
+                    }
+                });
+            }
+            
+            // 次要依恋类型连接到对应的情绪/感受
+            const secondaryAttachmentNode = Array.from(attachmentCol.children).find(
+                node => node.textContent === secondaryType
+            );
+            
+            if (secondaryAttachmentNode) {
+                emotionMappings[secondaryType].forEach(emotion => {
+                    const emotionNode = Array.from(emotionCol.children).find(
+                        node => node.textContent === emotion
+                    );
+                    
+                    if (emotionNode) {
+                        createConnection(secondaryAttachmentNode, emotionNode, container, 0.5);
+                    }
+                });
+            }
+            
+            // 第三列到第四列（情绪/感受到AYP得分）
+            const aypCol = columns[3];
+            const aypNode = Array.from(aypCol.children).find(
+                node => node.textContent.startsWith("AYP")
+            );
+            
+            if (aypNode) {
+                Array.from(emotionCol.children).forEach(emotionNode => {
+                    if (emotionNode.textContent !== "恋爱情绪/感受") {
+                        createConnection(emotionNode, aypNode, container, 0.6);
+                    }
+                });
+            }
+        }
+
+        // 创建连接线
+        function createConnection(from, to, container, opacity) {
+            const fromRect = from.getBoundingClientRect();
+            const toRect = to.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            
+            const fromX = fromRect.left - containerRect.left + fromRect.width/2;
+            const fromY = fromRect.top - containerRect.top + fromRect.height/2;
+            const toX = toRect.left - containerRect.left + toRect.width/2;
+            const toY = toRect.top - containerRect.top + toRect.height/2;
+            
+            const dx = toX - fromX;
+            const dy = toY - fromY;
+            const length = Math.sqrt(dx*dx + dy*dy);
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            
+            const connection = document.createElement('div');
+            connection.className = 'path-connection';
+            connection.style.width = `${length}px`;
+            connection.style.left = `${fromX}px`;
+            connection.style.top = `${fromY}px`;
+            connection.style.transform = `rotate(${angle}deg)`;
+            connection.style.opacity = opacity;
+            
+            container.appendChild(connection);
+        }
+
+        // 创建星座分析
+        function createZodiacAnalysis() {
+            const zodiacKey = currentTest.userInfo.zodiac;
+            const zodiacData = ZODIAC_DATA[zodiacKey];
+            
+            if (!zodiacData) return;
+            
+            const traitsHTML = zodiacData.traits.map(trait => `
+                <div class="tag">${trait}</div>
+            `).join('');
+            
+            document.getElementById('zodiac-analysis').innerHTML = `
+                <div class="zodiac-header">
+                    <span class="zodiac-icon">${zodiacData.icon}</span>
+                    <div class="zodiac-title">${zodiacData.name}专属分析</div>
+                </div>
+                <div class="result-section">
+                    <h4>星座特质</h4>
+                    ${traitsHTML}
+                </div>
+                <div class="result-section">
+                    <h4>恋爱关系特点</h4>
+                    <p>${zodiacData.relationship}</p>
+                </div>
+                <div class="result-section">
+                    <h4>星座专属建议</h4>
+                    <p>基于您的星座特点，我们为您提供以下专属建议：</p>
+                    <div class="tips-list">
+                        <div class="tip-item">发挥${zodiacData.name}的${zodiacData.traits[0]}特质，增强关系中的积极互动</div>
+                        <div class="tip-item">注意平衡${zodiacData.traits[1]}特质，避免在关系中过度表现</div>
+                        <div class="tip-item">利用${zodiacData.traits[2]}优势，创造更丰富的情感连接方式</div>
+                        <div class="tip-item">警惕${zodiacData.traits[3]}可能带来的挑战，保持关系的动态平衡</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 创建专业心理学解读
+        function createProfessionalInterpretation(totalScore, scores) {
+            // 计算依恋类型得分
+            const maturityScore = scores["成熟偏好"];
+            const careScore = scores["照顾需求"];
+            const guidanceScore = scores["引导欲望"];
+            const independenceScore = scores["独立倾向"];
+            
+            const attachmentScores = {
+                "安全-自主平衡型": Math.max(0, 100 - Math.abs(50 - maturityScore) / 2),
+                "探索-依赖型": (careScore + (100 - independenceScore)) / 2,
+                "独立-回避型": (independenceScore + (100 - careScore)) / 2,
+                "矛盾-动态型": (Math.abs(50 - maturityScore) + Math.abs(50 - guidanceScore)) / 2
+            };
+            
+            // 确定主导类型
+            const sortedTypes = Object.entries(attachmentScores)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 2);
+            
+            const mainType = sortedTypes[0][0];
+            const secondaryType = sortedTypes[1][0];
+            
+            let interpretationContent = '';
+            
+            if (totalScore >= 80) {
+                interpretationContent = `
+                    <h3>🔬 专业心理学解读</h3>
+                    <p>根据您的测试结果，我们为您提供以下基于心理学研究的专业解读：</p>
+                    
+                    <div class="result-section">
+                        <h4>依恋模式分析</h4>
+                        <p>您的依恋模式主要表现为<strong>${mainType}</strong>和<strong>${secondaryType}</strong>特征。根据依恋理论，这表明您在关系中${mainType === "探索-依赖型" || mainType === "矛盾-动态型" ? "可能表现出较强的占有欲和情感需求" : mainType === "独立-回避型" ? "可能倾向于保持情感距离" : "能够建立相对健康的亲密关系"}.</p>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h4>年上年下倾向分析</h4>
+                        <p>您表现出强烈的年上倾向，这通常与对安全感和稳定性的需求有关。研究表明，年上倾向的个体往往在关系中寻求指导和保护。</p>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h4>关系动态影响</h4>
+                        <p>您的年上倾向可能影响您选择伴侣的标准和关系中的互动模式。理解这一倾向有助于您建立更符合您需求的恋爱关系。</p>
+                    </div>
+                `;
+            } else if (totalScore >= 60) {
+                interpretationContent = `
+                    <h3>🔬 专业心理学解读</h3>
+                    <p>根据您的测试结果，我们为您提供以下基于心理学研究的专业解读：</p>
+                    
+                    <div class="result-section">
+                        <h4>依恋模式分析</h4>
+                        <p>您的依恋模式主要表现为<strong>${mainType}</strong>和<strong>${secondaryType}</strong>特征。根据依恋理论，这表明您在关系中${mainType === "探索-依赖型" || mainType === "矛盾-动态型" ? "可能表现出适度的占有欲和情感需求" : mainType === "独立-回避型" ? "可能倾向于保持一定的情感距离" : "能够建立相对健康的亲密关系"}.</p>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h4>年上年下倾向分析</h4>
+                        <p>您表现出明显的年上倾向，这反映了您对成熟和稳定关系的偏好。这种倾向通常与对安全感和指导的需求相关。</p>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h4>关系平衡分析</h4>
+                        <p>您的年上倾向处于中等偏上水平，这在恋爱关系中相当常见。关键在于找到依赖与独立之间的平衡点。</p>
+                    </div>
+                `;
+            } else if (totalScore >= 40) {
+                interpretationContent = `
+                    <h3>🔬 专业心理学解读</h3>
+                    <p>根据您的测试结果，我们为您提供以下基于心理学研究的专业解读：</p>
+                    
+                    <div class="result-section">
+                        <h4>依恋模式分析</h4>
+                        <p>您的依恋模式主要表现为<strong>${mainType}</strong>和<strong>${secondaryType}</strong>特征。根据依恋理论，这表明您在关系中${mainType === "安全-自主平衡型" ? "能够建立相对健康的亲密关系" : "可能表现出适度的情感需求"}.</p>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h4>年上年下倾向分析</h4>
+                        <p>您的年上年下倾向处于平衡状态，这表明您在恋爱关系中保持了相对均衡的偏好。您既能够享受被照顾的感觉，也能够照顾伴侣。</p>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h4>关系发展建议</h4>
+                        <p>您的平衡倾向使您能够适应不同类型的恋爱关系。考虑增加对关系的主动投入，参与更多共享活动，这有助于加深情感纽带。</p>
+                    </div>
+                `;
+            } else {
+                interpretationContent = `
+                    <h3>🔬 专业心理学解读</h3>
+                    <p>根据您的测试结果，我们为您提供以下基于心理学研究的专业解读：</p>
+                    
+                    <div class="result-section">
+                        <h4>依恋模式分析</h4>
+                        <p>您的依恋模式主要表现为<strong>${mainType}</strong>和<strong>${secondaryType}</strong>特征。根据依恋理论，这表明您在关系中${mainType === "安全-自主平衡型" ? "能够建立相对健康的亲密关系" : "可能表现出较低的情感需求"}.</p>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h4>年上年下倾向分析</h4>
+                        <p>您表现出年下倾向，这可能反映了您在关系中保持较高独立性的倾向。您更倾向于扮演照顾者和引导者的角色。</p>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h4>关系发展建议</h4>
+                        <p>考虑增加对关系的主动投入，创造更多共享体验和情感连接，这有助于建立更深的亲密关系和相互依赖。</p>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('professional-interpretation').innerHTML = interpretationContent + `
+                <p style="margin-top: 20px; font-size: 0.9rem; color: var(--muted-foreground);"><strong>专业提示：</strong>本测试基于心理学量表设计，结果仅供参考。如需更深入的个人心理评估，建议咨询专业心理医生或心理咨询师。</p>
+            `;
+        }
+
+        // 保存结果
+        function saveResult() {
+            const scores = calculateScores();
+            const result = {
+                type: currentTest.type,
+                timestamp: new Date().toLocaleString(),
+                scores: scores,
+                userInfo: currentTest.userInfo
+            };
+            
+            alert('结果已保存！您可以截图保存当前页面。\n\n💝 真爱小提示：健康的爱情是互相成就，而不是彼此束缚。\n\n注意：由于数据存储在本地，清除浏览器数据会导致记录丢失。');
+        }
+
+        function shareYearResult() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '年上年下恋爱倾向测试',
+                    text: '我刚完成了年上年下恋爱倾向测试，你也来试试吧！',
+                    url: window.location.href,
+                }).catch(console.error);
+            } else {
+                alert('截屏即可分享结果给朋友哦！');
+            }
+        }
+
+
+
+        // 初始化显示首页
+        showPage('home-page');
+    </script>
+    <script src="../../authorization/authorization-sdk.js"
+        data-test-type="year"
+        data-auth-context="start"
+        data-start-button="#startTest"
+        data-on-authorized="loadQuestions"
+        data-session-hours="6"></script>
+    <script src="../../authorization/authorization-sdk.js"
+        data-test-type="year"
+        data-auth-context="start"
+        data-start-button="#startTest2"
+        data-on-authorized="loadQuestions"
+        data-session-hours="6"></script>
+</body>
+
+<!-- Mirrored from soullight.vip/tests/year/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 22 Mar 2026 14:12:45 GMT -->
+</html>
+  
