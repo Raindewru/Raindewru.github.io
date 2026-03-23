@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>动物塑测 · Animal Personality Test</title>
+    <!-- 移除外部字体加载，避免局域网设备访问缓慢或样式阻塞 -->
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../authorization/auth-modal.css"/>
+    <link rel="icon" href="../static/images/favicon.png" type="image/png">
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav__brand">
+        <span class="brand__logo">🦊</span>
+        <div class="brand__text">
+          <div class="brand__cn">动物塑测</div>
+          <div class="brand__en">Animal Personality Test</div>
+        </div>
+      </div>
+      <!-- 移动端菜单切换按钮 -->
+      <button class="nav__toggle" id="nav-toggle" aria-label="打开菜单">☰</button>
+      <nav class="nav__links" id="nav-links">
+        <a href="../../index-2.html" class="nav__link"><span>🏠</span> Web首页</a>
+      </nav>
+    </header>
+
+    <main class="main">
+      <section class="hero">
+        <div class="badge"><span class="star">⭐</span> 基于五大人格理论的专业测评</div>
+        <h1 class="title">发现你的动物塑性格</h1>
+        <p class="subtitle">
+          通过60道精心设计的问题，揭示你内心的动物特质。是勇敢的狮子？聪慧的狐狸？还是温和的鹦鹉？让我们一起探索你的独特性格！
+        </p>
+
+        <div class="emoji-row" id="emoji-row"></div>
+
+        <button id="startTest" class="cta-btn">
+          <span class="cta-icon">▶</span>
+          开始测试
+        </button>
+      </section>
+
+      <section class="info-cards">
+        <div class="card">
+          <div class="card__icon">⏲️</div>
+          <div class="card__value">5–10</div>
+          <div class="card__label">分钟完成</div>
+        </div>
+        <div class="card">
+          <div class="card__icon">🧩</div>
+          <div class="card__value">60</div>
+          <div class="card__label">精选题目</div>
+        </div>
+        <div class="card">
+          <div class="card__icon">⭐</div>
+          <div class="card__value">7</div>
+          <div class="card__label">性格维度</div>
+        </div>
+        <div class="card">
+          <div class="card__icon">🦊</div>
+          <div class="card__value">20</div>
+          <div class="card__label">动物类型</div>
+        </div>
+      </section>
+
+      <!-- 动物类型预览（首页不展示性格描述） -->
+      <section class="types">
+        <h2 class="section-title">20种动物性格类型</h2>
+        <p class="section-subtitle">仅展示名称与标签，详细描述见测试结果</p>
+        <div class="type-grid" id="type-grid"></div>
+      </section>
+
+      <!-- 为什么选择我们的测试 -->
+      <section class="reasons">
+        <h2 class="section-title">为什么选择我们的测试</h2>
+        <p class="section-subtitle">科学、准确、全面的性格分析</p>
+        <div class="reason-grid">
+          <div class="reason">
+            <div class="reason-icon"><span class="reason-emoji">⭐</span></div>
+            <div class="reason-title">科学严谨</div>
+            <p class="reason-desc">基于五大人格理论（Big Five），经过心理学验证的测评体系</p>
+          </div>
+          <div class="reason">
+            <div class="reason-icon"><span class="reason-emoji">✅</span></div>
+            <div class="reason-title">全面分析</div>
+            <p class="reason-desc">从5个核心维度深度剖析，提供详细的性格特质报告</p>
+          </div>
+          <div class="reason">
+            <div class="reason-icon"><span class="reason-emoji">📝</span></div>
+            <div class="reason-title">实用建议</div>
+            <p class="reason-desc">提供职业发展建议和个人成长方向，助力自我提升</p>
+          </div>
+          <div class="reason">
+            <div class="reason-icon"><span class="reason-emoji">🔒</span></div>
+            <div class="reason-title">隐私保护</div>
+            <p class="reason-desc">所有数据本地存储，100%保护您的隐私安全</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="scoring.js"></script>
+    <script src="render-animals.js"></script>
+    <script src="render-type-cards.js"></script>
+    <script src="mobile-nav.js"></script>
+
+    <footer class="footer">
+      <div class="footer__text">© 2025 动物塑测</div>
+    </footer>
+
+    <script src="../authorization/authorization-sdk.js"
+    data-test-type="animal"
+    data-auth-context="start"
+    data-start-button="#startTest"
+    data-redirect="quiz.html"
+    data-session-hours="6"></script>
+  </body>
+
+</html>

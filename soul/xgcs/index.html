@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>城市性格匹配测试</title>
+    <link rel="stylesheet" href="../authorization/auth-modal.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5; /* Indigo 600 */
+            --primary-hover: #4338ca; /* Indigo 700 */
+            --bg-gradient-start: #eff6ff;
+            --bg-gradient-middle: #eef2ff;
+            --bg-gradient-end: #faf5ff;
+            --text-main: #1f2937;
+            --text-sub: #4b5563;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", Roboto, Helvetica, Arial, sans-serif;
+            /* Fix: Ensure background covers the whole page and doesn't scroll away */
+            background-color: var(--bg-gradient-start); 
+            background-image: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-middle), var(--bg-gradient-end));
+            background-attachment: fixed;
+            background-size: cover;
+            background-repeat: no-repeat;
+            
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Changed from center to handle long content */
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px; /* Slightly wider for results */
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.90);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 640px) {
+            .glass-card {
+                padding: 24px;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-6 { margin-bottom: 24px; }
+        .mb-8 { margin-bottom: 32px; }
+        .mt-4 { margin-top: 16px; }
+        .mt-8 { margin-top: 32px; }
+        .w-full { width: 100%; }
+        
+        /* Typography */
+        h1 { font-size: 2.5rem; font-weight: 900; line-height: 1.2; margin-bottom: 1rem; }
+        h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        p { line-height: 1.6; color: var(--text-sub); }
+        .text-gradient {
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 48px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.125rem;
+            font-weight: 700;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+        }
+        .btn:hover { background-color: var(--primary-hover); transform: scale(1.05); }
+        .btn:active { transform: scale(0.95); }
+        
+        .btn-secondary {
+            background-color: #f3f4f6;
+            color: #374151;
+            padding: 12px 24px;
+            font-size: 1rem;
+        }
+        .btn-secondary:hover { background-color: #e5e7eb; transform: none; }
+
+        .nav-actions {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+        .nav-actions__btn {
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .nav-actions__btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(79,70,229,0.12);
+        }
+        .nav-actions__btn--primary {
+            background: linear-gradient(120deg,#4f46e5,#7c3aed);
+            color: #fff;
+        }
+
+        .action-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            border: 2px solid transparent;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+        .action-btn:hover { transform: translateY(-1px); }
+        .action-btn svg { width: 18px; height: 18px; }
+        .action-btn--dark {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+            color: #1f2937;
+        }
+        .action-btn--dark:hover {
+            background: #e5e7eb;
+            box-shadow: 0 10px 20px rgba(31,41,55,0.08);
+        }
+        .action-btn--group {
+            background: #fff;
+            border-color: #c7d2fe;
+            color: #4338ca;
+        }
+        .action-btn--group:hover {
+            background: #eef2ff;
+            box-shadow: 0 10px 20px rgba(79,70,229,0.12);
+        }
+        .action-btn--share {
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(79,70,229,0.18);
+        }
+        .action-btn--share:hover {
+            background: var(--primary-hover);
+            box-shadow: 0 14px 26px rgba(79,70,229,0.22);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .animate-spin { animation: spin 1s linear infinite; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+
+        /* Quiz Styles */
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background-color: #f3f4f6;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(to right, #60a5fa, #4f46e5);
+            transition: width 0.5s ease-out;
+            width: 0%;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.05rem;
+            background-color: white;
+            color: var(--text-main);
+        }
+        
+        /* Option Colors (simulating the array logic) */
+        .opt-0 { background-color: #fdf2f8; border-color: #fce7f3; } /* Pink */
+        .opt-0:hover { background-color: #fce7f3; border-color: #f9a8d4; }
+        .opt-0.selected { background-color: #fce7f3; border-color: #ec4899; box-shadow: 0 4px 6px rgba(236, 72, 153, 0.1); }
+
+        .opt-1 { background-color: #eff6ff; border-color: #dbeafe; } /* Blue */
+        .opt-1:hover { background-color: #dbeafe; border-color: #93c5fd; }
+        .opt-1.selected { background-color: #dbeafe; border-color: #3b82f6; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1); }
+
+        .opt-2 { background-color: #f0fdf4; border-color: #dcfce7; } /* Green */
+        .opt-2:hover { background-color: #dcfce7; border-color: #86efac; }
+        .opt-2.selected { background-color: #dcfce7; border-color: #22c55e; box-shadow: 0 4px 6px rgba(34, 197, 94, 0.1); }
+        
+        .opt-3 { background-color: #fefce8; border-color: #fef9c3; } /* Yellow */
+        .opt-3:hover { background-color: #fef9c3; border-color: #fde047; }
+        .opt-3.selected { background-color: #fef9c3; border-color: #eab308; box-shadow: 0 4px 6px rgba(234, 179, 8, 0.1); }
+
+        .opt-4 { background-color: #faf5ff; border-color: #f3e8ff; } /* Purple */
+        .opt-4:hover { background-color: #f3e8ff; border-color: #d8b4fe; }
+        .opt-4.selected { background-color: #f3e8ff; border-color: #a855f7; box-shadow: 0 4px 6px rgba(168, 85, 247, 0.1); }
+
+        .opt-5 { background-color: #fff7ed; border-color: #ffedd5; } /* Orange */
+        .opt-5:hover { background-color: #ffedd5; border-color: #fdba74; }
+        .opt-5.selected { background-color: #ffedd5; border-color: #f97316; box-shadow: 0 4px 6px rgba(249, 115, 22, 0.1); }
+
+        .option-index {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.6);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .option-btn.selected .option-index { background: white; color: black; }
+
+        /* Loading View */
+        .loader-icon {
+            width: 64px; height: 64px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        /* Results View */
+        .result-primary-card {
+            background-color: white;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 4px solid #eef2ff;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        .result-header {
+            background: linear-gradient(to right, #3b82f6, #4f46e5);
+            padding: 40px 20px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .result-header-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(255,255,255,0.2) 2px, transparent 2px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+        }
+        .result-content { padding: 32px; }
+        
+        .tag {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+        .tag-trait { background-color: #f3f4f6; color: #4b5563; }
+        .tag-keyword { background-color: #dbeafe; color: #1e40af; }
+
+        /* Other Cities Grid */
+        .other-cities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .mini-card {
+            background: white;
+            border: 1px solid #f3f4f6;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .mini-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: #c7d2fe;
+        }
+        .match-badge {
+            position: absolute; top: 10px; left: 10px;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-weight: bold;
+        }
+        .badge-high { background: #dcfce7; color: #15803d; }
+        .badge-medium { background: #fef9c3; color: #a16207; }
+        .badge-low { background: #f3f4f6; color: #4b5563; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: white;
+            width: 90%; max-width: 500px;
+            border-radius: 24px;
+            padding: 32px;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .close-btn {
+            position: absolute; top: 16px; right: 16px;
+            background: none; border: none; cursor: pointer;
+            color: #9ca3af;
+        }
+        .close-btn:hover { color: #4b5563; }
+
+        /* Icon SVG helper class */
+        .icon { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .icon-lg { width: 80px; height: 80px; }
+        .icon-md { width: 48px; height: 48px; }
+
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
+  }
+}
+</script>
+</head>
+<body>
+
+    <div class="container" id="app">
+        
+        <!-- Landing View -->
+        <div id="landing-view" class="fade-in">
+            <div class="nav-actions">
+                <a href="../../index-2.html" class="nav-actions__btn nav-actions__btn--primary">返回测试合集首页</a>
+            </div>
+            <div class="text-center" style="margin-bottom: 30px;">
+                <div style="position: relative; display: inline-block; margin-bottom: 20px;">
+                    <div style="position: absolute; inset: 0; background-color: #60a5fa; filter: blur(40px); opacity: 0.3; border-radius: 50%; animation: float 4s ease-in-out infinite;"></div>
+                    <svg class="icon icon-lg animate-float" style="color: var(--primary-color); position: relative; z-index: 10;" viewBox="0 0 24 24"><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/><circle cx="12" cy="10" r="3"/><path d="M12 21.7v-2"/></svg>
+                </div>
+                
+                <h1 class="text-gradient">你的性格<br>天选CP城市<br><span style="color: var(--text-main); font-size: 0.8em;">是哪座？</span></h1>
+            </div>
+
+            <div class="glass-card text-center mb-8" style="border-top: 4px solid var(--primary-color);">
+                <p style="font-size: 1.1rem; margin-bottom: 24px;">
+                    在快节奏的生活里，总有一座城市与你的灵魂同频。<br>
+                    可能是杭州的烟雨画桥，也可能是成都的巴适午后。<br>
+                    <span style="font-weight: bold; color: var(--text-main);">27道精选题目，AI智能算法匹配。</span>
+                </p>
+
+                <div class="flex justify-between gap-2" style="margin-top: 30px;">
+                    <div class="text-center" style="flex: 1; background: #eff6ff; padding: 15px; border-radius: 12px;">
+                        <svg class="icon" style="color: #2563eb; margin-bottom: 5px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <div style="font-weight: bold;">5分钟</div>
+                        <div style="font-size: 0.8rem; color: #6b7280;">轻松完成</div>
+                    </div>
+                    <div class="text-center" style="flex: 1; background: #eef2ff; padding: 15px; border-radius: 12px;">
+                        <svg class="icon" style="color: #4f46e5; margin-bottom: 5px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        <div style="font-weight: bold;">16座城市</div>
+                        <div style="font-size: 0.8rem; color: #6b7280;">深度匹配</div>
+                    </div>
+                    <div class="text-center" style="flex: 1; background: #faf5ff; padding: 15px; border-radius: 12px;">
+                        <svg class="icon" style="color: #9333ea; margin-bottom: 5px;" viewBox="0 0 24 24"><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <div style="font-weight: bold;">六维性格</div>
+                        <div style="font-size: 0.8rem; color: #6b7280;">精准分析</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button id="start-btn" class="btn">
+                    开始探索
+                    <svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="quiz-view" class="glass-card hidden fade-in">
+            <div class="mb-6">
+                <div class="flex justify-between mb-2" style="font-size: 0.9rem; font-weight: 600; color: #6b7280;">
+                    <span>进度</span>
+                    <span id="progress-text">1 / 27</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="progress-fill" class="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <h2 id="question-text" style="font-size: 1.4rem; color: #1f2937; margin-bottom: 24px; line-height: 1.4;">
+                <span style="color: var(--primary-color); margin-right: 8px;">Q1.</span> 题目加载中...
+            </h2>
+
+            <div id="options-container">
+                <!-- Options will be injected here -->
+            </div>
+
+            <div class="flex justify-between mt-8">
+                <button id="prev-btn" class="btn btn-secondary" disabled>
+                    <svg class="icon" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> 上一题
+                </button>
+                <!-- Next button is usually hidden in favor of auto-advance, but kept for logic -->
+            </div>
+        </div>
+
+        <!-- Loading View -->
+        <div id="loading-view" class="glass-card hidden fade-in text-center" style="min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <div style="position: relative;">
+                <div style="position: absolute; inset: 0; background-color: #3b82f6; filter: blur(20px); opacity: 0.2; border-radius: 50%;"></div>
+                <svg class="icon animate-spin loader-icon" style="position: relative;" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+            </div>
+            <h2 class="animate-float" style="margin-top: 20px;">正在分析你的答案...</h2>
+            <p>寻找你的灵魂契合之城</p>
+        </div>
+
+        <!-- Results View -->
+        <div id="results-view" class="hidden fade-in">
+            <div class="text-center mb-8">
+                <h2 style="font-size: 2rem; color: #1f2937;">你的性格天选之城</h2>
+                <p style="color: var(--primary-color); font-weight: 500;">发现你的灵魂归属地</p>
+            </div>
+
+            <div id="primary-result" class="result-primary-card" data-auth-basic="true">
+                <!-- Content injected via JS -->
+            </div>
+
+            <div id="unlock-card" class="result-primary-card">
+                <div class="result-content text-center">
+                    <h2 style="margin-bottom: 10px;">解锁完整报告</h2>
+                    <p style="color: var(--text-sub);">查看其他可能城市与详细解析。</p>
+                    <button id="unlock-btn" data-auth-unlock-btn="true" type="button" class="btn" style="margin-top: 20px;">输入授权码解锁</button>
+                    <p style="color: var(--text-sub); margin-top: 12px;">已购买用户输入授权码即可解锁完整结果</p>
+                </div>
+            </div>
+
+            <div id="full-report" data-auth-lock="true" style="display: none;">
+                <h3 class="text-center" style="margin-bottom: 20px; font-size: 1.5rem;">其他可能适合你的城市</h3>
+                <div id="other-results" class="other-cities-grid">
+                    <!-- Other cities injected via JS -->
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: 40px;">
+                <div class="action-row">
+                    <button id="retake-btn" type="button" class="action-btn action-btn--dark">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M3 2v6h6"></path>
+                            <path d="M3 13a9 9 0 1 0 3-7.7L3 8"></path>
+                        </svg>
+                        重新测试
+                    </button>
+                    <a href="../tg/index.html" target="_blank" rel="noopener" class="action-btn action-btn--group">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        加入测试交流群
+                    </a>
+                    <button id="share-btn" type="button" class="action-btn action-btn--share">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path>
+                            <path d="M12 16V4"></path>
+                            <path d="M7 9l5-5 5 5"></path>
+                        </svg>
+                        分享结果
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detail-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">
+                <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div id="modal-body">
+                <!-- Modal content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Logic Script -->
+    <script>
+        // --- DATA ---
+        const PersonalityType = {
+            FIGHT: "奋斗型",
+            LAZY: "躺平型",
+            ART: "文艺型",
+            NATURE: "自然型",
+            SOCIAL: "社交型",
+            FASHION: "时尚型"
+        };
+
+        const QUESTIONS = [
+          {
+            text: "终于盼到了周日午后，你最理想的“充电”方式是？",
+            options: [
+              "躺平是福：窝在沙发上刷剧、吃零食，谁也别叫我",
+              "文艺复兴：去一家没人的书店，或者看一场冷门电影",
+              "探店打卡：去新开的网红展或买手店，拍出大片",
+              "野性呼唤：去郊外徒步、露营，呼吸泥土的芬芳",
+              "搞钱要紧：复盘本周工作，或者研究一下副业",
+              "组局嗨皮：约上三五好友，剧本杀或者KTV走起"
+            ],
+            optionTypes: [PersonalityType.LAZY, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.SOCIAL]
+          },
+          {
+            text: "老板突然甩给你一个超高难度的项目，你的第一反应是？",
+            options: [
+              "干就完了：虽然很难，但也是证明自己的好机会",
+              "纵观全局：先分析利弊和资源，制定周密计划",
+              "脑洞大开：不仅要完成，还要做得与众不同",
+              "能拖就拖：只要在截止日期前搞定就行，不慌",
+              "摇人战术：拉上同事一起头脑风暴，众人拾柴火焰高",
+              "包装至上：思考怎么把成果展示得最漂亮、最吸睛"
+            ],
+            optionTypes: [PersonalityType.FIGHT, PersonalityType.NATURE, PersonalityType.ART, PersonalityType.LAZY, PersonalityType.SOCIAL, PersonalityType.FASHION]
+          },
+          {
+            text: "在那种半生不熟的聚会局里，你通常是哪种画风？",
+            options: [
+              "热场王：没有什么尴尬是一个笑话化解不了的",
+              "深沉帝：躲在角落找人聊人生哲学",
+              "焦点位：穿搭最亮眼，大家都在问我要链接",
+              "随性派：有吃的就行，不刻意找话题",
+              "资源咖：互换名片，看看有没有合作机会",
+              "透明人：默默观察人类，内心戏很足"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "如果有任意门，你今晚想住在哪里？",
+            options: [
+              "烟火人间：楼下就是夜市和酒吧街，热闹非凡",
+              "云端隐居：与世隔绝的山顶木屋，只有星星作伴",
+              "艺术街区：由旧工厂改造的Loft，充满设计感",
+              "湖畔森林：推开窗就是大自然，空气里有草木香",
+              "城市心脏：CBD大平层，俯瞰整个城市的灯火",
+              "书香门第：充满历史感的老洋房，院子里有梧桐树"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.LAZY, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.ART]
+          },
+          {
+            text: "策划一次旅行，那个“必须有”的环节是？",
+            options: [
+              "味蕾狂欢：必须吃遍当地的苍蝇馆子和特色菜",
+              "文化苦旅：博物馆、古建筑，感受历史的厚重",
+              "血拼到底：奥特莱斯、买手店，箱子必须装满",
+              "山川湖海：一定要去没被开发的原始景点",
+              "寻找机遇：顺便考察一下当地的商业环境",
+              "酒店躺游：换个地方睡觉，行程表是什么东西？"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "哪个季节的气质最让你着迷？",
+            options: [
+              "春之生机：万物生长，充满那种向上的力量",
+              "夏之热烈：啤酒、音乐节、肆意流汗的畅快",
+              "秋之萧瑟：落叶纷飞，有一种凄美和诗意",
+              "冬之凛冽：纯净的雪景，简单的线条",
+              "时尚季：不管冷热，只要能穿好看的衣服就行",
+              "宅家季：只要家里有暖气/空调，什么季节都行"
+            ],
+            optionTypes: [PersonalityType.FIGHT, PersonalityType.SOCIAL, PersonalityType.ART, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "下班后的黄金两小时，你一般怎么打发？",
+            options: [
+              "饭局酒局：朋友一喊就到位，今朝有酒今朝醉",
+              "独自充电：看书、冥想，修复白天的精神内耗",
+              "艺术熏陶：画画、练琴，或者去看个Livehouse",
+              "城市漫步：沿着江边或公园走走，吹吹风",
+              "卷王时刻：上网课、考证，为了升职加薪",
+              "精致生活：做个SPA，或者整理一下衣帽间"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.LAZY, PersonalityType.ART, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.FASHION]
+          },
+          {
+            text: "理想的办公位长什么样？",
+            options: [
+              "开放式大桌：随时能和同事闲聊、碰撞火花",
+              "自闭角落：带上降噪耳机，谁也别来烦我",
+              "INS风：采光极好，背景墙适合随时自拍",
+              "花园式：满眼绿色植物，像在温室里工作",
+              "狼性战场：到处是白板和数据大屏，节奏拉满",
+              "如画室般：堆满书籍和草稿，乱中有序"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.LAZY, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.ART]
+          },
+          {
+            text: "点单了，你通常会选哪种饮品续命？",
+            options: [
+              "全糖奶茶：快乐水，加满料，就要甜！",
+              "功夫茶：慢慢泡，细细品，讲究一个“静”",
+              "精品手冲：浅烘深烘有讲究，要的是格调",
+              "鲜榨果蔬：原汁原味，健康养生第一名",
+              "浓缩咖啡：越苦越好，提神醒脑战通宵",
+              "白开水：简单直接，不搞那些花里胡哨的"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "你希望生活是一首什么节奏的歌？",
+            options: [
+              "摇滚乐：快节奏，强鼓点，充满激情",
+              "慢民谣：悠扬缓慢，诉说平淡日子",
+              "爵士乐：时快时慢，随性自由，富有变化",
+              "环境音：流水鸟鸣，顺其自然，没有节拍",
+              "电子乐：先锋前卫，紧跟潮流",
+              "大合唱：大家唱什么我就唱什么，重在参与"
+            ],
+            optionTypes: [PersonalityType.FIGHT, PersonalityType.LAZY, PersonalityType.ART, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.SOCIAL]
+          },
+          {
+            text: "周六如果一定要出门，你会去？",
+            options: [
+              "跳蚤市场：人挤人，淘点有趣的小玩意",
+              "不，我不出门：除非房子着火了",
+              "艺术展览：沉浸式看展，陶冶情操",
+              "极限运动：攀岩、滑板，挑战身体极限",
+              "行业峰会：去听听大咖分享，拓展认知",
+              "高端商圈：扫货，看看这一季的新款"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.LAZY, PersonalityType.ART, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.FASHION]
+          },
+          {
+            text: "天上掉下来一个长假，你想怎么过？",
+            options: [
+              "特种兵吃货：一天打卡8家店，吃遍全城",
+              "人文考古：去敦煌或者西安，看千年的壁画",
+              "奢华享受：住五星酒店，做顶级SPA",
+              "荒野求生：去无人区或者深山，彻底断网",
+              "游学考察：去硅谷或者华尔街感受商业氛围",
+              "深度宅家：把攒了一年的剧和游戏通关"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "装修房子，你最在意的风格关键词是？",
+            options: [
+              "温馨：要有大餐桌，方便朋友聚餐",
+              "极简：断舍离，空无一物，好打扫",
+              "前卫：撞色、异形家具，像个艺术馆",
+              "原木：大量使用木头和棉麻，回归自然",
+              "智能：全屋智能家居，效率至上",
+              "随意：舒服就行，风格混搭也无所谓"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.LAZY, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "你的朋友圈通常发些什么？",
+            options: [
+              "九宫格聚会照，评论区回复到手软",
+              "几乎不发，或者只是三天可见",
+              "OOTD（每日穿搭）或精致的下午茶",
+              "风景照，或者路边的一朵小花",
+              "行业动态、工作感悟，打造专业人设",
+              "分享一首冷门的歌，或者一句晦涩的诗"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.LAZY, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.ART]
+          },
+          {
+            text: "说到运动，你更倾向于？",
+            options: [
+              "团课/球类：喜欢那种互动的氛围",
+              "散步/瑜伽：不追求强度，舒服就好",
+              "帕梅拉/普拉提：为了穿衣服更好看",
+              "越野/潜水：探索未知的自然领域",
+              "HIIT/拳击：追求暴汗和发泄，挑战自我",
+              "现代舞：用身体表达情绪"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.LAZY, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.ART]
+          },
+          {
+            text: "美好的早晨应该从什么开始？",
+            options: [
+              "睡到自然醒，赖床到中午",
+              "听着黑胶唱片写手账",
+              "化一个精致的妆容",
+              "给阳台的花草浇浇水",
+              "列好今天的To-Do List",
+              "约朋友吃个Brunch聊八卦"
+            ],
+            optionTypes: [PersonalityType.LAZY, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.SOCIAL]
+          },
+          {
+            text: "耳机里单曲循环的歌是哪种类型？",
+            options: [
+              "抖音神曲：节奏洗脑，听了就想摇摆",
+              "古典交响：宏大叙事，听的是底蕴",
+              "独立小众：品味独特，不想和别人撞歌",
+              "白噪音：雨声、海浪声，为了平静",
+              "热血燃曲：听完觉得自己能打十个",
+              "Lo-Fi嘻哈：适合发呆的背景音乐"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "买衣服时，你最看重？",
+            options: [
+              "面料舒服，像没穿一样自在",
+              "设计独特，哪怕有点怪也没关系",
+              "当季新款，走在潮流最前线",
+              "环保材质，棉麻为主",
+              "剪裁利落，显得我很干练",
+              "百搭不出错，不想费脑子搭配"
+            ],
+            optionTypes: [PersonalityType.LAZY, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.SOCIAL]
+          },
+          {
+            text: "如果去书店，你会直奔哪个区？",
+            options: [
+              "畅销榜：看看大家都在读什么",
+              "哲学诗歌：思考人类的终极问题",
+              "时尚杂志：获取最新的视觉灵感",
+              "地理博物：看看外面的世界",
+              "商业传记：学习大佬的成功经验",
+              "漫画绘本：看图多字少的，轻松"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "第一次约会，你会选哪里？",
+            options: [
+              "游乐园：一起坐过山车，尖叫中拉近距离",
+              "陶艺店：一起做个手工，安静又有互动",
+              "网红露台吧：环境一定要高级，适合拍照",
+              "植物园：边走边聊，空气好也不尴尬",
+              "密室逃脱：看看对方的智商和应变能力",
+              "家庭影院：在家点外卖看电影，最放松"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "你对节日的态度是？",
+            options: [
+              "必须得聚：过节就是为了和朋友大吃一顿",
+              "仪式感：要写卡片、送礼物，很有情调",
+              "时尚秀场：终于有借口穿那件浮夸的衣服了",
+              "回归自然：趁假期去山里躲清静",
+              "弯道超车：别人放假我努力，悄悄惊艳所有人",
+              "只是放假：在哪躺着不是躺着"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "工作和生活，你如何平衡？",
+            options: [
+              "摸鱼哲学：工作是给老板的，生活是自己的",
+              "田园牧歌：努力工作是为了早日退休种地",
+              "狼性生存：年轻就要拼，休息是留给死人的",
+              "艺术人生：工作也要像创作一样充满激情",
+              "光鲜亮丽：工作要体面，生活要精致",
+              "开心就好：和喜欢的同事一起工作就不累"
+            ],
+            optionTypes: [PersonalityType.LAZY, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.SOCIAL]
+          },
+          {
+            text: "哪种天气最对你的胃口？",
+            options: [
+              "大晴天：心情好，适合出去浪",
+              "阴雨天：自带忧郁滤镜，适合思考",
+              "台风天：喜欢那种大自然的压迫感",
+              "下雪天：无论穿什么大衣都很有氛围感",
+              "无所谓：只要不影响我赚钱就行",
+              "多云：不晒也不下雨，最适合睡觉"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.ART, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "你希望你的邻居是？",
+            options: [
+              "热心肠大妈：随时能帮忙收快递，还能聊家常",
+              "高冷艺术家：虽然不说话，但家里装修很有品",
+              "时尚博主：能看到各种好看的衣服和快递",
+              "园艺达人：把社区公共区域种满花草",
+              "行业精英：偶尔电梯里遇到能聊两句行业趋势",
+              "隐形人：最好永远别让我碰见"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.NATURE, PersonalityType.FIGHT, PersonalityType.LAZY]
+          },
+          {
+            text: "关于“复古”和“未来”，你站哪边？",
+            options: [
+              "老灵魂：喜欢旧物，觉得时间沉淀的才有味道",
+              "混搭风：旧瓶装新酒，既有底蕴又时髦",
+              "未来派：科技改变生活，拥抱赛博朋克",
+              "原始派：越原始越好，回归本真",
+              "随大流：大家现在流行什么我就喜欢什么",
+              "实用派：不管黑猫白猫，好用就是好猫"
+            ],
+            optionTypes: [PersonalityType.ART, PersonalityType.FASHION, PersonalityType.FIGHT, PersonalityType.NATURE, PersonalityType.SOCIAL, PersonalityType.LAZY]
+          },
+          {
+            text: "说到吃，你的终极追求是？",
+            options: [
+              "重口味：火锅烧烤小龙虾，越热闹越好",
+              "原生态：食材必须新鲜，吃的是大自然的味道",
+              "颜值控：摆盘必须精致，能发朋友圈是关键",
+              "家常味：一碗热汤面，最抚凡人心",
+              "效率餐：沙拉、简餐，吃完赶紧干活",
+              "私房菜：藏在巷子里的神店，吃的是格调"
+            ],
+            optionTypes: [PersonalityType.SOCIAL, PersonalityType.NATURE, PersonalityType.FASHION, PersonalityType.LAZY, PersonalityType.FIGHT, PersonalityType.ART]
+          },
+          {
+            text: "定居一座城市，最让你心动的是？",
+            options: [
+              "搞钱机会：这里遍地是黄金，只要肯拼",
+              "文化底蕴：街角的一块砖都有故事",
+              "时尚氛围：走在街上大家都很会穿",
+              "烟火气息：下楼就能买到热乎的早点",
+              "山水之间：推窗见山，出门见水",
+              "舒适程度：生活节奏慢，房价不压人"
+            ],
+            optionTypes: [PersonalityType.FIGHT, PersonalityType.ART, PersonalityType.FASHION, PersonalityType.SOCIAL, PersonalityType.NATURE, PersonalityType.LAZY]
+          }
+        ];
+
+        const CITIES = [
+          {
+            city: "深圳",
+            keywords: ["搞钱之都", "永远年轻", "倍速生活", "科技森林", "不睡觉"],
+            personalityTypes: [PersonalityType.FIGHT, PersonalityType.FASHION, PersonalityType.SOCIAL],
+            analysis: "你的灵魂底色是热血与不羁，这与深圳的城市DNA完美契合。这里的空气里都飘着'搞钱'的味道，'来了就是深圳人'不仅是一句口号，更是对你这种渴望机遇、敢于冒险的奋斗型人格的最高礼赞。你不排斥内卷，甚至享受在竞争中脱颖而出的快感。在这座从不睡觉的城市里，你的野心会被无限放大，每一次通宵后的日出，都是对你梦想的加冕。"
+          },
+          {
+            city: "成都",
+            keywords: ["人间天堂", "火锅续命", "强制安逸", "熊猫邻居", "松弛感"],
+            personalityTypes: [PersonalityType.LAZY, PersonalityType.SOCIAL, PersonalityType.ART],
+            analysis: "你的灵魂里住着一个享乐主义者，成都就是你命中注定的快乐老家。当你还在纠结工作和生活如何平衡时，成都人已经坐在茶馆里搓起了麻将。这里没有'必须'，只有'巴适'。你热爱社交、享受美食、追求松弛感的性格，在这里会得到最大的包容。在玉林路的小酒馆微醺，在火锅的香气中虚度光阴，这才是你理想中的'正经事'。"
+          },
+          {
+            city: "杭州",
+            keywords: ["赛博江南", "诗意代码", "网红聚集", "断桥残雪", "新贵"],
+            personalityTypes: [PersonalityType.ART, PersonalityType.FIGHT, PersonalityType.NATURE],
+            analysis: "你是一个矛盾又迷人的综合体，既有互联网人的进取心，又有古代文人的浪漫情怀，杭州简直是为你量身定制的。左手是阿里的代码，右手是西湖的荷花。你可以在滨江的高写字楼里指点江山，下班后转身就能钻进西溪湿地吸氧。这种在'搞事业'和'搞情调'之间无缝切换的生活，精准击中了你对完美人生的定义。"
+          },
+          {
+            city: "大理",
+            keywords: ["避世天堂", "风花雪月", "流浪诗人", "治愈系", "躺平学"],
+            personalityTypes: [PersonalityType.NATURE, PersonalityType.ART, PersonalityType.LAZY],
+            analysis: "你的内心深处一直渴望一场盛大的'逃离'。去他的KPI，去他的复杂人际，你只想在苍山洱海边做一个无所事事的废人。大理不是一座城市，它是一种药，专门治愈你这种被都市生活压得喘不过气来的自然型灵魂。在这里，时间是不值钱的，你可以在屋顶发呆一整天，只为了看云怎么变，看风怎么吹。这才是你灵魂真正的归宿。"
+          },
+          {
+            city: "上海",
+            keywords: ["魔都幻境", "精致利己", "梧桐树下", "咖啡血液", "名利场"],
+            personalityTypes: [PersonalityType.FASHION, PersonalityType.FIGHT, PersonalityType.SOCIAL],
+            analysis: "你天生属于聚光灯，平庸是你最大的敌人。上海这座'魔都'，拥有你渴望的一切：顶级的审美、公平的规则、以及永不落幕的繁华。你迷恋外滩的纸醉金迷，也享受安福路的精致街拍。在这里，'作'是一种生活态度，'卷'是一种优雅的姿态。你的野心、你的品味、你对高质量社交的渴望，都能在这座海纳百川的城市里找到最高级的回响。"
+          },
+          {
+            city: "苏州",
+            keywords: ["温婉江南", "园林一梦", "吴侬软语", "慢调斯理", "精致"],
+            personalityTypes: [PersonalityType.ART, PersonalityType.NATURE, PersonalityType.LAZY],
+            analysis: "你的骨子里透着一股文气，厌恶粗糙和喧嚣。苏州，这座把日子过成诗的城市，就是你的灵魂伴侣。这里的一砖一瓦都透着精致，一水一桥都藏着故事。你不用刻意去寻找美，因为美就长在生活的细枝末节里。在园林里听一曲评弹，在运河边吃一碗头汤面，这种不紧不慢、优雅从容的生活节奏，能把你内心所有的浮躁都抚平。"
+          },
+          {
+            city: "北京",
+            keywords: ["皇城根儿", "梦想中心", "局气厚重", "胡同大爷", "大心脏"],
+            personalityTypes: [PersonalityType.FIGHT, PersonalityType.ART, PersonalityType.SOCIAL],
+            analysis: "你有着在这个时代少见的大格局和英雄主义情结。北京，这座由于梦想和历史交织而成的城市，最能承载你的抱负。这里既有国贸的精英范儿，也有胡同里的烟火气。你不怕压力，只怕没有舞台。北京的包容与残酷并存，正好激发了你体内那个不服输的灵魂。在这里，你可以和出租车司机聊国际局势，也可以在顶尖的平台上改变世界。"
+          },
+          {
+            city: "厦门",
+            keywords: ["海上花园", "文艺鼻祖", "单车恋人", "海风自由", "小确幸"],
+            personalityTypes: [PersonalityType.NATURE, PersonalityType.ART, PersonalityType.LAZY],
+            analysis: "你是一个无可救药的浪漫主义者，毕生追求就是'面朝大海，春暖花开'。厦门，这座长在海上的花园，就是你梦境的现实投影。这里的节奏是随着潮汐呼吸的，没有强制的闹钟，只有轻柔的海浪声。你可以在环岛路骑行，在鼓浪屿迷路，在每一家好看的咖啡馆里虚度光阴。在这个充满小资情调的城市，你的文艺细胞会得到最大程度的释放。"
+          },
+          {
+            city: "广州",
+            keywords: ["生猛务实", "早茶哲学", "人字拖", "包容之城", "生活家"],
+            personalityTypes: [PersonalityType.SOCIAL, PersonalityType.FIGHT, PersonalityType.LAZY],
+            analysis: "你是一个极其通透的人，看透了生活的本质依然热爱生活。广州，这座最没有架子的一线城市，简直就是你的性格写照。穿着人字拖吃米其林，开着豪车买大排档，这里从不以貌取人，只讲究实实在在的'叹世界'。你既有广东人务实肯干的拼劲，又深谙'饮茶'的享乐哲学。在这里，你不需要伪装，只需要做最舒服的自己。"
+          },
+          {
+            city: "重庆",
+            keywords: ["8D魔幻", "赛博朋克", "火辣江湖", "勒是雾都", "硬核"],
+            personalityTypes: [PersonalityType.SOCIAL, PersonalityType.NATURE, PersonalityType.FASHION],
+            analysis: "你的性格里带刺，带火，带着一股不服输的江湖气。重庆，这座长在山上的城市，和你一样硬核又迷人。这里的路是弯的，楼是高的，人是直的。你喜欢这里大开大合的城市格局，更爱这里直来直去的人际关系。在火锅的红油里挥洒汗水，在洪崖洞的夜景里迷失方向，这座充满了赛博朋克感的城市，能让你每一个躁动的细胞都High起来。"
+          },
+          {
+            city: "西安",
+            keywords: ["碳水之都", "大唐遗梦", "摇滚古城", "豪迈直爽", "穿越"],
+            personalityTypes: [PersonalityType.ART, PersonalityType.SOCIAL, PersonalityType.FIGHT],
+            analysis: "你是一个有根的人，喜欢厚重的东西，但也拥抱现代的喧嚣。西安，一半是历史，一半是摇滚，完美契合了你的双重人格。站在城墙上，你听到的是千年的风声；走下城墙，你听到的是回民街的叫卖声和地下摇滚的嘶吼。你的文艺情怀在这里有处安放，你的豪爽性格在这里如鱼得水。在西安，你每一天都像是在时空隧道里穿梭。"
+          },
+          {
+            city: "青岛",
+            keywords: ["啤酒泡沫", "红瓦绿树", "欧式浪漫", "海鲜自由", "痛快"],
+            personalityTypes: [PersonalityType.NATURE, PersonalityType.SOCIAL, PersonalityType.LAZY],
+            analysis: "你性格开朗，心胸像大海一样宽广，人生信条是'开心就好'。青岛，这座被啤酒泡沫包围的城市，就是你的快乐星球。这里有欧洲的童话感，也有山东的豪爽劲儿。你的生活可以很简单：哈啤酒，吃嘎啦，洗海澡。这种痛快淋漓、不拘小节的生活方式，让你感到无比自在。在青岛，每一天都是值得干杯的节日。"
+          },
+          {
+            city: "三亚",
+            keywords: ["东方夏威夷", "永远夏天", "躺平圣地", "免税天堂", "浪"],
+            personalityTypes: [PersonalityType.NATURE, PersonalityType.LAZY, PersonalityType.FASHION],
+            analysis: "你的灵魂是热带属性的，天生畏寒，向往阳光和自由。三亚，不仅是一个地理坐标，更是一种'彻底放假'的生活状态。在这里，你不需要思考明天，只需要享受当下。你可以穿着最时尚的泳衣在沙滩上晒太阳，也可以在椰林里发一整天的呆。这座城市存在的意义就是宠坏你，让你在阳光和海浪中，找回那个无忧无虑的孩子。"
+          },
+          {
+            city: "长沙",
+            keywords: ["娱乐至死", "不夜之城", "热辣鲜香", "快乐大本营", "躁"],
+            personalityTypes: [PersonalityType.SOCIAL, PersonalityType.FIGHT, PersonalityType.FASHION],
+            analysis: "你是一个停不下来的人，害怕寂寞，追求感官刺激。长沙，这座全中国最会玩的城市，就是你的大型游乐场。这里的人不用睡觉，凌晨三点的街道比白天还热闹。你喜欢这种充满烟火气的喧嚣，喜欢这种把每一天都过成狂欢节的态度。在这里，你的快乐阈值会被不断拉高，因为长沙永远有新鲜事在等你。"
+          },
+          {
+            city: "丽江",
+            keywords: ["艳遇之都", "柔软时光", "民谣手鼓", "发呆专用", "慢"],
+            personalityTypes: [PersonalityType.ART, PersonalityType.LAZY, PersonalityType.NATURE],
+            analysis: "你有一颗容易受伤但也容易被治愈的心，总是想在喧嚣尘世中寻找一片净土。丽江，就是那个能让你卸下所有防备的地方。这里的阳光是柔软的，时光是用来浪费的。你可以在四方街听流浪歌手唱歌，也可以在客栈的院子里晒太阳撸猫。在这里，你不需要讨好任何人，只需要讨好你自己。"
+          },
+          {
+            city: "武汉",
+            keywords: ["江湖码头", "过早文化", "朋克之城", "热血高校", "飒"],
+            personalityTypes: [PersonalityType.FIGHT, PersonalityType.SOCIAL, PersonalityType.NATURE],
+            analysis: "你性格直爽，说话办事雷厉风行，受不了磨磨唧唧。武汉，这座脾气火爆的城市，简直就是你的性格双胞胎。这里的人说话像吵架，其实心肠热得很。你喜欢这种不装、不作、生机勃勃的江湖气。在武汉，生活是热气腾腾的，过早是认真的，奋斗是拼命的。这座城市粗粝而真实的生命力，会让你感到前所未有的痛快。"
+          }
+        ];
+
+        // --- STATE ---
+        let state = {
+            view: 'landing', // landing, quiz, loading, results
+            currentQuestionIndex: 0,
+            answers: [], // Array of indices
+            latestWinnerCity: "",
+            latestMatchScore: null,
+        };
+        const authState = { unlocked: false, controller: null };
+
+        // --- DOM ELEMENTS ---
+        const views = {
+            landing: document.getElementById('landing-view'),
+            quiz: document.getElementById('quiz-view'),
+            loading: document.getElementById('loading-view'),
+            results: document.getElementById('results-view')
+        };
+        
+        const ui = {
+            questionText: document.getElementById('question-text'),
+            optionsContainer: document.getElementById('options-container'),
+            progressText: document.getElementById('progress-text'),
+            progressFill: document.getElementById('progress-fill'),
+            prevBtn: document.getElementById('prev-btn'),
+            primaryResult: document.getElementById('primary-result'),
+            otherResults: document.getElementById('other-results'),
+            unlockCard: document.getElementById('unlock-card'),
+            unlockButton: document.getElementById('unlock-btn'),
+            fullReport: document.getElementById('full-report'),
+            detailModal: document.getElementById('detail-modal'),
+            modalBody: document.getElementById('modal-body')
+        };
+
+        // --- FUNCTIONS ---
+        function setFullReportVisible(isVisible) {
+            if (ui.fullReport) {
+                ui.fullReport.style.display = isVisible ? 'block' : 'none';
+            }
+            if (ui.unlockCard) {
+                ui.unlockCard.style.display = isVisible ? 'none' : 'block';
+            }
+        }
+
+        function unlockFullReport() {
+            if (authState.unlocked) return;
+            authState.unlocked = true;
+            setFullReportVisible(true);
+        }
+
+        async function resolveApiBase() {
+            try {
+                const res = await fetch('/config/app-config.json', { cache: 'no-store' });
+                if (res.ok) {
+                    const cfg = await res.json();
+                    if (cfg && cfg.apiBase) {
+                        return String(cfg.apiBase).trim();
+                    }
+                }
+            } catch (err) {
+                console.warn('无法读取 app-config.json，将使用当前域名:', err);
+            }
+            return window.location.origin;
+        }
+
+        async function setupAuthGate() {
+            if (!window.AuthorizationSDK || !ui.unlockButton) {
+                return;
+            }
+            if (!authState.controller) {
+                const apiBase = await resolveApiBase();
+                authState.controller = await AuthorizationSDK.init({
+                    testType: 'xgcs',
+                    apiBase,
+                    startButtons: ['#unlock-btn'],
+                    onAuthorized: unlockFullReport,
+                    authContext: 'result'
+                });
+            }
+            const config = authState.controller?.state?.config;
+            if (config && config.auth_required === 0) {
+                unlockFullReport();
+                return;
+            }
+            const mode = (config && config.auth_mode) ? String(config.auth_mode).toLowerCase() : 'start';
+            if (mode !== 'result') {
+                unlockFullReport();
+                return;
+            }
+            if (authState.controller.isSessionActive()) {
+                unlockFullReport();
+            }
+        }
+
+        function switchView(viewName) {
+            // Hide all
+            Object.values(views).forEach(el => el.classList.add('hidden'));
+            // Show target
+            views[viewName].classList.remove('hidden');
+            state.view = viewName;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (viewName === 'results') {
+                setFullReportVisible(authState.unlocked);
+                setupAuthGate();
+            }
+        }
+
+        function startQuiz() {
+            state.currentQuestionIndex = 0;
+            state.answers = [];
+            renderQuestion();
+            switchView('quiz');
+        }
+
+        function renderQuestion() {
+            const question = QUESTIONS[state.currentQuestionIndex];
+            const progressPercent = ((state.currentQuestionIndex + 1) / QUESTIONS.length) * 100;
+            
+            ui.progressText.innerText = `${state.currentQuestionIndex + 1} / ${QUESTIONS.length}`;
+            ui.progressFill.style.width = `${progressPercent}%`;
+            
+            ui.questionText.innerHTML = `<span style="color: var(--primary-color); margin-right: 8px;">Q${state.currentQuestionIndex + 1}.</span> ${question.text}`;
+            
+            ui.optionsContainer.innerHTML = '';
+            
+            question.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                // Cycle through option styles (0-5)
+                const styleIndex = idx % 6;
+                btn.className = `option-btn opt-${styleIndex}`;
+                
+                const isSelected = state.answers[state.currentQuestionIndex] === idx;
+                if (isSelected) btn.classList.add('selected');
+
+                const letter = String.fromCharCode(65 + idx);
+                
+                btn.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="option-index">${letter}</span>
+                        <span style="font-weight: 500;">${opt}</span>
+                    </div>
+                    ${isSelected ? '<svg class="icon" style="color: var(--primary-color);" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+                `;
+                
+                btn.onclick = () => handleAnswer(idx);
+                ui.optionsContainer.appendChild(btn);
+            });
+
+            // Update Prev Button
+            ui.prevBtn.disabled = state.currentQuestionIndex === 0;
+            ui.prevBtn.onclick = () => {
+                if (state.currentQuestionIndex > 0) {
+                    state.currentQuestionIndex--;
+                    renderQuestion();
+                }
+            };
+        }
+
+        function handleAnswer(optionIndex) {
+            // Save answer
+            state.answers[state.currentQuestionIndex] = optionIndex;
+            
+            // Re-render to show selection state immediately
+            renderQuestion();
+
+            // Delay for UX
+            setTimeout(() => {
+                if (state.currentQuestionIndex < QUESTIONS.length - 1) {
+                    state.currentQuestionIndex++;
+                    renderQuestion();
+                } else {
+                    finishQuiz();
+                }
+            }, 300);
+        }
+
+        function finishQuiz() {
+            switchView('loading');
+            setTimeout(() => {
+                calculateAndShowResults();
+            }, 2500);
+        }
+
+        function calculateAndShowResults() {
+            // 1. Calculate Personality Scores
+            const scores = {
+                [PersonalityType.FIGHT]: 0,
+                [PersonalityType.LAZY]: 0,
+                [PersonalityType.ART]: 0,
+                [PersonalityType.NATURE]: 0,
+                [PersonalityType.SOCIAL]: 0,
+                [PersonalityType.FASHION]: 0
+            };
+
+            state.answers.forEach((optIdx, qIdx) => {
+                const q = QUESTIONS[qIdx];
+                const type = q.optionTypes[optIdx];
+                if (type) scores[type]++;
+            });
+
+            // Sort traits high to low
+            const userTraitPriority = Object.entries(scores)
+                .sort((a, b) => b[1] - a[1])
+                .map(entry => entry[0]);
+
+            // 2. Score Cities
+            const scoredCities = CITIES.map(city => {
+                let matchScore = 0;
+                const matchedTraits = [];
+
+                userTraitPriority.forEach((trait, index) => {
+                    if (city.personalityTypes.includes(trait)) {
+                        // Weighted match: Top user trait matters more
+                        const priorityWeight = 100 - (index * 15);
+                        matchScore += priorityWeight;
+                        matchedTraits.push(trait);
+                    }
+                });
+
+                // Bonus logic from original
+                const baseScore = 30;
+                let matchBonus = 0;
+                if (matchedTraits.length > 0) {
+                    if (matchedTraits.length >= Math.min(3, userTraitPriority.length)) matchBonus = 40;
+                    else if (matchedTraits.length >= 2) matchBonus = 25;
+                    else matchBonus = 10;
+
+                    if (matchedTraits.includes(userTraitPriority[0])) matchBonus += 20;
+                    if (matchedTraits.length >= 2 && matchedTraits.includes(userTraitPriority[1])) matchBonus += 10;
+                }
+
+                let finalScore = baseScore + matchScore / 10 + matchBonus;
+                finalScore = Math.max(30, Math.round(finalScore));
+
+                return {
+                    ...city,
+                    originalScore: finalScore,
+                    matchedTraits
+                };
+            });
+
+            // Sort by score
+            scoredCities.sort((a, b) => b.originalScore - a.originalScore);
+
+            // Winner
+            const maxScore = scoredCities[0].originalScore;
+            const topCandidates = scoredCities.filter(c => c.originalScore === maxScore);
+            const winner = topCandidates[Math.floor(Math.random() * topCandidates.length)];
+
+            // Normalize scores for display (adding some randomness for flavor)
+            const displayMax = 85;
+            const displayMin = 60;
+            
+            const processedCities = scoredCities.map(city => {
+                let displayScore = 0;
+                if (city.city === winner.city) {
+                    displayScore = Math.min(99, Math.max(75, 75 + (Math.random() * 10 - 5)));
+                    if (city.matchedTraits.length >= 3) displayScore += 3;
+                } else {
+                    const ratio = (city.originalScore - 30) / (winner.originalScore - 30 || 1);
+                    displayScore = displayMin + ratio * (displayMax - displayMin - 10);
+                    displayScore += (Math.random() * 10 - 5);
+                }
+                
+                return {
+                    ...city,
+                    matchScore: Math.round(displayScore)
+                };
+            });
+
+            // Determine levels for others
+            const others = processedCities.filter(c => c.city !== winner.city).slice(0, 6);
+            const otherScores = others.map(c => c.originalScore);
+            const uniqueScores = Array.from(new Set(otherScores)).sort((a, b) => b - a);
+
+            const finalizedOthers = others.map(city => {
+                const rankIndex = uniqueScores.indexOf(city.originalScore);
+                let level = 'low';
+                if (uniqueScores.length === 1) level = 'medium';
+                else if (uniqueScores.length === 2) level = rankIndex === 0 ? 'high' : 'low';
+                else {
+                    const p = rankIndex / (uniqueScores.length - 1);
+                    if (p < 0.3) level = 'high';
+                    else if (p < 0.7) level = 'medium';
+                }
+                return { ...city, matchLevel: level };
+            });
+
+            const finalizedWinner = processedCities.find(c => c.city === winner.city);
+
+            authState.unlocked = false;
+            setFullReportVisible(false);
+            renderResults(finalizedWinner, finalizedOthers);
+            switchView('results');
+        }
+
+        function renderResults(winner, others) {
+            state.latestWinnerCity = winner.city;
+            state.latestMatchScore = winner.matchScore;
+
+            // Render Winner
+            ui.primaryResult.innerHTML = `
+                <div class="result-header">
+                    <div class="result-header-bg"></div>
+                    <div style="position: relative; z-index: 10;">
+                        <svg class="icon animate-float" style="width: 60px; height: 60px; margin-bottom: 10px;" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <h1 style="margin-bottom: 5px; font-size: 3rem;">${winner.city}</h1>
+                        <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); padding: 5px 20px; border-radius: 99px; display: inline-block; font-weight: bold;">
+                            匹配度 ${winner.matchScore}%
+                        </div>
+                    </div>
+                </div>
+                <div class="result-content">
+                    <div class="text-center mb-4">
+                        ${winner.personalityTypes.map(t => `<span class="tag tag-trait">${t}</span>`).join('')}
+                    </div>
+                    <div class="text-center mb-6">
+                        ${winner.keywords.map(k => `<span class="tag tag-keyword">#${k}</span>`).join('')}
+                    </div>
+                    <p style="font-size: 1.1rem; text-align: justify; padding-top: 20px; border-top: 1px solid #f3f4f6;">
+                        ${winner.analysis}
+                    </p>
+                </div>
+            `;
+
+            // Render Others
+            ui.otherResults.innerHTML = '';
+            others.forEach(city => {
+                const card = document.createElement('div');
+                card.className = 'mini-card';
+                card.onclick = () => showDetail(city);
+                
+                let badgeClass = 'badge-low';
+                let badgeText = '一般匹配';
+                if (city.matchLevel === 'high') { badgeClass = 'badge-high'; badgeText = '高匹配度'; }
+                if (city.matchLevel === 'medium') { badgeClass = 'badge-medium'; badgeText = '中匹配度'; }
+
+                card.innerHTML = `
+                    <div class="match-badge ${badgeClass}">${badgeText}</div>
+                    <h3 style="margin-top: 15px; margin-bottom: 10px; font-size: 1.25rem;">${city.city}</h3>
+                    <div class="mb-4">
+                         ${city.personalityTypes.slice(0, 2).map(t => `<span style="font-size: 0.75rem; background: #f3f4f6; color: #6b7280; padding: 2px 6px; border-radius: 4px; margin: 2px;">${t}</span>`).join('')}
+                    </div>
+                    <div>
+                        ${city.keywords.slice(0, 2).map(k => `<span style="font-size: 0.75rem; color: #3b82f6; margin: 2px;">#${k}</span>`).join('')}
+                    </div>
+                `;
+                ui.otherResults.appendChild(card);
+            });
+        }
+
+        function showDetail(city) {
+            ui.modalBody.innerHTML = `
+                <div class="text-center mb-6">
+                    <h2 style="font-size: 2rem; color: #1f2937; margin-bottom: 5px;">${city.city}</h2>
+                    <span style="color: var(--primary-color); font-weight: bold; font-size: 1.2rem;">匹配度 ${city.matchScore}%</span>
+                </div>
+                <div class="text-center mb-6">
+                     ${city.keywords.map(k => `<span class="tag tag-keyword">#${k}</span>`).join('')}
+                </div>
+                <p style="text-align: justify; font-size: 1.05rem; line-height: 1.8;">
+                    ${city.analysis}
+                </p>
+            `;
+            ui.detailModal.classList.add('active');
+        }
+
+        function closeModal() {
+            ui.detailModal.classList.remove('active');
+        }
+
+        function shareResult() {
+            const city = state.latestWinnerCity || "未知";
+            const score = typeof state.latestMatchScore === "number" ? state.latestMatchScore : null;
+            const title = "城市性格匹配测试结果";
+            const text = score === null
+                ? `我的性格天选之城是「${city}」！你也来测测吧～`
+                : `我的性格天选之城是「${city}」（匹配度 ${score}%）！你也来测测吧～`;
+            if (navigator.share) {
+                navigator.share({ title, text, url: window.location.href }).catch(() => {});
+            } else {
+                alert("截屏即可分享结果给朋友哦！");
+            }
+        }
+
+        // --- EVENT LISTENERS ---
+        document.getElementById('start-btn').onclick = () => {
+            if (window.AuthorizationSDK) return;
+            startQuiz();
+        };
+        document.getElementById('retake-btn').onclick = () => {
+            switchView('landing');
+        };
+        document.getElementById('share-btn').onclick = shareResult;
+        
+        // Close modal when clicking outside
+        ui.detailModal.onclick = (e) => {
+            if (e.target === ui.detailModal) closeModal();
+        };
+
+    </script>
+    <script>
+        window.startXgcsFlow = function () {
+            startQuiz();
+        };
+    </script>
+    <script
+      src="../authorization/authorization-sdk.js"
+      data-test-type="xgcs"
+      data-auth-context="start"
+      data-start-button="#start-btn"
+      data-on-authorized="startXgcsFlow">
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>动物塑测 · 测试结果</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../../authorization/auth-modal.css"/>
+    <link rel="icon" href="../../static/images/favicon.png" type="image/png">
+    <script>
+      // 动态加载 Chart.js：优先本地文件，失败时回退至 CDN
+      (function(){
+        function loadScript(src){
+          return new Promise(function(resolve, reject){
+            var s = document.createElement('script');
+            s.src = src;
+            s.onload = resolve;
+            s.onerror = reject;
+            document.head.appendChild(s);
+          });
+        }
+        window.loadChartJs = async function(){
+          if (window.Chart) return; // 已有可用 Chart
+          if (window.__chartJsLoading) return window.__chartJsLoading;
+          window.__chartJsLoading = (async function(){
+            try {
+              await loadScript('lib/chart.umd.min.js');
+            } catch(e) {
+              try {
+                await loadScript('https://cdn.jsdelivr.net/npm/chart.js');
+              } catch(e2) {
+                console.error('Chart.js 加载失败（本地与CDN均不可用）');
+              }
+            }
+          })();
+          return window.__chartJsLoading;
+        }
+      })();
+    </script>
+    <style>
+      .result-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin-top: 40px;
+        margin-bottom: 40px;
+      }
+      
+      .result-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      
+      .result-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        background: linear-gradient(90deg, #8A2BE2, #4B0082);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      
+      .result-subtitle {
+        font-size: 18px;
+        color: #666;
+      }
+      
+      .animal-result {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 40px;
+      }
+      
+      .animal-emoji {
+        font-size: 80px;
+        margin-bottom: 20px;
+      }
+      
+      .animal-name {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+      }
+      
+      .animal-type {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 20px;
+      }
+      
+      .animal-description {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #555;
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      
+      .dimensions-section {
+        margin-top: 40px;
+      }
+      
+      .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #333;
+      }
+      
+      .dimensions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+      
+      .dimension-card {
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+      }
+      
+      .dimension-name {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #444;
+      }
+      
+      .dimension-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #8A2BE2;
+      }
+      
+      .dimension-bar {
+        height: 8px;
+        background-color: #e0e0e0;
+        border-radius: 4px;
+        margin-top: 10px;
+        overflow: hidden;
+      }
+      
+      .dimension-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #8A2BE2, #4B0082);
+        border-radius: 4px;
+      }
+      
+      .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 40px;
+      }
+      
+      .action-button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+      
+      .primary-button {
+        background: linear-gradient(90deg, #8A2BE2, #4B0082);
+        color: white;
+      }
+      
+      .primary-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(138, 43, 226, 0.3);
+      }
+      
+      .secondary-button {
+        background-color: #f0f0f0;
+        color: #555;
+      }
+      
+      .secondary-button:hover {
+        background-color: #e0e0e0;
+      }
+      
+      .loading {
+        text-align: center;
+        padding: 40px;
+        font-size: 18px;
+        color: #666;
+      }
+      
+      .error-message {
+        text-align: center;
+        padding: 40px;
+        color: #d32f2f;
+        font-size: 18px;
+      }
+
+      .unlock-card {
+        margin: 30px 0;
+        padding: 24px;
+        border-radius: 16px;
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(249, 115, 22, 0.08);
+      }
+
+      .unlock-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #9a3412;
+        margin-bottom: 8px;
+      }
+
+      .unlock-desc {
+        color: #9a3412;
+        opacity: 0.85;
+        margin-bottom: 16px;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .unlock-note {
+        font-size: 12px;
+        color: #9a3412;
+        opacity: 0.75;
+        margin-top: 10px;
+      }
+      
+
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav__brand">
+        <span class="brand__logo">🦊</span>
+        <div class="brand__text">
+          <div class="brand__cn">动物塑测</div>
+          <div class="brand__en">Animal Personality Test</div>
+        </div>
+      </div>
+      <nav class="nav__links">
+        <a href="index.html" class="nav__link"><span>🏠</span> 首页</a>
+        <a href="#" class="nav__link active"><span>📊</span> 测试结果</a>
+        <a href="#" class="nav__link"><span>📕</span> 小红书主页</a>
+      </nav>
+    </header>
+
+    <main class="main">
+      <div class="result-container">
+        <div id="loading" class="loading">正在计算结果...</div>
+        <div id="error" class="error-message" style="display: none;">
+          计算结果失败，请重试测试。
+        </div>
+        <div id="result-content" style="display: none;">
+          <div class="result-header">
+            <h1 class="result-title">你的动物性格是</h1>
+            <p class="result-subtitle">基于五大人格理论的专业测评结果</p>
+          </div>
+          
+          <div class="animal-result" data-auth-basic="true">
+            <div id="animal-emoji" class="animal-emoji">🦊</div>
+            <h2 id="animal-name" class="animal-name">狐狸</h2>
+            <p id="animal-type" class="animal-type">聪慧机敏型</p>
+            <p id="animal-description" class="animal-description">
+              你像狐狸一样聪慧机敏，善于观察和思考。你拥有敏锐的洞察力和灵活的思维方式，能够快速适应各种环境。你喜欢探索未知，对世界充满好奇心，总是能够找到解决问题的创新方法。
+            </p>
+          </div>
+          <div id="unlockCard" class="unlock-card">
+            <div class="unlock-title">解锁完整报告</div>
+            <p class="unlock-desc">查看你的维度得分、特征组合分析与动物原型深度解析。</p>
+            <button type="button" id="unlockBtn" data-auth-unlock-btn="true" class="action-button primary-button">输入授权码解锁</button>
+            <div class="unlock-note">已购买用户输入授权码即可解锁完整结果</div>
+          </div>
+
+          <div id="full-report" data-auth-lock="true" style="display: none;">
+            <div class="dimensions-section">
+              <h3 class="section-title">你的性格维度得分</h3>
+              <div id="radar-chart-container" style="margin-bottom: 30px;">
+                <canvas id="dimensions-radar-chart" width="400" height="400"></canvas>
+              </div>
+              <div id="dimensions-grid" class="dimensions-grid">
+                <!-- 维度得分将在这里显示 -->
+              </div>
+            </div>
+            
+            <div id="feature-combination" class="feature-combination-section">
+              <h3 class="section-title">特征组合分析</h3>
+              <div class="combination-content">
+                <!-- 特征组合分析将在这里显示 -->
+              </div>
+            </div>
+            
+            <div id="animal-archetype" class="animal-archetype-section">
+              <h3 class="section-title">动物原型深度解析</h3>
+              <div class="archetype-content">
+                <!-- 动物原型深度解析将在这里显示 -->
+              </div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <a href="index.html" class="action-button secondary-button">返回首页</a>
+            <button type="button" id="shareResultBtn" class="action-button secondary-button">分享结果</button>
+            <a href="../../tg/index.html" target="_blank" rel="noopener" class="action-button secondary-button">加入测试交流群</a>
+            <a href="quiz.html" class="action-button primary-button">重新测试</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="scoring.js"></script>
+    <script src="../../authorization/authorization-sdk.js"></script>
+    <script>
+      // 结果页面状态
+      const resultState = {
+        answers: {},
+        animalResult: null,
+        isLoading: true,
+        error: null
+      };
+
+      const authState = {
+        unlocked: false,
+        controller: null
+      };
+
+      // DOM 元素
+      const elements = {
+        loading: document.getElementById('loading'),
+        error: document.getElementById('error'),
+        resultContent: document.getElementById('result-content'),
+        animalEmoji: document.getElementById('animal-emoji'),
+        animalName: document.getElementById('animal-name'),
+        animalType: document.getElementById('animal-type'),
+        animalDescription: document.getElementById('animal-description'),
+        dimensionsGrid: document.getElementById('dimensions-grid'),
+        featureCombination: document.getElementById('feature-combination'),
+        animalArchetype: document.getElementById('animal-archetype'),
+        unlockCard: document.getElementById('unlockCard'),
+        unlockButton: document.getElementById('unlockBtn'),
+        fullReport: document.getElementById('full-report'),
+        shareButton: document.getElementById('shareResultBtn')
+      };
+
+      // animals.json 的内置兜底数据（与文件内容一致）
+      const FALLBACK_ANIMALS = [
+        {"id":"dog","name":"狗","emoji":"🐶","dims":{"DOM":1,"STR":1,"COM":5,"SOL":0,"AGI":3,"SEC":4,"AES":1}},
+        {"id":"cat","name":"猫","emoji":"🐱","dims":{"DOM":1,"STR":2,"COM":0,"SOL":5,"AGI":4,"SEC":2,"AES":3}},
+        {"id":"wolf","name":"狼","emoji":"🐺","dims":{"DOM":4,"STR":4,"COM":3,"SOL":2,"AGI":2,"SEC":1,"AES":0}},
+        {"id":"fox","name":"狐","emoji":"🦊","dims":{"DOM":1,"STR":5,"COM":0,"SOL":4,"AGI":4,"SEC":1,"AES":1}},
+        {"id":"lion","name":"狮","emoji":"🦁","dims":{"DOM":5,"STR":2,"COM":3,"SOL":3,"AGI":1,"SEC":2,"AES":2}},
+        {"id":"bear","name":"熊","emoji":"🐻","dims":{"DOM":3,"STR":1,"COM":1,"SOL":4,"AGI":0,"SEC":5,"AES":1}},
+        {"id":"rabbit","name":"兔","emoji":"🐰","dims":{"DOM":0,"STR":1,"COM":2,"SOL":2,"AGI":5,"SEC":5,"AES":2}},
+        {"id":"hamster","name":"仓鼠","emoji":"🐹","dims":{"DOM":0,"STR":0,"COM":2,"SOL":4,"AGI":1,"SEC":5,"AES":1}},
+        {"id":"swan","name":"天鹅","emoji":"🦢","dims":{"DOM":2,"STR":1,"COM":2,"SOL":3,"AGI":1,"SEC":2,"AES":5}},
+        {"id":"deer","name":"鹿","emoji":"🦌","dims":{"DOM":1,"STR":1,"COM":3,"SOL":3,"AGI":3,"SEC":4,"AES":4}},
+        {"id":"eagle","name":"鹰","emoji":"🦅","dims":{"DOM":4,"STR":3,"COM":0,"SOL":5,"AGI":2,"SEC":1,"AES":2}},
+        {"id":"crow","name":"乌鸦","emoji":"🐦‍⬛","dims":{"DOM":2,"STR":5,"COM":4,"SOL":2,"AGI":3,"SEC":1,"AES":0}},
+        {"id":"capybara","name":"水豚","emoji":"🦫","dims":{"DOM":0,"STR":0,"COM":5,"SOL":2,"AGI":1,"SEC":5,"AES":2}},
+        {"id":"whale","name":"鲸","emoji":"🐋","dims":{"DOM":2,"STR":3,"COM":4,"SOL":4,"AGI":0,"SEC":2,"AES":4}},
+        {"id":"parrot","name":"鹦鹉","emoji":"🦜","dims":{"DOM":1,"STR":2,"COM":5,"SOL":1,"AGI":5,"SEC":1,"AES":2}},
+        {"id":"octopus","name":"章鱼","emoji":"🐙","dims":{"DOM":2,"STR":5,"COM":0,"SOL":5,"AGI":4,"SEC":1,"AES":1}},
+        {"id":"shark","name":"鲨鱼","emoji":"🦈","dims":{"DOM":5,"STR":3,"COM":0,"SOL":5,"AGI":3,"SEC":0,"AES":0}},
+        {"id":"dolphin","name":"海豚","emoji":"🐬","dims":{"DOM":3,"STR":4,"COM":5,"SOL":0,"AGI":4,"SEC":1,"AES":1}},
+        {"id":"raccoon","name":"浣熊","emoji":"🦝","dims":{"DOM":1,"STR":4,"COM":2,"SOL":3,"AGI":5,"SEC":2,"AES":0}},
+        {"id":"meerkat","name":"猫鼬","emoji":"🦡","dims":{"DOM":2,"STR":3,"COM":5,"SOL":1,"AGI":3,"SEC":5,"AES":0}}
+      ];
+
+      // 加载测试数据并计算结果
+      async function loadAndCalculateResult() {
+        try {
+          // 从localStorage获取答案
+          const storedAnswers = localStorage.getItem('quizAnswers');
+          if (!storedAnswers) {
+            throw new Error('No answers found');
+          }
+          
+          resultState.answers = JSON.parse(storedAnswers);
+          
+          // 先确保 Chart.js 已加载（本地优先，失败回退至CDN）
+          await window.loadChartJs();
+
+          // 加载动物数据（失败使用兜底数据）
+          let animals = null;
+          try {
+            const response = await fetch('animals.json');
+            if (response.ok) {
+              animals = await response.json();
+            } else {
+              throw new Error('Failed to load animals data');
+            }
+          } catch (e) {
+            console.warn('animals.json 加载失败，使用内置兜底数据:', e);
+            animals = FALLBACK_ANIMALS;
+          }
+          
+          // 计算结果
+          calculateResult(animals);
+          
+          resultState.isLoading = false;
+          renderResult();
+        } catch (error) {
+          console.error('Error calculating result:', error);
+          resultState.error = error;
+          resultState.isLoading = false;
+          renderError();
+        }
+      }
+
+      // 计算测试结果
+      function calculateResult(animals) {
+        // 将答案转换为维度分数
+        const dimensionScores = calculateDimensionScores(resultState.answers);
+        
+        // 计算T分数
+        const tScores = window.Scoring.tScore(dimensionScores);
+        
+        // 找到最匹配的动物
+        resultState.animalResult = window.Scoring.nearestAnimal(tScores, animals);
+        resultState.animalResult.tScores = tScores;
+      }
+
+      // 将答案转换为维度分数
+      function calculateDimensionScores(answers) {
+        // 初始化维度分数
+        const dimensions = ['DOM', 'STR', 'COM', 'SOL', 'AGI', 'SEC', 'AES'];
+        const scores = {};
+        dimensions.forEach(dim => {
+          scores[dim] = 0;
+        });
+        
+        // 计算每个维度的分数
+        // 优化计分规则：每个选项给不同维度加不同权重分数，避免单一维度分数过高
+        Object.values(answers).forEach(answer => {
+          switch(answer) {
+            case 'A':
+              scores.DOM += 2;  // 支配性
+              scores.STR += 1;  // 坚韧性
+              scores.AES += 1;  // 审美性
+              break;
+            case 'B':
+              scores.COM += 2;  // 服从性
+              scores.SEC += 1;  // 安全感
+              scores.AGI += 1;  // 敏捷性
+              break;
+            case 'C':
+              scores.SOL += 2;  // 社交性
+              scores.AES += 1;  // 审美性
+              scores.SEC += 1;  // 安全感
+              break;
+            case 'D':
+              scores.DOM += 1;  // 支配性
+              scores.STR += 2;  // 坚韧性
+              scores.AGI += 1;  // 敏捷性
+              break;
+          }
+        });
+        
+        // 标准化原始分数，确保分数范围合理
+        // 假设每个维度的最大可能分数约为40，将其缩放到0-60范围内
+        const maxPossibleScore = 40;
+        Object.keys(scores).forEach(dim => {
+          scores[dim] = Math.round((scores[dim] / maxPossibleScore) * 60);
+        });
+        
+        return scores;
+      }
+
+      // 渲染结果
+      function renderResult() {
+        const { best } = resultState.animalResult;
+        renderBaseResult(best);
+        setFullReportVisible(authState.unlocked);
+        if (authState.unlocked) {
+          renderFullReport();
+        }
+        elements.loading.style.display = 'none';
+        elements.resultContent.style.display = 'block';
+      }
+
+      function renderBaseResult(best) {
+        // 显示动物结果
+        elements.animalEmoji.textContent = best.emoji;
+        elements.animalName.textContent = best.name;
+
+        // 显示动物类型和描述 - 基于动物类型文件中的核心特质和性格描述
+        const animalTypes = {
+          '狗': '忠诚陪伴型',
+          '猫': '独立优雅型',
+          '狼': '领袖战略型',
+          '狐': '机敏智取型',
+          '狮': '王者自信型',
+          '熊': '沉稳守护型',
+          '兔': '警觉温和型',
+          '仓鼠': '安逸专注型',
+          '天鹅': '优雅理想型',
+          '鹿': '温和纯净型',
+          '鹰': '高傲远见型',
+          '乌鸦': '聪慧社交型',
+          '水豚': '随和社交型',
+          '鲸': '深邃智慧型',
+          '鹦鹉': '活泼社交型',
+          '章鱼': '多面智慧型',
+          '鲨鱼': '专注目标型',
+          '海豚': '智慧协作型',
+          '浣熊': '机灵探索型',
+          '猫鼬': '责任协作型'
+        };
+        
+        const animalDescriptions = {
+          '狗': '你是忠诚的“伙伴”与热情的“守护者”。你的世界因“我们”（家人、朋友、团队）而完整。你天生擅长建立深刻的连接，给予无条件的温暖与支持。你的存在本身就是一种治愈，最大的快乐源于“陪伴”与“被需要”。',
+          '猫': '你是优雅的“独立思考者”，神秘且自我丰盈。你享受高质量的独处，内心世界充实而自足，只为真正触动你内心的人事物驻足。你的魅力不在于讨好，而在于那份“若即若离”的清醒与无法被掌控的灵气。',
+          '狼': '你是天生的“领袖”与“战略家”，兼具孤独的意志与社群的智慧。你既能独立思考，也能为团队无缝协作。目标感极强，为守护心中“领地”而战。你的统御力不来自压迫，而来自那份为集体荣誉而战的决心与谋略。',
+          '狐': '你是机敏的“策略家”与孤独的“观察者”。你拥有惊人的智慧和适应力，总能在复杂环境中找到最优解。你倾向独立行动，用敏锐的洞察力规避风险。你的生存哲学永远是“智取”而非“强攻”，魅力在于总能“四两拨千斤”。',
+          '狮': '你是自信的“王者”，天生自带光环与领袖魅力。你享受成为焦点，习惯被仰望，你的慷慨和气场总能吸引追随者。你无需刻意表现，你的存在本身，就是一种充满力量与威严的宣告。',
+          '熊': '你是沉稳的“守护者”，强大、内敛且平和。大部分时间你安静温和，享受自己的节奏。但当家人或领地受威胁时，你会爆发出不容置疑的绝对力量。你极度重视安全感，最大的满足就是为所爱之人建立一个舒适的“庇护所”。',
+          '兔': '你是警觉的“和平主义者”，敏捷、细腻且富有同情心。你对环境变化极度敏感，这并非胆小，而是你规避风险的天赋。你擅长躲避不必要的冲突。在你熟悉的安全“小圈子”里，你会展现出惊人的活泼与温柔。',
+         '仓鼠': '你是专注的“囤积者”与安逸的“生活家”。你最大的幸福，来自建立一个堆满“安全感”的“小窝”。你热爱收集和整理（无论是物质还是信息），享受在自己的小世界里自得其乐。这份“钝感力”是你幸福的秘诀。',
+         '天鹅': '你是优雅的“理想主义者”，对“美”有着近乎偏执的追求。你的姿态高贵，天生带着疏离感，但内心深处对“唯一”的伴侣和家庭极为忠诚。精神的契合对你而言高于一切，你的高贵在于绝不容忍任何形式的粗俗与“将就”。',
+         '鹿': '你是温和的“自然之子”，敏感、优雅且充满灵性。你对美与宁静有着天生的向往，常沉浸在自己的精神世界。你的警惕性很高，需要绝对安全的环境才能彻底放松。你的魅力在于那份“不染尘埃”的纯净气质。',
+         '鹰': '你是高傲的“远见者”，拥有凌驾一切的“视野”与“决心”。你习惯从高处审视全局，制定长远目标。你享受孤独，因为孤独让你看得更清。你的力量不只在于利爪，更在于你“只忠于自己”的独立意志与宏大格局。',
+        '乌鸦': '你是聪慧的“谜题解决者”与“信息破译者”。你拥有极高的智商和好奇心，善于观察、学习和“使用工具”来解决问题。在他人看来你或许神秘莫测，但这份“神秘感”，恰恰是你用来洞察世界的“智慧保护色”。',
+        '水豚': '你是“情绪稳定”的社交大师，随和、包容，万物皆可为友。你的存在本身，就能给周围带来不可思议的“平静”与“和谐”。你享受社群，但也从不强求。你的“佛系”态度是对世界的最大善意，你的哲学是：“放轻松，一切都会OK”。',
+        '鲸': '你是深海的“哲学家”，古老、智慧且深邃。你承载着厚重的记忆，既能融入庞大的集体，又始终保持着个体的“深邃孤独”。你的内心就像海洋：平静时包容万物，翻涌时则充满不可抗拒的磅礴力量。',
+        '鹦鹉': '你是聪明的“社交达人”与天生的“表演家”。你热爱互动，拥有惊人的学习和模仿能力，是群体中的“开心果”和“信息中心”。你的好奇心永不枯竭，有你的地方从不缺乏戏剧性与欢笑。你的智慧在与世界的灵动交互中闪光。',
+        '章鱼': '你是深海的“智者”与“伪装大师”。你拥有惊人的智慧和解决问题的能力，习惯独立思考。你的每一次“变形”，都是一次精妙的策略展示。你是真正的“多面手”，在任何复杂环境中都能展现极强的适应力与创造力。',
+        '鲨鱼': '你是高效的“目标追逐者”，专注、直接，充满原始的力量。一旦锁定目标，你便会“心无旁骛”地全速前进。你不需要复杂的人际关系，习惯独来独往。你的生存法则纯粹而强大：“永不停止，永不后退”。',
+        '海豚': '你是智慧的“嬉戏者”与“团队合作”的典礼。你拥有高度发达的大脑和复杂的社会行为，充满“玩乐精神”，将生活视为一场有趣的游戏。你的快乐源于“协作”，你最大的天赋，是与同伴一起“探索”这个世界的无限乐趣。',
+        '浣熊': '你是机灵的“都市探险家”与“问题解决”小天才。你好奇心极强，动手能力超群，总能找到规则之外的“捷径”来达成目的。你极其“足智多谋”，总能在看似“不可能”的限制中，找到属于自己的生存空间和乐趣。',
+        '猫鼬': '你是警惕的“哨兵”与“家族”的守护者。你对集体有着极强的“归属感”和“责任心”，时刻为团队的安危“站岗放哨”。你的生存极度依赖高效的“团队协作”与“分工”。你的勇敢不为自己，而是为了“整个族群”的延续。'
+};
+        
+        elements.animalType.textContent = animalTypes[best.name] || '独特个性型';
+        elements.animalDescription.textContent = animalDescriptions[best.name] || '你有独特的个性，无法被简单归类。你拥有多面的性格，能够在不同场合展现不同的一面，是一个复杂而有趣的人。';
+      }
+
+      function renderFullReport() {
+        const { best, tScores } = resultState.animalResult;
+        renderDimensions(tScores);
+        renderRadarChart(tScores);
+        renderFeatureCombinations(tScores);
+        renderAnimalArchetype(best.name);
+      }
+
+      function setFullReportVisible(isVisible) {
+        if (elements.fullReport) {
+          elements.fullReport.style.display = isVisible ? 'block' : 'none';
+        }
+        if (elements.unlockCard) {
+          elements.unlockCard.style.display = isVisible ? 'none' : 'block';
+        }
+        if (elements.shareButton) {
+          elements.shareButton.style.display = 'inline-flex';
+        }
+      }
+
+      function unlockFullReport() {
+        if (authState.unlocked) return;
+        authState.unlocked = true;
+        setFullReportVisible(true);
+        if (resultState.animalResult) {
+          renderFullReport();
+        }
+      }
+
+      // 渲染维度得分
+      function renderDimensions(tScores) {
+        const dimensionNames = {
+          'DOM': '支配性',
+          'STR': '力量',
+          'COM': '服从性',
+          'SOL': '社交性',
+          'AGI': '敏捷性',
+          'SEC': '安全感',
+          'AES': '审美'
+        };
+        
+        // 各维度的分级话术描述
+        const dimensionDescriptions = {
+          'DOM': {
+            'low': '你似乎习惯处于跟随者的位置，很少主动掌控局面。这种谦卑或许为你赢得了好人缘，但有时也可能让你失去展现自我的机会。你的内心是否也渴望过主导权？',
+            'medium': '你对权力持平衡态度，既不盲目追求控制，也不轻易放弃发言权。你懂得在何时主动，何时退后，这种灵活让你在各种关系中游刃有余。你是否觉得这种平衡有时也意味着妥协？',
+            'high': '你天生具有领导者气质，习惯掌控局面、做决定。你享受引领他人的感觉，这既是你的优势也是你的责任。你是否曾意识到，过度的掌控欲有时会让身边人感到压力？'
+          },
+          'STR': {
+            'low': '你可能给人温和、内敛的印象，很少通过力量来解决问题。你的"力量"或许藏在其他地方——耐心、同理心或智慧。但有时候，展现坚韧也是一种保护自己的方式。',
+            'medium': '你拥有适度的力量和韧性，既不会轻易被击倒，也不会过度强硬。你懂得在何时坚持，何时灵活调整。这种平衡的力量让你在面对挑战时既有原则又有弹性。',
+            'high': '你是个意志坚强的人，面对困难有着惊人的韧性和毅力。你的坚持和执着往往能帮助你克服常人难以想象的障碍。但也要记住，偶尔的示弱和休息，并不代表软弱。'
+          },
+          'COM': {
+            'low': '你有强烈的独立性和自我意识，很难完全服从他人的安排。你更相信自己的判断，这种特质让你与众不同，但有时也可能让你显得固执。你是否曾因为不愿妥协而错过一些机会？',
+            'medium': '你能在坚持自我和配合他人之间找到平衡点。你尊重规则和权威，但也不会盲目服从。这种理性的态度让你既保持了个性，又能融入集体。',
+            'high': '你是个善于配合、顾全大局的人。你懂得何时放下自我，为了更大的目标而协同努力。这种牺牲精神值得赞赏，但也请记得：你的需求和感受同样重要。'
+          },
+          'SOL': {
+            'low': '你享受独处的时光，社交对你来说可能是一种消耗。你的世界丰富而深邃，不需要通过外界的认可来证明自己。但偶尔的真诚连接，或许能为你打开另一个精彩的世界。',
+            'medium': '你在社交和独处之间找到了舒适的平衡点。你享受与人交往的乐趣，也珍视自己的私人空间。这种平衡让你既能从关系中获取能量，又能保持内心的独立与宁静。',
+            'high': '你是天生的社交达人，在人群中如鱼得水。你通过与人连接获得能量和满足感，善于建立和维护关系。但在喧嚣之后，你是否也需要一些安静的时刻来审视真实的自己？'
+          },
+          'AGI': {
+            'low': '你喜欢稳定和秩序，对变化保持谨慎态度。你的坚持和专注是你的优势，但有时也可能让你错过新的机会。世界唯一不变的就是变化，试着拥抱一些不确定性，或许能发现新的可能。',
+            'medium': '你既能保持一定的稳定性，又具备适应变化的能力。面对生活的起伏，你能够灵活调整但不随波逐流。这种平衡让你既可靠又不乏创新精神。',
+            'high': '你是个应变能力极强的人，能够迅速适应各种环境和变化。你的灵活和机智让你在复杂多变的情况下总能找到出路。但有时，停下来思考比不断调整更重要。'
+          },
+          'SEC': {
+            'low': '你似乎对安全感的需求较低，甚至可能享受某种程度的冒险和不确定性。这种勇敢令人钦佩，但也请记得：建立一些稳定的基础，能让你飞得更高更远。',
+            'medium': '你对安全感有适度的追求，既不会被恐惧束缚，也不会盲目冒险。你懂得在稳定和挑战之间找到平衡，这种心态让你既能享受生活的精彩，又不会失去内心的安宁。',
+            'high': '安全感对你来说至关重要，你倾向于规避风险，追求稳定。这种谨慎让你的生活更加可控，但有时也可能限制你的成长。试着偶尔走出舒适区，你可能会发现自己比想象中更强大。'
+          },
+          'AES': {
+            'low': '你可能更注重实用和效率，对美的追求相对低调。对你来说，事物的价值在于其功能而非形式。但生活不仅是生存，偶尔停下来欣赏美，能让心灵得到滋养。',
+            'medium': '你能欣赏生活中的美好，但不会过分追求完美。你懂得在实用和美感之间找到平衡，这种态度让你的生活既充实又不失品味。',
+            'high': '你对美有着敏锐的感知和不懈的追求。美不仅仅是外表，更是一种生活态度。你用独特的视角发现世界的美好，但也要小心：过度追求完美可能会让你错过生活中那些"不完美"的真实感动。'
+          }
+        };
+        
+        elements.dimensionsGrid.innerHTML = '';
+        
+        Object.entries(tScores).forEach(([dim, score]) => {
+          const dimensionCard = document.createElement('div');
+          dimensionCard.className = 'dimension-card';
+          
+          const percentage = Math.min(100, Math.max(0, score));
+          
+          // 根据分数确定描述等级
+          let descriptionLevel;
+          if (score < 40) {
+            descriptionLevel = 'low';
+          } else if (score > 70) {
+            descriptionLevel = 'high';
+          } else {
+            descriptionLevel = 'medium';
+          }
+          
+          // 获取对应的描述
+          const description = dimensionDescriptions[dim]?.[descriptionLevel] || '你的这个特质有独特的表现。';
+          
+          dimensionCard.innerHTML = `
+            <div class="dimension-name">${dimensionNames[dim] || dim}</div>
+            <div class="dimension-value">${Math.round(score)}</div>
+            <div class="dimension-bar">
+              <div class="dimension-fill" style="width: ${percentage}%"></div>
+            </div>
+            <div class="dimension-description">${description}</div>
+          `;
+          
+          elements.dimensionsGrid.appendChild(dimensionCard);
+        });
+      }
+
+      // 分析并渲染特征组合
+      function renderFeatureCombinations(tScores) {
+        const dimensionNames = {
+          'DOM': '支配性',
+          'STR': '力量',
+          'COM': '服从性',
+          'SOL': '社交性',
+          'AGI': '敏捷性',
+          'SEC': '安全感',
+          'AES': '审美'
+        };
+        
+        const combinationsContainer = document.querySelector('.combination-content');
+        combinationsContainer.innerHTML = '';
+        
+        // 1. 维度对比分析
+        const dimensionPairs = [
+          { pair: ['DOM', 'COM'], analysis: compareDominanceAndCompliance },
+          { pair: ['SOL', 'SEC'], analysis: compareSociabilityAndSecurity },
+          { pair: ['STR', 'AGI'], analysis: compareStrengthAndAgility }
+        ];
+        
+        // 2. 反差特征识别
+        const contrasts = identifyContrastingFeatures(tScores, dimensionNames);
+        
+        // 3. 核心动力分析
+        const coreMotivations = analyzeCoreMotivations(tScores, dimensionNames);
+        
+        // 添加维度对比分析
+        const contrastAnalysisSection = document.createElement('div');
+        contrastAnalysisSection.className = 'analysis-section';
+        contrastAnalysisSection.innerHTML = `<h4 class="analysis-subtitle">维度对比分析</h4>`;
+        
+        dimensionPairs.forEach(({ pair, analysis }) => {
+          const [dim1, dim2] = pair;
+          const analysisResult = analysis(tScores[dim1], tScores[dim2], dimensionNames[dim1], dimensionNames[dim2]);
+          
+          const contrastItem = document.createElement('div');
+          contrastItem.className = 'contrast-item';
+          contrastItem.innerHTML = `
+            <p class="contrast-title">${dimensionNames[dim1]} vs ${dimensionNames[dim2]}</p>
+            <p class="contrast-description">${analysisResult}</p>
+          `;
+          
+          contrastAnalysisSection.appendChild(contrastItem);
+        });
+        
+        combinationsContainer.appendChild(contrastAnalysisSection);
+        
+        // 添加反差特征分析
+        if (contrasts.length > 0) {
+          const contrastsSection = document.createElement('div');
+          contrastsSection.className = 'analysis-section';
+          contrastsSection.innerHTML = `<h4 class="analysis-subtitle">反差特征解读</h4>`;
+          
+          contrasts.forEach(contrast => {
+            const contrastItem = document.createElement('div');
+            contrastItem.className = 'contrast-item';
+            contrastItem.innerHTML = `
+              <p class="contrast-description">${contrast}</p>
+            `;
+            
+            contrastsSection.appendChild(contrastItem);
+          });
+          
+          combinationsContainer.appendChild(contrastsSection);
+        }
+        
+        // 添加核心动力分析
+        if (coreMotivations.length > 0) {
+          const motivationsSection = document.createElement('div');
+          motivationsSection.className = 'analysis-section';
+          motivationsSection.innerHTML = `<h4 class="analysis-subtitle">核心动力分析</h4>`;
+          
+          coreMotivations.forEach((motivation, index) => {
+            const motivationItem = document.createElement('div');
+            motivationItem.className = 'motivation-item';
+            motivationItem.innerHTML = `
+              <p class="motivation-number">${index + 1}</p>
+              <p class="motivation-description">${motivation}</p>
+            `;
+            
+            motivationsSection.appendChild(motivationItem);
+          });
+          
+          combinationsContainer.appendChild(motivationsSection);
+        }
+      }
+      
+      // 对比分析函数
+      function compareDominanceAndCompliance(domScore, comScore, domName, comName) {
+        const difference = Math.abs(domScore - comScore);
+        
+        if (domScore > comScore + 20) {
+          return `你的${domName}明显高于${comName}，你习惯掌控局面，喜欢自己做决定，可能在团队中扮演领导者角色。这种特质让你能够果断行动，但也可能需要注意倾听他人意见。`;
+        } else if (comScore > domScore + 20) {
+          return `你的${comName}明显高于${domName}，你更善于配合和协作，能够很好地融入团队。你尊重规则和权威，但也别忘了，有时候表达自己的想法同样重要。`;
+        } else {
+          return `你的${domName}和${comName}较为平衡，你既能在需要时展现领导力，又懂得适时配合。这种平衡让你在各种社交和工作场合都能灵活应对。`;
+        }
+      }
+      
+      function compareSociabilityAndSecurity(solScore, secScore, solName, secName) {
+        if (solScore > 60 && secScore > 60) {
+          return `你既享受社交的乐趣，又重视安全感，这使你能够在群体中建立稳定而深入的关系。你能够从社交中获得能量，同时也懂得保护自己的内心世界。`;
+        } else if (solScore > 60 && secScore < 40) {
+          return `你是个社交达人，但对安全感的需求较低，这让你充满冒险精神，愿意尝试新事物。你可能喜欢广交朋友，享受多样化的社交体验。`;
+        } else if (solScore < 40 && secScore > 60) {
+          return `你享受独处时光，同时非常重视安全感。你可能有几个非常亲密的朋友，更喜欢稳定、可预测的生活环境。`;
+        } else {
+          return `你的社交需求和安全需求较为平衡，能够根据情境灵活调整自己的行为。这种平衡让你既能享受独处的宁静，也能在需要时积极参与社交活动。`;
+        }
+      }
+      
+      function compareStrengthAndAgility(strScore, agiScore, strName, agiName) {
+        if (strScore > agiScore + 15) {
+          return `你展现出强大的意志力和韧性，但适应变化的能力相对较弱。你一旦确定目标就会坚持到底，这种坚持是你的优势，但也可以尝试培养一些灵活应变的能力。`;
+        } else if (agiScore > strScore + 15) {
+          return `你有着出色的适应能力和灵活性，但可能在长期坚持方面有所欠缺。你善于应对变化，能够快速调整自己，但有时候也需要培养更多的耐心和毅力。`;
+        } else {
+          return `你在坚持和灵活之间找到了很好的平衡。面对挑战时，你既有足够的韧性坚持下去，又能够根据情况灵活调整策略。这种平衡是解决复杂问题的关键。`;
+        }
+      }
+      
+      // 识别反差特征
+      function identifyContrastingFeatures(tScores, dimensionNames) {
+        const contrasts = [];
+        const dimensionList = Object.entries(tScores);
+        
+        // 找出最高和最低的维度
+        const sortedDimensions = [...dimensionList].sort(([,a], [,b]) => b - a);
+        const highest = sortedDimensions[0];
+        const lowest = sortedDimensions[sortedDimensions.length - 1];
+        
+        // 如果差异足够大，添加反差分析
+        if (highest[1] - lowest[1] > 30) {
+          contrasts.push(`你在${dimensionNames[highest[0]]}方面表现突出（得分：${Math.round(highest[1])}），但在${dimensionNames[lowest[0]]}方面相对薄弱（得分：${Math.round(lowest[1])}）。这种强烈的反差正是你个性中最独特的部分，它既赋予你特殊的优势，也可能是你需要关注的成长领域。`);
+        }
+        
+        // 检查是否存在极端高或极端低的维度
+        dimensionList.forEach(([dim, score]) => {
+          if (score > 80) {
+            contrasts.push(`你在${dimensionNames[dim]}方面的得分极高（${Math.round(score)}），这已经成为你个性中非常鲜明的特征。这种特质为你带来独特的优势，但也要注意避免它可能带来的盲点。`);
+          } else if (score < 20) {
+            contrasts.push(`你在${dimensionNames[dim]}方面的表现非常低调（得分：${Math.round(score)}）。这可能是你有意的选择，也可能是你尚未充分发展的领域。适当关注这一特质，可能会为你打开新的可能性。`);
+          }
+        });
+        
+        return contrasts;
+      }
+      
+      // 分析核心动力
+      function analyzeCoreMotivations(tScores, dimensionNames) {
+        const motivations = [];
+        const dimensionList = Object.entries(tScores);
+        
+        // 找出两个最高的维度作为核心动力
+        const topDimensions = [...dimensionList]
+          .sort(([,a], [,b]) => b - a)
+          .slice(0, 2);
+        
+        // 基于最高维度分析核心动力
+        const [top1, top2] = topDimensions;
+        
+        // 第一个核心动力
+        if (top1[0] === 'DOM') {
+          motivations.push(`你的核心动力来自于对影响力和控制力的追求。你享受设定方向、做出决策的过程，在能够发挥领导力的环境中，你会感到最有活力和满足感。`);
+        } else if (top1[0] === 'STR') {
+          motivations.push(`你的核心动力来自于内在的坚韧和毅力。面对挑战和困难时，你不会轻易退缩，反而会被激发出更大的潜能。克服障碍、证明自己的能力是驱动你前进的重要因素。`);
+        } else if (top1[0] === 'COM') {
+          motivations.push(`你的核心动力来自于对和谐与合作的追求。你重视集体的力量，愿意为了更大的目标而付出努力。在团队合作中找到自己的位置，为团队贡献价值是你重要的满足来源。`);
+        } else if (top1[0] === 'SOL') {
+          motivations.push(`你的核心动力来自于与他人的连接和互动。你通过社交获取能量和灵感，建立有意义的人际关系对你来说至关重要。在人群中，你往往能够发挥出自己最大的潜力。`);
+        } else if (top1[0] === 'AGI') {
+          motivations.push(`你的核心动力来自于对新鲜感和变化的追求。你喜欢挑战自我，尝试新事物，在变化的环境中你能够保持活力和创造力。墨守成规会让你感到束缚。`);
+        } else if (top1[0] === 'SEC') {
+          motivations.push(`你的核心动力来自于对安全和稳定的追求。你喜欢在可控的环境中工作和生活，提前规划和充分准备能让你感到安心。当你感到安全时，才能够更好地发挥自己的能力。`);
+        } else if (top1[0] === 'AES') {
+          motivations.push(`你的核心动力来自于对美的追求和对品质的坚持。你对周围的环境和体验有着较高的要求，创造或欣赏美好的事物能够给你带来极大的满足感。`);
+        }
+        
+        // 如果两个维度差异不太大，添加第二个核心动力
+        if (top1[1] - top2[1] < 20) {
+          if (top2[0] === 'DOM' && top1[0] !== 'DOM') {
+            motivations.push(`同时，你也有一定的领导倾向，希望在某些情境中能够影响他人、主导局面。这种特质与你的主要动力相辅相成，使你能够在不同场合灵活展现自己的能力。`);
+          } else if (top2[0] === 'STR' && top1[0] !== 'STR') {
+            motivations.push(`同时，你也展现出一定的坚韧和毅力，面对挑战时不会轻易放弃。这种内在的力量支持着你追求自己的目标，是你实现理想的重要保障。`);
+          } else if (top2[0] === 'COM' && top1[0] !== 'COM') {
+            motivations.push(`同时，你也具有良好的合作精神，能够根据需要调整自己以适应团队的要求。这种灵活性使你能够在不同的角色中都表现出色。`);
+          } else if (top2[0] === 'SOL' && top1[0] !== 'SOL') {
+            motivations.push(`同时，你也享受一定的社交活动，通过与人互动获取信息和灵感。这种平衡让你既能专注于自己的目标，又不会孤立于社会之外。`);
+          } else if (top2[0] === 'AGI' && top1[0] !== 'AGI') {
+            motivations.push(`同时，你也具有一定的适应能力，能够根据环境的变化调整自己的策略。这种灵活性使你能够在复杂多变的情况下保持竞争力。`);
+          } else if (top2[0] === 'SEC' && top1[0] !== 'SEC') {
+            motivations.push(`同时，你也需要一定的安全感和稳定性，这使你在追求新体验的同时，不会完全脱离现实。这种平衡让你的生活既充满挑战又不失秩序。`);
+          } else if (top2[0] === 'AES' && top1[0] !== 'AES') {
+            motivations.push(`同时，你也关注生活中的美好和品质，不会仅仅追求功利性的目标。这种追求让你的生活更加丰富和有意义，不仅仅是生存，更是生活。`);
+          }
+        }
+        
+        return motivations;
+      }
+
+      // 渲染动物原型深度解析
+      function renderAnimalArchetype(animalName) {
+        const archetypeData = {
+          '狗': {
+            mythology: '在世界各地的神话中，狗常被视为守护者和忠实伙伴。在古埃及，阿努比斯神以胡狼头形象出现，守护亡灵；在希腊神话中，刻耳柏洛斯是冥界的三头看门犬；在中国传统文化中，狗象征忠诚和吉祥。',
+            famousPeople: '代表人物包括亚伯拉罕·林肯（以忠诚和正直著称）、圣雄甘地（坚守真理和非暴力的精神像狗一样执着）、特蕾莎修女（对人类的无私奉献体现了极致的忠诚）。',
+            ethology: '犬类是最早被人类驯化的动物之一，其成功在于高度的社交智能和对群体的忠诚。狗通过识别和回应人类情感建立深厚纽带，这种能力在进化中成为生存优势。它们的协作性和服从性使其成为理想的工作伙伴，在团队中能发挥稳定可靠的作用。'
+          },
+          '猫': {
+            mythology: '猫在古埃及被尊为神圣动物，象征生育和守护的巴斯泰托女神以猫首人身形象出现；在北欧神话中，弗蕾亚女神的战车由猫牵引；在中世纪欧洲，猫曾因与巫术关联而遭受迫害，但在许多文化中，猫仍保持着神秘和独立的象征意义。',
+            famousPeople: '代表人物包括弗里达·卡罗（独立特行的艺术家，像猫一样神秘而优雅）、阿尔伯特·爱因斯坦（喜欢独处思考，思维像猫一样敏捷跳跃）、艾米莉·狄金森（隐居诗人，内心世界丰富如猫）。',
+            ethology: '猫的捕猎能力和高度独立性使其成为优秀的生存者。它们保持着半驯化状态，保留着强烈的自我意识和领地观念。猫的感官敏锐，反应迅速，善于在复杂环境中导航。这种独立性和适应力使它们能够在各种条件下生存，同时保持自己的尊严和个性。'
+          },
+          '狼': {
+            mythology: '在许多原住民文化中，狼被视为智慧和力量的象征；在北欧神话中，芬里尔狼是强大的预言生物；在美洲原住民传说中，狼常作为导师和守护者出现；在中国传统文化中，狼有时被描绘为狡猾和残忍的象征，但也代表着团队精神。',
+            famousPeople: '代表人物包括亚历山大大帝（卓越的军事领袖，如狼般的战略思维）、拿破仑·波拿巴（具有非凡的领导魅力和战略眼光）、史蒂夫·乔布斯（创新领域的领袖，团队建设能力强）。',
+            ethology: '狼群具有严格的社会结构和等级制度，由alpha狼领导。它们的协作狩猎策略展示了高度的智商和团队精神。狼的耐力和毅力使其能够在极端环境中生存。它们通过复杂的沟通系统维护群体和谐，这种社会性和协作能力是其生存的关键优势。'
+          },
+          '狐': {
+            mythology: '在中国神话中，狐狸常被描绘为具有变形能力的灵物，如九尾狐；在日本传说中，狐仙（狐妖）既有善也有恶的形象；在西方文化中，狐狸通常被视为狡猾和机智的象征，如伊索寓言中的狐狸。',
+            famousPeople: '代表人物包括孙子（《孙子兵法》体现了狐狸般的战略智慧）、达芬奇（多才多艺，思维敏捷）、玛丽·居里（在科学领域展现出非凡的洞察力和解决问题的能力）。',
+            ethology: '狐狸是适应性极强的动物，能够在各种环境中生存。它们的捕猎策略结合了耐心等待和灵活应变，常利用智慧而非力量获取食物。狐狸的好奇心和探索精神使其能够发现新的资源和机会。这种机智和适应性是其在竞争激烈的自然环境中生存的关键。'
+          },
+          '狮': {
+            mythology: '在古埃及，狮子象征王权和保护，狮身人面像斯芬克斯是智慧的象征；在希腊神话中，尼米亚狮子是赫拉克勒斯的第一个任务；在非洲许多文化中，狮子被视为力量和勇气的化身，常与王权联系在一起。',
+            famousPeople: '代表人物包括马丁·路德·金（具有非凡的演讲魅力和领袖气质）、温斯顿·丘吉尔（在危机中展现出狮子般的勇气和决心）、麦当娜（舞台上的王者风范）。',
+            ethology: '狮子是唯一一种群居的猫科动物，狮群通常由一头雄狮领导。雄狮的威严和力量使其能够保护领地和族群。狮子的自信和存在感使其在草原生态系统中处于顶端位置。它们的耐心和爆发力在捕猎中展现出完美结合，这种王者风范使其成为非洲草原上最具标志性的动物。'
+          },
+          '熊': {
+            mythology: '在北美原住民文化中，熊被视为力量和治愈的象征；在北欧神话中，雷神索尔的守护动物是熊；在中国传统文化中，熊象征着力量和勇气；在许多文化中，熊也与冬眠和重生的概念相关联。',
+            famousPeople: '代表人物包括乔治·华盛顿（美国第一任总统，稳重而有力量）、列夫·托尔斯泰（文学巨擘，思想深邃如熊）、安吉丽娜·朱莉（展现出熊般的母性本能和保护欲）。',
+            ethology: '熊是力量与耐力的象征，能够在各种气候条件下生存。它们的杂食性使其食物来源广泛，增强了适应能力。熊的冬眠行为展示了其生理适应性和资源管理能力。虽然平时温和，但在保护幼崽或领地时会爆发出惊人的力量。这种平时沉稳、必要时强大的特质使其成为成功的生存者。'
+          },
+          '兔': {
+            mythology: '在中国传统文化中，兔子与月亮和长生不老联系在一起，月兔捣药的传说广为流传；在西方文化中，复活节兔子象征着春天和新生命；在许多神话中，兔子因其繁殖能力而成为生命力的象征。',
+            famousPeople: '代表人物包括甘地（看似温和却有着坚韧的内心）、艾米莉·勃朗特（外表柔弱但内心强大的作家）、玛丽莲·梦露（看似脆弱却有着惊人的适应能力）。',
+            ethology: '兔子是典型的被捕食者，但它们通过多种策略确保生存：敏锐的听觉和视觉使其能够及早发现危险；快速的繁殖能力保证了种群延续；昼伏夜出的习性减少了被捕食的风险；群体生活提供了额外的安全保障。兔子的警惕性和适应力使其成为看似脆弱实则顽强的生存者。'
+          },
+          '仓鼠': {
+            mythology: '仓鼠在神话传说中出现较少，但在现代文化中常被视为勤劳和满足的象征。它们储存食物的习性使其成为准备和规划的象征。在一些文化中，仓鼠也代表着简单生活的智慧。',
+            famousPeople: '代表人物包括爱迪生（不断积累知识和经验，像仓鼠储存食物一样）、居里夫人（专注于自己的研究领域，不为外界干扰所动）、比尔·盖茨（善于积累资源并有效利用）。',
+            ethology: '仓鼠是独居动物，具有强烈的领地意识。它们的颊囊设计允许储存大量食物，这种适应性特征使其能够在食物稀缺时期生存。仓鼠的建巢行为展示了其对安全环境的重视。它们的勤奋和准备意识是其在自然环境中生存的关键优势。'
+          },
+          '天鹅': {
+            mythology: '在希腊神话中，天鹅与阿波罗和缪斯女神相关联，象征着音乐和诗歌；在北欧神话中，天鹅被视为灵魂的载体；在许多文化中，天鹅象征着优雅、美丽和忠诚，因为它们通常终身伴侣。',
+            famousPeople: '代表人物包括奥黛丽·赫本（优雅的典范）、莫扎特（音乐天赋如天鹅般超凡）、弗里德里希·尼采（哲学思想如同天鹅之歌般深邃）。',
+            ethology: '天鹅是水禽中体型最大的物种之一，以其优美的姿态和终身伴侣制闻名。它们在繁殖季节表现出强烈的领地意识和保护行为。天鹅的飞行能力展示了其力量与优雅的结合。幼天鹅从灰色丑小鸭到白色天鹅的转变成为了蜕变和成长的象征。这种内外兼修的特质使其成为自然界中最受尊敬的鸟类之一。'
+          },
+          '鹿': {
+            mythology: '在凯尔特神话中，鹿是森林之神的化身，象征着敏捷和神秘；在基督教艺术中，鹿常与灵魂追求联系在一起；在中国传统文化中，鹿象征着长寿和吉祥；在许多文化中，鹿被视为连接自然与超自然世界的使者。',
+            famousPeople: '代表人物包括林黛玉（《红楼梦》中的角色，敏感而优雅如鹿）、弗里德里希·席勒（德国诗人，作品充满理想主义色彩）、索菲亚·科波拉（导演，作品风格细腻优雅）。',
+            ethology: '鹿的生存策略主要依赖于敏锐的感官和快速的反应。它们的大耳朵能够捕捉到最细微的声音，分叉的角不仅用于防御，也是健康和基因质量的标志。鹿群的社会结构虽然松散，但成员间保持着联系。它们对环境变化的敏感性使它们成为生态系统健康的指示物种。这种敏感与优雅的结合是鹿类最显著的特征。'
+          },
+          '鹰': {
+            mythology: '在古埃及，鹰神荷鲁斯是王权和保护的象征；在希腊神话中，鹰是宙斯的使者；在美国文化中，白头鹰是国家的象征，代表自由和力量；在许多文化中，鹰被视为连接天地的桥梁，象征着远见和精神力量。',
+            famousPeople: '代表人物包括拿破仑（具有鹰一样的战略眼光）、玛格丽特·撒切尔（被誉为"铁娘子"，展现出鹰般的果断）、尼尔·阿姆斯特朗（第一位登上月球的人，展现了鹰般的勇气和远见）。',
+            ethology: '鹰是天空中的顶级捕食者，拥有卓越的视力和飞行能力。它们能够从数千米高空发现地面上的小猎物，这种远见是其生存的关键优势。鹰的爪子和喙强大有力，使其能够捕捉和处理大型猎物。一些鹰类展现出惊人的筑巢能力，建造巨大的巢穴。这种力量、远见和独立性使鹰成为力量和自由的象征。'
+          },
+          '乌鸦': {
+            mythology: '在北欧神话中，奥丁神的两只乌鸦代表思想和记忆；在许多文化中，乌鸦被视为死亡和预言的使者；在中国传统文化中，乌鸦有时被视为吉祥之鸟，"乌鸦反哺"象征孝顺；在一些美洲原住民文化中，乌鸦是创世者和恶作剧之神。',
+            famousPeople: '代表人物包括埃德加·爱伦·坡（神秘而富有才华的作家，乌鸦是其作品中的重要象征）、爱因斯坦（像乌鸦一样善于观察和思考）、居里夫人（在科学领域展现出乌鸦般的智慧和探索精神）。',
+            ethology: '乌鸦是世界上最聪明的鸟类之一，能够使用工具、解决复杂问题并展现出社交学习能力。它们有着复杂的社会结构和沟通系统。乌鸦的杂食性使其食物来源广泛，适应能力强。它们的记忆力惊人，能够记住人类的面孔。这种高智商和适应性使乌鸦能够在各种环境中，包括城市环境中繁衍生息。'
+          },
+          '水豚': {
+            mythology: '水豚在传统神话中出现较少，但在现代文化中常被视为和平与社交的象征。它们与各种动物和谐共处的能力使其成为"最友好的动物"的代表。在一些南美文化中，水豚与水元素和丰饶联系在一起。',
+            famousPeople: '代表人物包括特蕾莎修女（对所有人都展现出包容和友善）、甘地（倡导非暴力和谐共处）、奥普拉·温弗瑞（善于建立连接和社区）。',
+            ethology: '水豚是世界上最大的啮齿动物，以其高度社交性和温和性格著称。它们生活在群体中，通过频繁的社交互动维持关系。水豚与许多其他物种，包括鳄鱼，都能和平共处，这种能力在动物界极为罕见。它们的半水生生活方式和特殊的消化系统使其能够有效利用水生植物资源。这种社交智慧和适应能力使水豚成为热带生态系统中的成功生存者。'
+          },
+          '鲸': {
+            mythology: '在许多海洋文化中，鲸鱼被视为神圣的生物和祖先的化身；在挪威神话中，世界由巨大的鲸鱼支撑；在一些太平洋岛屿文化中，鲸鱼是海洋保护神；在现代文化中，鲸鱼常象征着智慧、神秘和深邃的情感。',
+            famousPeople: '代表人物包括列奥纳多·达·芬奇（思想如同海洋般深邃）、卡尔·荣格（心理学大师，探索人类心灵的深度）、玛丽·居里（在科学海洋中探索未知）。',
+            ethology: '鲸鱼是地球上最大的哺乳动物，也是最聪明的海洋生物之一。它们拥有复杂的社会结构和沟通系统，能够发出复杂的声音进行长距离交流。鲸鱼的迁徙行为展示了其惊人的导航能力和记忆力。一些鲸鱼种类展现出利他主义行为，会帮助受伤的同伴。这种社会性、智慧和神秘感使鲸鱼成为人类最着迷的海洋生物。'
+          },
+          '鹦鹉': {
+            mythology: '在许多文化中，鹦鹉被视为语言和沟通的象征；在古希腊，鹦鹉与女神雅典娜联系在一起，象征智慧；在玛雅文明中，鹦鹉是神圣的鸟类；在现代文化中，鹦鹉常象征着模仿、社交和活力。',
+            famousPeople: '代表人物包括莎士比亚（语言大师，如同鹦鹉般善于运用语言）、奥普拉·温弗瑞（出色的沟通者和社交达人）、爱因斯坦（善于交流复杂思想）。',
+            ethology: '鹦鹉以其出色的语言模仿能力和高智商著称。它们是高度社交的鸟类，生活在复杂的群体结构中。鹦鹉的好奇心和学习能力使其能够适应各种环境。它们的长寿（某些种类可活80年以上）使其能够积累丰富的经验和知识。这种社交性、学习能力和长寿使鹦鹉成为人类喜爱的伴侣动物，也是自然界中最具魅力的鸟类之一。'
+          },
+          '章鱼': {
+            mythology: '在古希腊神话中，章鱼与海怪克苏鲁联系在一起；在许多海洋文化中，章鱼被视为智慧和变形的象征；在现代文化中，章鱼常象征着适应性、隐藏和多面性。',
+            famousPeople: '代表人物包括达芬奇（多才多艺，如章鱼有多种能力）、居里夫人（在多个科学领域都有贡献）、爱因斯坦（思维方式灵活多变，如同章鱼的触手探索不同方向）。',
+            ethology: '章鱼是海洋中最聪明的无脊椎动物，拥有复杂的神经系统和学习能力。它们的八条触手上布满了吸盘，使其能够操纵物体和捕捉猎物。章鱼能够通过改变颜色和纹理进行伪装，是自然界中的伪装大师。它们的解决问题能力和逃脱技巧令人惊叹。这种适应性、智慧和独特的生理特征使章鱼成为海洋中最迷人的生物之一。'
+          },
+          '鲨鱼': {
+            mythology: '在许多海洋文化中，鲨鱼被视为力量和勇气的象征；在波利尼西亚神话中，鲨鱼是保护神；在现代文化中，鲨鱼常象征着专注、高效和生存意志。',
+            famousPeople: '代表人物包括迈克尔·乔丹（在篮球场上展现出鲨鱼般的专注力和竞争力）、拿破仑（战略思维直接有效）、史蒂夫·乔布斯（对目标的专注追求）。',
+            ethology: '鲨鱼是地球上最古老的脊椎动物之一，已经在地球上生存了超过4亿年。它们是完美的捕食机器，拥有流线型的身体、敏锐的感官和高效的呼吸系统。鲨鱼的侧线系统使其能够感知水中的微小振动，帮助定位猎物。它们的咬合力惊人，能够轻松撕碎猎物。这种专注、高效和适应性使鲨鱼成为海洋中的顶级捕食者，也是进化成功的典范。'
+          },
+          '海豚': {
+            mythology: '在希腊神话中，海豚是海神波塞冬的使者，常帮助遇险的水手；在许多文化中，海豚被视为友善和智慧的象征；在现代文化中，海豚常代表着快乐、自由和团队精神。',
+            famousPeople: '代表人物包括毕加索（创造力如海豚般灵动）、罗宾·威廉姆斯（充满活力和幽默感）、纳尔逊·曼德拉（智慧和友善的典范）。',
+            ethology: '海豚是高度社会化的海洋哺乳动物，生活在复杂的群体结构中。它们通过复杂的声音和身体语言进行沟通。海豚的智商极高，能够解决复杂问题并展现出自我意识。它们经常进行游戏行为，展现出强烈的好奇心和愉悦感。海豚之间的合作狩猎策略展示了其团队精神。这种社会性、智慧和活力使海豚成为人类最喜爱的海洋生物之一。'
+          },
+          '浣熊': {
+            mythology: '在北美原住民传说中，浣熊常被描绘为聪明的恶作剧者和问题解决者；在现代文化中，浣熊常象征着机智、适应性和好奇心。它们的"洗食物"行为成为其标志性特征，象征着清洁和谨慎。',
+            famousPeople: '代表人物包括爱迪生（像浣熊一样善于解决实际问题）、本杰明·富兰克林（发明家，展现出浣熊般的实用智慧）、玛丽·居里（在困难条件下展现出惊人的适应能力）。',
+            ethology: '浣熊是高度适应性的哺乳动物，能够在城市和自然环境中生存。它们的前爪极为灵巧，能够操纵物体和打开容器。浣熊是杂食性动物，食物来源广泛，包括水果、坚果、昆虫和小型动物。它们的好奇心和探索精神使其能够发现新的食物来源和栖息地。这种适应性、灵巧和智慧使浣熊成为成功的城市适应者，也是自然界中最具魅力的小型哺乳动物之一。'
+          },
+          '猫鼬': {
+            mythology: '猫鼬在传统神话中出现较少，但在现代文化中，特别是通过《狮子王》中的角色丁满，成为了警觉和社区精神的象征。在一些非洲文化中，猫鼬被视为保护者和哨兵。',
+            famousPeople: '代表人物包括尼尔森·曼德拉（为社区利益而奋斗）、甘地（为集体福祉而行动）、马丁·路德·金（为族群权益而战）。',
+            ethology: '猫鼬是高度社会化的小型哺乳动物，生活在大型群体中，有着复杂的社会结构。它们的群体中存在明确的分工，包括哨兵职责。猫鼬的视力极佳，能够发现远处的捕食者。它们的捕食策略包括群体协作，共同对付毒蛇等危险猎物。猫鼬之间的相互梳理和社交行为强化了群体纽带。这种社会性、警觉性和团队精神使猫鼬成为沙漠和草原生态系统中的成功生存者。'
+          }
+        };
+        
+        const archetypeContent = document.querySelector('.archetype-content');
+        const data = archetypeData[animalName] || {
+          mythology: '这个动物在神话传说中有着丰富的象征意义，代表着人类对自然和生命的理解与想象。',
+          famousPeople: '许多历史和公众人物展现出与这种动物相似的性格特质，他们的故事激励着我们理解这种性格类型的潜力。',
+          ethology: '从动物行为学角度看，这种动物的生存策略和行为模式为我们理解相关性格特质提供了有趣的视角。'
+        };
+        
+        archetypeContent.innerHTML = `
+          <div class="archetype-section">
+            <h4 class="archetype-subtitle">神话与文化象征</h4>
+            <p class="archetype-description">${data.mythology}</p>
+          </div>
+          
+          <div class="archetype-section">
+            <h4 class="archetype-subtitle">著名人物对照</h4>
+            <p class="archetype-description">${data.famousPeople}</p>
+          </div>
+          
+          <div class="archetype-section">
+            <h4 class="archetype-subtitle">动物行为学解读</h4>
+            <p class="archetype-description">${data.animalBehavior || data.ethology}</p>
+          </div>
+        `;
+      }
+      
+      // 渲染雷达图
+      function renderRadarChart(tScores) {
+        const dimensionNames = {
+          'DOM': '支配性',
+          'STR': '力量',
+          'COM': '服从性',
+          'SOL': '社交性',
+          'AGI': '敏捷性',
+          'SEC': '安全感',
+          'AES': '审美'
+        };
+        
+        const ctx = document.getElementById('dimensions-radar-chart').getContext('2d');
+        
+        // 准备数据
+        const labels = Object.values(dimensionNames);
+        const data = Object.values(tScores);
+        
+        // 创建或更新雷达图
+        if (window.dimensionsRadarChart) {
+          window.dimensionsRadarChart.destroy();
+        }
+        
+        window.dimensionsRadarChart = new Chart(ctx, {
+          type: 'radar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: '你的性格维度得分',
+              data: data,
+              backgroundColor: 'rgba(138, 43, 226, 0.2)',
+              borderColor: 'rgba(138, 43, 226, 1)',
+              borderWidth: 2,
+              pointBackgroundColor: 'rgba(138, 43, 226, 1)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgba(138, 43, 226, 1)'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                  stepSize: 20,
+                  backdropColor: 'transparent',
+                  color: '#666'
+                },
+                pointLabels: {
+                  font: {
+                    size: 14
+                  },
+                  color: '#333'
+                },
+                grid: {
+                  color: 'rgba(0, 0, 0, 0.1)'
+                },
+                angleLines: {
+                  color: 'rgba(0, 0, 0, 0.1)'
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: true,
+                position: 'bottom',
+                labels: {
+                  color: '#333',
+                  font: {
+                    size: 14
+                  }
+                }
+              },
+              tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                cornerRadius: 8,
+                displayColors: false,
+                callbacks: {
+                  label: function(context) {
+                    return `得分: ${Math.round(context.parsed.r)}`;
+                  }
+                }
+              }
+            },
+            interaction: {
+              intersect: false,
+              mode: 'index'
+            }
+          }
+        });
+      }
+
+      // 渲染错误信息
+      function renderError() {
+        elements.loading.style.display = 'none';
+        elements.error.style.display = 'block';
+      }
+
+      function getShareUrl() {
+        try {
+          const url = new URL(window.location.href);
+          url.pathname = url.pathname.replace(/result\.html$/i, 'index.html');
+          url.search = '';
+          url.hash = '';
+          return url.toString();
+        } catch (_) {
+          return 'index.html';
+        }
+      }
+
+      function shareResult() {
+        const url = getShareUrl();
+        const shareData = {
+          title: '我的动物塑测结果',
+          text: '我刚做了动物塑测，你也来试试吧！',
+          url,
+        };
+
+        if (navigator.share) {
+          navigator.share(shareData).catch(console.error);
+          return;
+        }
+        alert('截屏即可分享结果给朋友哦！');
+      }
+
+      async function resolveApiBase() {
+        try {
+          const res = await fetch('/config/app-config.json', { cache: 'no-store' });
+          if (res.ok) {
+            const cfg = await res.json();
+            if (cfg && cfg.apiBase) {
+              return String(cfg.apiBase).trim();
+            }
+          }
+        } catch (err) {
+          console.warn('无法读取 app-config.json，将使用当前域名:', err);
+        }
+        return window.location.origin;
+      }
+
+      async function setupAuthGate() {
+        if (!window.AuthorizationSDK || !elements.unlockButton) {
+          return;
+        }
+        const apiBase = await resolveApiBase();
+        authState.controller = await AuthorizationSDK.init({
+          testType: 'animal',
+          apiBase,
+          startButtons: ['#unlockBtn'],
+          onAuthorized: unlockFullReport,
+          authContext: 'result'
+        });
+        const config = authState.controller?.state?.config;
+        if (config && config.auth_required === 0) {
+          unlockFullReport();
+          return;
+        }
+        const mode = (config && config.auth_mode) ? String(config.auth_mode).toLowerCase() : "start";
+        if (mode !== "result") {
+          unlockFullReport();
+          return;
+        }
+        if (authState.controller.isSessionActive()) {
+          unlockFullReport();
+        }
+      }
+
+      async function initPage() {
+        if (elements.shareButton) {
+          elements.shareButton.addEventListener('click', shareResult);
+        }
+        await loadAndCalculateResult();
+        await setupAuthGate();
+      }
+
+      // 初始化
+      initPage();
+    </script>
+  </body>
+</html>

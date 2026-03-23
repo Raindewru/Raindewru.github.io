@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>16人格·心智阶位测评 (MindTier)</title>
+    <link rel="stylesheet" href="../authorization/auth-modal.css">
+    <!-- Tailwind CSS (Local) -->
+    <link rel="stylesheet" href="../static/vendor/tailwind/tailwind.min.css">
+    <!-- Local Font -->
+    <style>
+        @font-face {
+            font-family: 'Inter';
+            src: url('../static/social-compass/assets_local/fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf') format('truetype');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Inter';
+            src: url('../static/social-compass/assets_local/fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Inter';
+            src: url('../static/social-compass/assets_local/fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Inter';
+            src: url('../static/social-compass/assets_local/fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Inter';
+            src: url('../static/social-compass/assets_local/fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Inter';
+            src: url('../static/social-compass/assets_local/fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuBWYMZg.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+        }
+        body {
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #0f0c29;
+            background-image: linear-gradient(315deg, #0f0c29 0%, #302b63 74%, #24243e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .lock-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(15, 12, 41, 0.45);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 5;
+        }
+        .lockable-content {
+            transition: filter 0.25s ease;
+        }
+        #full-report.is-locked .lockable-content {
+            filter: blur(3px);
+            pointer-events: none;
+            user-select: none;
+        }
+        #full-report.is-locked .lock-overlay {
+            display: flex;
+        }
+        #full-report.is-unlocked .lock-overlay {
+            display: none;
+        }
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "recharts": "https://esm.sh/recharts@^3.7.0"
+  }
+}
+</script>
+</head>
+<body class="flex flex-col">
+
+    <!-- Background Ambience -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-900/30 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-indigo-900/30 rounded-full blur-[100px]"></div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="relative z-20 w-full p-6 flex justify-center">
+        <div class="flex items-center gap-2 text-white/80 font-light tracking-widest uppercase text-sm" id="nav-container">
+            <!-- Icon injected by JS -->
+            <span>MindTier</span>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="app" class="relative z-20 pt-4 pb-20 w-full flex-grow flex flex-col items-center">
+        <!-- Dynamic Content -->
+    </main>
+
+    <!-- LOGIC -->
+    <script>
+        // ==========================================
+        // 0. ICONS (Fixed: Removed width/height attrs, added w-full h-full class)
+        // ==========================================
+        const Icons = {
+            BrainCircuit: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.97-3.465"/><path d="M19.97 14.535A4 4 0 0 1 18 18"/></svg>`,
+            Sparkles: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M9 5H5"/><path d="M19 19v4"/><path d="M19 19h-4"/></svg>`,
+            ArrowRight: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`,
+            Loader2: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full animate-spin"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>`,
+            CheckCircle2: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`,
+            Circle: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><circle cx="12" cy="12" r="10"/></svg>`,
+            Activity: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+            Map: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>`,
+            Briefcase: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
+            Heart: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`,
+            BookOpen: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+            Star: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+            Zap: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+            Lightbulb: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-1 1.5-2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>`,
+            HeartPulse: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>`
+        };
+
+        // Inject Nav Icon with explicit size wrapper
+        document.getElementById('nav-container').insertAdjacentHTML('afterbegin', `<div class="w-5 h-5 text-purple-400">${Icons.BrainCircuit}</div>`);
+
+        // ==========================================
+        // 1. DATA CONSTANTS
+        // ==========================================
+        const MBTI_LIST = [
+            "ISTJ", "ISFJ", "INFJ", "INTJ",
+            "ISTP", "ISFP", "INFP", "INTP",
+            "ESTP", "ESFP", "ENFP", "ENTP",
+            "ESTJ", "ESFJ", "ENFJ", "ENTJ"
+        ];
+
+        const MindTier = {
+            Unawakened: "未觉醒",
+            Low: "低阶",
+            Mid: "中阶",
+            High: "高阶"
+        };
+
+        // Questions (Fixed: No Wabi-sabi)
+        const QUESTIONS = [
+            { id: 1, scenario: "当你在工作中遭遇不公正的批评，且对方明显带有情绪发泄时，你的第一反应是？", options: [{ id: "A", text: "瞬间被激怒，立刻反唇相讥，绝不让自己受半点委屈。" }, { id: "B", text: "感到极度委屈和自我怀疑，陷入内耗，甚至想逃离这个环境。" }, { id: "C", text: "虽然不悦，但能控制情绪，客观分析对方批评中是否有事实依据，事后再处理情绪。" }, { id: "D", text: "能瞬间洞察对方的情绪触发点和局限性，内心毫无波澜，甚至能以慈悲或幽默化解尴尬。" }] },
+            { id: 2, scenario: "当你看到朋友圈里同龄人晒出巨大的成功（升职、暴富、完美的伴侣）时，你内心最真实的声音是？", options: [{ id: "A", text: "凭什么？这一定是假的，或者走了狗屎运/有后台。" }, { id: "B", text: "感到焦虑和自卑，觉得自己很失败，生活无望。" }, { id: "C", text: "会有短暂的羡慕，但随即调整心态，将其作为激励自己努力的动力。" }, { id: "D", text: "发自内心地为对方感到喜悦，并相信每个人都有自己的时区，专注于当下的圆满。" }] },
+            { id: 3, scenario: "在一段亲密关系中，如果伴侣长时间没有回复你的消息，你会？", options: [{ id: "A", text: "夺命连环call，如果不接就发脾气，甚至以此作为分手的筹码。" }, { id: "B", text: "胡思乱想，觉得对方不爱我了，或者出事了，陷入极度的不安全感中。" }, { id: "C", text: "专注于自己的事情，认为对方可能在忙，等忙完自然会回。" }, { id: "D", text: "享受独处的时光，信任彼此的连接，不需要通过即时回复来确认关系的安全感。" }] },
+            { id: 4, scenario: "面对一个全新的、高难度的任务，你通常会？", options: [{ id: "A", text: "直接拒绝或推卸责任，认为这不是我该干的事，或者太麻烦。" }, { id: "B", text: "担心做不好被责备，拖延到最后一刻才开始行动。" }, { id: "C", text: "评估资源和风险，制定计划，按部就班地推进，遇到困难解决困难。" }, { id: "D", text: "感到兴奋，视为拓展自我的机会，享受挑战未知的过程，对结果保持开放心态。" }] },
+            { id: 5, scenario: "当你发现自己犯了一个比较严重的错误时，你会？", options: [{ id: "A", text: "第一反应是找借口掩盖，或者甩锅给别人，极力撇清责任。" }, { id: "B", text: "陷入深深的自责和羞愧中，觉得自己一无是处，不敢面对。" }, { id: "C", text: "坦诚承认错误，分析原因，并迅速提出补救方案，止损是第一位的。" }, { id: "D", text: "完全接纳自己的不完美，将错误视为宝贵的反馈，从中汲取智慧并继续前行。" }] },
+            { id: 6, scenario: "在团队讨论中，如果有人提出了一个和你完全相反且你认为很荒谬的观点，你会？", options: [{ id: "A", text: "直接打断，嘲讽对方的无知，强行输出自己的观点。" }, { id: "B", text: "心里很不屑但不敢说，默默翻白眼，或者私下吐槽。" }, { id: "C", text: "礼貌地听完，然后列举数据和逻辑来反驳，试图达成共识。" }, { id: "D", text: "好奇对方为什么会有这种视角，探寻其背后的逻辑，试图整合双方观点的合理之处。" }] },
+            { id: 7, scenario: "当你独处时，你的精神状态通常是？", options: [{ id: "A", text: "必须找点乐子（刷剧、游戏、刷视频），无法忍受安静。" }, { id: "B", text: "感到孤独和空虚，渴望有人陪伴或聊天。" }, { id: "C", text: "利用这段时间休息、充电或处理个人事务，感到放松。" }, { id: "D", text: "享受高质量的独处，能与自己深度对话，感受到内在的宁静和充盈。" }] },
+            { id: 8, scenario: "遇到堵车导致你可能会迟到一个重要会议，你会？", options: [{ id: "A", text: "疯狂按喇叭，咒骂路况和前车，情绪极其暴躁。" }, { id: "B", text: "焦虑得满头大汗，不断看表，担心迟到的后果，手足无措。" }, { id: "C", text: "立即联系会议方说明情况，利用堵车时间通过电话/网络提前介入会议。" }, { id: "D", text: "接纳当下的不可控，利用这段时间听书或冥想，相信一切都是最好的安排。" }] },
+            { id: 9, scenario: "对于“金钱”这一概念，你最底层的信念是？", options: [{ id: "A", text: "钱就是一切，为了钱可以不择手段，没钱就被看不起。" }, { id: "B", text: "钱很难挣，总是担心钱不够花，对消费充满负罪感或极度吝啬。" }, { id: "C", text: "钱是交换价值的工具，通过提升能力来获取财富，理性规划理财。" }, { id: "D", text: "金钱是能量的流动，感恩金钱带来的体验，确信内在丰盛会显化外在富足。" }] },
+            { id: 10, scenario: "当你的生活发生巨大变故（失业、失恋等）时，你会？", options: [{ id: "A", text: "怨天尤人，觉得世界对自己不公，沉溺于受害者角色，甚至报复社会。" }, { id: "B", text: "彻底崩溃，长时间一蹶不振，需要依靠他人才能勉强维持生活。" }, { id: "C", text: "允许自己难过一段时间，然后积极寻求帮助和解决方案，重建生活。" }, { id: "D", text: "视其为灵魂的试炼和重生的契机，在痛苦中觉察，快速完成蜕变。" }] },
+            { id: 11, scenario: "关于“命运”，你更倾向于相信？", options: [{ id: "A", text: "命苦不能怪政府，都是别人害的；或者完全迷信，试图通过旁门左道改命。" }, { id: "B", text: "觉得命运捉弄人，自己无力改变现状，只能随波逐流。" }, { id: "C", text: "三分天注定，七分靠打拼，相信通过努力可以改变大部分境遇。" }, { id: "D", text: "命是剧本，运是演技。我是自己实相的创造者，每一个当下都在创造未来。" }] },
+            { id: 12, scenario: "在社交场合中，你通常的表现是？", options: [{ id: "A", text: "哗众取宠，极力表现自己，或者攻击他人来抬高自己。" }, { id: "B", text: "极度拘谨，害怕说错话，总是躲在角落，担心别人的眼光。" }, { id: "C", text: "得体大方，能照顾到大多数人的情绪，进行有效的社交互动。" }, { id: "D", text: "真实自然，不卑不亢，能与他人建立深度的灵魂链接，也能安于旁观。" }] },
+            { id: 13, scenario: "当别人向你寻求建议，但你发现他们根本不听时，你会？", options: [{ id: "A", text: "非常生气，骂他们不知好歹，下次绝不再管。" }, { id: "B", text: "感到挫败，怀疑自己的建议是否真的有用。" }, { id: "C", text: "尊重他们的选择，毕竟每个人都要为自己负责，不再强求。" }, { id: "D", text: "理解每个人都有自己的成长节奏，无论他们听与不听，都送上祝福。" }] },
+            { id: 14, scenario: "面对比你弱小或地位低的人（服务员、下属等），你的态度是？", options: [{ id: "A", text: "颐指气使，呼来喝去，展现优越感。" }, { id: "B", text: "无视他们的存在，只关注自己的需求。" }, { id: "C", text: "保持基本的礼貌和尊重，体现职业素养。" }, { id: "D", text: "发自内心的平等与尊重，甚至能体恤他们的不易，给予额外的关怀。" }] },
+            { id: 15, scenario: "你如何看待“竞争”？", options: [{ id: "A", text: "竞争就是你死我活，必须把对手干掉。" }, { id: "B", text: "害怕竞争，总是回避冲突，甚至主动退出。" }, { id: "C", text: "良性竞争能激发潜能，专注于提升自己的核心竞争力。" }, { id: "D", text: "超越竞争意识，专注于创造独特的价值，相信世界是共赢的生态系统。" }] },
+            { id: 16, scenario: "当你感到极度疲惫时，你会？", options: [{ id: "A", text: "把气撒在身边最亲近的人身上。" }, { id: "B", text: "硬撑着，不敢休息，怕耽误事或被评价为懒惰。" }, { id: "C", text: "合理安排休假，通过运动、睡眠来恢复体能。" }, { id: "D", text: "觉察身体的信号，进行深度的身心疗愈，回归内在的平衡。" }] },
+            { id: 17, scenario: "对于“承诺”，你的做法是？", options: [{ id: "A", text: "信口开河，为了达成目的随便答应，事后不认账。" }, { id: "B", text: "不敢承诺，怕做不到，总是模棱两可。" }, { id: "C", text: "言出必行，答应的事会尽力做到，做不到会提前说明。" }, { id: "D", text: "慎重承诺，一旦承诺便视若生命；同时也能灵活应对变化，不被承诺僵化。" }] },
+            { id: 18, scenario: "如果有人在背后说你坏话被你知道了，你会？", options: [{ id: "A", text: "立马找他对质，撕破脸皮，或者在背后说得更难听。" }, { id: "B", text: "非常伤心，觉得全世界都背叛了自己，想讨好对方消除误会。" }, { id: "C", text: "反思自己是否有不当之处，如果没有，则与该人保持距离，不予理会。" }, { id: "D", text: "完全不在意，明白这是对方的投射，与真实的自己无关，内心依然从容。" }] },
+            { id: 19, scenario: "面对生活中的“不确定性”（如行业变革、突发疫情），你的态度是？", options: [{ id: "A", text: "恐慌、愤怒，指责外界环境，希望回到过去。" }, { id: "B", text: "焦虑不安，失眠，不知道未来该怎么办。" }, { id: "C", text: "收集信息，分析趋势，储备资源，为多种可能性做准备。" }, { id: "D", text: "拥抱不确定性，认为这是进化的催化剂，活在当下，随顺生命之流。" }] },
+            { id: 20, scenario: "你认为人生的意义在于？", options: [{ id: "A", text: "吃喝玩乐，及时行乐，或者比别人过得好。" }, { id: "B", text: "不知道，觉得活着很累，只是为了生存。" }, { id: "C", text: "实现自我价值，为家庭和社会做出贡献，留下痕迹。" }, { id: "D", text: "体验生命本身，觉醒真实的自性，回归无条件的爱与合一。" }] },
+            { id: 21, scenario: "当你在学习新技能遇到瓶颈时，你会？", options: [{ id: "A", text: "觉得自己不是这块料，直接放弃，并贬低这个技能的价值。" }, { id: "B", text: "感到挫败，死磕但效率低下，越学越痛苦。" }, { id: "C", text: "寻找新的方法，请教导师，拆解问题，逐步突破。" }, { id: "D", text: "接纳瓶颈期是成长的必经之路，保持耐心，享受“高原期”的沉淀。" }] },
+            { id: 22, scenario: "面对父母或长辈的催婚/催生/干涉生活，你会？", options: [{ id: "A", text: "激烈争吵，摔门而去，甚至断绝关系。" }, { id: "B", text: "唯唯诺诺，虽然心里不愿意但表面顺从，感到窒息。" }, { id: "C", text: "心平气和地沟通自己的规划，设定界限，寻求相互理解。" }, { id: "D", text: "看到他们行为背后的爱与恐惧，既不被其情绪裹挟，也能温柔坚定地做自己。" }] },
+            { id: 23, scenario: "当你看到社会上的负面新闻时，你的反应是？", options: [{ id: "A", text: "在网上当键盘侠，宣泄愤怒，甚至进行网络暴力。" }, { id: "B", text: "感到世界很黑暗，不敢出门，对人性失去信心。" }, { id: "C", text: "保持理性，关注官方通报，思考背后的社会问题及解决方案。" }, { id: "D", text: "发送慈悲的意念，在自己的能力范围内传播正向能量，不被集体恐惧吞噬。" }] },
+            { id: 24, scenario: "对于“权威”人士（专家、领导），你的看法是？", options: [{ id: "A", text: "要么盲目崇拜，要么因为嫉妒而无脑反叛/攻击。" }, { id: "B", text: "畏惧权威，不敢表达自己的真实想法，完全服从。" }, { id: "C", text: "尊重但不盲从，能够批判性思考，吸取有益的部分。" }, { id: "D", text: "视其为平等的灵魂，看到其专业性也看到其局限性，从容交流。" }] },
+            { id: 25, scenario: "在做重大决策时，你主要依据什么？", options: [{ id: "A", text: "冲动，看心情，或者谁怂恿就听谁的。" }, { id: "B", text: "恐惧，选那个看起来最安全、风险最小的，哪怕不是想要的。" }, { id: "C", text: "逻辑分析，利弊权衡，数据支撑。" }, { id: "D", text: "直觉与心流，逻辑为辅，听从内心深处的召唤。" }] },
+            { id: 26, scenario: "你如何看待自己的身体？", options: [{ id: "A", text: "工具，随意挥霍，熬夜酗酒，生病了就吃药。" }, { id: "B", text: "充满了挑剔，嫌弃自己胖、丑，通过极端方式改变外貌。" }, { id: "C", text: "注重健康管理，定期体检、运动，保持良好的机能。" }, { id: "D", text: "身体是灵魂的圣殿，感恩并细心呵护，与身体保持敏锐的连接。" }] },
+            { id: 27, scenario: "当你的计划被打乱时（例如突然下雨取消了野餐），你会？", options: [{ id: "A", text: "非常扫兴，抱怨天气，整天都摆臭脸。" }, { id: "B", text: "感到失落，不知道该干什么，发呆浪费时间。" }, { id: "C", text: "迅速启动B计划（如改为室内聚会），不让心情受太大影响。" }, { id: "D", text: "欣然接受，享受雨天的独特意境，觉得这也是一种惊喜。" }] },
+            { id: 28, scenario: "面对他人的痛苦或不幸，你会？", options: [{ id: "A", text: "幸灾乐祸，或者冷漠旁观，觉得“活该”。" }, { id: "B", text: "过度共情，跟着一起哭，陷进去出不来，甚至影响自己生活。" }, { id: "C", text: "给予适当的安慰和实际的帮助，但保持边界。" }, { id: "D", text: "保持慈悲的临在，给予高维的支持，相信这也是对方灵魂的功课。" }] },
+            { id: 29, scenario: "关于“过去”的创伤或遗憾，你现在的状态是？", options: [{ id: "A", text: "充满了怨恨，经常拿出来说，觉得自己是受害者。" }, { id: "B", text: "刻意回避，不敢触碰，一想起来就心痛。" }, { id: "C", text: "已经理性分析过原因，吸取了教训，不再让它影响现在。" }, { id: "D", text: "完全疗愈，甚至感恩那些经历塑造了现在的自己，与之和解。" }] },
+            { id: 30, scenario: "你对“完美”的追求程度是？", options: [{ id: "A", text: "严以律人，宽以待己。要求别人完美，自己随便。" }, { id: "B", text: "完美主义强迫症，有一点瑕疵就全盘否定，导致迟迟不敢行动。" }, { id: "C", text: "追求卓越，但接受迭代，完成比完美更重要。" }, { id: "D", text: "拥抱缺憾美，认为不完美才是真实的生命状态，在瑕疵中看到独特的韵味。" }] },
+            { id: 31, scenario: "在团队合作中，你更倾向于哪种角色？", options: [{ id: "A", text: "独裁者（都听我的）或 破坏者（专门挑刺）。" }, { id: "B", text: "老好人，不敢表达反对意见，默默干活背锅。" }, { id: "C", text: "专业的协作者或领导者，明确分工，推动目标达成。" }, { id: "D", text: "精神领袖或催化剂，激发团队成员的潜能，营造流动的场域。" }] },
+            { id: 32, scenario: "当别人对你进行赞美时，你的反应是？", options: [{ id: "A", text: "得意忘形，觉得理所应当，甚至开始吹牛。" }, { id: "B", text: "极度不自在，否认，觉得对方在客套或讽刺。" }, { id: "C", text: "大方接受并表示感谢，同时也赞美对方。" }, { id: "D", text: "心怀感激，但不依附于赞美，清楚自己的价值所在。" }] },
+            { id: 33, scenario: "你如何处理自己的欲望（食欲、物欲、性欲等）？", options: [{ id: "A", text: "放纵，沉溺其中，无法自拔，事后空虚。" }, { id: "B", text: "压抑，觉得这是羞耻的，通过苦行来对抗欲望。" }, { id: "C", text: "适度满足，保持平衡，不影响正常生活。" }, { id: "D", text: "觉察欲望的升起与消落，不迎不拒，转化其能量为创造力。" }] },
+            { id: 34, scenario: "面对“死亡”这个话题，你的感受是？", options: [{ id: "A", text: "极度恐惧，忌讳，绝口不提。" }, { id: "B", text: "感到悲观虚无，觉得人死了什么都没了，活着没意义。" }, { id: "C", text: "理性接受这是自然规律，立遗嘱，安排好身后事。" }, { id: "D", text: "视死如归，认为死亡是生命转换的形式，向死而生，活出当下的精彩。" }] },
+            { id: 35, scenario: "当你在公共场合看到有人插队，你会？", options: [{ id: "A", text: "破口大骂，甚至动手推搡。" }, { id: "B", text: "心里生气但不敢吱声，默默忍受。" }, { id: "C", text: "礼貌而坚定地指出，要求对方遵守规则。" }, { id: "D", text: "平和地提醒，或者如果对方看起来很急，愿意主动让位并给予理解。" }] },
+            { id: 36, scenario: "你认为“爱”是什么？", options: [{ id: "A", text: "占有，控制，你是我的，必须听我的。" }, { id: "B", text: "牺牲，讨好，为了你我可以没有自我。" }, { id: "C", text: "互惠，责任，共同成长，彼此成就。" }, { id: "D", text: "无条件的接纳，自由的流动，在爱中看到神性。" }] },
+            { id: 37, scenario: "当你的手机没电关机，且身边没有充电器时，你会？", options: [{ id: "A", text: "暴躁焦虑，感觉与世隔绝，无法生存。" }, { id: "B", text: "担心错过重要消息，坐立难安，到处借充电宝。" }, { id: "C", text: "有点不便，但能接受，正好休息一下眼睛。" }, { id: "D", text: "享受这份难得的清静和断联，回归当下的感官体验。" }] },
+            { id: 38, scenario: "对于“嫉妒”这种情绪，你通常如何处理？", options: [{ id: "A", text: "转化为恨意，通过贬低对方来平衡心理。" }, { id: "B", text: "自我攻击，觉得自己不如别人，陷入自卑。" }, { id: "C", text: "承认嫉妒的存在，分析对方的优点，学习模仿。" }, { id: "D", text: "觉察嫉妒是内在匮乏的投射，借此机会疗愈内在小孩，转为对他人的祝福。" }] },
+            { id: 39, scenario: "如果让你一个人去陌生的城市生活，你会？", options: [{ id: "A", text: "坚决不去，害怕由于陌生带来的失控感。" }, { id: "B", text: "虽然去了，但每天都很想家，很难融入新环境。" }, { id: "C", text: "做好攻略，快速熟悉环境，建立新的社交圈。" }, { id: "D", text: "充满好奇，享受探索未知的乐趣，随遇而安，四海为家。" }] },
+            { id: 40, scenario: "这一刻，你对这个测试的真实想法是？", options: [{ id: "A", text: "好烦，题目这么多，浪费时间，想乱选结束。" }, { id: "B", text: "担心测出来结果不好，或者觉得题目太难选了。" }, { id: "C", text: "认真思考每一题，希望能得到客观的评价。" }, { id: "D", text: "享受自我反思的过程，无论结果如何，这都是一次有趣的灵魂对话。" }] }
+        ];
+
+        // Profile Data with Chinese Functions
+        const MBTI_BASE_DATA = {
+            "INTP": { nickname: "逻辑学家", functions: { dom: "Ti", aux: "Ne", tert: "Si", inf: "Fe" }, careers: ["算法工程师", "金融建模师", "哲学研究员", "系统架构师", "科幻作家"], soulmates: ["ENTJ", "ENFJ", "ESTJ"] },
+            "INFP": { nickname: "治愈者", functions: { dom: "Fi", aux: "Ne", tert: "Si", inf: "Te" }, careers: ["艺术治疗师", "独立策展人", "绘本作家", "人权律师", "心理咨询师"], soulmates: ["ENFJ", "ENTJ", "ESFJ"] },
+            "INTJ": { nickname: "战略家", functions: { dom: "Ni", aux: "Te", tert: "Fi", inf: "Se" }, careers: ["战略顾问", "投资总监", "首席技术官", "外科医生", "独立开发者"], soulmates: ["ENFP", "ENTP", "ESFP"] },
+            "INFJ": { nickname: "引路人", functions: { dom: "Ni", aux: "Fe", tert: "Ti", inf: "Se" }, careers: ["非营利组织顾问", "作家/编剧", "灵性导师", "用户体验研究", "调解员"], soulmates: ["ENTP", "ENFP", "ESTP"] },
+            "ENTP": { nickname: "辩论家", functions: { dom: "Ne", aux: "Ti", tert: "Fe", inf: "Si" }, careers: ["创业创始人", "风险投资人", "脱口秀演员", "创意总监", "法律顾问"], soulmates: ["INFJ", "INTJ", "ISFJ"] },
+            "ENFP": { nickname: "追梦人", functions: { dom: "Ne", aux: "Fi", tert: "Te", inf: "Si" }, careers: ["活动策划", "旅游博主", "公关经理", "小学教师", "记者"], soulmates: ["INTJ", "INFJ", "ISTJ"] },
+            "ENTJ": { nickname: "指挥官", functions: { dom: "Te", aux: "Ni", tert: "Se", inf: "Fi" }, careers: ["公司CEO", "管理咨询顾问", "法官", "项目经理", "大学院长"], soulmates: ["INTP", "INFP", "ISTP"] },
+            "ENFJ": { nickname: "主人公", functions: { dom: "Fe", aux: "Ni", tert: "Se", inf: "Ti" }, careers: ["人力资源总监", "公关发言人", "教育家", "销售总监", "主持人"], soulmates: ["INFP", "INTP", "ISFP"] },
+            "ISTJ": { nickname: "物流师", functions: { dom: "Si", aux: "Te", tert: "Fi", inf: "Ne" }, careers: ["财务总监", "审计师", "海关官员", "后端开发工程师", "法医"], soulmates: ["ESFP", "ESTP", "ENFP"] },
+            "ISFJ": { nickname: "守卫者", functions: { dom: "Si", aux: "Fe", tert: "Ti", inf: "Ne" }, careers: ["小学老师", "护士/医生", "社会工作者", "室内设计师", "行政主管"], soulmates: ["ESTP", "ESFP", "ENTP"] },
+            "ESTJ": { nickname: "总经理", functions: { dom: "Te", aux: "Si", tert: "Ne", inf: "Fi" }, careers: ["高级经理", "警官/军官", "药剂师", "保险精算师", "体育教练"], soulmates: ["ISFP", "ISTP", "INTP"] },
+            "ESFJ": { nickname: "执政官", functions: { dom: "Fe", aux: "Si", tert: "Ne", inf: "Ti" }, careers: ["公共关系专员", "活动协调员", "医疗销售", "餐饮管理", "咨询顾问"], soulmates: ["ISTP", "ISFP", "INFP"] },
+            "ISTP": { nickname: "鉴赏家", functions: { dom: "Ti", aux: "Se", tert: "Ni", inf: "Fe" }, careers: ["机械工程师", "飞行员", "数据分析师", "急诊室医生", "特技演员"], soulmates: ["ESFJ", "ESTJ", "ENTJ"] },
+            "ISFP": { nickname: "探险家", functions: { dom: "Fi", aux: "Se", tert: "Ni", inf: "Te" }, careers: ["时装设计师", "景观建筑师", "兽医", "珠宝鉴定师", "音乐家"], soulmates: ["ESTJ", "ESFJ", "ENFJ"] },
+            "ESTP": { nickname: "企业家", functions: { dom: "Se", aux: "Ti", tert: "Fe", inf: "Ni" }, careers: ["股票经纪人", "消防员", "大客户销售", "创业者", "职业运动员"], soulmates: ["ISFJ", "ISTJ", "INFJ"] },
+            "ESFP": { nickname: "表演者", functions: { dom: "Se", aux: "Fi", tert: "Te", inf: "Ni" }, careers: ["演员/艺人", "活动策划", "销售代表", "导游", "时尚买手"], soulmates: ["ISTJ", "ISFJ", "INTJ"] }
+        };
+
+        const FUNCTION_CN_MAP = {
+            Ti: "内向思考 (Ti)", Te: "外向思考 (Te)",
+            Fi: "内向情感 (Fi)", Fe: "外向情感 (Fe)",
+            Si: "内向实感 (Si)", Se: "外向实感 (Se)",
+            Ni: "内向直觉 (Ni)", Ne: "外向直觉 (Ne)",
+        };
+
+        // ==========================================
+        // 2. STATE MANAGEMENT
+        // ==========================================
+        let state = {
+            step: 'intro', // intro, quiz, analyzing, result
+            mbti: '',
+            currentQuestionIndex: 0,
+            answers: [],
+            result: null,
+            shuffledOptions: []
+        };
+
+        const setState = (newState) => {
+            state = { ...state, ...newState };
+            renderApp();
+        };
+
+        const authState = { unlocked: false, controller: null };
+
+        function setFullReportVisible(isVisible) {
+            const fullReport = document.getElementById('full-report');
+            if (fullReport) {
+                fullReport.classList.toggle('is-unlocked', isVisible);
+                fullReport.classList.toggle('is-locked', !isVisible);
+            }
+        }
+
+        function unlockFullReport() {
+            if (authState.unlocked) return;
+            authState.unlocked = true;
+            setFullReportVisible(true);
+        }
+
+        async function resolveApiBase() {
+            try {
+                const res = await fetch('/config/app-config.json', { cache: 'no-store' });
+                if (res.ok) {
+                    const cfg = await res.json();
+                    if (cfg && cfg.apiBase) {
+                        return String(cfg.apiBase).trim();
+                    }
+                }
+            } catch (err) {
+                console.warn('无法读取 app-config.json，将使用当前域名:', err);
+            }
+            return window.location.origin;
+        }
+
+        async function setupAuthGate() {
+            if (!window.AuthorizationSDK) {
+                return;
+            }
+            const unlockButton = document.getElementById('unlock-btn');
+            if (!unlockButton) {
+                return;
+            }
+            const apiBase = await resolveApiBase();
+            authState.controller = await AuthorizationSDK.init({
+                testType: 'mbtia',
+                apiBase,
+                startButtons: ['#unlock-btn'],
+                onAuthorized: unlockFullReport,
+                authContext: 'result'
+            });
+            const config = authState.controller?.state?.config;
+            if (config && config.auth_required === 0) {
+                unlockFullReport();
+                return;
+            }
+            const mode = (config && config.auth_mode) ? String(config.auth_mode).toLowerCase() : 'start';
+            if (mode !== 'result') {
+                unlockFullReport();
+                return;
+            }
+            if (authState.controller.isSessionActive()) {
+                unlockFullReport();
+            }
+        }
+
+        // ==========================================
+        // 3. LOGIC FUNCTIONS
+        // ==========================================
+        
+        function getFunctionDesc(func, type, tier) {
+            const isHigh = tier === MindTier.High || tier === MindTier.Mid;
+            const descriptions = {
+                Ti: { dom: isHigh ? "你拥有一把能够解剖现实的逻辑手术刀。你不仅能看穿事物的结构，更能构建出超越表象的理论大厦。" : "你过度沉溺于内心的逻辑迷宫，对他人的情感需求视而不见。", aux: "作为辅助工具，【内向思考】帮助你快速筛选信息，剔除杂质。", inf: "逻辑分析是你的短板。在压力下，你可能会变得异常吹毛求疵。" },
+                Te: { dom: isHigh ? "你是天生的统帅，拥有将混乱变为秩序的惊人能量。你的执行力如同雷霆。" : "你可能变成了一个为了目的不择手段的暴君。", aux: "高效的执行力让你的愿景能够落地生根。", inf: "由于缺乏对效率的掌控，你在压力下可能会变得专横跋扈。" },
+                Fi: { dom: isHigh ? "你拥有通灵般的情感深度，能敏锐捕捉到人类灵魂中最细微的震颤。" : "你可能陷入了自我中心的受害者模式，过度沉溺于自己的情绪漩涡中。", aux: "内在的价值观指引着你的方向，让你在复杂的环境中依然能保持真我。", inf: "情感处理是你的阿喀琉斯之踵。你平时可能表现得冷漠，但在压力下会突然爆发。" },
+                Fe: { dom: isHigh ? "你是人群中的粘合剂，拥有感知并调和集体情绪的超能力。" : "你可能失去了自我，过度讨好他人以换取认同。", aux: "你善于照顾他人的感受，这让你在社交中如鱼得水。", inf: "你对人际关系感到笨拙和焦虑。在压力下，你可能会突然变得情绪化。" },
+                Ni: { dom: isHigh ? "你是时间的预言家，能够穿透当下的迷雾看到未来的终局。" : "你可能陷入了偏执的妄想，由于过度相信自己的直觉而脱离现实。", aux: "敏锐的直觉辅佐着你的判断，让你能预判风险。", inf: "你对未来充满恐惧，容易陷入对灾难性后果的想象中。" },
+                Ne: { dom: isHigh ? "你是可能性的炼金术士，能从一粒沙中看到无数个宇宙。" : "你可能变得浮躁而散乱，永远在开始新项目，却从未完成一个。", aux: "发散性思维让你总是能看到事情的另一面。", inf: "面对未知的变化，你可能会感到极度焦虑。" },
+                Si: { dom: isHigh ? "你是文明的守护者，拥有如磐石般稳固的可靠性。" : "你可能变得僵化而守旧，因为恐惧改变而死守着过时的规矩。", aux: "丰富的经验库是你宝贵的资产，让你在处理问题时有据可依。", inf: "你容易忽视身体的信号和过往的经验。" },
+                Se: { dom: isHigh ? "你是当下的主宰，拥有极致的感官敏锐度。你能够全身心地投入到每一个瞬间。" : "你可能沉溺于感官享乐，通过放纵欲望来逃避内心的空虚。", aux: "敏锐的观察力让你能迅速适应环境的变化。", inf: "你对物质世界感到疏离，可能经常显得笨手笨脚。" }
+            };
+            return descriptions[func] ? descriptions[func][type] : "";
+        }
+
+        function calculateResults() {
+            let rawScore = 0;
+            
+            state.answers.forEach(pair => {
+                if (!pair) return;
+                if (pair.optionId === "A" || pair.optionId === "B") rawScore += 1;
+                else if (pair.optionId === "C") rawScore += 3;
+                else if (pair.optionId === "D") rawScore += 5;
+            });
+
+            // Normalize 40-200 to 0-100
+            let score = Math.round(((rawScore - 40) / 160) * 100);
+            score = Math.max(0, Math.min(100, score));
+
+            // Determine Tier
+            let tier = MindTier.Unawakened;
+            if (score >= 80) tier = MindTier.High;
+            else if (score >= 60) tier = MindTier.Mid;
+            else if (score >= 40) tier = MindTier.Low;
+
+            // Generate Profile
+            const base = MBTI_BASE_DATA[state.mbti];
+            const { dom, aux, inf } = base.functions;
+            const domName = FUNCTION_CN_MAP[dom];
+            const auxName = FUNCTION_CN_MAP[aux];
+            const infName = FUNCTION_CN_MAP[inf];
+            const tertName = FUNCTION_CN_MAP[base.functions.tert];
+
+            // Descriptions
+            const tierConfigs = {
+                [MindTier.Unawakened]: {
+                    keywords: ["能量受阻", "被动防御", "迷茫困顿"],
+                    quote: "迷雾遮住了双眼，只有打破内心的墙，光才能照进来。",
+                    stageDesc: "检测显示，你的心智能量目前处于未觉醒阶段。你可能感到生活充满了阻力，经常陷入内耗或情绪的漩涡。",
+                    dilemma: `${dom}-${base.functions.tert} Loop (内耗循环)`,
+                    dilemmaDesc: `你可能正陷入${domName}与${tertName}的死循环中，切断了与外界真实信息的交换。`,
+                    prescription: `强制激活你的辅助功能【${auxName}】。打破物理环境的静止，去接触新的人或事。`
+                },
+                [MindTier.Low]: {
+                    keywords: ["自我挣扎", "情绪起伏", "渴望突破"],
+                    quote: "在裂缝中寻找阳光，痛苦是成长的催化剂。",
+                    stageDesc: "你处于低阶挣扎期。你已经意识到了现状的不完美，并试图改变，但旧的思维惯性依然强大。",
+                    dilemma: `${inf} Grip (劣势功能抓取)`,
+                    dilemmaDesc: `在压力下，你那平时不成熟的【${infName}】功能会突然接管你的大脑。`,
+                    prescription: `接纳当下的不完美。不要对抗你的劣势功能，而是像对待孩子一样安抚它。`
+                },
+                [MindTier.Mid]: {
+                    keywords: ["稳步前行", "理性适应", "积蓄力量"],
+                    quote: "生活是一场马拉松，你已经找到了属于自己的节奏。",
+                    stageDesc: "你已进入中阶稳定期。你能够熟练运用你的主导和辅助功能来处理工作和生活。",
+                    dilemma: "平庸的舒适区",
+                    dilemmaDesc: "虽然生活平稳，但你可能隐约感到缺乏激情。你过度依赖已有的成功路径，害怕打破现状。",
+                    prescription: `主动引入“可控的混乱”。去学习一个完全陌生的技能，激活你的成长动能。`
+                },
+                [MindTier.High]: {
+                    keywords: ["智慧整合", "慈悲观察", "万物互联"],
+                    quote: "你本具足，无需外求。你就是那个照亮他人的光源。",
+                    stageDesc: "恭喜，你已达到高阶觉醒状态。你整合了所有的认知功能，主导功能的优势发挥到了极致。",
+                    dilemma: "高处不胜寒",
+                    dilemmaDesc: "能够深刻理解你的人越来越少，你可能需要面对精神上的孤独。",
+                    prescription: `做一座灯塔。将你的智慧转化为对他人的服务与慈悲。`
+                }
+            };
+            const currentTier = tierConfigs[tier];
+
+            // Soulmates
+            let tierMultiplier = tier === MindTier.High ? 1.0 : tier === MindTier.Mid ? 0.92 : tier === MindTier.Low ? 0.82 : 0.70;
+            const soulmates = base.soulmates.map((type, idx) => {
+                const baseMatch = idx === 0 ? 98 : idx === 1 ? 92 : 88;
+                return { type, score: Math.min(100, Math.round(baseMatch * tierMultiplier + (score % 5))) };
+            });
+
+            // Radar Chart Logic - Correlated with Total Score
+            const isT = state.mbti.includes("T");
+            const isE = state.mbti.includes("E");
+            const isJ = state.mbti.includes("J");
+            const isP = state.mbti.includes("P");
+            const isI = state.mbti.includes("I");
+
+            const getVal = (base, mod) => {
+                const noise = (score % 7) - 3; 
+                let val = base + mod + noise;
+                return Math.min(100, Math.max(10, val));
+            };
+
+            const radarChart = [
+                { subject: '理性决策', A: getVal(score, isT ? 5 : -5) },
+                { subject: '自我接纳', A: getVal(score, isI ? 5 : 0) },
+                { subject: '情绪稳定', A: getVal(score, isJ ? 3 : -3) },
+                { subject: '社会适应', A: getVal(score, isE ? 5 : -5) },
+                { subject: '人生格局', A: getVal(score, isP ? 3 : 0) },
+            ];
+
+            return {
+                tier, score, mbti: state.mbti,
+                keywords: currentTier.keywords,
+                quote: currentTier.quote,
+                radarChart,
+                careers: base.careers,
+                soulmates,
+                manual: {
+                    talentSource: `作为${state.mbti}（${base.nickname}），你的核心原力源自【${domName}】。${getFunctionDesc(dom, 'dom', MindTier.High)} 同时，【${auxName}】为你提供了支持，${getFunctionDesc(aux, 'aux', tier)}`,
+                    blindSpots: `你的劣势功能【${infName}】往往是绊脚石。${getFunctionDesc(inf, 'inf', tier)} 需警惕${domName}的过度使用。`,
+                    evolutionList: [`觉察${auxName}的使用。`, "记录情绪爆发背后的需求。", "尝试向陌生人表达善意。"]
+                },
+                diagnosis: {
+                    stageDescription: currentTier.stageDesc,
+                    coreDilemma: { title: currentTier.dilemma, description: currentTier.dilemmaDesc },
+                    prescription: currentTier.prescription
+                }
+            };
+        }
+
+        // ==========================================
+        // 4. RENDERERS
+        // ==========================================
+        
+        // 4.1 Intro
+        function renderIntro() {
+            return `
+                <div class="flex flex-col items-center justify-center min-h-[80vh] text-center px-4 animate-fade-in">
+                    <div class="mb-8 relative">
+                         <div class="absolute inset-0 bg-purple-500 blur-[60px] opacity-20 rounded-full"></div>
+                         <h1 class="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-200 to-amber-100 relative z-10">
+                            16人格 · 心智阶位测评
+                         </h1>
+                         <p class="mt-4 text-lg text-purple-200/80 max-w-2xl mx-auto relative z-10">
+                            发现你的人格当前处于哪个进化阶段：<br class="md:hidden" />
+                            <span class="text-gray-400">未觉醒</span>、<span class="text-red-300">低阶</span>、<span class="text-blue-300">中阶</span>，还是<span class="text-amber-300">高阶</span>？
+                         </p>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-2xl w-full max-w-md mx-auto relative z-20">
+                        <label class="block text-left text-sm font-medium text-gray-300 mb-2">首先，请选择你的MBTI类型</label>
+                        <select id="mbti-select" class="block w-full pl-3 pr-10 py-3 text-base border border-purple-500/30 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded-lg bg-gray-900/50 text-white mb-6">
+                            <option value="" disabled selected>选择类型...</option>
+                            ${MBTI_LIST.map(t => `<option value="${t}" class="bg-gray-900">${t}</option>`).join('')}
+                        </select>
+                        <a href="../index.html" class="w-full inline-flex items-center justify-center px-8 py-3 border border-purple-500/40 text-base font-medium rounded-lg text-purple-200 hover:bg-white/10 transition-all duration-300 mb-3">
+                            返回测试合集首页
+                        </a>
+                        <button id="startBtn" disabled class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-white transition-all duration-300 bg-gray-700 cursor-not-allowed opacity-50">
+                            开始阶位诊断 <div class="ml-2 w-5 h-5 flex items-center justify-center">${Icons.ArrowRight}</div>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 4.2 Quiz
+        function renderQuiz() {
+            const question = QUESTIONS[state.currentQuestionIndex];
+            const selectedId = state.answers[state.currentQuestionIndex]?.optionId;
+            
+            const progress = (state.currentQuestionIndex / QUESTIONS.length) * 100;
+            const isFirst = state.currentQuestionIndex === 0;
+
+            return `
+                <div class="max-w-2xl mx-auto w-full px-4 animate-fade-in-up">
+                    <div class="mb-8 w-full bg-gray-800 rounded-full h-2.5">
+                        <div class="bg-gradient-to-r from-purple-500 to-amber-300 h-2.5 rounded-full transition-all duration-500 ease-out" style="width: ${progress}%"></div>
+                        <div class="text-right text-xs text-gray-400 mt-2">问题 ${state.currentQuestionIndex + 1} / ${QUESTIONS.length}</div>
+                    </div>
+
+                    <div class="glass-panel p-6 md:p-8 rounded-2xl min-h-[400px] flex flex-col justify-center">
+                        <h2 class="text-xl md:text-2xl font-medium text-white mb-8 leading-relaxed">${question.scenario}</h2>
+                        <div class="space-y-4">
+                            ${state.shuffledOptions.map(opt => `
+                                <button onclick="selectAnswer('${opt.text}', '${opt.id}')" class="w-full text-left p-4 rounded-xl border transition-all duration-200 flex items-start group ${selectedId === opt.id ? 'bg-purple-600/20 border-purple-500 text-white' : 'bg-gray-800/40 border-gray-700 text-gray-300 hover:bg-gray-700/60 hover:border-gray-500'} option-btn" data-id="${opt.id}">
+                                    <div class="mr-4 mt-0.5 flex-shrink-0 w-5 h-5 relative">
+                                        <div class="uncheck-icon absolute inset-0 text-gray-500 group-hover:text-gray-300 ${selectedId === opt.id ? 'hidden' : ''}">${Icons.Circle}</div>
+                                        <div class="check-icon absolute inset-0 text-purple-400 ${selectedId === opt.id ? '' : 'hidden'}">${Icons.CheckCircle2}</div>
+                                    </div>
+                                    <span class="text-base">${opt.text}</span>
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div class="mt-6 flex items-center justify-between">
+                            <button onclick="goPrev()" class="px-5 py-2.5 rounded-lg border border-gray-600 text-gray-200 text-sm font-medium hover:bg-gray-700/60 transition ${isFirst ? 'opacity-50 cursor-not-allowed' : ''}" ${isFirst ? 'disabled' : ''}>
+                                上一题
+                            </button>
+                            <span class="text-xs text-gray-500">可返回修改</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 4.3 Analyzing
+        function renderAnalyzing() {
+            return `
+                 <div class="flex flex-col items-center justify-center min-h-[50vh] text-center px-4">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-amber-500 blur-xl opacity-20 animate-pulse rounded-full"></div>
+                        <div class="w-12 h-12 text-amber-300 animate-pulse relative z-10 mx-auto">${Icons.Sparkles}</div>
+                    </div>
+                    <h2 class="mt-8 text-xl text-white font-medium">深度演算中...</h2>
+                    <div class="mt-2 space-y-1 text-center">
+                        <p class="text-gray-400 text-xs animate-pulse">正在解析荣格八维偏好...</p>
+                        <p class="text-gray-500 text-xs delay-75 animate-pulse">正在计算心智熵与能量层级...</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 4.4 Result
+        function renderResult() {
+            const r = state.result;
+            const mbti = state.mbti;
+            const tierColors = {
+                [MindTier.High]: "from-amber-400 to-orange-500",
+                [MindTier.Mid]: "from-blue-400 to-cyan-500",
+                [MindTier.Low]: "from-red-400 to-pink-500",
+                [MindTier.Unawakened]: "from-purple-400 to-indigo-500"
+            };
+            const bgGradient = tierColors[r.tier];
+
+            // Manual SVG Radar Chart
+            // Center 150,120. Radius 80.
+            const cx = 150, cy = 120, radius = 80;
+            const points = r.radarChart.map((item, i) => {
+                const angle = (Math.PI / 2) - (i * 2 * Math.PI / 5); // Start top, go counter-clockwise
+                const valR = (item.A / 100) * radius;
+                const x = cx + valR * Math.cos(angle);
+                const y = cy - valR * Math.sin(angle); // SVG y is down
+                return `${x},${y}`;
+            }).join(" ");
+            
+            // Grid lines (Pentagons)
+            const gridLevels = [1, 0.75, 0.5, 0.25];
+            const grids = gridLevels.map(level => {
+                 return r.radarChart.map((_, i) => {
+                    const angle = (Math.PI / 2) - (i * 2 * Math.PI / 5);
+                    const r = radius * level;
+                    return `${cx + r * Math.cos(angle)},${cy - r * Math.sin(angle)}`;
+                 }).join(" ");
+            });
+
+            // Axis Lines
+            const axes = r.radarChart.map((_, i) => {
+                 const angle = (Math.PI / 2) - (i * 2 * Math.PI / 5);
+                 return {
+                    x2: cx + radius * Math.cos(angle),
+                    y2: cy - radius * Math.sin(angle)
+                 };
+            });
+            
+            // Axis Labels Logic to prevent overlap
+            const labels = r.radarChart.map((item, i) => {
+                 const angle = (Math.PI / 2) - (i * 2 * Math.PI / 5);
+                 const rLabel = radius + 25; // Push out slightly more
+                 const x = cx + rLabel * Math.cos(angle);
+                 const y = cy - rLabel * Math.sin(angle);
+                 
+                 let anchor = 'middle';
+                 if (Math.abs(x - cx) > 10) {
+                     anchor = x > cx ? 'start' : 'end';
+                 }
+                 
+                 // Adjust vertical position based on height
+                 let dy = "4"; // default middle alignment
+                 if (i === 0) dy = "-5"; // Top label push up
+                 else if (y > cy) dy = "10"; // Bottom label push down
+                 
+                 return { x, y, text: item.subject, anchor, dy };
+            });
+
+            return `
+                <div class="max-w-md mx-auto w-full pb-12 animate-fade-in font-sans px-4">
+                    <!-- Header -->
+                    <div class="rounded-[32px] p-6 mb-6 text-white shadow-2xl relative overflow-hidden bg-gradient-to-br ${bgGradient}" data-auth-basic="true">
+                        <div class="absolute top-[-50px] right-[-50px] w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start mb-1">
+                                <h1 class="text-3xl font-bold tracking-tight">${r.tier}</h1>
+                                <div class="text-right">
+                                    <div class="text-xs opacity-80 uppercase tracking-widest">总分</div>
+                                    <div class="text-2xl font-bold font-mono">${r.score}</div>
+                                </div>
+                            </div>
+                            <div class="text-5xl font-black mb-4 tracking-tighter opacity-90">${mbti}</div>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                ${r.keywords.map(k => `<span class="px-2 py-1 bg-white/20 backdrop-blur-sm rounded-md text-xs font-medium border border-white/10">${k}</span>`).join('')}
+                            </div>
+                            <div class="flex items-center gap-2 text-xs opacity-90 italic border-t border-white/20 pt-4">
+                                <span class="text-2xl h-0 relative top-[-10px]">“</span>${r.quote}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="full-report" data-auth-lock="true" class="relative is-locked">
+                        <div class="lockable-content">
+                        <!-- Radar Chart -->
+                        <div class="bg-white rounded-2xl p-6 shadow-sm mb-4">
+                            <div class="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                 <div class="w-4 h-4 text-purple-600">${Icons.Activity}</div> 阶位能量图谱
+                            </div>
+                            <div class="flex justify-center -ml-4">
+                                <svg width="320" height="260" viewBox="0 0 300 240">
+                                    <!-- Grids -->
+                                    ${grids.map(pts => `<polygon points="${pts}" fill="none" stroke="#e5e7eb" stroke-width="1"/>`).join('')}
+                                    <!-- Axes -->
+                                    ${axes.map(a => `<line x1="${cx}" y1="${cy}" x2="${a.x2}" y2="${a.y2}" stroke="#e5e7eb" stroke-width="1"/>`).join('')}
+                                    <!-- Radar Shape -->
+                                    <polygon points="${points}" fill="rgba(139, 92, 246, 0.5)" stroke="#8b5cf6" stroke-width="2"/>
+                                    <!-- Labels -->
+                                    ${labels.map(l => `<text x="${l.x}" y="${l.y}" font-size="10" text-anchor="${l.anchor}" fill="#666" dy="${l.dy}">${l.text}</text>`).join('')}
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Compass -->
+                        <div class="bg-white rounded-2xl p-6 shadow-sm mb-4">
+                            <div class="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                 <div class="w-4 h-4 text-purple-600">${Icons.Map}</div> 人生罗盘
+                            </div>
+                            <div class="mb-6">
+                                <div class="flex items-center gap-2 text-xs font-bold text-purple-600 mb-2">
+                                    <div class="w-3 h-3">${Icons.Briefcase}</div> 天赋职业方向
+                                </div>
+                                <div class="flex flex-wrap gap-2">
+                                    ${r.careers.map(c => `<span class="px-3 py-1.5 bg-gray-50 text-gray-600 rounded-lg text-xs border border-gray-100 font-medium">${c}</span>`).join('')}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2 text-xs font-bold text-pink-500 mb-2">
+                                    <div class="w-3 h-3">${Icons.Heart}</div> 灵魂伴侣契合度
+                                </div>
+                                <div class="space-y-3">
+                                    ${r.soulmates.map(sm => `
+                                        <div class="flex items-center text-xs">
+                                            <span class="w-10 font-black text-gray-800 text-sm">${sm.type}</span>
+                                            <div class="flex-1 mx-3 h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                                                <div class="h-full bg-gradient-to-r from-pink-300 to-rose-500 rounded-full" style="width: ${sm.score}%"></div>
+                                            </div>
+                                            <span class="text-rose-500 font-bold w-8 text-right">${sm.score}%</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Manual & Diagnosis (Text Content) -->
+                        <div class="bg-white rounded-2xl p-6 shadow-sm mb-4">
+                             <div class="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                 <div class="w-4 h-4 text-purple-600">${Icons.BookOpen}</div> 人格深度说明书
+                            </div>
+                            <div class="mb-6 pl-4 border-l-2 border-amber-300">
+                                 <h4 class="text-xs font-bold text-amber-500 mb-1 flex items-center gap-1">
+                                    <div class="w-3 h-3 text-amber-500">${Icons.Star}</div>天赋原力
+                                 </h4>
+                                 <p class="text-xs text-gray-600 leading-relaxed text-justify">${r.manual.talentSource}</p>
+                            </div>
+                            <div class="mb-6 pl-4 border-l-2 border-red-300">
+                                 <h4 class="text-xs font-bold text-red-500 mb-1 flex items-center gap-1">
+                                    <div class="w-3 h-3 text-red-500">${Icons.Zap}</div>潜在盲区
+                                 </h4>
+                                 <p class="text-xs text-gray-600 leading-relaxed text-justify">${r.manual.blindSpots}</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-6 shadow-sm mb-4">
+                             <div class="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                 <div class="w-4 h-4 text-purple-600">${Icons.HeartPulse}</div> 状态诊断
+                            </div>
+                            <div class="mb-4 bg-red-50 p-3 rounded-lg border border-red-100">
+                                <h4 class="text-xs font-bold text-red-600 mb-1">⚠️ 核心困境: ${r.diagnosis.coreDilemma.title}</h4>
+                                <p class="text-xs text-gray-600 leading-relaxed">${r.diagnosis.coreDilemma.description}</p>
+                            </div>
+                             <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                                <h4 class="text-xs font-bold text-blue-600 mb-1 flex items-center gap-1">
+                                    <div class="w-3 h-3 text-blue-600">${Icons.Lightbulb}</div> 进阶处方
+                                </h4>
+                                <p class="text-xs text-gray-600 leading-relaxed">${r.diagnosis.prescription}</p>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="lock-overlay">
+                            <div id="unlock-card" class="bg-white rounded-2xl p-6 shadow-sm text-center w-full max-w-sm border border-gray-100">
+                                <div class="text-xs uppercase tracking-widest text-gray-400 mb-2">解锁完整报告</div>
+                                <h3 class="text-xl font-bold text-gray-800">获取完整心智阶位解析</h3>
+                                <p class="text-xs text-gray-500 mt-2">解锁能量图谱、人生罗盘与深度说明书。</p>
+                                <button id="unlock-btn" data-auth-unlock-btn="true" class="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition">
+                                    输入授权码解锁
+                                </button>
+                                <p class="text-[10px] text-gray-400 mt-3">已购买用户输入授权码即可解锁完整结果</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-3 mt-6">
+                        <button onclick="shareMbtiaResult()" class="w-full py-3 bg-gradient-to-r from-purple-500 to-amber-400 text-white rounded-xl text-sm font-bold transition-all shadow-lg hover:shadow-purple-500/40">
+                            分享结果
+                        </button>
+                        <a href="../tg/index.html" target="_blank" rel="noopener" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-sm font-bold transition-all text-center">
+                            加入测试交流群
+                        </a>
+                        <button onclick="window.location.reload()" class="w-full py-3 bg-gray-800 hover:bg-gray-900 text-white rounded-xl text-sm font-bold transition-colors shadow-lg">
+                            重新测试
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // 5. APP CONTROLLER
+        // ==========================================
+
+        function renderApp() {
+            const app = document.getElementById('app');
+            app.innerHTML = '';
+            
+            if (state.step === 'intro') {
+                app.innerHTML = renderIntro();
+                // Attach event to Select
+                const select = document.getElementById('mbti-select');
+                const btn = document.getElementById('startBtn');
+                select.addEventListener('change', (e) => {
+                    state.mbti = e.target.value;
+                    if(state.mbti) {
+                        btn.disabled = false;
+                        btn.classList.remove('bg-gray-700', 'cursor-not-allowed', 'opacity-50');
+                        btn.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-indigo-600', 'shadow-lg');
+                    }
+                });
+                if (window.AuthorizationSDK && typeof window.AuthorizationSDK.attachStartButtons === "function") {
+                    window.AuthorizationSDK.attachStartButtons();
+                }
+            } else if (state.step === 'quiz') {
+                app.innerHTML = renderQuiz();
+            } else if (state.step === 'analyzing') {
+                app.innerHTML = renderAnalyzing();
+                setTimeout(() => {
+                    const result = calculateResults();
+                    setState({ result: result, step: 'result' });
+                }, 2000);
+            } else if (state.step === 'result') {
+                app.innerHTML = renderResult();
+                authState.unlocked = false;
+                setFullReportVisible(false);
+                setupAuthGate();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Global Window Functions for HTML Click Handlers
+        window.startQuiz = () => {
+            const firstQ = QUESTIONS[0];
+            setState({ 
+                step: 'quiz', 
+                currentQuestionIndex: 0, 
+                answers: [],
+                shuffledOptions: firstQ.options 
+            });
+        };
+
+        window.selectAnswer = (text, id) => {
+            // Visual Feedback
+            const clickedBtn = document.querySelector(`button[data-id="${id}"]`);
+            if(clickedBtn) {
+                clickedBtn.classList.add('bg-purple-600/20', 'border-purple-500', 'text-white');
+                clickedBtn.classList.remove('bg-gray-800/40', 'border-gray-700', 'text-gray-300');
+                clickedBtn.querySelector('.check-icon').classList.remove('hidden');
+                clickedBtn.querySelector('.uncheck-icon').classList.add('hidden');
+            }
+
+            const currentScenario = QUESTIONS[state.currentQuestionIndex].scenario;
+            const newAnswers = [...state.answers];
+            newAnswers[state.currentQuestionIndex] = { question: currentScenario, answer: text, optionId: id };
+
+            setTimeout(() => {
+                if (state.currentQuestionIndex < QUESTIONS.length - 1) {
+                    const nextIndex = state.currentQuestionIndex + 1;
+                    setState({ 
+                        answers: newAnswers, 
+                        currentQuestionIndex: nextIndex,
+                        shuffledOptions: QUESTIONS[nextIndex].options
+                    });
+                } else {
+                    state.answers = newAnswers; // Update final answer
+                    setState({ step: 'analyzing' });
+                }
+            }, 400);
+        };
+
+        window.goPrev = () => {
+            if (state.currentQuestionIndex === 0) return;
+            const prevIndex = state.currentQuestionIndex - 1;
+            setState({
+                currentQuestionIndex: prevIndex,
+                shuffledOptions: QUESTIONS[prevIndex].options
+            });
+        };
+
+        window.shareMbtiaResult = () => {
+            const title = '心智阶位测评';
+            const text = state.result
+                ? `我的心智阶位是${state.result.tier}（${state.mbti}），快来测测你的MindTier！`
+                : '我刚完成了心智阶位测评，快来试试吧！';
+            if (navigator.share) {
+                navigator.share({
+                    title,
+                    text,
+                    url: window.location.href,
+                }).catch(console.error);
+            } else {
+                alert('截屏即可分享结果给朋友哦！');
+            }
+        };
+
+        // Initialize
+        renderApp();
+
+    </script>
+    <script
+      src="../authorization/authorization-sdk.js"
+      data-test-type="mbtia"
+      data-auth-context="start"
+      data-start-button="#startBtn"
+      data-on-authorized="startQuiz"
+      data-session-hours="6"></script>
+</body>
+
+</html>

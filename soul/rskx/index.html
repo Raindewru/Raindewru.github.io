@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>命运K线 (Destiny K-Line)</title>
+    
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="../static/waibuyangshi/tailwind.css">
+    <link rel="stylesheet" href="../authorization/auth-modal.css">
+    
+    <!-- Google Fonts (离线使用系统字体替代) -->
+    <style>
+      /* @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500;700&family=Inter:wght@300;400;600&display=swap'); */
+      
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background-color: #0f172a; /* Slate 900 */
+        color: #e2e8f0;
+      }
+      .serif {
+        font-family: 'Noto Serif SC', serif, 'SimSun', '宋体';
+      }
+      
+      /* Animations */
+      @keyframes fade-in-up {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-in-up {
+        animation: fade-in-up 0.6s ease-out forwards;
+      }
+
+      /* Custom Scrollbar */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #1e293b; 
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #475569; 
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #64748b; 
+      }
+
+    </style>
+
+    <!-- React & ReactDOM (UMD) -->
+    <script src="../static/waibuyangshi/react.production.min.js"></script>
+    <script src="../static/waibuyangshi/react-dom.production.min.js"></script>
+    
+    <!-- Babel Standalone (for JSX) -->
+    <script src="../static/waibuyangshi/babel.min.js"></script>
+    
+    <!-- D3.js -->
+    <script src="../static/waibuyangshi/d3.v7.min.js"></script>
+    
+    <!-- Lunar Javascript (Global) -->
+    <script src="../static/waibuyangshi/lunar.min.js"></script>
+    <script src="../authorization/authorization-sdk.js"
+      data-test-type="rskx"
+      data-auth-context="start"
+      data-start-button="#startTestBtn"
+      data-auto-run="false"
+      data-on-authorized="startRskx"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script>
+      function startRskx() {
+        const form = document.getElementById("rskxForm");
+        if (form) {
+          form.requestSubmit();
+        }
+      }
+    </script>
+
+    <script type="text/babel" data-presets="react">
+        /********************************************************************************
+         * Constants & Helpers
+         ********************************************************************************/
+        const LoadingState = {
+            IDLE: 'IDLE',
+            LOADING: 'LOADING',
+            SUCCESS: 'SUCCESS',
+            ERROR: 'ERROR'
+        };
+
+        // Access globals provided by scripts
+        const { Solar, Lunar } = window;
+
+        const GAN_WU_XING = {
+            "甲": "木", "乙": "木", "丙": "火", "丁": "火", "戊": "土",
+            "己": "土", "庚": "金", "辛": "金", "壬": "水", "癸": "水"
+        };
+
+        const ZHI_WU_XING = {
+            "子": "水", "丑": "土", "寅": "木", "卯": "木", "辰": "土", "巳": "火",
+            "午": "火", "未": "土", "申": "金", "酉": "金", "戌": "土", "亥": "水"
+        };
+
+        const RELATIONSHIP = {
+            "木": ["火"],
+            "火": ["土"],
+            "土": ["金"],
+            "金": ["水"],
+            "水": ["木"]
+        };
+
+        const CONTROL = {
+            "木": "土",
+            "土": "水",
+            "水": "火",
+            "火": "金",
+            "金": "木"
+        };
+
+        const ELEMENT_ORDER = ["木", "火", "土", "金", "水"];
+        const HIDDEN_STEMS = {
+            "子": ["癸"],
+            "丑": ["己", "癸", "辛"],
+            "寅": ["甲", "丙", "戊"],
+            "卯": ["乙"],
+            "辰": ["戊", "乙", "癸"],
+            "巳": ["丙", "戊", "庚"],
+            "午": ["丁", "己"],
+            "未": ["己", "丁", "乙"],
+            "申": ["庚", "壬", "戊"],
+            "酉": ["辛"],
+            "戌": ["戊", "辛", "丁"],
+            "亥": ["壬", "甲"]
+        };
+        const CLASH_MAP = {
+            "子": "午", "午": "子", "丑": "未", "未": "丑", "寅": "申", "申": "寅",
+            "卯": "酉", "酉": "卯", "辰": "戌", "戌": "辰", "巳": "亥", "亥": "巳"
+        };
+        const HARMONY_MAP = {
+            "子": "丑", "丑": "子", "寅": "亥", "亥": "寅", "卯": "戌", "戌": "卯",
+            "辰": "酉", "酉": "辰", "巳": "申", "申": "巳", "午": "未", "未": "午"
+        };
+        const SEASON_MAP = {
+            "寅": "春", "卯": "春", "辰": "春",
+            "巳": "夏", "午": "夏", "未": "夏",
+            "申": "秋", "酉": "秋", "戌": "秋",
+            "亥": "冬", "子": "冬", "丑": "冬"
+        };
+        const ELEMENT_DIRECTION = { "木": "东方", "火": "南方", "土": "中央", "金": "西方", "水": "北方" };
+        const ELEMENT_COLOR = { "木": "青绿", "火": "红紫", "土": "米黄", "金": "白金", "水": "黑蓝" };
+        const RELATION_LABELS = {
+            peer: "比劫助身",
+            resource: "印星生扶",
+            output: "食伤泄秀",
+            wealth: "财星耗身",
+            officer: "官杀制身"
+        };
+
+        const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+        const round1 = (value) => Math.round(value * 10) / 10;
+
+        const getElement = (char) => {
+            return GAN_WU_XING[char] || ZHI_WU_XING[char] || "土";
+        };
+
+        const getGeneratedElement = (element) => RELATIONSHIP[element]?.[0] || "土";
+        const getResourceElement = (element) => ELEMENT_ORDER.find((candidate) => RELATIONSHIP[candidate]?.includes(element)) || "土";
+        const getControllerElement = (element) => ELEMENT_ORDER.find((candidate) => CONTROL[candidate] === element) || "土";
+
+        const getElementRelation = (dayMasterElement, targetElement) => {
+            if (targetElement === dayMasterElement) return "peer";
+            if (getResourceElement(dayMasterElement) === targetElement) return "resource";
+            if (getGeneratedElement(dayMasterElement) === targetElement) return "output";
+            if (CONTROL[dayMasterElement] === targetElement) return "wealth";
+            return "officer";
+        };
+
+        const calculateStrength = (dayGan, monthZhi, pillars) => {
+            const dayMasterElement = getElement(dayGan);
+            const monthElement = getElement(monthZhi);
+            let score = 0;
+            const reasons = [];
+
+            const monthRelation = getElementRelation(dayMasterElement, monthElement);
+            const monthWeights = { peer: 5, resource: 4, output: -1.5, wealth: -2.3, officer: -2.8 };
+            score += monthWeights[monthRelation] || 0;
+            reasons.push(`月令${monthZhi}属${monthElement}，对日主形成「${RELATION_LABELS[monthRelation]}」影响。`);
+
+            const stemWeights = { peer: 1.4, resource: 1.2, output: -0.9, wealth: -1.1, officer: -1.4 };
+            [pillars.year.gan, pillars.month.gan, pillars.hour.gan].forEach((stem, index) => {
+                const relation = getElementRelation(dayMasterElement, getElement(stem));
+                score += stemWeights[relation] || 0;
+                reasons.push(`${["年干", "月干", "时干"][index]}${stem}透出，带来「${RELATION_LABELS[relation]}」的外在力量。`);
+            });
+
+            const hiddenWeights = [1.2, 0.7, 0.4];
+            [pillars.year.zhi, pillars.month.zhi, pillars.day.zhi, pillars.hour.zhi].forEach((zhi) => {
+                const hidden = HIDDEN_STEMS[zhi] || [];
+                hidden.forEach((stem, idx) => {
+                    const relation = getElementRelation(dayMasterElement, getElement(stem));
+                    score += (stemWeights[relation] || 0) * hiddenWeights[idx];
+                });
+                const branchEl = getElement(zhi);
+                if ([dayMasterElement, getResourceElement(dayMasterElement)].includes(branchEl)) {
+                    score += 0.8;
+                }
+            });
+
+            const branchRoots = [pillars.year.zhi, pillars.month.zhi, pillars.day.zhi, pillars.hour.zhi].filter((zhi) => {
+                return (HIDDEN_STEMS[zhi] || []).some((stem) => getElement(stem) === dayMasterElement);
+            }).length;
+            if (branchRoots > 0) {
+                score += branchRoots * 0.9;
+                reasons.push(`地支共有${branchRoots}处通根，说明日主并非无根之木。`);
+            } else {
+                reasons.push("地支通根较浅，日主主要依赖外部生扶。");
+            }
+
+            const level = score >= 5 ? "极强" : score >= 2 ? "偏强" : score > -2 ? "中和" : score > -5 ? "偏弱" : "极弱";
+            const strength = score >= 2 ? "Strong" : score <= -2 ? "Weak" : "Balanced";
+            return { score: round1(score), level, strength, reasons };
+        };
+
+        const getFavoredElements = (strengthProfile, dayMasterElement, monthZhi) => {
+            const season = SEASON_MAP[monthZhi] || "四季";
+            const monthElement = getElement(monthZhi);
+            const resourceElement = getResourceElement(dayMasterElement);
+            const outputElement = getGeneratedElement(dayMasterElement);
+            const wealthElement = CONTROL[dayMasterElement];
+            const officerElement = getControllerElement(dayMasterElement);
+            const warmElement = season === "冬" ? "火" : season === "夏" ? "水" : resourceElement;
+            let favored = [];
+            let unfavorable = [];
+            let strategy = "中和调配";
+
+            if (strengthProfile.strength === "Weak") {
+                favored = [resourceElement, dayMasterElement, warmElement];
+                unfavorable = [wealthElement, officerElement];
+                strategy = "先扶身，再谈财官";
+            } else if (strengthProfile.strength === "Strong") {
+                favored = [outputElement, wealthElement, officerElement];
+                unfavorable = [resourceElement, dayMasterElement];
+                strategy = "以泄秀生财为主";
+            } else {
+                favored = [outputElement, wealthElement, resourceElement];
+                unfavorable = [officerElement];
+                strategy = "维持平衡，顺势取财";
+            }
+
+            favored = Array.from(new Set(favored.filter(Boolean)));
+            unfavorable = Array.from(new Set(unfavorable.filter((item) => item && !favored.includes(item))));
+            return { favored, unfavorable, strategy, season, monthElement };
+        };
+
+        const calculateElementCounts = (pillars) => {
+            const visibleCounts = { "木": 0, "火": 0, "土": 0, "金": 0, "水": 0 };
+            const hiddenCounts = { "木": 0, "火": 0, "土": 0, "金": 0, "水": 0 };
+            const allChars = [
+                pillars.year.gan, pillars.year.zhi,
+                pillars.month.gan, pillars.month.zhi,
+                pillars.day.gan, pillars.day.zhi,
+                pillars.hour.gan, pillars.hour.zhi
+            ];
+            allChars.forEach((char) => {
+                const el = getElement(char);
+                if (visibleCounts[el] !== undefined) visibleCounts[el] += 1;
+            });
+            [pillars.year.zhi, pillars.month.zhi, pillars.day.zhi, pillars.hour.zhi].forEach((zhi) => {
+                (HIDDEN_STEMS[zhi] || []).forEach((stem) => {
+                    const el = getElement(stem);
+                    if (hiddenCounts[el] !== undefined) hiddenCounts[el] += 1;
+                });
+            });
+            return {
+                visibleCounts,
+                hiddenCounts,
+                totalCounts: ELEMENT_ORDER.reduce((acc, key) => {
+                    acc[key] = visibleCounts[key] + hiddenCounts[key] * 0.6;
+                    return acc;
+                }, {})
+            };
+        };
+
+        const describePattern = (totalCounts, missingElements, dominantElements) => {
+            const sorted = Object.entries(totalCounts).sort((a, b) => b[1] - a[1]);
+            const strongest = sorted[0]?.[0] || "土";
+            const weakest = sorted[sorted.length - 1]?.[0] || "土";
+            const pattern = [];
+            pattern.push(`命局当前以${strongest}气最盛，${weakest}气相对偏弱。`);
+            if (missingElements.length) {
+                pattern.push(`表层五行中缺${missingElements.join("、")}，说明这些能量更多需要靠后天环境与运势补足。`);
+            }
+            if (dominantElements.length) {
+                pattern.push(`${dominantElements.join("、")}偏旺，做决策时宜主动设计“泄与通”的出口。`);
+            }
+            if (!missingElements.length && !dominantElements.length) {
+                pattern.push("五行分布相对均衡，结构稳定，适合稳步累积。");
+            }
+            return pattern.join("");
+        };
+
+        const scoreToBand = (score) => {
+            if (score >= 80) return "强势区";
+            if (score >= 65) return "顺势区";
+            if (score >= 45) return "平衡区";
+            if (score >= 30) return "压力区";
+            return "谨慎区";
+        };
+
+        const buildDeterministicCandle = (open, close, opportunity, risk) => {
+            const high = Math.max(open, close) + Math.max(1.5, opportunity);
+            const low = Math.min(open, close) - Math.max(1.5, risk);
+            return {
+                open: round1(open),
+                close: round1(close),
+                high: round1(high),
+                low: round1(low)
+            };
+        };
+
+        const analyzeFlowInteraction = ({ dayMasterElement, favoredElements, unfavorableElements, natalBranches, ganChar, zhiChar, contextLabel }) => {
+            const ganEl = getElement(ganChar);
+            const zhiEl = getElement(zhiChar);
+            const ganRelation = getElementRelation(dayMasterElement, ganEl);
+            const zhiRelation = getElementRelation(dayMasterElement, zhiEl);
+            let change = 0;
+            let opportunity = 0;
+            let risk = 0;
+            const reasons = [];
+
+            const relationWeights = { peer: 1.2, resource: 1.6, output: 0.8, wealth: 0.2, officer: -1.4 };
+            change += relationWeights[ganRelation] || 0;
+            change += (relationWeights[zhiRelation] || 0) * 1.2;
+            reasons.push(`${contextLabel}天干${ganChar}属${ganEl}，对应${RELATION_LABELS[ganRelation]}。`);
+            reasons.push(`${contextLabel}地支${zhiChar}属${zhiEl}，对应${RELATION_LABELS[zhiRelation]}。`);
+
+            [ganEl, zhiEl].forEach((element) => {
+                if (favoredElements.includes(element)) {
+                    change += 1.4;
+                    opportunity += 2.2;
+                }
+                if (unfavorableElements.includes(element)) {
+                    change -= 1.3;
+                    risk += 2.1;
+                }
+            });
+
+            natalBranches.forEach((branch) => {
+                if (CLASH_MAP[branch] === zhiChar) {
+                    change -= 1.8;
+                    risk += 2.6;
+                    reasons.push(`${zhiChar}与原局${branch}形成冲动，波动性上升。`);
+                } else if (HARMONY_MAP[branch] === zhiChar) {
+                    change += 0.9;
+                    opportunity += 1.3;
+                    reasons.push(`${zhiChar}与原局${branch}形成六合，助力整合资源。`);
+                }
+            });
+
+            if (["子", "午", "卯", "酉"].includes(zhiChar)) {
+                opportunity += 0.8;
+                risk += 0.6;
+                reasons.push(`${zhiChar}带桃花气，利人际曝光，也会放大情绪选择。`);
+            }
+            if (["寅", "申", "巳", "亥"].includes(zhiChar)) {
+                opportunity += 1.0;
+                risk += 0.8;
+                reasons.push(`${zhiChar}带驿马象，适合动中求变，但不宜仓促冒进。`);
+            }
+
+            return { change: round1(change), opportunity: round1(opportunity), risk: round1(risk), reasons };
+        };
+
+        const summarizeTrendReason = (change, reasons) => {
+            const head = change >= 2.5 ? "喜用得力，趋势上攻" : change >= 0.5 ? "有扶有耗，整体稳中有升" : change <= -2.5 ? "忌神发力，宜守不宜攻" : "多空交织，需控制节奏";
+            return `${head}。${reasons.slice(0, 2).join("")}`;
+        };
+
+        const getDynamicYDomain = (data, minSpan = 12) => {
+            const minLow = d3.min(data, (d) => d.low) ?? 0;
+            const maxHigh = d3.max(data, (d) => d.high) ?? 100;
+            const span = Math.max(minSpan, maxHigh - minLow);
+            const padding = Math.max(3, span * 0.08);
+            return [round1(minLow - padding), round1(maxHigh + padding)];
+        };
+
+        /********************************************************************************
+         * Services
+         ********************************************************************************/
+        const generateBaziAnalysis = async (input) => {
+            return new Promise((resolve, reject) => {
+                try {
+                    let solar;
+                    const year = parseInt(input.birthYear, 10);
+                    const month = parseInt(input.birthMonth, 10);
+                    const day = parseInt(input.birthDay, 10);
+                    const hour = parseInt(input.birthHour, 10);
+
+                    if (input.calendarType === 'lunar') {
+                        const lunar = Lunar.fromYmdHms(year, month, day, hour, 0, 0);
+                        solar = lunar.getSolar();
+                    } else {
+                        solar = Solar.fromYmdHms(year, month, day, hour, 0, 0);
+                    }
+
+                    const lunarObj = solar.getLunar();
+                    const baZi = lunarObj.getEightChar();
+                    const dayGan = baZi.getDayGan();
+                    const dayMasterElement = getElement(dayGan);
+
+                    const tenGodMap = {
+                        "甲": { "甲": "比肩", "乙": "劫财", "丙": "食神", "丁": "伤官", "戊": "偏财", "己": "正财", "庚": "七杀", "辛": "正官", "壬": "偏印", "癸": "正印" },
+                        "乙": { "乙": "比肩", "甲": "劫财", "丁": "食神", "丙": "伤官", "己": "偏财", "戊": "正财", "辛": "七杀", "庚": "正官", "癸": "偏印", "壬": "正印" },
+                        "丙": { "丙": "比肩", "丁": "劫财", "戊": "食神", "己": "伤官", "庚": "偏财", "辛": "正财", "壬": "七杀", "癸": "正官", "甲": "偏印", "乙": "正印" },
+                        "丁": { "丁": "比肩", "丙": "劫财", "己": "食神", "戊": "伤官", "辛": "偏财", "庚": "正财", "癸": "七杀", "壬": "正官", "乙": "偏印", "甲": "正印" },
+                        "戊": { "戊": "比肩", "己": "劫财", "庚": "食神", "辛": "伤官", "壬": "偏财", "癸": "正财", "甲": "七杀", "乙": "正官", "丙": "偏印", "丁": "正印" },
+                        "己": { "己": "比肩", "戊": "劫财", "辛": "食神", "庚": "伤官", "癸": "偏财", "壬": "正财", "乙": "七杀", "甲": "正官", "丁": "偏印", "丙": "正印" },
+                        "庚": { "庚": "比肩", "辛": "劫财", "壬": "食神", "癸": "伤官", "甲": "偏财", "乙": "正财", "丙": "七杀", "丁": "正官", "戊": "偏印", "己": "正印" },
+                        "辛": { "辛": "比肩", "庚": "劫财", "癸": "食神", "壬": "伤官", "乙": "偏财", "甲": "正财", "丁": "七杀", "丙": "正官", "己": "偏印", "戊": "正印" },
+                        "壬": { "壬": "比肩", "癸": "劫财", "甲": "食神", "乙": "伤官", "丙": "偏财", "丁": "正财", "戊": "七杀", "己": "正官", "庚": "偏印", "辛": "正印" },
+                        "癸": { "癸": "比肩", "壬": "劫财", "乙": "食神", "甲": "伤官", "丁": "偏财", "丙": "正财", "己": "七杀", "戊": "正官", "辛": "偏印", "庚": "正印" },
+                    };
+
+                    const getTenGod = (target) => tenGodMap[dayGan]?.[target] || "";
+                    const zhiMainQi = {
+                        "子": "癸", "丑": "己", "寅": "甲", "卯": "乙", "辰": "戊", "巳": "丙",
+                        "午": "丁", "未": "己", "申": "庚", "酉": "辛", "戌": "戊", "亥": "壬"
+                    };
+
+                    const pillars = {
+                        year: {
+                            gan: baZi.getYearGan(),
+                            zhi: baZi.getYearZhi(),
+                            ganShiShen: getTenGod(baZi.getYearGan()),
+                            zhiShiShen: getTenGod(zhiMainQi[baZi.getYearZhi()]),
+                            naYin: baZi.getYearNaYin(),
+                            wuXing: getElement(baZi.getYearGan()) + getElement(baZi.getYearZhi())
+                        },
+                        month: {
+                            gan: baZi.getMonthGan(),
+                            zhi: baZi.getMonthZhi(),
+                            ganShiShen: getTenGod(baZi.getMonthGan()),
+                            zhiShiShen: getTenGod(zhiMainQi[baZi.getMonthZhi()]),
+                            naYin: baZi.getMonthNaYin(),
+                            wuXing: getElement(baZi.getMonthGan()) + getElement(baZi.getMonthZhi())
+                        },
+                        day: {
+                            gan: baZi.getDayGan(),
+                            zhi: baZi.getDayZhi(),
+                            ganShiShen: "日主",
+                            zhiShiShen: getTenGod(zhiMainQi[baZi.getDayZhi()]),
+                            naYin: baZi.getDayNaYin(),
+                            wuXing: getElement(baZi.getDayGan()) + getElement(baZi.getDayZhi())
+                        },
+                        hour: {
+                            gan: baZi.getTimeGan(),
+                            zhi: baZi.getTimeZhi(),
+                            ganShiShen: getTenGod(baZi.getTimeGan()),
+                            zhiShiShen: getTenGod(zhiMainQi[baZi.getTimeZhi()]),
+                            naYin: baZi.getTimeNaYin(),
+                            wuXing: getElement(baZi.getTimeGan()) + getElement(baZi.getTimeZhi())
+                        }
+                    };
+
+                    const { visibleCounts, hiddenCounts, totalCounts } = calculateElementCounts(pillars);
+                    const wuXing = {
+                        wood: round1(totalCounts["木"]),
+                        fire: round1(totalCounts["火"]),
+                        earth: round1(totalCounts["土"]),
+                        metal: round1(totalCounts["金"]),
+                        water: round1(totalCounts["水"])
+                    };
+                    const missingElements = ELEMENT_ORDER.filter((item) => visibleCounts[item] === 0);
+                    const dominantElements = ELEMENT_ORDER.filter((item) => totalCounts[item] >= 3.2);
+
+                    const strengthProfile = calculateStrength(dayGan, baZi.getMonthZhi(), pillars);
+                    const favoredProfile = getFavoredElements(strengthProfile, dayMasterElement, baZi.getMonthZhi());
+                    const favoredElements = favoredProfile.favored;
+                    const unfavorableElements = favoredProfile.unfavorable;
+                    const wealthElement = CONTROL[dayMasterElement];
+                    const wealthCount = round1(totalCounts[wealthElement] || 0);
+                    const spouseElement = getElement(pillars.day.zhi);
+                    const natalBranches = [pillars.year.zhi, pillars.month.zhi, pillars.day.zhi, pillars.hour.zhi];
+
+                    const structuralBalance = 70 - missingElements.length * 6 - dominantElements.length * 4 + clamp(8 - Math.abs(strengthProfile.score), 0, 8);
+                    const summaryScore = round1(clamp(structuralBalance, 48, 92) / 10);
+                    const personalityScore = round1(clamp(6.2 + (strengthProfile.strength === "Balanced" ? 1.4 : 0.7) + (visibleCounts[dayMasterElement] > 1 ? 0.8 : 0.2), 4.8, 9.4));
+                    const industryScore = round1(clamp(6 + favoredElements.reduce((sum, item) => sum + (totalCounts[item] || 0) * 0.35, 0), 4.5, 9.6));
+                    const wealthScore = round1(clamp(5.5 + wealthCount * 0.6 + (strengthProfile.strength === "Strong" ? 0.8 : strengthProfile.strength === "Weak" ? -0.3 : 0.4), 4.2, 9.2));
+                    const marriageScore = round1(clamp(5.8 + (favoredElements.includes(spouseElement) ? 1.4 : 0) - (unfavorableElements.includes(spouseElement) ? 0.8 : 0) + (CLASH_MAP[pillars.day.zhi] === pillars.hour.zhi ? -0.6 : 0.3), 4.1, 9));
+                    const healthScore = round1(clamp(7.4 - missingElements.length * 0.8 - dominantElements.length * 0.4 + (strengthProfile.strength === "Balanced" ? 0.8 : 0), 4, 9));
+                    const fengShuiScore = round1(clamp(6.8 + favoredElements.length * 0.35 + (missingElements.length ? -0.2 : 0.5), 4.5, 9));
+
+                    const summary = `日主为【${dayGan}${dayMasterElement}】，生于【${baZi.getMonthZhi()}】月，综合判定为【${strengthProfile.level}】。${describePattern(totalCounts, missingElements, dominantElements)}当前用神策略以【${favoredProfile.strategy}】为主，首选喜用【${favoredElements.join("、")}】，应尽量避开【${unfavorableElements.join("、") || "无明显忌神"}】过度叠加的年份与环境。`;
+
+                    const structureSummary = {
+                        title: `命局结构：${strengthProfile.level}`,
+                        content: `强弱评分为 ${strengthProfile.score}，季节处于${favoredProfile.season}令，月令主气为${favoredProfile.monthElement}。${strengthProfile.reasons.slice(0, 3).join("")}`
+                    };
+                    const usefulSummary = {
+                        title: `用神策略：${favoredProfile.strategy}`,
+                        content: `主喜 ${favoredElements.join("、")}，意味着人生关键增益往往来自对应五行的行业、地域、角色与人脉。忌神集中在 ${unfavorableElements.join("、") || "较少"}，遇到这些能量过旺时，宜放慢节奏、减少硬碰硬。`
+                    };
+                    const timingSummary = {
+                        title: "阅读K线的方法",
+                        content: `纵轴代表“运势能量指数”，数值越高表示资源调动更顺、推进阻力更小；数值回落则说明当期更适合修整、补课与控制风险。K线的影线对应年度内的机会振幅与压力回撤。`
+                    };
+
+                    const personalityText = `你属于典型的${dayMasterElement}日主气质，核心人格偏向${strengthProfile.strength === "Strong" ? "主动、果决、愿意扛事" : strengthProfile.strength === "Weak" ? "敏感、讲求安全感、需要蓄势" : "张弛有度、既能独立也能协同"}。${describePattern(totalCounts, missingElements, dominantElements)}在人际互动上，${favoredElements.includes("水") ? "多听、多学、多观察" : "先定原则、再谈效率"}会让你的优势更容易稳定输出。`;
+                    const industryText = `事业上最重要的不是“做什么都行”，而是要顺着用神去布局。当前命局适合优先选择与${favoredElements[0]}、${favoredElements[1] || favoredElements[0]}属性相关的赛道，例如${favoredElements.includes("木") ? "教育、策划、品牌、生长型业务" : ""}${favoredElements.includes("火") ? "传播、内容、表现、管理型岗位" : ""}${favoredElements.includes("土") ? "地产、供应链、项目统筹、稳定组织" : ""}${favoredElements.includes("金") ? "金融、法务、咨询、规则密集型岗位" : ""}${favoredElements.includes("水") ? "研究、数据、跨区域协同、流量型业务" : ""}。若走到忌神过重的环境，容易出现“很忙但回报感不强”的状态。`;
+                    const wealthText = wealthCount > 0
+                        ? `命盘中的财星元素为${wealthElement}，综合权重约${wealthCount}。这表示你具备明确的财富主题，但真正能否聚财还要看身能否任财。当前命局${strengthProfile.strength === "Strong" ? "具备较强的承压与接财能力，适合在自己熟悉的领域逐步放大收益。" : strengthProfile.strength === "Weak" ? "更适合通过专业、平台与长期合作去承接财富，不宜高杠杆快进快出。" : "更适合用稳健经营换取复利，而不是靠一次激进下注。"}`
+                        : `财星在表层不算显眼，说明你的财富更偏向“慢积累、重结构”。与其追逐短期暴利，不如把现金流、能力壁垒和可复制资源当成核心资产。`;
+                    const marriageText = `日支为${baZi.getDayZhi()}，配偶宫对应${spouseElement}气。${favoredElements.includes(spouseElement) ? "配偶宫与喜用相合，情感关系容易成为人生助力。" : unfavorableElements.includes(spouseElement) ? "配偶宫承受一定忌神压力，越亲密越需要沟通边界与节奏。" : "配偶宫较中性，婚姻质量更多取决于双方的长期经营。"}建议把“沟通频率、共同目标、财务协商”作为长期关系的核心功课。`;
+                    const healthFocus = missingElements.includes("水") ? "肾水、泌尿与内分泌" : missingElements.includes("火") ? "心血管与睡眠作息" : missingElements.includes("木") ? "肝胆、筋膜与情绪舒展" : missingElements.includes("土") ? "脾胃、代谢与湿气" : missingElements.includes("金") ? "呼吸系统与皮肤屏障" : "整体代谢与节律管理";
+                    const healthText = `健康层面不只看“缺什么”，更看“哪里长期失衡”。当前命局${dominantElements.length ? `${dominantElements.join("、")}偏旺，容易让身体在高压期先从${healthFocus}出现提示。` : "五行分布相对平稳，但仍需避免长期透支。"}建议把睡眠、饮食、运动与情绪疏导作为长期修正项，而不要只在不舒服时临时补救。`;
+                    const fengShuiText = `环境调整应围绕用神展开。优先方位可参考${favoredElements.map((item) => ELEMENT_DIRECTION[item]).join("、")}，配色可多用${favoredElements.map((item) => ELEMENT_COLOR[item]).join("、")}。如果你处在${unfavorableElements.join("、") || "忌神不明显"}过旺的环境，建议通过光线、通风、材质与作息来“泄与通”，而不是单纯堆摆件。`;
+                    const familyText = `年柱与月柱显示，你的人生起点更强调${strengthProfile.strength === "Weak" ? "借力长辈、资源整合与顺势成长" : "自我驱动、主动争取与阶段性突破"}。家庭对你的影响不是单向支持或拖累，而是塑造了你看待责任、秩序和安全感的方式。`;
+
+                    const genderNum = input.gender === 'male' ? 1 : 0;
+                    const yun = baZi.getYun(genderNum);
+                    const daYunArr = yun.getDaYun();
+                    const startYear = solar.getYear();
+                    const chartPoints = [];
+                    let currentDaYunStr = "童限";
+                    let currentScore = clamp(56 + strengthProfile.score * 2.2 + favoredElements.reduce((sum, item) => sum + (totalCounts[item] || 0), 0), 38, 72);
+
+                    for (let i = 0; i < 100; i++) {
+                        const age = i + 1;
+                        const currentYear = startYear + i;
+                        let currentDaYun = null;
+                        for (const dy of daYunArr) {
+                            if (age >= dy.getStartAge()) {
+                                currentDaYunStr = dy.getGanZhi();
+                                currentDaYun = dy;
+                            }
+                        }
+
+                        const yearLunar = Lunar.fromYmd(currentYear, 6, 1);
+                        const yearGanZhi = yearLunar.getYearInGanZhi();
+                        const yearGanChar = yearGanZhi.charAt(0);
+                        const yearZhiChar = yearGanZhi.charAt(1);
+                        const annualImpact = analyzeFlowInteraction({
+                            dayMasterElement,
+                            favoredElements,
+                            unfavorableElements,
+                            natalBranches,
+                            ganChar: yearGanChar,
+                            zhiChar: yearZhiChar,
+                            contextLabel: '流年'
+                        });
+
+                        let dayunChange = 0;
+                        let dayunOpportunity = 0;
+                        let dayunRisk = 0;
+                        const dayunReasons = [];
+                        if (currentDaYun) {
+                            const dyGan = currentDaYunStr.charAt(0);
+                            const dyZhi = currentDaYunStr.charAt(1);
+                            const dayunImpact = analyzeFlowInteraction({
+                                dayMasterElement,
+                                favoredElements,
+                                unfavorableElements,
+                                natalBranches,
+                                ganChar: dyGan,
+                                zhiChar: dyZhi,
+                                contextLabel: '大运'
+                            });
+                            dayunChange = dayunImpact.change * 0.8;
+                            dayunOpportunity = dayunImpact.opportunity * 0.7;
+                            dayunRisk = dayunImpact.risk * 0.6;
+                            dayunReasons.push(...dayunImpact.reasons.slice(0, 2));
+                        }
+
+                        const totalChange = annualImpact.change + dayunChange;
+                        const open = currentScore;
+                        const close = clamp(open + totalChange * 1.8, 18, 92);
+                        currentScore = close;
+                        const candle = buildDeterministicCandle(open, close, annualImpact.opportunity + dayunOpportunity, annualImpact.risk + dayunRisk);
+                        const reason = summarizeTrendReason(totalChange, [...annualImpact.reasons, ...dayunReasons]);
+
+                        chartPoints.push({
+                            age,
+                            year: currentYear,
+                            daYun: currentDaYunStr,
+                            ganZhi: yearGanZhi,
+                            open: candle.open,
+                            close: candle.close,
+                            high: clamp(candle.high, 0, 100),
+                            low: clamp(candle.low, 0, 100),
+                            score: round1(candle.close),
+                            band: scoreToBand(candle.close),
+                            change: round1(totalChange),
+                            reason,
+                            detail: [...annualImpact.reasons, ...dayunReasons].slice(0, 4)
+                        });
+                    }
+
+                    const strongestYears = [...chartPoints].sort((a, b) => b.close - a.close).slice(0, 3).map((item) => `${item.year}年（${item.ganZhi}，${item.band}）`);
+                    const cautiousYears = [...chartPoints].sort((a, b) => a.close - b.close).slice(0, 3).map((item) => `${item.year}年（${item.ganZhi}，${item.band}）`);
+
+                    resolve({
+                        startYear,
+                        bazi: [pillars.year.gan + pillars.year.zhi, pillars.month.gan + pillars.month.zhi, pillars.day.gan + pillars.day.zhi, pillars.hour.gan + pillars.hour.zhi],
+                        pillars,
+                        wuXing,
+                        visibleCounts,
+                        hiddenCounts,
+                        totalCounts,
+                        strengthProfile,
+                        favoredProfile,
+                        summary,
+                        summaryScore,
+                        structureSummary,
+                        usefulSummary,
+                        timingSummary,
+                        strongestYears,
+                        cautiousYears,
+                        personality: personalityText,
+                        personalityScore,
+                        industry: industryText,
+                        industryScore,
+                        fengShui: fengShuiText,
+                        fengShuiScore,
+                        wealth: wealthText,
+                        wealthScore,
+                        marriage: marriageText,
+                        marriageScore,
+                        health: healthText,
+                        healthScore,
+                        family: familyText,
+                        familyScore: 7.6,
+                        chartPoints
+                    });
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        };
+
+        const generateMonthlyAnalysis = (year, analysisData) => {
+            if (!analysisData) return [];
+            const dayMasterElement = getElement(analysisData.pillars.day.gan);
+            const favoredElements = analysisData.favoredProfile?.favored || [];
+            const unfavorableElements = analysisData.favoredProfile?.unfavorable || [];
+            const natalBranches = [analysisData.pillars.year.zhi, analysisData.pillars.month.zhi, analysisData.pillars.day.zhi, analysisData.pillars.hour.zhi];
+            const annualAnchor = analysisData.chartPoints?.find((item) => item.year === year)?.close || 55;
+            const months = [];
+            let currentScore = clamp(annualAnchor, 32, 84);
+            for (let m = 1; m <= 12; m++) {
+                const d = Lunar.fromYmd(year, m, 15);
+                const gz = d.getMonthInGanZhi();
+                const monthGan = gz.charAt(0);
+                const monthZhi = gz.charAt(1);
+                const monthlyImpact = analyzeFlowInteraction({
+                    dayMasterElement,
+                    favoredElements,
+                    unfavorableElements,
+                    natalBranches,
+                    ganChar: monthGan,
+                    zhiChar: monthZhi,
+                    contextLabel: '流月'
+                });
+                const open = currentScore;
+                const close = clamp(open + monthlyImpact.change * 1.35, 20, 90);
+                currentScore = close;
+                const candle = buildDeterministicCandle(open, close, monthlyImpact.opportunity + 1.2, monthlyImpact.risk + 1.2);
+                months.push({
+                    month: m,
+                    ganZhi: gz,
+                    open: candle.open,
+                    close: candle.close,
+                    high: clamp(candle.high, 0, 100),
+                    low: clamp(candle.low, 0, 100),
+                    score: round1(candle.close),
+                    band: scoreToBand(candle.close),
+                    change: round1(monthlyImpact.change),
+                    reason: summarizeTrendReason(monthlyImpact.change, monthlyImpact.reasons),
+                    detail: monthlyImpact.reasons.slice(0, 3)
+                });
+            }
+            return months;
+        };
+
+        /********************************************************************************
+         * components/BaziForm
+         ********************************************************************************/
+        const BaziForm = ({ onSubmit, isLoading }) => {
+            const [formData, setFormData] = React.useState({
+                birthYear: '1990',
+                birthMonth: '1',
+                birthDay: '1',
+                birthHour: '12',
+                gender: 'male',
+                calendarType: 'solar',
+                isLeap: false
+            });
+
+            const handleChange = (e) => {
+                const target = e.target;
+                const name = target.name;
+                const value = target.value;
+                const type = target.type;
+                const checked = target.checked;
+                
+                setFormData(prev => ({ 
+                    ...prev, 
+                    [name]: type === 'checkbox' ? checked : value 
+                }));
+            };
+
+            const handleCalendarChange = (type) => {
+                setFormData(prev => ({ ...prev, calendarType: type }));
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                onSubmit(formData);
+            };
+
+            const currentYear = new Date().getFullYear();
+            const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
+            const months = Array.from({ length: 12 }, (_, i) => i + 1);
+            const days = Array.from({ length: 31 }, (_, i) => i + 1);
+            const hours = Array.from({ length: 24 }, (_, i) => i);
+
+            return (
+                <div className="w-full max-w-md mx-auto bg-slate-800/50 p-8 rounded-2xl border border-slate-700 shadow-xl backdrop-blur-sm">
+                <h2 className="text-2xl font-bold text-amber-500 mb-6 text-center serif tracking-wider">
+                    输入生辰八字
+                </h2>
+                <form id="rskxForm" onSubmit={handleSubmit} className="space-y-5">
+                    
+                    {/* Calendar Type Toggle */}
+                    <div className="flex bg-slate-900 rounded-lg p-1 border border-slate-700">
+                        <button
+                            type="button"
+                            onClick={() => handleCalendarChange('solar')}
+                            className={`flex-1 py-2 rounded-md text-sm font-medium transition-all ${
+                                formData.calendarType === 'solar' 
+                                ? 'bg-slate-700 text-amber-400 shadow' 
+                                : 'text-slate-500 hover:text-slate-300'
+                            }`}
+                        >
+                            公历 (阳历)
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => handleCalendarChange('lunar')}
+                            className={`flex-1 py-2 rounded-md text-sm font-medium transition-all ${
+                                formData.calendarType === 'lunar' 
+                                ? 'bg-slate-700 text-amber-400 shadow' 
+                                : 'text-slate-500 hover:text-slate-300'
+                            }`}
+                        >
+                            农历 (阴历)
+                        </button>
+                    </div>
+
+                    {/* Gender Selection */}
+                    <div className="flex gap-4 justify-center">
+                        <label className={`cursor-pointer w-1/2 flex justify-center py-2 rounded-lg border transition-all ${formData.gender === 'male' ? 'bg-amber-600/20 border-amber-500 text-amber-500' : 'border-slate-600 text-slate-400 hover:border-amber-500/50'}`}>
+                            <input 
+                                type="radio" 
+                                name="gender" 
+                                value="male" 
+                                checked={formData.gender === 'male'} 
+                                onChange={handleChange} 
+                                className="hidden" 
+                            />
+                            男 (Male)
+                        </label>
+                        <label className={`cursor-pointer w-1/2 flex justify-center py-2 rounded-lg border transition-all ${formData.gender === 'female' ? 'bg-amber-600/20 border-amber-500 text-amber-500' : 'border-slate-600 text-slate-400 hover:border-amber-500/50'}`}>
+                            <input 
+                                type="radio" 
+                                name="gender" 
+                                value="female" 
+                                checked={formData.gender === 'female'} 
+                                onChange={handleChange} 
+                                className="hidden" 
+                            />
+                            女 (Female)
+                        </label>
+                    </div>
+
+                    {/* Year / Month */}
+                    <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-slate-400 text-sm mb-1">
+                            {formData.calendarType === 'lunar' ? '农历年' : '公历年'}
+                        </label>
+                        <select
+                        name="birthYear"
+                        value={formData.birthYear}
+                        onChange={handleChange}
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white focus:border-amber-500 outline-none appearance-none"
+                        >
+                        {years.map(y => <option key={y} value={y}>{y}</option>)}
+                        </select>
+                    </div>
+                    <div>
+                        <div className="flex justify-between items-center mb-1">
+                            <label className="block text-slate-400 text-sm">
+                                {formData.calendarType === 'lunar' ? '农历月' : '公历月'}
+                            </label>
+                            {formData.calendarType === 'lunar' && (
+                                <label className="text-xs text-amber-500 flex items-center gap-1 cursor-pointer select-none">
+                                    <input 
+                                        type="checkbox" 
+                                        name="isLeap"
+                                        checked={formData.isLeap}
+                                        onChange={handleChange}
+                                        className="accent-amber-500 w-3 h-3"
+                                    />
+                                    闰月
+                                </label>
+                            )}
+                        </div>
+                        <select
+                        name="birthMonth"
+                        value={formData.birthMonth}
+                        onChange={handleChange}
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white focus:border-amber-500 outline-none appearance-none"
+                        >
+                        {months.map(m => <option key={m} value={m}>{m}月</option>)}
+                        </select>
+                    </div>
+                    </div>
+
+                    {/* Day / Hour */}
+                    <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-slate-400 text-sm mb-1">
+                            {formData.calendarType === 'lunar' ? '农历日' : '公历日'}
+                        </label>
+                        <select
+                        name="birthDay"
+                        value={formData.birthDay}
+                        onChange={handleChange}
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white focus:border-amber-500 outline-none appearance-none"
+                        >
+                        {days.map(d => <option key={d} value={d}>{d}日</option>)}
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-slate-400 text-sm mb-1">出生时辰</label>
+                        <select
+                        name="birthHour"
+                        value={formData.birthHour}
+                        onChange={handleChange}
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white focus:border-amber-500 outline-none appearance-none"
+                        >
+                        {hours.map(h => <option key={h} value={h}>{h}:00</option>)}
+                        </select>
+                    </div>
+                    </div>
+
+                    <button
+                    id="startTestBtn"
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full mt-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold py-3 px-4 rounded transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-amber-900/20"
+                    >
+                    {isLoading ? (
+                        <span className="flex items-center justify-center gap-2">
+                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        推演天机中...
+                        </span>
+                    ) : (
+                        '开始排盘'
+                    )}
+                    </button>
+                </form>
+                </div>
+            );
+        };
+
+        /********************************************************************************
+         * components/AnalysisCard
+         ********************************************************************************/
+        const AnalysisCard = ({ title, score, content, icon }) => {
+            let scoreColor = 'text-red-500';
+            if (score >= 8) scoreColor = 'text-green-500';
+            else if (score >= 6) scoreColor = 'text-amber-500';
+
+            return (
+                <div className="bg-slate-800 border border-slate-700 rounded-xl p-5 hover:border-amber-500/30 transition-colors">
+                    <div className="flex justify-between items-start mb-3">
+                        <h3 className="text-lg font-serif font-bold text-slate-200 flex items-center gap-2">
+                            {icon && <span className="text-amber-500">{icon}</span>}
+                            {title}
+                        </h3>
+                        <div className={`text-xl font-bold ${scoreColor} border border-slate-600 rounded-lg px-2 py-0.5 bg-slate-900`}>
+                            {score}<span className="text-xs text-slate-500 font-normal">/10</span>
+                        </div>
+                    </div>
+                    <p className="text-slate-400 text-sm leading-relaxed text-justify">
+                        {content}
+                    </p>
+                </div>
+            );
+        };
+
+        /********************************************************************************
+         * components/VerticalLifeChart
+         ********************************************************************************/
+        const VerticalLifeChart = ({ data, isDetailed, onYearClick }) => {
+            const svgRef = React.useRef(null);
+            const containerRef = React.useRef(null);
+            const [containerWidth, setContainerWidth] = React.useState(0);
+
+            React.useEffect(() => {
+                if (!containerRef.current) return;
+                const resizeObserver = new ResizeObserver((entries) => {
+                    if (entries[0]) {
+                        setContainerWidth(entries[0].contentRect.width);
+                    }
+                });
+                resizeObserver.observe(containerRef.current);
+                return () => resizeObserver.disconnect();
+            }, []);
+
+            React.useEffect(() => {
+                if (!data || data.length === 0) return;
+                if (!svgRef.current) return;
+                if (containerWidth === 0) return;
+
+                d3.select(svgRef.current).selectAll("*").remove();
+                if (containerRef.current) {
+                    d3.select(containerRef.current).selectAll(".chart-tooltip").remove();
+                }
+
+                const isMobile = containerWidth < 600;
+                const margin = { top: 40, right: isMobile ? 12 : 30, bottom: 60, left: isMobile ? 58 : 70 };
+                
+                let width = containerWidth;
+                let stepX = 0;
+                let candleWidth = 0;
+
+                const innerWidthFixed = containerWidth - margin.left - margin.right;
+
+                if (isDetailed) {
+                    stepX = isMobile ? 30 : 40; 
+                    width = Math.max(containerWidth, data.length * stepX + margin.left + margin.right);
+                    candleWidth = isMobile ? 8 : 12;
+                } else {
+                    stepX = innerWidthFixed / data.length;
+                    width = containerWidth;
+                    candleWidth = Math.max(1, stepX * 0.6);
+                }
+                
+                const height = 450; 
+                const innerWidth = width - margin.left - margin.right;
+                const innerHeight = height - margin.top - margin.bottom;
+
+                const svg = d3.select(svgRef.current)
+                .attr("width", width)
+                .attr("height", height)
+                .attr("class", "bg-slate-900 select-none");
+
+                const g = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+                const xScale = d3.scaleLinear()
+                .domain([d3.min(data, d => d.age) || 1, d3.max(data, d => d.age) || 100])
+                .range([0, innerWidth]);
+
+                const yDomain = getDynamicYDomain(data, 14);
+                const yScale = d3.scaleLinear()
+                .domain(yDomain)
+                .range([innerHeight, 0]);
+
+                const yGrid = d3.axisLeft(yScale)
+                .tickSize(-innerWidth)
+                .tickFormat(() => "")
+                .ticks(10);
+                
+                g.append("g")
+                .attr("class", "grid-lines opacity-10")
+                .call(yGrid)
+                .selectAll("line")
+                .attr("stroke", "#94a3b8");
+
+                const xTicks = isDetailed ? data.length / 5 : (isMobile ? 5 : 10);
+                const xAxis = d3.axisBottom(xScale).ticks(xTicks).tickFormat(d => `${d}岁`);
+
+                const xAxisGroup = g.append("g")
+                .attr("class", "x-axis text-slate-400 font-mono")
+                .attr("transform", `translate(0, ${innerHeight})`)
+                .call(xAxis);
+                xAxisGroup.select(".domain").attr("stroke", "#475569");
+                xAxisGroup.selectAll("line").attr("stroke", "#475569");
+                
+                if (isMobile) {
+                    xAxisGroup.selectAll("text").attr("font-size", "10px");
+                }
+
+                const yAxis = d3.axisLeft(yScale).ticks(6);
+                const yAxisGroup = g.append("g")
+                .attr("class", "y-axis text-slate-400 font-mono")
+                .call(yAxis);
+                yAxisGroup.select(".domain").remove();
+                g.append("text")
+                    .attr("transform", `translate(${-48}, ${innerHeight / 2}) rotate(-90)`)
+                    .attr("fill", "#94a3b8")
+                    .attr("font-size", isMobile ? "10px" : "12px")
+                    .attr("text-anchor", "middle")
+                    .text("年度综合运势指数");
+                g.append("text")
+                    .attr("x", 0)
+                    .attr("y", -16)
+                    .attr("fill", "#64748b")
+                    .attr("font-size", isMobile ? "9px" : "11px")
+                    .text(`动态区间：${yDomain[0]} - ${yDomain[1]}（当前视图自动缩放）`);
+
+                let currentDaYun = data[0]?.daYun;
+                const daYunChanges = [];
+                if (currentDaYun) daYunChanges.push({ daYun: currentDaYun, x: xScale(data[0].age) });
+
+                data.forEach(d => {
+                if (d.daYun !== currentDaYun) {
+                    currentDaYun = d.daYun;
+                    daYunChanges.push({ daYun: currentDaYun, x: xScale(d.age) });
+                }
+                });
+
+                const daYunGroup = g.append("g").attr("class", "dayun-layer");
+                daYunChanges.forEach((change) => {
+                daYunGroup.append("line")
+                    .attr("x1", change.x)
+                    .attr("x2", change.x)
+                    .attr("y1", 0)
+                    .attr("y2", innerHeight + 20)
+                    .attr("stroke", "#a855f7")
+                    .attr("stroke-width", 1)
+                    .attr("stroke-dasharray", "4,4")
+                    .attr("opacity", 0.3);
+
+                daYunGroup.append("text")
+                    .attr("x", change.x + (isDetailed ? 5 : 2))
+                    .attr("y", 15)
+                    .attr("fill", "#d8b4fe")
+                    .attr("font-size", isDetailed ? "12px" : (isMobile ? "8px" : "10px"))
+                    .attr("font-weight", "bold")
+                    .text(isDetailed ? `大运: ${change.daYun}` : change.daYun);
+                });
+
+                const candleGroup = g.append("g").attr("class", "candles");
+                
+                const tooltip = d3.select(containerRef.current)
+                    .append("div")
+                    .attr("class", "chart-tooltip absolute z-50 bg-slate-800 border border-amber-500/50 p-3 rounded shadow-xl text-xs pointer-events-none opacity-0 transition-opacity")
+                    .style("top", "0")
+                    .style("left", "0");
+
+                data.forEach((d) => {
+                const x = xScale(d.age);
+                const openY = yScale(d.open);
+                const closeY = yScale(d.close);
+                const highY = yScale(d.high);
+                const lowY = yScale(d.low);
+                const isUp = d.close >= d.open;
+                const color = isUp ? "#ef4444" : "#22c55e";
+
+                candleGroup.append("line")
+                    .attr("x1", x)
+                    .attr("x2", x)
+                    .attr("y1", highY)
+                    .attr("y2", lowY)
+                    .attr("stroke", color)
+                    .attr("stroke-width", isDetailed ? 1 : 0.5);
+
+                candleGroup.append("rect")
+                    .attr("x", x - candleWidth / 2)
+                    .attr("y", Math.min(openY, closeY))
+                    .attr("width", candleWidth)
+                    .attr("height", Math.max(1, Math.abs(openY - closeY)))
+                    .attr("fill", color)
+                    .attr("class", "cursor-pointer hover:opacity-80 transition-opacity")
+                    .on("click", () => onYearClick(d.year))
+                    .on("mouseenter", () => {
+                        tooltip.style("opacity", 1)
+                                .html(`
+                                <div class="font-bold text-amber-500 text-sm mb-1">${d.year} (${d.ganZhi}) - ${d.age}岁</div>
+                                <div class="grid grid-cols-2 gap-2 mb-1">
+                                    <span>高: ${Math.round(d.high)}</span>
+                                    <span>低: ${Math.round(d.low)}</span>
+                                    <span>开: ${d.open}</span>
+                                    <span>收: ${d.close}</span>
+                                    <span>区间: ${d.band}</span>
+                                    <span>变化: ${d.change > 0 ? "+" : ""}${d.change}</span>
+                                </div>
+                                <div class="text-slate-300 border-t border-slate-600 pt-1 mt-1">${d.reason}</div>
+                                <div class="text-slate-500 mt-1">纵轴表示当前视图中的运势能量指数，越高越顺势。</div>
+                                <div class="text-green-400 mt-1 italic">点击查看流月详情</div>
+                            `);
+                    })
+                    .on("mousemove", (event) => {
+                        const [mx, my] = d3.pointer(event, containerRef.current);
+                        let leftPos = mx + 15;
+                        if (leftPos + 180 > containerWidth) leftPos = mx - 180 - 15;
+                        tooltip.style("left", `${leftPos}px`).style("top", `${my + 10}px`);
+                    })
+                    .on("mouseleave", () => tooltip.style("opacity", 0));
+
+                if (isDetailed) {
+                    g.append("text")
+                        .attr("transform", `translate(${x}, ${innerHeight + 35}) rotate(45)`)
+                        .attr("text-anchor", "start")
+                        .attr("fill", "#64748b")
+                        .attr("font-size", isMobile ? "8px" : "9px")
+                        .text(d.ganZhi);
+                        
+                    const reasonY = highY - 10;
+                    g.append("text")
+                        .attr("transform", `translate(${x}, ${reasonY}) rotate(-90)`)
+                        .attr("text-anchor", "start") 
+                        .attr("fill", "#475569")
+                        .attr("font-size", "8px")
+                        .style("opacity", 0.7)
+                        .text(d.reason.substring(0, 8) + (d.reason.length > 8 ? "..." : ""));
+                }
+                });
+
+            }, [data, containerWidth, isDetailed, onYearClick]);
+
+            return (
+                <div className="w-full h-full relative group" ref={containerRef}>
+                <div className={`h-full custom-scrollbar border border-slate-700 rounded-lg bg-slate-900/50 ${isDetailed ? 'overflow-x-auto' : 'overflow-hidden'}`}>
+                    <svg ref={svgRef} className="block"></svg>
+                </div>
+                </div>
+            );
+        };
+
+        /********************************************************************************
+         * components/BaziPillars
+         ********************************************************************************/
+        const PillarCard = ({ title, data }) => (
+            <div className="flex flex-col items-center bg-slate-900 rounded-xl border border-slate-700 p-3 shadow-inner relative group hover:border-amber-500/50 transition-colors">
+                <div className="text-slate-500 text-xs mb-2 uppercase tracking-wide">{title}</div>
+                <div className="text-[10px] text-amber-500/80 mb-1 h-4">{data.ganShiShen}</div>
+                <div className="flex flex-col gap-1 items-center my-1">
+                    <span className="text-2xl md:text-3xl font-serif font-bold text-amber-500 leading-none">
+                        {data.gan}
+                    </span>
+                    <span className="text-2xl md:text-3xl font-serif font-bold text-amber-500 leading-none">
+                        {data.zhi}
+                    </span>
+                </div>
+                <div className="text-[10px] text-slate-500 mb-2 h-4">{data.zhiShiShen}</div>
+                <div className="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">
+                    {data.naYin}
+                </div>
+            </div>
+        );
+
+        const BaziPillars = ({ pillars }) => {
+            return (
+                <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-6">
+                    <h2 className="text-slate-400 text-sm uppercase tracking-widest mb-6 text-center">
+                        四柱八字与十神
+                    </h2>
+                    <div className="grid grid-cols-4 gap-2 md:gap-4 lg:gap-8">
+                        <PillarCard title="年柱" data={pillars.year} />
+                        <PillarCard title="月柱" data={pillars.month} />
+                        <PillarCard title="日柱" data={pillars.day} />
+                        <PillarCard title="时柱" data={pillars.hour} />
+                    </div>
+                </div>
+            );
+        };
+
+        /********************************************************************************
+         * components/WuXingRadar
+         ********************************************************************************/
+        const WuXingRadar = ({ data }) => {
+            const svgRef = React.useRef(null);
+
+            React.useEffect(() => {
+                if (!svgRef.current || !data) return;
+                d3.select(svgRef.current).selectAll("*").remove();
+
+                const width = 250;
+                const height = 220;
+                const margin = 30;
+                const radius = Math.min(width, height) / 2 - margin;
+
+                const svg = d3.select(svgRef.current)
+                .attr("width", width)
+                .attr("height", height);
+
+                const g = svg.append("g")
+                .attr("transform", `translate(${width / 2},${height / 2})`);
+
+                const elements = ["wood", "fire", "earth", "metal", "water"];
+                const labels = { "wood": "木", "fire": "火", "earth": "土", "metal": "金", "water": "水" };
+                const colors = { "wood": "#22c55e", "fire": "#ef4444", "earth": "#eab308", "metal": "#94a3b8", "water": "#3b82f6" };
+
+                const maxValue = Math.max(...Object.values(data), 4); 
+                
+                const rScale = d3.scaleLinear().domain([0, maxValue]).range([0, radius]);
+                const angleSlice = (Math.PI * 2) / 5;
+
+                [0.25, 0.5, 0.75, 1].forEach(p => {
+                    g.append("circle")
+                    .attr("r", radius * p)
+                    .attr("fill", "none")
+                    .attr("stroke", "#475569")
+                    .attr("stroke-dasharray", "3,3")
+                    .attr("opacity", 0.5);
+                });
+
+                const axisGrid = g.append("g").attr("class", "axisWrapper");
+                
+                elements.forEach((el, i) => {
+                    const angle = angleSlice * i - Math.PI / 2; 
+                    const x = Math.cos(angle) * radius;
+                    const y = Math.sin(angle) * radius;
+                    
+                    axisGrid.append("line")
+                        .attr("x1", 0)
+                        .attr("y1", 0)
+                        .attr("x2", x)
+                        .attr("y2", y)
+                        .attr("stroke", "#475569")
+                        .attr("stroke-width", 1);
+
+                    const labelX = Math.cos(angle) * (radius + 20);
+                    const labelY = Math.sin(angle) * (radius + 20);
+                    
+                    axisGrid.append("text")
+                        .attr("x", labelX)
+                        .attr("y", labelY)
+                        .attr("dy", "0.35em")
+                        .attr("text-anchor", "middle")
+                        .attr("fill", colors[el])
+                        .attr("font-weight", "bold")
+                        .text(`${labels[el]} (${data[el]})`);
+                });
+
+                const radarLine = d3.lineRadial()
+                    .radius(d => rScale(d.value))
+                    .angle((d, i) => i * angleSlice)
+                    .curve(d3.curveLinearClosed);
+
+                const points = elements.map(el => ({ axis: el, value: data[el] }));
+
+                g.append("path")
+                    .datum(points)
+                    .attr("d", radarLine)
+                    .attr("fill", "rgba(245, 158, 11, 0.2)") 
+                    .attr("stroke", "#f59e0b")
+                    .attr("stroke-width", 2);
+
+                g.selectAll(".dot")
+                    .data(points)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", (d, i) => rScale(d.value) * Math.cos(angleSlice * i - Math.PI / 2))
+                    .attr("cy", (d, i) => rScale(d.value) * Math.sin(angleSlice * i - Math.PI / 2))
+                    .attr("r", 4)
+                    .attr("fill", "#f59e0b");
+
+            }, [data]);
+
+            return (
+                <div className="flex flex-col items-center justify-center bg-slate-800 border border-slate-700 rounded-xl p-4">
+                    <h3 className="text-amber-500 font-serif font-bold mb-2">五行能量</h3>
+                    <svg ref={svgRef}></svg>
+                </div>
+            );
+        };
+
+        const StructureInsights = ({ data }) => {
+            const elementSummary = ELEMENT_ORDER.map((item) => `${item}${round1(data.totalCounts[item] || 0)}`).join(' / ');
+            return (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    {[data.structureSummary, data.usefulSummary, data.timingSummary].map((item) => (
+                        <div key={item.title} className="bg-slate-900 border border-slate-700 rounded-xl p-5 shadow-lg">
+                            <h3 className="text-amber-400 font-serif font-bold text-lg mb-3">{item.title}</h3>
+                            <p className="text-sm leading-7 text-slate-300">{item.content}</p>
+                        </div>
+                    ))}
+                    <div className="lg:col-span-3 bg-slate-900/70 border border-slate-700 rounded-xl p-5">
+                        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                            <div className="space-y-2">
+                                <h3 className="text-amber-100 font-serif font-bold text-xl">命局结构拆解</h3>
+                                <p className="text-slate-300 text-sm leading-7">当前结构偏向 <span className="text-amber-400 font-bold">{data.strengthProfile.level}</span>，用神策略为 <span className="text-amber-400 font-bold">{data.favoredProfile.strategy}</span>。表层五行强度：{elementSummary}。</p>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3 text-xs text-slate-400 min-w-[240px]">
+                                <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
+                                    <div className="text-slate-500 mb-1">喜用</div>
+                                    <div className="text-amber-300 font-bold">{data.favoredProfile.favored.join('、')}</div>
+                                </div>
+                                <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
+                                    <div className="text-slate-500 mb-1">忌神</div>
+                                    <div className="text-rose-300 font-bold">{data.favoredProfile.unfavorable.join('、') || '较轻'}</div>
+                                </div>
+                                <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
+                                    <div className="text-slate-500 mb-1">高光年份</div>
+                                    <div className="text-emerald-300 font-bold leading-6">{data.strongestYears.join('、')}</div>
+                                </div>
+                                <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
+                                    <div className="text-slate-500 mb-1">谨慎年份</div>
+                                    <div className="text-orange-300 font-bold leading-6">{data.cautiousYears.join('、')}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        /********************************************************************************
+         * components/MonthlyTrend
+         ********************************************************************************/
+        const MonthlyTrend = ({ currentYear, birthYear, data, onYearChange, onClose }) => {
+            const svgRef = React.useRef(null);
+            const containerRef = React.useRef(null);
+            const [containerWidth, setContainerWidth] = React.useState(0);
+
+            const years = Array.from({ length: 101 }, (_, i) => birthYear + i);
+
+            React.useEffect(() => {
+                if (!containerRef.current) return;
+                const resizeObserver = new ResizeObserver((entries) => {
+                if (entries[0]) {
+                    setContainerWidth(entries[0].contentRect.width);
+                }
+                });
+                resizeObserver.observe(containerRef.current);
+                return () => resizeObserver.disconnect();
+            }, []);
+
+            React.useEffect(() => {
+                if (!data || data.length === 0) return;
+                if (!svgRef.current) return;
+                if (containerWidth === 0) return;
+
+                d3.select(svgRef.current).selectAll("*").remove();
+                if (containerRef.current) {
+                    d3.select(containerRef.current).selectAll(".monthly-tooltip").remove();
+                }
+
+                const isMobile = containerWidth < 500;
+                const margin = { top: 32, right: 10, bottom: 30, left: 58 };
+                const width = containerWidth;
+                const height = 300;
+                const innerWidth = width - margin.left - margin.right;
+                const innerHeight = height - margin.top - margin.bottom;
+
+                const svg = d3.select(svgRef.current)
+                .attr("width", width)
+                .attr("height", height)
+                .attr("class", "bg-slate-900/50 select-none");
+
+                const g = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+                const xScale = d3.scaleBand()
+                .domain(data.map(d => String(d.month)))
+                .range([0, innerWidth])
+                .padding(isMobile ? 0.2 : 0.4);
+
+                const yDomain = getDynamicYDomain(data, 10);
+                const yScale = d3.scaleLinear()
+                .domain(yDomain)
+                .range([innerHeight, 0]);
+
+                const yGrid = d3.axisLeft(yScale)
+                .tickSize(-innerWidth)
+                .tickFormat(() => "")
+                .ticks(5);
+                
+                g.append("g")
+                .attr("class", "grid-lines opacity-10")
+                .call(yGrid)
+                .selectAll("line")
+                .attr("stroke", "#94a3b8");
+
+                const xAxis = d3.axisBottom(xScale).tickFormat(d => `${d}月`);
+                const xAxisGroup = g.append("g")
+                .attr("class", "x-axis text-slate-400 font-mono")
+                .attr("transform", `translate(0, ${innerHeight})`)
+                .call(xAxis);
+                xAxisGroup.select(".domain").attr("stroke", "#475569");
+                xAxisGroup.selectAll("line").remove();
+                if (isMobile) {
+                    xAxisGroup.selectAll("text").attr("font-size", "10px");
+                }
+
+                const yAxis = d3.axisLeft(yScale).ticks(5);
+                const yAxisGroup = g.append("g")
+                .attr("class", "y-axis text-slate-400 font-mono")
+                .call(yAxis);
+                yAxisGroup.select(".domain").remove();
+                g.append("text")
+                    .attr("transform", `translate(${-42}, ${innerHeight / 2}) rotate(-90)`)
+                    .attr("fill", "#94a3b8")
+                    .attr("font-size", isMobile ? "10px" : "12px")
+                    .attr("text-anchor", "middle")
+                    .text("流月运势指数");
+                g.append("text")
+                    .attr("x", 0)
+                    .attr("y", -14)
+                    .attr("fill", "#64748b")
+                    .attr("font-size", isMobile ? "9px" : "11px")
+                    .text(`动态区间：${yDomain[0]} - ${yDomain[1]}（按本年12个月自动缩放）`);
+
+                const tooltip = d3.select(containerRef.current)
+                    .append("div")
+                    .attr("class", "monthly-tooltip absolute z-50 bg-slate-800 border border-green-500/50 p-2 rounded shadow-xl text-xs pointer-events-none opacity-0 transition-opacity")
+                    .style("top", "0")
+                    .style("left", "0");
+
+                const candleWidth = xScale.bandwidth();
+
+                data.forEach((d) => {
+                const x = xScale(String(d.month));
+                if (x === undefined) return;
+                
+                const openY = yScale(d.open);
+                const closeY = yScale(d.close);
+                const highY = yScale(d.high);
+                const lowY = yScale(d.low);
+                const isUp = d.close >= d.open;
+                const color = isUp ? "#ef4444" : "#22c55e";
+
+                const centerX = x + candleWidth / 2;
+
+                g.append("line")
+                    .attr("x1", centerX)
+                    .attr("x2", centerX)
+                    .attr("y1", highY)
+                    .attr("y2", lowY)
+                    .attr("stroke", color)
+                    .attr("stroke-width", 1);
+
+                g.append("rect")
+                    .attr("x", x)
+                    .attr("y", Math.min(openY, closeY))
+                    .attr("width", candleWidth)
+                    .attr("height", Math.max(1, Math.abs(openY - closeY)))
+                    .attr("fill", color)
+                    .on("mouseenter", () => {
+                        tooltip.style("opacity", 1)
+                                .html(`
+                                <div class="font-bold text-amber-500 text-sm mb-1">${d.month}月 (${d.ganZhi})</div>
+                                <div class="grid grid-cols-2 gap-x-3 gap-y-1 mb-1">
+                                    <span>开: ${d.open}</span>
+                                    <span>收: ${d.close}</span>
+                                    <span>高: ${Math.round(d.high)}</span>
+                                    <span>低: ${Math.round(d.low)}</span>
+                                    <span>区间: ${d.band}</span>
+                                    <span>变化: ${d.change > 0 ? "+" : ""}${d.change}</span>
+                                </div>
+                                <div class="text-slate-300 pt-1 border-t border-slate-600">${d.reason}</div>
+                                <div class="text-slate-500 mt-1">当前月度纵轴为本年度 12 个月区间动态缩放。</div>
+                            `);
+                    })
+                    .on("mousemove", (event) => {
+                        const [mx, my] = d3.pointer(event, containerRef.current);
+                        let leftPos = mx + 15;
+                        if (leftPos + 120 > containerWidth) leftPos = mx - 120 - 15;
+                        tooltip.style("left", `${leftPos}px`).style("top", `${my}px`);
+                    })
+                    .on("mouseleave", () => tooltip.style("opacity", 0));
+                    
+                    g.append("text")
+                        .attr("x", centerX)
+                        .attr("y", innerHeight + 25)
+                        .attr("text-anchor", "middle")
+                        .attr("fill", "#64748b")
+                        .attr("font-size", isMobile ? "8px" : "10px")
+                        .text(d.ganZhi);
+                });
+
+            }, [data, containerWidth]);
+
+            return (
+                <div className="mt-6 bg-slate-900 border border-slate-700 rounded-xl p-4 animate-fade-in-up" ref={containerRef}>
+                <div className="flex flex-col md:flex-row justify-between items-center mb-4 border-b border-slate-800 pb-2 gap-4">
+                    
+                    <div className="flex items-center gap-4">
+                        <h3 className="text-amber-100 font-serif font-bold text-lg">
+                            {currentYear}年 流月走势
+                        </h3>
+                        
+                        <div className="flex items-center gap-2">
+                            <label className="text-xs text-slate-500">年份:</label>
+                            <select 
+                                value={currentYear} 
+                                onChange={(e) => onYearChange(parseInt(e.target.value))}
+                                className="bg-slate-800 text-amber-500 border border-slate-600 rounded px-2 py-1 text-sm focus:outline-none focus:border-amber-500 font-bold"
+                            >
+                                {years.map(y => (
+                                    <option key={y} value={y}>{y}年</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onClick={onClose} className="text-slate-400 hover:text-white text-sm bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded transition">
+                    关闭
+                    </button>
+                </div>
+
+                <div className="w-full h-[300px] bg-slate-900/50 rounded border border-slate-800 relative">
+                    <svg ref={svgRef} className="block w-full h-full"></svg>
+                </div>
+                
+                <div className="mt-8">
+                    <h4 className="text-amber-500 font-serif font-bold text-md mb-4 flex items-center gap-2 border-l-4 border-amber-600 pl-3">
+                        流月运势详解
+                    </h4>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+                        {data.map((m) => {
+                            const isUp = m.close >= m.open;
+                            return (
+                                <div key={m.month} className="bg-slate-800/30 border border-slate-700 hover:border-amber-500/50 rounded-lg p-3 transition-all group">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-slate-200 font-bold">{m.month}月</span>
+                                        <span className="text-slate-500 text-xs font-mono bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800 group-hover:border-slate-600 transition-colors">
+                                            {m.ganZhi}
+                                        </span>
+                                    </div>
+                                    
+                                    <div className="flex items-baseline justify-between mb-2">
+                                        <div className="flex items-baseline gap-1">
+                                            <span className={`text-xl font-bold font-mono ${isUp ? 'text-red-400' : 'text-green-400'}`}>
+                                                {m.score}
+                                            </span>
+                                            <span className="text-[10px] text-slate-600">分</span>
+                                        </div>
+                                        <span className={`text-[10px] font-bold ${isUp ? 'text-red-500' : 'text-green-500'}`}>
+                                            {isUp ? '↑ 升' : '↓ 降'}
+                                        </span>
+                                    </div>
+
+                                    <p className="text-xs text-slate-400 border-t border-slate-700/50 pt-2 mt-1 min-h-[40px] leading-relaxed">
+                                        {m.reason}
+                                    </p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+                </div>
+            );
+        };
+
+        /********************************************************************************
+         * App
+         ********************************************************************************/
+        // Icons
+        const IconWealth = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>;
+        const IconHeart = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>;
+        const IconBriefcase = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>;
+        const IconCompass = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>;
+        const IconUser = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;
+        const IconHealth = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>;
+
+        function App() {
+            const [loadingState, setLoadingState] = React.useState(LoadingState.IDLE);
+            const [data, setData] = React.useState(null);
+            const [inputData, setInputData] = React.useState(null);
+            const [error, setError] = React.useState(null);
+            const [isDetailedView, setIsDetailedView] = React.useState(false);
+            
+            const [selectedYear, setSelectedYear] = React.useState(null);
+            const [monthlyData, setMonthlyData] = React.useState(null);
+            const [isUnlocked, setIsUnlocked] = React.useState(false);
+            const authControllerRef = React.useRef(null);
+
+            const unlockFullReport = React.useCallback(() => {
+                setIsUnlocked(true);
+            }, []);
+
+            const resolveApiBase = async () => {
+                try {
+                    const res = await fetch('/config/app-config.json', { cache: 'no-store' });
+                    if (res.ok) {
+                        const cfg = await res.json();
+                        if (cfg && cfg.apiBase) {
+                            return String(cfg.apiBase).trim();
+                        }
+                    }
+                } catch (err) {
+                    console.warn('无法读取 app-config.json，将使用当前域名:', err);
+                }
+                return window.location.origin;
+            };
+
+            // Ensure SDK attaches after React renders start button
+            React.useEffect(() => {
+                if (window.AuthorizationSDK && typeof window.AuthorizationSDK.attachStartButtons === "function") {
+                    window.AuthorizationSDK.attachStartButtons();
+                }
+            }, []);
+
+            React.useEffect(() => {
+                let active = true;
+                if (loadingState !== LoadingState.SUCCESS || !data) {
+                    return () => {
+                        active = false;
+                    };
+                }
+                setIsUnlocked(false);
+                const setupAuthGate = async () => {
+                    if (!window.AuthorizationSDK) {
+                        return;
+                    }
+                    const unlockButton = document.getElementById('unlock-btn');
+                    if (!unlockButton) {
+                        return;
+                    }
+                    const apiBase = await resolveApiBase();
+                    authControllerRef.current = await AuthorizationSDK.init({
+                        testType: 'rskx',
+                        apiBase,
+                        startButtons: ['#unlock-btn'],
+                        onAuthorized: () => {
+                            if (active) {
+                                unlockFullReport();
+                            }
+                        },
+                        authContext: 'result'
+                    });
+                    const config = authControllerRef.current?.state?.config;
+                    if (config && config.auth_required === 0) {
+                        if (active) {
+                            unlockFullReport();
+                        }
+                        return;
+                    }
+                    const mode = (config && config.auth_mode) ? String(config.auth_mode).toLowerCase() : 'start';
+                    if (mode !== 'result') {
+                        if (active) {
+                            unlockFullReport();
+                        }
+                        return;
+                    }
+                    if (authControllerRef.current.isSessionActive()) {
+                        if (active) {
+                            unlockFullReport();
+                        }
+                    }
+                };
+                setupAuthGate();
+                return () => {
+                    active = false;
+                };
+            }, [loadingState, data, unlockFullReport]);
+
+            const handleFormSubmit = async (input) => {
+                setLoadingState(LoadingState.LOADING);
+                setError(null);
+                setInputData(input); 
+                try {
+                const result = await generateBaziAnalysis(input);
+                setData(result);
+                
+                const startYear = result.startYear;
+                const months = generateMonthlyAnalysis(startYear, result);
+                setMonthlyData(months);
+                setSelectedYear(startYear);
+                
+                setLoadingState(LoadingState.SUCCESS);
+                } catch (err) {
+                console.error(err);
+                setError("排盘计算失败，请重试");
+                setLoadingState(LoadingState.ERROR);
+                }
+            };
+
+            const updateMonthlyData = (year) => {
+                if (!data) return;
+                const months = generateMonthlyAnalysis(year, data);
+                setMonthlyData(months);
+                setSelectedYear(year);
+            }
+
+            const handleYearClick = (year) => {
+                updateMonthlyData(year);
+                setTimeout(() => {
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                }, 100);
+            };
+
+            const handleShare = () => {
+                if (navigator.share) {
+                    navigator.share({
+                        title: '命运K线运势分析',
+                        text: '我刚做了命运K线运势分析，你也来试试吧！',
+                        url: window.location.href,
+                    }).catch(console.error);
+                } else {
+                    alert('截屏即可分享结果给朋友哦！');
+                }
+            };
+
+            return (
+                <div className="min-h-screen pb-20">
+                {/* Header */}
+                <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 backdrop-blur-md bg-opacity-80">
+                    <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center text-xl font-serif font-bold text-slate-900">
+                        八
+                        </div>
+                        <div>
+                        <h1 className="text-xl font-bold text-slate-100 tracking-wide serif">命运K线 (Destiny K-Line)</h1>
+                        <p className="text-xs text-slate-500">基于传统八字算法的运势分析</p>
+                        </div>
+                    </div>
+	                    <div className="flex items-center gap-3">
+	                        <a href="../index.html" className="text-xs text-amber-400 border border-amber-500/50 px-3 py-1 rounded-lg hover:bg-amber-500/10 transition">
+	                            ← 返回测试合集首页
+	                        </a>
+	                        <button type="button" onClick={handleShare} className="text-xs text-amber-50 border border-amber-500/50 px-3 py-1 rounded-lg hover:bg-amber-500/10 transition">
+	                            分享结果
+	                        </button>
+	                        <a href="../tg/index.html" target="_blank" rel="noopener" className="text-xs text-amber-50 border border-amber-500/50 px-3 py-1 rounded-lg hover:bg-amber-500/10 transition">
+	                            加入测试交流群
+	                        </a>
+	                        <div className="text-xs text-slate-600 border border-slate-700 px-2 py-1 rounded">
+	                            Ver. 3.4
+	                        </div>
+	                    </div>
+                    </div>
+                </header>
+
+                <main className="container mx-auto px-4 py-8">
+                    
+                    {/* Intro / Form Section */}
+                    {loadingState === LoadingState.IDLE && (
+                    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-8">
+                        <div className="text-center space-y-4 max-w-2xl">
+                            <h2 className="text-4xl md:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-600">
+                            洞悉天机 掌握运势
+                            </h2>
+                            <p className="text-slate-400 text-lg">
+                            采用正统八字排盘算法，精准计算大运流年，为您绘制专属的人生K线图。
+                            </p>
+                        </div>
+                        <BaziForm onSubmit={handleFormSubmit} isLoading={false} />
+                    </div>
+                    )}
+
+                    {/* Loading */}
+                    {loadingState === LoadingState.LOADING && (
+                    <div className="flex flex-col items-center justify-center min-h-[60vh]">
+                        <div className="w-24 h-24 border-t-4 border-amber-500 border-solid rounded-full animate-spin mb-8"></div>
+                        <h2 className="text-2xl font-serif text-slate-300 animate-pulse">正在排盘推演...</h2>
+                        <p className="text-slate-500 mt-2">计算五行生克与流年运势中...</p>
+                    </div>
+                    )}
+
+                    {/* Error */}
+                    {loadingState === LoadingState.ERROR && (
+                    <div className="flex flex-col items-center justify-center min-h-[50vh] gap-6">
+                        <div className="bg-red-900/20 border border-red-500/50 p-6 rounded-xl text-center max-w-md">
+                            <h3 className="text-red-400 text-xl font-bold mb-2">发生错误</h3>
+                            <p className="text-red-200">{error}</p>
+                        </div>
+                        <button 
+                            onClick={() => setLoadingState(LoadingState.IDLE)}
+                            className="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded text-white transition"
+                        >
+                            重试
+                        </button>
+                    </div>
+                    )}
+
+                    {/* Results Dashboard */}
+                    {loadingState === LoadingState.SUCCESS && data && (
+                    <div className="animate-fade-in-up space-y-8">
+                        
+                        <div data-auth-basic="true">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                <div className="lg:col-span-2">
+                                    <BaziPillars pillars={data.pillars} />
+                                </div>
+                                <div className="lg:col-span-1 h-full">
+                                    <WuXingRadar data={data.wuXing} />
+                                </div>
+                            </div>
+
+                            <StructureInsights data={data} />
+
+                            <div className="bg-gradient-to-r from-slate-900 to-slate-800 border-l-4 border-amber-500 p-6 rounded-r-xl shadow-lg">
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-2xl font-serif text-amber-100">命理总评</h2>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-sm text-slate-400">综合评分</span>
+                                    <span className="text-3xl font-bold text-amber-500">{data.summaryScore}</span>
+                                </div>
+                            </div>
+                            <p className="text-lg text-slate-300 leading-relaxed font-serif text-justify">
+                                {data.summary}
+                            </p>
+                            </div>
+                        </div>
+
+                        <div
+                            id="unlock-card"
+                            className="rounded-xl p-6 text-center"
+                            style={{
+                                display: isUnlocked ? 'none' : 'block',
+                                backgroundColor: '#111827',
+                                border: '1px solid #f59e0b',
+                                boxShadow: '0 0 24px rgba(245, 158, 11, 0.35)'
+                            }}
+                        >
+                            <h3 className="font-serif font-bold text-lg" style={{ color: '#fbbf24' }}>解锁完整报告</h3>
+                            <p className="text-sm mt-2" style={{ color: '#94a3b8' }}>查看事业、财富、婚姻、健康与人生K线图。</p>
+                            <button
+                                id="unlock-btn"
+                                data-auth-unlock-btn="true"
+                                className="mt-4 px-10 py-3 font-bold rounded-lg transition"
+                                style={{
+                                    backgroundColor: '#fbbf24',
+                                    color: '#0f172a',
+                                    border: '2px solid #fde68a',
+                                    boxShadow: '0 12px 24px rgba(245, 158, 11, 0.35)'
+                                }}
+                            >
+                                输入授权码解锁
+                            </button>
+                            <div className="text-xs mt-2" style={{ color: '#94a3b8' }}>已购买用户输入授权码即可解锁完整内容</div>
+                        </div>
+
+                        <div id="full-report" data-auth-lock="true" style={{ display: isUnlocked ? 'block' : 'none' }}>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <AnalysisCard title="性格分析" score={data.personalityScore} content={data.personality} icon={<IconUser />} />
+                            <AnalysisCard title="事业前程" score={data.industryScore} content={data.industry} icon={<IconBriefcase />} />
+                            <AnalysisCard title="财富机缘" score={data.wealthScore} content={data.wealth} icon={<IconWealth />} />
+                            <AnalysisCard title="婚姻情感" score={data.marriageScore} content={data.marriage} icon={<IconHeart />} />
+                            <AnalysisCard title="健康养生" score={data.healthScore} content={data.health} icon={<IconHealth />} />
+                            <AnalysisCard title="风水建议" score={data.fengShuiScore} content={data.fengShui} icon={<IconCompass />} />
+                            <AnalysisCard title="家庭根基" score={data.familyScore} content={data.family} icon={<IconCompass />} />
+                            </div>
+
+                            <div className="space-y-4">
+                            <div className="flex flex-col md:flex-row justify-between items-end gap-4 border-b-2 border-slate-800 pb-2">
+                                <div>
+                                    <h2 className="text-2xl font-serif font-bold text-amber-100 pb-1">
+                                        人生百岁K线图
+                                    </h2>
+                                    <p className="text-xs text-slate-500">点击 K 线可查看当年的流月运势；纵轴按当前视图中的最高点与最低点动态缩放。</p>
+                                </div>
+                                
+                                <div className="flex items-center gap-4">
+                                    <div className="bg-slate-800 p-1 rounded-lg border border-slate-700 flex text-sm">
+                                        <button 
+                                            onClick={() => setIsDetailedView(false)}
+                                            className={`px-3 py-1.5 rounded transition-all ${!isDetailedView ? 'bg-amber-600 text-white font-medium shadow' : 'text-slate-400 hover:text-white'}`}
+                                        >
+                                            总览模式
+                                        </button>
+                                        <button 
+                                            onClick={() => setIsDetailedView(true)}
+                                            className={`px-3 py-1.5 rounded transition-all ${isDetailedView ? 'bg-amber-600 text-white font-medium shadow' : 'text-slate-400 hover:text-white'}`}
+                                        >
+                                            详细模式
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="bg-slate-900 border border-slate-700 rounded-xl p-4 shadow-2xl h-[500px]">
+                                <VerticalLifeChart 
+                                    data={data.chartPoints} 
+                                    isDetailed={isDetailedView} 
+                                    onYearClick={handleYearClick}
+                                />
+                            </div>
+                            
+                            {selectedYear && monthlyData && inputData && (
+                                <MonthlyTrend 
+                                    currentYear={selectedYear}
+                                    birthYear={parseInt(inputData.birthYear)}
+                                    data={monthlyData} 
+                                    onYearChange={updateMonthlyData}
+                                    onClose={() => setSelectedYear(null)} 
+                                />
+                            )}
+
+                            <div className="text-center">
+                                <button 
+                                    onClick={() => {
+                                        setIsUnlocked(false);
+                                        setLoadingState(LoadingState.IDLE);
+                                    }}
+                                    className="mt-8 text-slate-500 hover:text-amber-500 underline transition"
+                                >
+                                    重新排盘
+                                </button>
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    )}
+                </main>
+                </div>
+            );
+        }
+
+        const rootElement = document.getElementById('root');
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>
+        );
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCL-90 症状自评量表</title>
+  <link rel="stylesheet" href="../authorization/auth-modal.css"/>
+  <link rel="icon" href="../static/images/favicon.png" type="image/png">
+  <style>
+    :root {
+      --bg: #0b1220;
+      --card: #111a2f;
+      --card-soft: #18233d;
+      --accent: #4f7af8;
+      --accent-soft: #82afff;
+      --text: #e2e8f0;
+      --muted: #9ba7c2;
+      --line: #24304d;
+      --good: #5ad879;
+      --warn: #f4b740;
+      --bad: #ff5c5c;
+      --panel: #131d34;
+      --panel-deep: #121b31;
+      --panel-muted: #11192e;
+      --option-bg: #151f36;
+      --option-selected: #1b2743;
+      --progress-track: #283754;
+      --ghost-border: #2a3550;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #eef2ff;
+        --card: #ffffff;
+        --card-soft: #f1f5ff;
+        --accent: #4f7af8;
+        --accent-soft: #2f5ef5;
+        --text: #1d2437;
+        --muted: #5c6787;
+        --line: #dbe0f5;
+        --good: #2c8a4b;
+        --warn: #c47a0a;
+        --bad: #c62828;
+        --panel: #f8f9ff;
+        --panel-deep: #f3f5ff;
+        --panel-muted: #eef1ff;
+        --option-bg: #f4f6ff;
+        --option-selected: #e5e9ff;
+        --progress-track: #dbe0f5;
+        --ghost-border: #c9cfe5;
+      }
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "SF Pro Display", "PingFang SC", "Microsoft YaHei", "Helvetica", sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 32px 0 64px;
+    }
+    h1, h2, h3, h4 {
+      margin: 0;
+      font-weight: 600;
+    }
+    p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+    /* 标题栏样式 */
+    .header-bar {
+      margin-bottom: 24px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .logo-icon {
+      font-size: 24px;
+    }
+    .header-info {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .header-actions__btn {
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .header-actions__btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(79, 122, 248, 0.15);
+    }
+    .header-actions__btn--primary {
+      background: linear-gradient(120deg, #4f7af8, #7c5cf5);
+      color: #fff;
+    }
+    .header-actions__btn--ghost {
+      border: 1px solid rgba(79, 122, 248, 0.35);
+      background: rgba(79, 122, 248, 0.08);
+      color: #82afff;
+    }
+
+    /* 主内容样式 */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    /* Hero区域样式 */
+    .hero {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 48px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(79, 122, 248, 0.15) 0%, transparent 70%);
+      z-index: 0;
+    }
+    .hero-content {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-text {
+      flex: 1;
+    }
+    .hero-text h1 {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .hero-text p {
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+      color: var(--text);
+      opacity: 0.9;
+      max-width: 80%;
+    }
+    .hero-image {
+      flex: 0 0 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .illustration svg {
+      width: 200px;
+      height: 200px;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+    .primary-btn {
+      margin-top: 28px;
+      padding: 16px 36px;
+      font-size: 16px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 24px rgba(79, 122, 248, 0.3);
+    }
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(79, 122, 248, 0.4);
+    }
+    .btn-icon {
+      font-size: 18px;
+    }
+    .primary-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .primary-btn:not(:disabled):hover {
+      opacity: 0.85;
+    }
+    /* 特点区域样式 */
+    .features-section {
+      text-align: center;
+    }
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 32px;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+      border-radius: 999px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    }
+    .feature-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: var(--card-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 20px;
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover .feature-icon {
+      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+    }
+    .feature-card h3 {
+      margin-bottom: 12px;
+      font-size: 1.25rem;
+    }
+    .feature-card p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    /* 测试说明区域样式 */
+    .instructions-section {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    .instructions-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 24px;
+    }
+    .instruction-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: var(--card-soft);
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+    .instruction-card:hover {
+      background: var(--panel-deep);
+      transform: translateY(-2px);
+    }
+    .instruction-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .instruction-content h3 {
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+    .instruction-content p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .hidden {
+      display: none;
+    }
+    .test-card {
+      margin-bottom: 30px;
+    }
+    .test-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .progress-bar {
+      height: 6px;
+      border-radius: 999px;
+      background: var(--progress-track);
+      overflow: hidden;
+    }
+    .progress-bar span {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+      transition: width 0.3s ease;
+    }
+    .options {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .option-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--option-bg);
+      border-radius: 14px;
+      border: 1px solid transparent;
+      padding: 14px 18px;
+      color: var(--text);
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform 0.15s ease, border 0.15s ease, background 0.15s ease;
+    }
+    .option-btn:hover {
+      border-color: rgba(130, 175, 255, 0.5);
+      transform: translateY(-1px);
+    }
+    .option-btn.selected {
+      border-color: var(--accent-soft);
+      background: var(--option-selected);
+      box-shadow: 0 8px 18px rgba(79, 122, 248, 0.15);
+    }
+    .option-score {
+      color: var(--muted);
+    }
+    .test-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+      gap: 12px;
+    }
+    .test-nav .primary-btn {
+      margin-top: 0;
+    }
+    .ghost-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--ghost-border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 15px;
+    }
+    .ghost-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+    th {
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .badge.good { background: rgba(90, 216, 121, 0.15); color: var(--good); }
+    .badge.warn { background: rgba(244, 183, 64, 0.15); color: var(--warn); }
+    .badge.bad { background: rgba(255, 92, 92, 0.15); color: var(--bad); }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      margin: 18px 0 8px;
+    }
+    .detail-card {
+      background: var(--panel-deep);
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+    .detail-card h4 {
+      margin-bottom: 6px;
+    }
+    .detail-value {
+      font-size: 32px;
+      font-weight: 600;
+    }
+    .detail-sub {
+      color: var(--muted);
+    }
+    .detail-bar {
+      height: 6px;
+      background: #202b45;
+      border-radius: 999px;
+      margin-top: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+    .detail-bar span {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      transition: width 0.3s ease;
+    }
+    .metric-bar {
+      background: var(--progress-track);
+    }
+    .bar-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .bar-scale {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .bar-scale span {
+      width: 25%;
+      text-align: center;
+    }
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .chart-box {
+      background: var(--panel-deep);
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+    canvas {
+      width: 100%;
+      height: 320px;
+      max-width: 100%;
+      display: block;
+      margin-top: 12px;
+    }
+    .factor-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .factor-card {
+      background: var(--panel-deep);
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+    .factor-card h4 {
+      margin-bottom: 4px;
+    }
+    .factor-meta {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .factor-score {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 14px 0 8px;
+    }
+    .factor-text {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    .factor-tip {
+      font-size: 13px;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+    .factor-tip.good { color: var(--good); }
+    .factor-tip.warn { color: var(--warn); }
+    .factor-tip.bad { color: var(--bad); }
+    .interpretation {
+      margin-top: 16px;
+      padding: 16px;
+      background: var(--panel-muted);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+    }
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 32px;
+      }
+      .hero-text p {
+        max-width: 100%;
+      }
+      .hero-image {
+        flex: none;
+      }
+      .section-title {
+        font-size: 1.6rem;
+      }
+      .features-grid,
+      .instructions-container {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .header-content {
+        flex-direction: column;
+        gap: 8px;
+      }
+      .header-actions {
+        width: 100%;
+        justify-content: center;
+      }
+      .hero {
+        padding: 32px 20px;
+      }
+      .hero-text h1 {
+        font-size: 2rem;
+      }
+      .hero-text p {
+        font-size: 1rem;
+      }
+      .primary-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 16px 24px;
+      }
+      .illustration svg {
+        width: 160px;
+        height: 160px;
+      }
+      .features-section,
+      .instructions-section {
+        padding: 24px 20px;
+      }
+      .feature-card,
+      .instruction-card {
+        padding: 20px 16px;
+      }
+      .test-nav {
+        flex-direction: column;
+      }
+      .ghost-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container view" id="homeView">
+    <!-- 标题栏 -->
+    <div class="header-bar">
+      <div class="header-content">
+        <div class="header-logo">
+          <span class="logo-icon">🧠</span>
+          <span class="logo-text">SCL-90</span>
+        </div>
+        <div class="header-info">专业心理健康评估</div>
+        <div class="header-actions">
+          <a href="../../index-2.html" class="header-actions__btn header-actions__btn--primary">返回测试合集首页</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 主要内容 -->
+    <div class="main-content">
+      <!-- Hero区域 -->
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1>SCL-90 症状自评量表</h1>
+            <p>国际通用的心理症状评定量表，由90个项目组成，涵盖躯体化、强迫、人际敏感、抑郁、焦虑、敌对、恐怖、偏执、精神病性九个症状维度。</p>
+            <button id="startTest" class="primary-btn">
+              <span class="btn-icon">▶</span>
+              <span>开始测试</span>
+            </button>
+          </div>
+          <div class="hero-image">
+            <div class="illustration">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="80" fill="var(--card-soft)" opacity="0.8"/>
+                <path d="M100 50 L140 80 L140 120 L100 150 L60 120 L60 80 Z" fill="var(--accent)" opacity="0.6"/>
+                <path d="M100 60 L130 85 L130 115 L100 140 L70 115 L70 85 Z" fill="var(--accent-soft)" opacity="0.8"/>
+                <circle cx="90" cy="90" r="5" fill="var(--text)"/>
+                <circle cx="110" cy="90" r="5" fill="var(--text)"/>
+                <path d="M90 115 Q100 125 110 115" fill="none" stroke="var(--text)" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 特点展示 -->
+      <section class="features-section">
+        <h2 class="section-title">关于SCL-90测试</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon"><span>🏥</span></div>
+            <h3>专业标准</h3>
+            <p>严格按照三甲医院标准设计，确保测试结果的专业性和准确性</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><span>�</span></div>
+            <h3>匿名测试</h3>
+            <p>无需注册登录，完全匿名进行测试，全程保护您的隐私安全</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><span>📊</span></div>
+            <h3>详细报告</h3>
+            <p>九维度专业分析报告，可视化图表展示，提供个性化建议</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 测试说明 -->
+      <section class="instructions-section">
+        <h2 class="section-title">测试说明</h2>
+        <div class="instructions-container">
+          <div class="instruction-card">
+            <div class="instruction-icon">⏱️</div>
+            <div class="instruction-content">
+              <h3>时间要求</h3>
+              <p>请在安静环境下完成，预计需要 15-20 分钟</p>
+            </div>
+          </div>
+          <div class="instruction-card">
+            <div class="instruction-icon">📝</div>
+            <div class="instruction-content">
+              <h3>评分标准</h3>
+              <p>根据最近一周的真实感受选择：1-完全没有，2-轻度，3-中度，4-偏重，5-严重</p>
+            </div>
+          </div>
+          <div class="instruction-card">
+            <div class="instruction-icon">➡️</div>
+            <div class="instruction-content">
+              <h3>答题方式</h3>
+              <p>共 90 题，需按顺序作答，每题必须回答后才能进入下一题</p>
+            </div>
+          </div>
+          <div class="instruction-card">
+            <div class="instruction-icon">💡</div>
+            <div class="instruction-content">
+              <h3>结果说明</h3>
+              <p>测试结果仅供参考，不作为诊断依据，如有需要请咨询专业医生</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="container view hidden" id="testView">
+    <section id="testSection" class="card test-card">
+      <div class="test-header">
+        <div>
+          <h3>SCL-90 症状自评量表</h3>
+          <p id="progressText">进度：0%</p>
+        </div>
+        <strong id="questionCounter">0/90</strong>
+      </div>
+      <div class="progress-bar">
+        <span id="progressBar"></span>
+      </div>
+      <div class="question-area">
+        <h2 id="questionTitle" style="margin:24px 0 6px;">请点击“开始测试”开始答题</h2>
+        <p id="questionSubtitle" style="color: var(--muted);">共 90 题，请根据最近一周的感受选择最贴切的答案。</p>
+        <div class="options" id="optionsContainer"></div>
+        <div class="test-nav">
+          <button id="prevBtn" class="ghost-btn" disabled>上一题</button>
+          <button id="nextBtn" class="ghost-btn" disabled>下一题</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="container view hidden" id="resultsView">
+    <section id="resultsSection" class="card">
+      <div class="test-header">
+        <div>
+          <h3>SCL-90 症状自评量表测试结果</h3>
+          <p>注：根据测试链接，随时可找回报告</p>
+        </div>
+      </div>
+      <div class="card panel-card" data-auth-basic="true">
+        <h3>总评分结果报告</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>总评分</th>
+              <th>平均分</th>
+              <th>阳性项目数</th>
+              <th>数值范围</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="summaryTotal">-</td>
+              <td id="summaryAverage">-</td>
+              <td id="summaryPositiveCount">-</td>
+              <td><span id="summaryRange" class="badge warn">-</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card panel-card" data-auth-basic="true" style="margin-top:18px;">
+        <h3>综合结论</h3>
+        <div class="interpretation" id="resultSummary">
+          说明：完成测试后将展示您的综合评估与建议。
+        </div>
+      </div>
+
+      <div id="unlock-card" class="card panel-card" style="margin-top:18px; text-align:center;">
+        <h3>解锁完整报告</h3>
+        <p>查看九维因子详情、可视化与建议。</p>
+        <button id="unlock-btn" data-auth-unlock-btn="true" class="primary-btn" style="margin-top:16px;">输入授权码解锁</button>
+        <p class="detail-sub" style="margin-top:10px;">已购买用户输入授权码即可解锁完整结果</p>
+      </div>
+
+      <div id="full-report" data-auth-lock="true" style="display: none;">
+        <div class="card panel-card" style="margin-top:18px;">
+          <h3>各因子得分表</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>因子</th>
+                <th>总分</th>
+                <th>平均分</th>
+                <th>参考结果</th>
+              </tr>
+            </thead>
+            <tbody id="factorTable"></tbody>
+          </table>
+        </div>
+
+        <div class="card panel-card" style="margin-top:18px;">
+          <h3>详细数据</h3>
+          <div class="detail-grid">
+            <div class="detail-card">
+              <h4>总分</h4>
+              <div class="detail-value"><span id="totalScoreValue">-</span> <small id="totalScoreTag" class="badge warn" style="margin-left:8px;">-</small></div>
+              <div class="detail-sub">正常 (&lt;160) | 轻度 (160-224) | 中度 (225-314) | 重度 (≥315)</div>
+              <div class="detail-bar"><span id="totalScoreBar"></span></div>
+              <p id="totalScoreDesc" class="detail-sub" style="margin-top:10px;"></p>
+            </div>
+            <div class="detail-card">
+              <h4>阳性项目数</h4>
+              <div class="detail-value"><span id="positiveCountValue">-</span> <small id="positiveCountTag" class="badge warn" style="margin-left:8px;">-</small></div>
+              <div class="detail-sub">正常 (&le;43) | 阳性 (&gt;43)</div>
+              <div class="detail-bar"><span id="positiveCountBar"></span></div>
+              <p id="positiveCountDesc" class="detail-sub" style="margin-top:10px;"></p>
+            </div>
+            <div class="detail-card">
+              <h4>阳性症状均分</h4>
+              <div class="detail-value"><span id="positiveAvgValue">-</span> <small id="positiveAvgTag" class="badge warn" style="margin-left:8px;">-</small></div>
+              <div class="detail-sub">正常 (&lt;1.5) | 轻度 (1.5-2.4) | 中度 (2.5-3.4) | 重度 (&ge;3.5)</div>
+              <div class="detail-bar"><span id="positiveAvgBar"></span></div>
+              <p id="positiveAvgDesc" class="detail-sub" style="margin-top:10px;"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card panel-card" style="margin-top:18px;">
+          <h3>各维度评估</h3>
+          <div class="factor-list" id="factorCards"></div>
+        </div>
+        <div class="card panel-card" style="margin-top:18px;">
+          <h3>各维度可视化</h3>
+          <div class="charts-grid">
+            <div class="chart-box">
+              <h4>九维雷达图</h4>
+              <canvas id="radarCanvas"></canvas>
+            </div>
+            <div class="chart-box">
+              <h4>与常模对比</h4>
+              <canvas id="compareCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="test-nav" style="margin-top:24px;">
+        <button id="backHomeBtn" class="ghost-btn">返回首页</button>
+        <button id="shareBtn" class="ghost-btn" style="flex:1;">分享结果</button>
+        <button id="joinGroupBtn" class="ghost-btn" style="flex:1;">加入测试交流群</button>
+        <button id="retestBtn" class="primary-btn" style="flex:1;">重新测试</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const questionTexts = [
+      "头痛",
+      "神经过敏，心中不踏实",
+      "头脑中有不必要的想法或字句盘旋",
+      "头昏或昏倒",
+      "对异性的兴趣减退",
+      "对旁人责备求全",
+      "感到别人能控制你的思想",
+      "责怪别人制造麻烦",
+      "忘记性大",
+      "担心自己的衣饰整齐及仪态的端正",
+      "容易烦恼和激动",
+      "胸痛",
+      "害怕空旷的场所或街道",
+      "感到自己的精力下降，活动减慢",
+      "想结束自己的生命",
+      "听到旁人听不到的声音",
+      "发抖",
+      "感到大多数人都不可信任",
+      "胃口不好",
+      "容易哭泣",
+      "同异性相处时感到害羞不自在",
+      "感到受骗，中了圈套或有人想抓您",
+      "无缘无故地突然感到害怕",
+      "自己不能控制地大发脾气",
+      "怕单独出门",
+      "经常责怪自己",
+      "腰痛",
+      "感到难以完成任务",
+      "感到孤独",
+      "感到苦闷",
+      "过分担忧",
+      "对事物不感兴趣",
+      "感到害怕",
+      "我的感情容易受到伤害",
+      "旁人能知道您的私下想法",
+      "感到别人不理解您不同情您",
+      "感到人们对你不友好，不喜欢你",
+      "做事必须做得很慢以保证做得正确",
+      "心跳得很厉害",
+      "恶心或胃部不舒服",
+      "感到比不上他人",
+      "肌肉酸痛",
+      "感到有人在监视您谈论您",
+      "难以入睡",
+      "做事必须反复检查",
+      "难以作出决定",
+      "怕乘电车、公共汽车、地铁或火车",
+      "呼吸有困难",
+      "一阵阵发冷或发热",
+      "因为感到害怕而避开某些东西，场合或活动",
+      "脑子变空了",
+      "身体发麻或刺痛",
+      "喉咙有梗塞感",
+      "感到对前途没有希望",
+      "不能集中注意力",
+      "感到身体的某一部分软弱无力",
+      "感到紧张或容易紧张",
+      "感到手或脚发沉",
+      "想到有关死亡的事",
+      "吃得太多",
+      "当别人看着您或谈论您时感到不自在",
+      "有一些不属于您自己的想法",
+      "有想打人或伤害他人的冲动",
+      "醒得太早",
+      "必须反复洗手、点数目或触摸某些东西",
+      "睡得不稳不深",
+      "有想摔坏或破坏东西的冲动",
+      "有一些别人没有的想法或念头",
+      "感到对别人神经过敏",
+      "在商店或电影院等人多的地方感到不自在",
+      "感到任何事情都很难做",
+      "一阵阵恐惧或惊恐",
+      "感到在公共场合吃东西很不舒服",
+      "经常与人争论",
+      "单独一人时神经很紧张",
+      "别人对您的成绩没有作出恰当的评价",
+      "即使和别人在一起也感到孤单",
+      "感到坐立不安心神不宁",
+      "感到自己没有什么价值",
+      "感到熟悉的东西变成陌生或不象是真的",
+      "大叫或摔东西",
+      "害怕会在公共场合昏倒",
+      "感到别人想占您的便宜",
+      "为一些有关“性”的想法而很苦恼",
+      "认为应该因为自己的过错而受到惩罚",
+      "感到要赶快把事情做完",
+      "感到自己的身体有严重问题",
+      "从未感到和其他人很亲近",
+      "感到自己有罪",
+      "感到自己的脑子有毛病"
+    ];
+
+    const factorGroups = {
+      "躯体化": [1, 4, 12, 27, 40, 42, 48, 49, 52, 53, 56, 58],
+      "强迫症状": [3, 9, 10, 28, 38, 45, 46, 51, 55, 65],
+      "人际关系敏感": [6, 21, 34, 36, 37, 41, 61, 69, 73],
+      "抑郁": [5, 14, 15, 20, 22, 26, 29, 30, 31, 32, 54, 71, 79],
+      "焦虑": [2, 17, 23, 33, 39, 57, 72, 78, 80, 86],
+      "敌对": [11, 24, 63, 67, 74, 81],
+      "恐怖": [13, 25, 47, 50, 70, 75, 82],
+      "偏执": [8, 18, 43, 68, 76, 83],
+      "精神病性": [7, 16, 35, 62, 77, 84, 85, 87, 88, 90],
+      "其他": [19, 44, 59, 60, 64, 66, 89]
+    };
+    const factorDescriptions = {
+      "躯体化": "关注头痛、胸闷、肠胃不适、心慌等身体痛觉与自主神经症状，常与压力或焦虑相关。",
+      "强迫症状": "包括反复出现的观念、冲动或行为，如反复检查、难以停止的想法与仪式化动作。",
+      "人际关系敏感": "描述在人际互动中的敏感度与自卑感，易出现被忽视或被评判的担忧。",
+      "抑郁": "衡量情绪低落、动力不足、兴趣减退以及与生活意义感相关的体验。",
+      "焦虑": "涉及紧张、易惊、坐立不安及相伴随的躯体症状，是常见的情绪警讯。",
+      "敌对": "覆盖易怒、想争论或破坏的冲动，反映情绪控制与愤怒管理状况。",
+      "恐怖": "指对空间、人群、旅行等情境的恐惧与回避，包含社交恐怖与广场恐怖表现。",
+      "偏执": "主要是猜疑、被害感、夸大或投射性思维，体现对他人意图的不信任。",
+      "精神病性": "衡量思维感知的异常体验，如幻觉、被洞悉感、思维混乱等。",
+      "其他": "补充睡眠、饮食与其他影响生活质量的症状，例如失眠、食欲异常等。"
+    };
+    const severityAdvice = {
+      "正常": "表现稳定，继续保持良好作息与情绪调节习惯，定期自检即可。",
+      "轻度": "偶有不适，建议通过运动、放松训练或写日记等方式缓解压力。",
+      "中度": "症状对生活造成一定困扰，可考虑咨询专业人士并建立稳定支持系统。",
+      "重度": "症状频繁且强度高，应尽快寻求专业心理/精神科帮助，制定系统干预计划。"
+    };
+
+    const questions = questionTexts.map((text, idx) => ({ id: idx + 1, text }));
+    const answers = new Array(questions.length).fill(null);
+
+    const levelOptions = [
+      { label: "完全没有", value: 1 },
+      { label: "轻度", value: 2 },
+      { label: "中度", value: 3 },
+      { label: "偏重", value: 4 },
+      { label: "严重", value: 5 }
+    ];
+
+    const startBtn = document.getElementById("startTest");
+    const testSection = document.getElementById("testSection");
+    const resultsSection = document.getElementById("resultsSection");
+    const homeView = document.getElementById("homeView");
+    const testView = document.getElementById("testView");
+    const resultsView = document.getElementById("resultsView");
+    const backHomeBtn = document.getElementById("backHomeBtn");
+    const shareBtn = document.getElementById("shareBtn");
+    const joinGroupBtn = document.getElementById("joinGroupBtn");
+    const retestBtn = document.getElementById("retestBtn");
+    const unlockCard = document.getElementById("unlock-card");
+    const unlockButton = document.getElementById("unlock-btn");
+    const fullReport = document.getElementById("full-report");
+    const radarCanvas = document.getElementById("radarCanvas");
+    const compareCanvas = document.getElementById("compareCanvas");
+    const questionTitle = document.getElementById("questionTitle");
+    const questionSubtitle = document.getElementById("questionSubtitle");
+    const optionsContainer = document.getElementById("optionsContainer");
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
+    const questionCounter = document.getElementById("questionCounter");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let currentIndex = 0;
+    let latestFactorStats = [];
+    const authState = { unlocked: false, controller: null };
+
+    retestBtn.addEventListener("click", () => {
+      startFreshTest();
+      switchView("test");
+    });
+
+    backHomeBtn.addEventListener("click", () => {
+      switchView("home");
+    });
+    if (shareBtn) {
+      shareBtn.addEventListener("click", () => {
+        if (navigator.share) {
+          navigator.share({
+            title: "SCL-90 症状自评量表测试",
+            text: "我刚完成了 SCL-90 测试，你也来试试吧！",
+            url: window.location.href,
+          }).catch(console.error);
+        } else {
+          alert("截屏即可分享结果给朋友哦！");
+        }
+      });
+    }
+    if (joinGroupBtn) {
+      joinGroupBtn.addEventListener("click", () => {
+        const w = window.open("../tg/index.html", "_blank");
+        if (w) w.opener = null;
+      });
+    }
+
+    function setFullReportVisible(isVisible) {
+      if (fullReport) {
+        fullReport.style.display = isVisible ? "block" : "none";
+      }
+      if (unlockCard) {
+        unlockCard.style.display = isVisible ? "none" : "block";
+      }
+    }
+
+    function unlockFullReport() {
+      if (authState.unlocked) return;
+      authState.unlocked = true;
+      setFullReportVisible(true);
+      if (latestFactorStats.length) {
+        renderCharts(latestFactorStats);
+      }
+    }
+
+    function isFullReportVisible() {
+      return !fullReport || fullReport.style.display !== "none";
+    }
+
+    async function resolveApiBase() {
+      try {
+        const res = await fetch("/config/app-config.json", { cache: "no-store" });
+        if (res.ok) {
+          const cfg = await res.json();
+          if (cfg && cfg.apiBase) {
+            return String(cfg.apiBase).trim();
+          }
+        }
+      } catch (err) {
+        console.warn("无法读取 app-config.json，将使用当前域名:", err);
+      }
+      return window.location.origin;
+    }
+
+    async function setupAuthGate() {
+      if (!window.AuthorizationSDK || !unlockButton) {
+        return;
+      }
+      if (!authState.controller) {
+        const apiBase = await resolveApiBase();
+        authState.controller = await AuthorizationSDK.init({
+          testType: "sl90",
+          apiBase,
+          startButtons: ["#unlock-btn"],
+          onAuthorized: unlockFullReport,
+          authContext: "result"
+        });
+      }
+      const config = authState.controller?.state?.config;
+      if (config && config.auth_required === 0) {
+        unlockFullReport();
+        return;
+      }
+      const mode = (config && config.auth_mode) ? String(config.auth_mode).toLowerCase() : "start";
+      if (mode !== "result") {
+        unlockFullReport();
+        return;
+      }
+      if (authState.controller.isSessionActive()) {
+        unlockFullReport();
+      }
+    }
+
+    prevBtn.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentIndex === questions.length - 1 && answers[currentIndex] !== null) {
+        calculateResults();
+      }
+    });
+
+    function loadQuestions(){
+      startFreshTest();
+      switchView("test");
+    }
+
+    function renderQuestion() {
+      const question = questions[currentIndex];
+      questionTitle.textContent = `${question.id}. ${question.text}`;
+      questionSubtitle.textContent = "请根据最近一周的真实感受选择最符合的一项";
+
+      const progress = ((currentIndex + 1) / questions.length) * 100;
+      progressBar.style.width = `${progress}%`;
+      progressText.textContent = `进度：${progress.toFixed(1)}%`;
+      questionCounter.textContent = `${currentIndex + 1}/${questions.length}`;
+
+      optionsContainer.innerHTML = "";
+      levelOptions.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        if (answers[currentIndex] === opt.value) {
+          btn.classList.add("selected");
+        }
+        btn.innerHTML = `<span>${opt.label}</span><span class="option-score">${opt.value}分</span>`;
+        btn.addEventListener("click", () => handleOptionSelect(opt.value));
+        optionsContainer.appendChild(btn);
+      });
+
+      prevBtn.disabled = currentIndex === 0;
+      if (currentIndex === questions.length - 1) {
+        nextBtn.style.visibility = "visible";
+        nextBtn.textContent = "提交";
+        nextBtn.disabled = answers[currentIndex] === null;
+      } else {
+        nextBtn.style.visibility = "hidden";
+        nextBtn.disabled = true;
+        nextBtn.textContent = "下一题";
+      }
+    }
+
+    function handleOptionSelect(value) {
+      answers[currentIndex] = value;
+      renderQuestion();
+      if (currentIndex === questions.length - 1) {
+        nextBtn.disabled = false;
+        return;
+      }
+      setTimeout(() => {
+        if (currentIndex < questions.length - 1) {
+          currentIndex++;
+          renderQuestion();
+        }
+      }, 180);
+    }
+
+    function calculateResults() {
+      const totalScore = answers.reduce((sum, val) => sum + val, 0);
+      const averageScore = (totalScore / questions.length).toFixed(2);
+      const positiveCount = answers.filter((score) => score >= 2).length;
+      const negativeCount = answers.filter((score) => score === 1).length;
+      const positiveAvg = positiveCount
+        ? ((totalScore - negativeCount) / positiveCount).toFixed(2)
+        : "0.00";
+
+      const totalSeverity = getSeverity(totalScore, [
+        { label: "正常", max: 159, className: "good" },
+        { label: "轻度", max: 224, className: "warn" },
+        { label: "中度", max: 314, className: "warn" },
+        { label: "重度", max: 9999, className: "bad" }
+      ]);
+      const positiveSeverity = positiveCount <= 43
+        ? { label: "正常", className: "good" }
+        : { label: "阳性", className: "bad" };
+      const positiveAvgSeverity = getSeverity(Number(positiveAvg), [
+        { label: "正常", max: 1.49, className: "good" },
+        { label: "轻度", max: 2.49, className: "warn" },
+        { label: "中度", max: 3.49, className: "warn" },
+        { label: "重度", max: 10, className: "bad" }
+      ]);
+
+      document.getElementById("summaryTotal").textContent = totalScore;
+      document.getElementById("summaryAverage").textContent = averageScore;
+      document.getElementById("summaryPositiveCount").textContent = positiveCount;
+      setBadge(document.getElementById("summaryRange"), totalSeverity);
+
+      document.getElementById("totalScoreValue").textContent = totalScore;
+      setBadge(document.getElementById("totalScoreTag"), totalSeverity);
+      document.getElementById("totalScoreBar").style.width = `${Math.min(totalScore / 4.5, 100)}%`;
+      document.getElementById("totalScoreDesc").textContent =
+        `总分反映整体心理健康状况的严重程度，您的总分属于${totalSeverity.label}区间。`;
+
+      document.getElementById("positiveCountValue").textContent = positiveCount;
+      setBadge(document.getElementById("positiveCountTag"), positiveSeverity);
+      document.getElementById("positiveCountBar").style.width = `${(positiveCount / questions.length) * 100}%`;
+      document.getElementById("positiveCountDesc").textContent =
+        `阳性项目数表示呈现症状的题目数量，当前 ${positiveSeverity.label}。`;
+
+      document.getElementById("positiveAvgValue").textContent = positiveAvg;
+      setBadge(document.getElementById("positiveAvgTag"), positiveAvgSeverity);
+      document.getElementById("positiveAvgBar").style.width = `${Math.min((Number(positiveAvg) / 5) * 100, 100)}%`;
+      document.getElementById("positiveAvgDesc").textContent =
+        `阳性症状均分反映阳性项目的平均严重度，当前属于${positiveAvgSeverity.label}水平。`;
+
+      document.getElementById("resultSummary").innerHTML =
+        `按全国常模 (N=1388) 1-5 级评分标准，测试总分超过 160 分或阳性项目数超过 43 项视为阳性。您的总分为 <strong>${totalScore}</strong>，阳性项目数为 <strong>${positiveCount}</strong>。综合来看，总评结果为 <strong>${totalSeverity.label}</strong>，建议结合自我感受与专业评估进一步关注心理状态。`;
+
+      latestFactorStats = renderFactorTables(answers);
+      authState.unlocked = false;
+      setFullReportVisible(false);
+      switchView("results");
+      setTimeout(() => renderCharts(latestFactorStats), 60);
+    }
+
+    function renderFactorTables(answerList) {
+      const tableBody = document.getElementById("factorTable");
+      const cardsContainer = document.getElementById("factorCards");
+      tableBody.innerHTML = "";
+      cardsContainer.innerHTML = "";
+      const stats = [];
+
+      Object.entries(factorGroups).forEach(([factorName, ids]) => {
+        const total = ids.reduce((sum, id) => sum + (answerList[id - 1] || 0), 0);
+        const avg = ids.length ? total / ids.length : 0;
+        const severity = getSeverity(avg, [
+          { label: "正常", max: 1.49, className: "good" },
+          { label: "轻度", max: 2.49, className: "warn" },
+          { label: "中度", max: 3.49, className: "warn" },
+          { label: "重度", max: 10, className: "bad" }
+        ]);
+        const factorDesc = factorDescriptions[factorName] || "该维度反映与该主题相关的典型心理与行为体验。";
+        const tipText = severityAdvice[severity.label] || "建议结合自我体验必要时寻求专业评估。";
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${factorName}</td>
+          <td>${total.toFixed(0)}</td>
+          <td>${avg.toFixed(2)}</td>
+          <td><span class="badge ${severity.className}">${severity.label}</span></td>
+        `;
+        tableBody.appendChild(row);
+
+        const card = document.createElement("div");
+        card.className = "factor-card";
+        card.innerHTML = `
+          <h4>${factorName}</h4>
+          <p class="factor-meta">题项数：${ids.length}</p>
+          <div class="factor-score">${avg.toFixed(2)} <span class="badge ${severity.className}" style="margin-left:6px;">${severity.label}</span></div>
+          <div class="detail-bar metric-bar">
+            <span style="width:${Math.min((avg / 5) * 100, 100)}%"></span>
+            <span class="bar-divider" style="left:30%;"></span>
+            <span class="bar-divider" style="left:50%;"></span>
+            <span class="bar-divider" style="left:70%;"></span>
+          </div>
+          <div class="bar-scale">
+            <span>正常</span>
+            <span>轻度</span>
+            <span>中度</span>
+            <span>重度</span>
+          </div>
+          <p class="factor-meta" style="margin-top:10px;">总分 ${total.toFixed(0)} · 均分 ${avg.toFixed(2)}</p>
+          <p class="factor-text">维度说明：${factorDesc}</p>
+          <p class="factor-tip ${severity.className}">状态建议：${tipText}</p>
+        `;
+        cardsContainer.appendChild(card);
+
+        stats.push({ name: factorName, average: avg, total });
+      });
+
+      return stats;
+    }
+
+    function getSeverity(value, ranges) {
+      return ranges.find((r) => value <= r.max) || ranges[ranges.length - 1];
+    }
+
+    function setBadge(el, { label, className }) {
+      el.textContent = label;
+      el.className = `badge ${className}`;
+    }
+
+    const themeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    if (themeMediaQuery.addEventListener) {
+      themeMediaQuery.addEventListener("change", () => {
+        if (!resultsView.classList.contains("hidden") && isFullReportVisible()) {
+          renderCharts(latestFactorStats);
+        }
+      });
+    } else if (themeMediaQuery.addListener) {
+      themeMediaQuery.addListener(() => {
+        if (!resultsView.classList.contains("hidden") && isFullReportVisible()) {
+          renderCharts(latestFactorStats);
+        }
+      });
+    }
+    window.addEventListener("resize", () => {
+      if (!resultsView.classList.contains("hidden") && isFullReportVisible()) {
+        renderCharts(latestFactorStats);
+      }
+    });
+
+    function renderCharts(stats) {
+      if (!stats || !stats.length) return;
+      if (!isFullReportVisible()) return;
+      adjustComparisonCanvasHeight(stats);
+      const radarOk = drawRadarChart(stats);
+      const compareOk = drawComparisonChart(stats);
+      if ((!radarOk || !compareOk) && !resultsView.classList.contains("hidden") && isFullReportVisible()) {
+        setTimeout(() => renderCharts(stats), 100);
+      }
+    }
+
+    function drawRadarChart(stats) {
+      const prep = prepareCanvas(radarCanvas);
+      if (!prep) return false;
+      const { ctx, width, height } = prep;
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const radius = Math.min(width, height) / 2 - 30;
+      const angleStep = (Math.PI * 2) / stats.length;
+      const gridLevels = 4;
+      const lineColor = getCssVar("--line", "#24304d");
+      const mutedColor = getCssVar("--muted", "#9ba7c2");
+      const accentColor = getCssVar("--accent", "#4f7af8");
+      const accentSoft = getCssVar("--accent-soft", "#82afff");
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = lineColor;
+      ctx.globalAlpha = 0.4;
+      for (let lvl = 1; lvl <= gridLevels; lvl++) {
+        const r = (radius / gridLevels) * lvl;
+        ctx.beginPath();
+        stats.forEach((_, idx) => {
+          const angle = -Math.PI / 2 + angleStep * idx;
+          const x = centerX + Math.cos(angle) * r;
+          const y = centerY + Math.sin(angle) * r;
+          if (idx === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.closePath();
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 0.45;
+      stats.forEach((_, idx) => {
+        const angle = -Math.PI / 2 + angleStep * idx;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius);
+        ctx.stroke();
+      });
+      ctx.globalAlpha = 1;
+      ctx.font = '12px "PingFang SC", "Microsoft YaHei", sans-serif';
+      stats.forEach((stat, idx) => {
+        const angle = -Math.PI / 2 + angleStep * idx;
+        const labelRadius = radius + 16;
+        const labelX = centerX + Math.cos(angle) * labelRadius;
+        const labelY = centerY + Math.sin(angle) * labelRadius;
+        ctx.fillStyle = mutedColor;
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        if (cos > 0.2) ctx.textAlign = "left";
+        else if (cos < -0.2) ctx.textAlign = "right";
+        else ctx.textAlign = "center";
+        if (sin > 0.3) ctx.textBaseline = "top";
+        else if (sin < -0.3) ctx.textBaseline = "bottom";
+        else ctx.textBaseline = "middle";
+        ctx.fillText(stat.name, labelX, labelY);
+      });
+
+      ctx.beginPath();
+      stats.forEach((stat, idx) => {
+        const angle = -Math.PI / 2 + angleStep * idx;
+        const valRadius = Math.max(0, Math.min(5, stat.average)) / 5 * radius;
+        const x = centerX + Math.cos(angle) * valRadius;
+        const y = centerY + Math.sin(angle) * valRadius;
+        if (idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.closePath();
+      ctx.fillStyle = accentColor;
+      ctx.globalAlpha = 0.15;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = accentSoft;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = accentSoft;
+      stats.forEach((stat, idx) => {
+        const angle = -Math.PI / 2 + angleStep * idx;
+        const valRadius = Math.max(0, Math.min(5, stat.average)) / 5 * radius;
+        const x = centerX + Math.cos(angle) * valRadius;
+        const y = centerY + Math.sin(angle) * valRadius;
+        ctx.beginPath();
+        ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      return true;
+    }
+
+    function drawComparisonChart(stats) {
+      const prep = prepareCanvas(compareCanvas);
+      if (!prep) return false;
+      const { ctx, width, height } = prep;
+      const margin = { top: 60, right: 20, bottom: 30, left: 150 };
+      const chartWidth = width - margin.left - margin.right;
+      const barHeight = 18;
+      const gap = 10;
+      const totalBarHeight = stats.length * (barHeight + gap) - gap;
+      const availableHeight = height - margin.top - margin.bottom;
+      let startY = margin.top;
+      if (totalBarHeight < availableHeight) {
+        startY = margin.top + (availableHeight - totalBarHeight) / 2;
+      }
+      const maxScore = 5;
+      const referenceScore = 1.5;
+      const accentColor = getCssVar("--accent", "#4f7af8");
+      const mutedColor = getCssVar("--muted", "#9ba7c2");
+      const textColor = getCssVar("--text", "#e2e8f0");
+      const lineColor = getCssVar("--line", "#24304d");
+      ctx.font = '12px "PingFang SC", "Microsoft YaHei", sans-serif';
+      ctx.textBaseline = "middle";
+
+      stats.forEach((stat, idx) => {
+        const y = startY + idx * (barHeight + gap);
+        ctx.textAlign = "right";
+        ctx.fillStyle = mutedColor;
+        ctx.fillText(stat.name, margin.left - 12, y + barHeight / 2);
+        ctx.textAlign = "left";
+        ctx.globalAlpha = 0.3;
+        ctx.fillStyle = lineColor;
+        ctx.fillRect(margin.left, y, (referenceScore / maxScore) * chartWidth, barHeight);
+        ctx.globalAlpha = 1;
+        const valueWidth = (Math.max(0, Math.min(5, stat.average)) / maxScore) * chartWidth;
+        ctx.fillStyle = accentColor;
+        ctx.fillRect(margin.left, y, valueWidth, barHeight - 2);
+        ctx.fillStyle = textColor;
+        ctx.fillText(stat.average.toFixed(2), margin.left + valueWidth + 8, y + barHeight / 2);
+      });
+
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = accentColor;
+      ctx.fillRect(margin.left, margin.top - 34, 18, 8);
+      ctx.fillStyle = textColor;
+      ctx.fillText("我的得分", margin.left + 28, margin.top - 30);
+      ctx.globalAlpha = 0.3;
+      ctx.fillStyle = lineColor;
+      ctx.fillRect(margin.left + 120, margin.top - 34, 18, 8);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = textColor;
+      ctx.fillText("常模均值 (1.5)", margin.left + 148, margin.top - 30);
+      return true;
+    }
+
+    function prepareCanvas(canvas) {
+      if (!canvas) return null;
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return null;
+      const ctx = canvas.getContext("2d");
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      if (ctx.setTransform) {
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      } else {
+        ctx.scale(dpr, dpr);
+      }
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      return { ctx, width: rect.width, height: rect.height };
+    }
+
+    function getCssVar(name, fallback) {
+      const value = getComputedStyle(document.documentElement).getPropertyValue(name);
+      return value ? value.trim() : fallback;
+    }
+
+    function adjustComparisonCanvasHeight(stats) {
+      if (!compareCanvas || !stats) return;
+      const minHeight = 320;
+      const perItem = 28;
+      const calculated = 160 + stats.length * perItem;
+      compareCanvas.style.height = `${Math.max(minHeight, calculated)}px`;
+      compareCanvas.style.minHeight = compareCanvas.style.height;
+    }
+
+    function startFreshTest() {
+      currentIndex = 0;
+      answers.fill(null);
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function switchView(view) {
+      homeView.classList.add("hidden");
+      testView.classList.add("hidden");
+      resultsView.classList.add("hidden");
+
+      if (view === "home") {
+        homeView.classList.remove("hidden");
+      } else if (view === "test") {
+        testView.classList.remove("hidden");
+      } else if (view === "results") {
+        resultsView.classList.remove("hidden");
+        setFullReportVisible(authState.unlocked);
+        setupAuthGate();
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+  <script src="../authorization/authorization-sdk.js"
+        data-test-type="sl90"
+        data-auth-context="start"
+        data-start-button="#startTest"
+        data-on-authorized="loadQuestions"
+        data-session-hours="6"></script>
+</body>
+
+</html>
