@@ -487,11 +487,18 @@
     function normalizeNewlines(s) {
       return String(s || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
     }
+    function normalizeMarkdownTableSource(s) {
+      let src = normalizeNewlines(s);
+      if (!src.includes('\n') && src.includes('||') && /\|\s*:?-{3,}:?\s*\|/.test(src)) {
+        src = src.replace(/\|\|/g, '|\n|');
+      }
+      return src;
+    }
     function looksLikeHtml(s) {
       return /<\/(p|table|ul|ol|div|h\d)>/i.test(String(s || ''));
     }
     function parseMarkdownTableBlock(raw) {
-      const src = normalizeNewlines(raw);
+      const src = normalizeMarkdownTableSource(raw);
       const lines = src.split('\n');
       const nonEmpty = [];
       for (let i = 0; i < lines.length; i++) {
@@ -526,7 +533,7 @@
       return { tableHtml, restRaw };
     }
     function renderRichText(raw) {
-      const src = normalizeNewlines(raw);
+      const src = normalizeMarkdownTableSource(raw);
       const tableBlock = parseMarkdownTableBlock(src);
       if (tableBlock) {
         const tail = tableBlock.restRaw ? renderRichText(tableBlock.restRaw) : '';
@@ -782,6 +789,7 @@
     }
     function mdInline(src) {
       let s = escapeHtml(src || '');
+      s = s.replace(/&lt;br\s*\/?&gt;/gi, '<br>');
       // links [text](url)
       s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
       // inline code `code`
