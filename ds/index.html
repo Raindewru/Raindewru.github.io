@@ -79,16 +79,44 @@ fetch('teachers.json')
     const list = document.getElementById('teacherList');
     const detail = document.getElementById('detailArea');
 
-    // 渲染左侧列表
-    teachers.forEach((t,i)=>{
-      let div = document.createElement('div');
-      div.className = 'teacher-item';
-      div.innerText = t.name;
-      div.onclick = ()=>{
+    // 按职称分类
+    const categories = {
+      '教授': teachers.filter(t => t.title === '教授'),
+      '副教授': teachers.filter(t => t.title === '副教授'),
+      '其他': teachers.filter(t => t.title === '其他')
+    };
+
+    // 渲染分类标题样式
+    const categoryTitles = {
+      '教授': { color: '#b91c1c', bg: '#fef2f2' },
+      '副教授': { color: '#047857', bg: '#ecfdf5' },
+      '其他': { color: '#1e40af', bg: '#eff6ff' }
+    };
+
+    // 渲染左侧列表（按职称分类）
+    Object.keys(categories).forEach(cat => {
+      const categoryTeachers = categories[cat];
+      if (categoryTeachers.length === 0) return;
+
+      // 添加分类标题
+      const titleDiv = document.createElement('div');
+      titleDiv.style.cssText = 'padding:10px 12px 6px; margin-top:10px; font-weight:bold; font-size:14px; color:' + categoryTitles[cat].color + '; background:' + categoryTitles[cat].bg + '; border-radius:4px;';
+      titleDiv.innerText = cat + ' (' + categoryTeachers.length + '人)';
+      list.appendChild(titleDiv);
+
+      // 添加分类下的老师
+      categoryTeachers.forEach((t, idx) => {
+        let div = document.createElement('div');
+        div.className = 'teacher-item';
+        div.innerText = t.name;
+        div.onclick = () => {
           detail.innerHTML = t.html;
-      };
-      if(i===0) detail.innerHTML = t.html;
-      list.appendChild(div);
+        };
+        if (list.children.length === 2 && idx === 0) { // 第一个分类的第一个老师
+          detail.innerHTML = t.html;
+        }
+        list.appendChild(div);
+      });
     });
   })
 </script>
