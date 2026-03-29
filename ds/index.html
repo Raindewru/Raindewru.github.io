@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>机械专硕导师信息</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family: "Microsoft YaHei"}
+        body{display:flex;height:100vh;}
+        .sidebar{
+            width:260px;
+            background:#f5f7fa;
+            border-right:1px solid #ddd;
+            padding:20px;
+            overflow-y:auto;
+        }
+        .sidebar h2{
+            color:#024590;
+            margin-bottom:15px;
+            font-size:18px;
+            text-align:center;
+        }
+        .teacher-item{
+            padding:10px 12px;
+            margin:6px 0;
+            background:white;
+            border-radius:6px;
+            cursor:pointer;
+            border:1px solid #eee;
+        }
+        .teacher-item:hover{
+            background:#e3f2ff;
+            border-color:#024590;
+        }
+        .content{
+            flex:1;
+            padding:30px;
+            overflow-y:auto;
+        }
+        .content h1{
+            color:#024590;
+            margin-bottom:20px;
+            text-align:center;
+        }
+        .teacher-card{
+            max-width:900px;
+            margin:0 auto;
+        }
+        table{
+            width:100% !important;
+            border-collapse:collapse;
+            margin:10px 0;
+        }
+        td{
+            border:1px solid #666 !important;
+            padding:10px;
+            vertical-align:top;
+        }
+        img{
+            max-width:100% !important;
+            height:auto !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>机械专硕导师列表</h2>
+        <div id="teacherList"></div>
+    </div>
+    <div class="content">
+        <h1>导师详情</h1>
+        <div id="detailArea" class="teacher-card"></div>
+    </div>
+
+<script>
+fetch('teachers.json')
+  .then(res=>res.json())
+  .then(teachers=>{
+    const list = document.getElementById('teacherList');
+    const detail = document.getElementById('detailArea');
+
+    // 渲染左侧列表
+    teachers.forEach((t,i)=>{
+      let div = document.createElement('div');
+      div.className = 'teacher-item';
+      div.innerText = t.name;
+      div.onclick = ()=>{
+          detail.innerHTML = t.html;
+      };
+      if(i===0) detail.innerHTML = t.html;
+      list.appendChild(div);
+    });
+  })
+</script>
+</body>
+</html>
+    
