@@ -13,48 +13,52 @@
 
         body {
             font-family: 'Inter', system-ui, 'Segoe UI', 'Roboto', 'Noto Sans', sans-serif;
-            background: #f0f4fa;
-            color: #1a2c3e;
-            padding: 24px 20px 80px 20px;
+            background: #f4f8fe;
+            color: #1a2f3f;
+            padding: 36px 24px 100px 24px;
+            font-size: 18px;
+            line-height: 1.7;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1480px;
             margin: 0 auto;
         }
 
-        /* 头部区域 */
+        /* 头部区域 — 更通透大气 */
         .header {
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(4px);
-            border-radius: 32px;
-            padding: 20px 28px;
-            margin-bottom: 32px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 8px rgba(0,0,0,0.03);
-            border: 1px solid rgba(210, 225, 245, 0.6);
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(6px);
+            border-radius: 40px;
+            padding: 28px 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(190, 215, 235, 0.5);
+            transition: box-shadow 0.2s;
         }
 
         h1 {
-            font-size: 1.9rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #1b4f72, #2c7da0);
+            background: linear-gradient(135deg, #165a72, #2c7da0);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            letter-spacing: -0.3px;
+            letter-spacing: -0.5px;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .sub {
-            color: #2c6280;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            border-left: 4px solid #3b82f6;
-            padding-left: 16px;
-            background: #eef4fc;
-            border-radius: 0 16px 16px 0;
+            color: #2c6b8c;
+            margin-top: 14px;
+            font-size: 1rem;
+            border-left: 5px solid #3b82f6;
+            padding-left: 20px;
+            background: #ecf5fc;
+            border-radius: 0 20px 20px 0;
+            font-weight: 500;
         }
 
         .stats-bar {
@@ -62,164 +66,182 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            margin-top: 24px;
-            gap: 16px;
+            margin-top: 28px;
+            gap: 20px;
         }
 
         .badge {
-            background: #e2edf9;
-            padding: 6px 18px;
-            border-radius: 40px;
-            font-size: 0.85rem;
+            background: #e7f0fa;
+            padding: 8px 24px;
+            border-radius: 60px;
+            font-size: 0.95rem;
             font-weight: 600;
-            color: #1e5a7a;
-            box-shadow: inset 0 1px 0 white, 0 1px 2px rgba(0,0,0,0.02);
+            color: #155f7c;
+            box-shadow: inset 0 1px 0 white, 0 1px 3px rgba(0,0,0,0.02);
+            letter-spacing: 0.3px;
         }
 
         .search-box {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             align-items: center;
             background: white;
-            border: 1px solid #cfe0ef;
+            border: 1px solid #d5e5f0;
             border-radius: 60px;
-            padding: 4px 18px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            padding: 6px 24px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
             flex: 1;
-            max-width: 380px;
+            max-width: 440px;
+            transition: all 0.2s;
+        }
+        .search-box:focus-within {
+            border-color: #5f9fc0;
+            box-shadow: 0 4px 12px rgba(47, 128, 166, 0.1);
         }
 
         .search-box input {
             border: none;
             outline: none;
-            font-size: 0.9rem;
+            font-size: 1rem;
             width: 100%;
-            padding: 10px 0;
+            padding: 12px 0;
             background: transparent;
+            font-weight: 450;
         }
 
         .search-box button {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 1.2rem;
-            color: #6a8faf;
+            font-size: 1.3rem;
+            color: #7e9ebd;
             transition: 0.2s;
+            line-height: 1;
+        }
+        .search-box button:hover {
+            color: #2f6080;
+            transform: scale(1.05);
         }
 
         .btn-group {
             display: flex;
-            gap: 12px;
+            gap: 14px;
         }
 
         .btn {
             background: white;
-            border: 1px solid #cfe0ef;
-            padding: 8px 20px;
-            border-radius: 36px;
-            font-size: 0.8rem;
-            font-weight: 500;
+            border: 1px solid #d0e2f0;
+            padding: 10px 28px;
+            border-radius: 48px;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            color: #1f5575;
+            transition: all 0.2s ease;
+            color: #1c6382;
+            letter-spacing: 0.3px;
         }
 
         .btn-primary {
-            background: #1f5575;
-            border-color: #1f5575;
+            background: #1f6382;
+            border-color: #1f6382;
             color: white;
+            box-shadow: 0 2px 6px rgba(31, 99, 130, 0.2);
         }
 
         .btn-primary:hover {
-            background: #0e3f5a;
+            background: #0e4f6b;
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
         }
 
         .btn:hover {
-            background: #eaf2fa;
+            background: #eef4fc;
             transform: translateY(-1px);
+            border-color: #b7d2e8;
         }
 
-        /* 卡片网格 */
+        /* 卡片网格 — 间距舒适 */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 26px;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 32px;
         }
 
         .card {
             background: white;
-            border-radius: 32px;
-            box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.08);
-            transition: all 0.25s ease;
-            border: 1px solid #e3ecf5;
+            border-radius: 36px;
+            box-shadow: 0 15px 32px -14px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            border: 1px solid #e6eff7;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            backdrop-filter: blur(0px);
         }
 
         .card:hover {
-            transform: translateY(-4px);
-            border-color: #cbe0f0;
-            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+            transform: translateY(-5px);
+            border-color: #cde2f0;
+            box-shadow: 0 28px 38px -18px rgba(0, 0, 0, 0.15);
         }
 
         .question-header {
-            background: #fbfeff;
-            padding: 20px 22px 16px 22px;
-            border-bottom: 1px solid #eff4fa;
+            background: #ffffff;
+            padding: 26px 28px 20px 28px;
+            border-bottom: 1px solid #eef3fa;
             display: flex;
             align-items: flex-start;
-            gap: 12px;
+            gap: 16px;
             flex-wrap: wrap;
         }
 
         .q-id {
-            background: #e2edf9;
+            background: #e4f0f8;
             border-radius: 60px;
-            padding: 4px 14px;
-            font-size: 0.75rem;
+            padding: 5px 16px;
+            font-size: 0.85rem;
             font-weight: 700;
-            font-family: monospace;
-            color: #1a6080;
+            font-family: 'SF Mono', monospace;
+            color: #19647e;
             white-space: nowrap;
+            letter-spacing: -0.2px;
         }
 
         .q-text {
             flex: 1;
             font-weight: 700;
-            font-size: 1rem;
-            line-height: 1.4;
-            color: #0b3b4f;
+            font-size: 1.28rem;
+            line-height: 1.45;
+            color: #103f52;
+            letter-spacing: -0.2px;
         }
 
         .toggle-btn {
-            background: none;
+            background: #f0f7fe;
             border: 1px solid #cde0ef;
-            background-color: #f8fcfd;
-            border-radius: 40px;
-            padding: 6px 14px;
-            font-size: 0.7rem;
+            border-radius: 60px;
+            padding: 8px 20px;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
-            color: #2c6a8c;
+            transition: all 0.2s;
+            color: #266c8c;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            letter-spacing: 0.2px;
         }
 
         .toggle-btn:hover {
             background-color: #e3f0f9;
-            border-color: #92b9d4;
-            transform: scale(0.96);
+            border-color: #99bed9;
+            transform: scale(0.97);
         }
 
         .answer-container {
-            padding: 0 22px 22px 22px;
+            padding: 0 28px 28px 28px;
             background: #ffffff;
-            border-top: 1px solid #f0f6fe;
+            border-top: 1px solid #f0f7ff;
             display: none;
         }
 
@@ -228,111 +250,177 @@
         }
 
         .answer-content {
-            font-size: 0.9rem;
-            line-height: 1.65;
-            color: #2c4a6e;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #1e3b4f;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
         }
 
         .answer-content p {
-            margin: 0.75rem 0;
+            margin: 0.9rem 0;
+        }
+
+        .answer-line {
+            font-size: 1.05rem;
+            color: #1d3649;
+            margin-bottom: 0.5rem;
+        }
+
+        .answer-label {
+            font-weight: 700;
+            color: #1f6082;
+            background: rgba(59, 130, 246, 0.12);
+            padding: 0 8px;
+            border-radius: 12px;
+            margin-right: 0.5rem;
+            display: inline-block;
+            font-size: 0.95rem;
+        }
+
+        .bullet-line {
+            display: flex;
+            gap: 0.6rem;
+            align-items: flex-start;
+            margin: 0.5rem 0;
+        }
+
+        .bullet-dot {
+            color: #e26d5c;
+            font-size: 1.3rem;
+            line-height: 1.4;
+            margin-top: 0rem;
+            font-weight: 600;
+        }
+
+        .highlight-text {
+            font-weight: 800;
+            color: #bc5a4a;
+            background: rgba(255, 225, 220, 0.4);
+            padding: 0 3px;
+            border-radius: 8px;
         }
 
         .answer-content ul, .answer-content .point-list {
-            margin: 0.6rem 0 0.6rem 1.5rem;
+            margin: 0.8rem 0 0.8rem 1.6rem;
             padding-left: 0;
         }
 
         .answer-content li {
-            margin: 0.5rem 0;
+            margin: 0.6rem 0;
             list-style-type: none;
             position: relative;
-            padding-left: 1.4rem;
+            padding-left: 1.6rem;
+            font-size: 1.02rem;
         }
 
         .answer-content li::before {
             content: "▹";
-            color: #2c7da0;
+            color: #317f9e;
             position: absolute;
             left: 0;
             font-weight: bold;
+            font-size: 1.1rem;
         }
 
         .answer-content strong {
-            color: #c44536;
-            background: linear-gradient(120deg, #ffe6e2 0%, #ffe6e2 40%, transparent 80%);
-            font-weight: 700;
-            padding: 0 2px;
+            color: #bd5a48;
+            background: linear-gradient(120deg, #ffe5e0 0%, #ffe5e0 40%, transparent 80%);
+            font-weight: 800;
+            padding: 0 3px;
             border-radius: 8px;
         }
 
         .empty-msg {
             text-align: center;
-            background: white;
-            border-radius: 48px;
-            padding: 60px 24px;
-            color: #6f95b5;
-            font-size: 1rem;
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 70px 28px;
+            color: #5885a8;
+            font-size: 1.2rem;
+            font-weight: 500;
             grid-column: 1 / -1;
+            border: 1px solid #e2edf5;
         }
 
-        /* 右下角爱心 */
+        /* 爱心浮动按钮 — 更醒目 */
         .heart-fab {
             position: fixed;
-            bottom: 28px;
-            right: 28px;
-            background: #ff6b6b;
-            width: 58px;
-            height: 58px;
+            bottom: 32px;
+            right: 32px;
+            background: #ff7675;
+            width: 68px;
+            height: 68px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 12px 28px rgba(255, 107, 107, 0.45);
             transition: all 0.25s ease;
             z-index: 1000;
             border: none;
-            font-size: 32px;
+            font-size: 36px;
             color: white;
             backdrop-filter: blur(2px);
         }
 
         .heart-fab:hover {
             transform: scale(1.08);
-            background: #ff4c4c;
-            box-shadow: 0 12px 26px rgba(255, 75, 75, 0.5);
+            background: #ff5c5b;
+            box-shadow: 0 18px 32px rgba(255, 85, 85, 0.5);
         }
 
         .heart-fab:active {
-            transform: scale(0.96);
+            transform: scale(0.94);
         }
 
         footer {
-            margin-top: 48px;
+            margin-top: 60px;
             text-align: center;
-            font-size: 0.73rem;
-            color: #7d9cba;
-            border-top: 1px solid #dee9f2;
-            padding-top: 24px;
+            font-size: 0.85rem;
+            color: #7da1bd;
+            border-top: 1px solid #e2edf5;
+            padding-top: 30px;
+            font-weight: 450;
         }
 
-        @media (max-width: 680px) {
+        @media (max-width: 720px) {
+            body {
+                padding: 20px 16px 90px 16px;
+                font-size: 17px;
+            }
             .cards-grid {
                 grid-template-columns: 1fr;
+                gap: 24px;
             }
             .stats-bar {
                 flex-direction: column;
                 align-items: stretch;
             }
             .search-box {
-                max-width: none;
+                max-width: 100%;
             }
             .heart-fab {
-                width: 48px;
-                height: 48px;
-                font-size: 28px;
+                width: 56px;
+                height: 56px;
+                font-size: 30px;
                 bottom: 20px;
                 right: 20px;
+            }
+            .q-text {
+                font-size: 1.2rem;
+            }
+            .question-header {
+                padding: 22px 20px 16px 20px;
+            }
+            .answer-container {
+                padding: 0 20px 22px 20px;
+            }
+            h1 {
+                font-size: 1.8rem;
             }
         }
     </style>
@@ -341,7 +429,7 @@
 <div class="container">
     <div class="header">
         <h1>📖 机械制造技术基础 · 复试精讲</h1>
-        <div class="sub">西安工程大学 机械专业 | 123道核心问答 | 单击按钮显示答案 · 爱心控制全局</div>
+        <div class="sub">西安工程大学 机械专业 | 123道核心问答 | 点击卡片按钮显示答案 · 爱心全局控制</div>
         <div class="stats-bar">
             <div class="badge" id="totalCount">📋 加载中...</div>
             <div class="search-box">
@@ -367,15 +455,15 @@
     // 完整题库数据 (123道，基于原始复试文档整理，无删减)
     // --------------------------------------------------------------
     const fullQAData = [
-      {"id":1,"question":"什么是主运动、什么是进给运动？","answer":"主运动：产生切削作用去除材料的运动  进给运动：维持切削而形成表面的运动  主运动通常只有一个，进给运动可以有多个或没有。"},
-      {"id":2,"question":"机床的外传动链和内传动链分别指的是什么？","answer":"外传动链：动力源和工件部件间的传动链  内传动链：工件部件间的传动链"},
+      {"id":1,"question":"什么是主运动、什么是进给运动？","answer":"主运动：形成切削、切下切屑最基本、最主要的相对运动，速度最高、消耗功率最大。\\n进给运动：使切削层不断投入切削，从而加工出完整工件表面的运动。"},
+      {"id":2,"question":"机床的外传动链和内传动链分别指的是什么？","answer":"外传动链：动力源与执行件之间的传动链。\\n内传动链：有严格运动关系的执行件之间的传动链。"},
       {"id":3,"question":"机床精度的总类有哪些？","answer":"①几何精度、②运动精度、③传动精度、④定位精度、⑤工作精度  ⑥精度保持性"},
       {"id":4,"question":"车削的主运动和进给运动分别是什么？","answer":"主运动：工件旋转  进给运动：刀具对工件的相对移动"},
       {"id":5,"question":"车削的工艺特点有哪些？","answer":"①适用范围广泛。  ②容易保证被加工零件各表面的位置精度。  ③可用于有色金属零件的精加工。  ④切削过程比较平稳（切削力稳定、惯性小、冲击小）。  ⑤生产成本较低。  ⑥加工的万能性好"},
       {"id":6,"question":"铣削的主运动和进给运动分别是什么？","answer":"主运动：刀具旋转；进给运动：工件移动"},
       {"id":7,"question":"什么是端铣和周铣？各有什么特点？","answer":"周铣：铣刀的外圆面刀刃完成加工表面。端铣：铣刀的端面刀刃完成加工表面。端铣加工质量好，多用于大平面铣削。周铣适应性强，多用于小平面、沟槽和成形面铣削。"},
-      {"id":8,"question":"什么是顺铣？顺铣有什么特点？","answer":"顺铣的主切削运动速度方向与工件进给方向相同。当工作台进给丝杠与固定螺母之间存在间隙时，切削力容易使工件和工作台一起向前窜动，进给量突然增大引起打滑；铣削有硬皮的铸件和锻件时，铣刀首先接触工件外皮，加剧刀具的磨损。"},
-      {"id":9,"question":"什么是逆铣？逆铣有什么特点？","answer":"逆铣的主切削运动速度方向与工件进给方向相反。逆铣时切削厚度从零逐渐开始增大，切削之初存在切削刃在加工表面的挤压滑行过程，加剧刀具的磨损；切削力将工件上抬，易引起振动。"},
+      {"id":8,"question":"什么是顺铣？顺铣有什么特点？","answer":"顺铣：铣刀切削速度方向与工件进给方向相同。\\n特点：\\n· 切削轻快，表面质量好，刀具磨损小；\\n· 垂直分力向下，工件夹紧稳定；\\n· 水平分力与进给同向，丝杠有间隙易造成工作台窜动、打刀；\\n刀具先切硬皮，不适宜带硬皮毛坯，多用于精加工。"},
+      {"id":9,"question":"什么是逆铣？逆铣有什么特点？","answer":"逆铣：切削速度方向与工件进给方向相反。\\n特点：\\n· 切削厚度由零渐增，刀刃挤压滑行，刀具磨损大；\\n· 切削力上抬工件，易振动；\\n· 不会造成工作台窜动，适合带硬皮毛坯粗加工。"},
       {"id":10,"question":"铣削的工艺特点有哪些？","answer":"①铣削是多刃切削，生产率较高 ②断续切削，散热条件较好 ③应用范围广泛 ④铣刀刀齿的切入切出形成冲击，切削过程容易产生振动，限制表面质量的提高"},
       {"id":11,"question":"刨削的主运动和进给运动分别是什么？","answer":"主运动：刨刀的往复直线运动 进给运动：刀具与工件之间的相对移动"},
       {"id":12,"question":"刨削的工艺特点有哪些？","answer":"①机床与刀具简单，加工成本低。 ②加工精度低，生产率低。"},
@@ -383,7 +471,7 @@
       {"id":14,"question":"钻孔的工艺特点有哪些？","answer":"①容易产生“引偏”； ②排屑困难； ③不易散热； ④加工精度低，表面质量差，用于粗加工。"},
       {"id":15,"question":"减少钻头“引偏”的措施有哪些？","answer":"①预钻锥型定心坑 ②用钻套给钻头导向 ③尽量使用主切削刃对称一致的钻头"},
       {"id":16,"question":"扩孔的工艺特点有哪些？","answer":"①刚性较好； ②导向性较好； ③切削条件较好"},
-      {"id":17,"question":"铰孔的工艺特点有哪些？","answer":"①刚性和导向性好，容易保证孔的尺寸精度和形状精度。 ②不能校正原有孔的轴线偏斜 ③钻扩铰不能保证孔与孔之间的尺寸精度和位置精度"},
+      {"id":17,"question":"铰孔的工艺特点有哪些？","answer":"(1)铰刀刚性好、导向性好，切削余量小，容易保证孔的尺寸精度和形状精度。\\n(2)铰孔切削速度低、切削力小，加工表面质量好，粗糙度值小。\\n(3)不能校正原有孔的轴线歪斜，孔的位置精度主要由前道工序保证。\\n(4)仅靠钻一扩一铰工艺，难以保证孔与孔之间的位置精度。"},
       {"id":18,"question":"镗削的主运动和进给运动分别是什么？","answer":"主运动：镗刀的转动 进给运动：工件的轴向移动。"},
       {"id":19,"question":"镗削的工艺特点有哪些？","answer":"①主要加工已有预孔的孔和孔系 ②可有效校正原有孔的轴线偏斜，保证孔和孔系的位置精度 ③精度较高，表面粗糙度较低 ④加工范围广泛 ⑤加工效率低"},
       {"id":20,"question":"扩孔、铰孔与镗孔的区别是什么？","answer":"扩孔、铰孔无法提高原底孔轴线的位置精度和直线度。镗孔后的轴线以镗杆的回转轴线决定，可以校正原底孔轴线的位置精度。"},
@@ -492,42 +580,57 @@
       {"id":123,"question":"常用的表面强化工艺有哪些？","answer":"①化学热处理：渗碳、渗氮、渗铬 ②电镀处理 ③机械强化：滚压、喷丸、挤孔"}
     ];
 
-    // 答案智能格式化：要点分行 & 重点词汇加粗
-    function formatAnswerWithHighlights(text) {
-        if (!text) return '';
-        // 1. 将 ① ② ③ 等序号以及数字序号进行分割，转为列表项
-        let lines = [];
-        // 按常见序号分割: ①,②,③,... 以及 1. 2. 等, 同时保留原始换行
-        let temp = text.replace(/([①②③④⑤⑥⑦⑧⑨⑩]|[\d]+\.)/g, '\n$1');
-        let parts = temp.split('\n');
-        for (let part of parts) {
-            part = part.trim();
-            if (part === '') continue;
-            lines.push(part);
-        }
-        // 若分割后只有一段且没有序号，直接保留为段落
-        let hasNumberBullet = lines.some(l => /[①②③④⑤⑥⑦⑧⑨⑩]|\d+\./.test(l));
-        let resultHtml = '';
-        if (!hasNumberBullet && lines.length <= 1) {
-            resultHtml = `<p>${escapeHtml(text)}</p>`;
-        } else {
-            resultHtml = `<ul class="point-list">`;
-            for (let line of lines) {
-                let processedLine = escapeHtml(line);
-                // 加粗核心关键词 (机械术语库)
-                const keywords = ['主运动','进给运动','切削力','切削温度','刀具寿命','加工精度','定位','夹紧','机床','刀具','工件','砂轮','磨削','铣削','车削','钻削','镗削','积屑瘤','前角','后角','主偏角','副偏角','自由切削','非自由切削','刀具材料','硬质合金','高速钢','金刚石','立方氮化硼','变形区','误差','基准','夹具','工序','安装','工步','工位','走刀','毛坯','热处理','表面质量','粗糙度','加工硬化','残余应力','背吃刀量','进给量','切削速度','六点定位','过定位','欠定位','误差复映','磨削烧伤'];
-                keywords.forEach(kw => {
-                    const regex = new RegExp(`(${kw})`, 'gi');
-                    processedLine = processedLine.replace(regex, `<strong>$1</strong>`);
-                });
-                resultHtml += `<li>${processedLine}</li>`;
-            }
-            resultHtml += `</ul>`;
-        }
-        return resultHtml;
-    }
+    // 答案智能格式化：逐行拆分并突出重点 (未改动)
 
-    function escapeHtml(str) {
+function formatAnswerWithHighlights(text) {
+    if (!text) return '';
+    
+    // 1. 修复 JSON 中的 \n 字面量，变成真正换行
+    text = text.replace(/\\n/g, '\n');
+    
+    // 2. 将连续的序号文本（如 "①... ②... ③..."）拆分为多行
+    //    匹配模式：① ...（非序号内容）直到遇到下一个序号或结束
+    text = text.replace(/([①-⑩])([^①-⑩]*?)(?=([①-⑩]|$))/g, function(match, num, content) {
+        // 如果序号前面不是换行符，则添加换行，保证每个序号独立成行
+        return (match.startsWith('\n') ? '' : '\n') + match;
+    });
+    
+    // 按行分割，过滤掉空行
+    const lines = text.split(/\r?\n/).map(line => line.trim()).filter(line => line !== '');
+    if (lines.length === 0) return '';
+    
+    const highlightTriggers = ['顺铣', '逆铣', '铰孔', '特点', '切削', '主运动', '进给运动'];
+    
+    return lines.map(line => {
+        const isBullet = /^·\s*/.test(line);
+        const cleanedLine = isBullet ? line.replace(/^·\s*/, '') : line;
+        
+        const colonIndex = cleanedLine.indexOf('：');
+        let lineContent = '';
+        if (colonIndex > -1) {
+            const label = cleanedLine.slice(0, colonIndex + 1);
+            const rest = cleanedLine.slice(colonIndex + 1).trim();
+            const labelHtml = `<span class="answer-label">${escapeHtml(label)}</span>`;
+            lineContent = rest ? `${labelHtml} ${escapeHtml(rest)}` : labelHtml;
+        } else {
+            lineContent = escapeHtml(cleanedLine);
+            if (highlightTriggers.some(keyword => cleanedLine.includes(keyword))) {
+                lineContent = `<span class="highlight-text">${lineContent}</span>`;
+            }
+        }
+        
+        // 判断是否为序号行（以 ①-⑩ 开头）
+        const isNumbered = /^[①-⑩]/.test(cleanedLine);
+        // 为序号行添加下边距，实现序号之间的空行效果
+        const extraStyle = isNumbered ? ' style="margin-bottom: 0rem;"' : '';
+        
+        if (isBullet) {
+            return `<div class="answer-line bullet-line"${extraStyle}><span class="bullet-dot">•</span><span>${lineContent}</span></div>`;
+        }
+        return `<div class="answer-line"${extraStyle}>${lineContent}</div>`;
+    }).join('');
+}
+function escapeHtml(str) {
         return str.replace(/[&<>]/g, function(m) {
             if (m === '&') return '&amp;';
             if (m === '<') return '&lt;';
@@ -536,7 +639,6 @@
         });
     }
 
-    // 渲染卡片 (答案初始隐藏)
     let currentFilter = '';
 
     function renderCards(filterText = '') {
@@ -561,7 +663,7 @@
                     <div class="question-header">
                         <span class="q-id">#${item.id}</span>
                         <span class="q-text">${escapeHtml(item.question)}</span>
-                        <button class="toggle-btn" data-id="${item.id}">📖 显示答案</button>
+                        <button class="toggle-btn" data-id="${item.id}">查看答案</button>
                     </div>
                     <div class="answer-container" id="answer-${item.id}">
                         <div class="answer-content">
@@ -573,7 +675,6 @@
         }
         container.innerHTML = html;
 
-        // 重新绑定单个按钮事件
         document.querySelectorAll('.toggle-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -583,34 +684,29 @@
                 const isNowVisible = answerDiv.classList.contains('show');
                 if (isNowVisible) {
                     answerDiv.classList.remove('show');
-                    btn.innerHTML = '📖 显示答案';
+                    btn.innerHTML = '查看答案';
                 } else {
                     answerDiv.classList.add('show');
-                    btn.innerHTML = '🔒 隐藏答案';
+                    btn.innerHTML = '收起答案';
                 }
             });
         });
     }
 
-    // 全局爱心：全开/全关所有答案
     function toggleAllAnswers() {
         const allAnswerContainers = document.querySelectorAll('.answer-container');
         const allToggleBtns = document.querySelectorAll('.toggle-btn');
         if (allAnswerContainers.length === 0) return;
-        // 检测当前是否有任何一个答案可见
         const anyVisible = Array.from(allAnswerContainers).some(container => container.classList.contains('show'));
         if (anyVisible) {
-            // 全部关闭
             allAnswerContainers.forEach(container => container.classList.remove('show'));
-            allToggleBtns.forEach(btn => btn.innerHTML = '📖 显示答案');
+            allToggleBtns.forEach(btn => btn.innerHTML = '查看答案');
         } else {
-            // 全部打开
             allAnswerContainers.forEach(container => container.classList.add('show'));
-            allToggleBtns.forEach(btn => btn.innerHTML = '🔒 隐藏答案');
+            allToggleBtns.forEach(btn => btn.innerHTML = '收起答案');
         }
     }
 
-    // 导出JSON
     document.getElementById('exportJsonBtn').addEventListener('click', () => {
         const dataStr = JSON.stringify(fullQAData, null, 2);
         const blob = new Blob([dataStr], {type: 'application/json'});
@@ -624,7 +720,6 @@
         URL.revokeObjectURL(url);
     });
 
-    // 搜索监听
     const searchInput = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearSearchBtn');
     searchInput.addEventListener('input', (e) => {
@@ -637,16 +732,13 @@
         renderCards('');
     });
 
-    // 爱心按钮事件
     const heartBtn = document.getElementById('globalHeartBtn');
     heartBtn.addEventListener('click', () => {
         toggleAllAnswers();
-        // 爱心微动效
         heartBtn.style.transform = 'scale(0.9)';
         setTimeout(() => { heartBtn.style.transform = ''; }, 150);
     });
 
-    // 初始渲染
     renderCards('');
 </script>
 </body>
