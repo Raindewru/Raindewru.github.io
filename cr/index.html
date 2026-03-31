@@ -696,7 +696,7 @@ function escapeHtml(str) {
             html += `
                 <div class="card" data-id="${item.id}">
                     <div class="question-header">
-                        <span class="q-id">#${item.id}</span>
+                        <span class="q-id">${item.id}</span>
                         <span class="q-text">${escapeHtml(item.question)}</span>
                         <button class="toggle-btn" data-id="${item.id}">查看答案</button>
                     </div>
