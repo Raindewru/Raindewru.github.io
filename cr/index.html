@@ -25,7 +25,6 @@
             margin: 0 auto;
         }
 
-        /* 头部区域 — 更通透大气 */
         .header {
             background: rgba(255,255,255,0.96);
             backdrop-filter: blur(6px);
@@ -34,7 +33,6 @@
             margin-bottom: 40px;
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
             border: 1px solid rgba(190, 215, 235, 0.5);
-            transition: box-shadow 0.2s;
         }
 
         h1 {
@@ -77,8 +75,6 @@
             font-size: 0.95rem;
             font-weight: 600;
             color: #155f7c;
-            box-shadow: inset 0 1px 0 white, 0 1px 3px rgba(0,0,0,0.02);
-            letter-spacing: 0.3px;
         }
 
         .search-box {
@@ -89,16 +85,13 @@
             border: 1px solid #d5e5f0;
             border-radius: 60px;
             padding: 6px 24px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
             flex: 1;
             max-width: 440px;
-            transition: all 0.2s;
         }
         .search-box:focus-within {
             border-color: #5f9fc0;
             box-shadow: 0 4px 12px rgba(47, 128, 166, 0.1);
         }
-
         .search-box input {
             border: none;
             outline: none;
@@ -106,21 +99,13 @@
             width: 100%;
             padding: 12px 0;
             background: transparent;
-            font-weight: 450;
         }
-
         .search-box button {
             background: none;
             border: none;
             cursor: pointer;
             font-size: 1.3rem;
             color: #7e9ebd;
-            transition: 0.2s;
-            line-height: 1;
-        }
-        .search-box button:hover {
-            color: #2f6080;
-            transform: scale(1.05);
         }
 
         .btn-group {
@@ -138,29 +123,24 @@
             cursor: pointer;
             transition: all 0.2s ease;
             color: #1c6382;
-            letter-spacing: 0.3px;
         }
 
         .btn-primary {
             background: #1f6382;
             border-color: #1f6382;
             color: white;
-            box-shadow: 0 2px 6px rgba(31, 99, 130, 0.2);
         }
 
         .btn-primary:hover {
             background: #0e4f6b;
             transform: translateY(-2px);
-            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
         }
 
         .btn:hover {
             background: #eef4fc;
             transform: translateY(-1px);
-            border-color: #b7d2e8;
         }
 
-        /* 卡片网格 — 间距舒适 */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
@@ -171,12 +151,10 @@
             background: white;
             border-radius: 36px;
             box-shadow: 0 15px 32px -14px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
             border: 1px solid #e6eff7;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            backdrop-filter: blur(0px);
         }
 
         .card:hover {
@@ -201,10 +179,9 @@
             padding: 5px 16px;
             font-size: 0.85rem;
             font-weight: 700;
-            font-family: 'SF Mono', monospace;
+            font-family: monospace;
             color: #19647e;
             white-space: nowrap;
-            letter-spacing: -0.2px;
         }
 
         .q-text {
@@ -213,7 +190,6 @@
             font-size: 1.28rem;
             line-height: 1.45;
             color: #103f52;
-            letter-spacing: -0.2px;
         }
 
         .toggle-btn {
@@ -226,10 +202,6 @@
             cursor: pointer;
             transition: all 0.2s;
             color: #266c8c;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: 0.2px;
         }
 
         .toggle-btn:hover {
@@ -253,18 +225,9 @@
             font-size: 1.05rem;
             line-height: 1.7;
             color: #1e3b4f;
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-        }
-
-        .answer-content p {
-            margin: 0.9rem 0;
         }
 
         .answer-line {
-            font-size: 1.05rem;
-            color: #1d3649;
             margin-bottom: 0.5rem;
         }
 
@@ -290,7 +253,6 @@
             color: #e26d5c;
             font-size: 1.3rem;
             line-height: 1.4;
-            margin-top: 0rem;
             font-weight: 600;
         }
 
@@ -302,40 +264,9 @@
             border-radius: 8px;
         }
 
-        .answer-content ul, .answer-content .point-list {
-            margin: 0.8rem 0 0.8rem 1.6rem;
-            padding-left: 0;
-        }
-
-        .answer-content li {
-            margin: 0.6rem 0;
-            list-style-type: none;
-            position: relative;
-            padding-left: 1.6rem;
-            font-size: 1.02rem;
-        }
-
-        .answer-content li::before {
-            content: "▹";
-            color: #317f9e;
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .answer-content strong {
-            color: #bd5a48;
-            background: linear-gradient(120deg, #ffe5e0 0%, #ffe5e0 40%, transparent 80%);
-            font-weight: 800;
-            padding: 0 3px;
-            border-radius: 8px;
-        }
-
         .empty-msg {
             text-align: center;
             background: #ffffffdd;
-            backdrop-filter: blur(4px);
             border-radius: 60px;
             padding: 70px 28px;
             color: #5885a8;
@@ -345,7 +276,6 @@
             border: 1px solid #e2edf5;
         }
 
-        /* 爱心浮动按钮 — 更醒目 */
         .heart-fab {
             position: fixed;
             bottom: 32px;
@@ -359,22 +289,15 @@
             justify-content: center;
             cursor: pointer;
             box-shadow: 0 12px 28px rgba(255, 107, 107, 0.45);
-            transition: all 0.25s ease;
             z-index: 1000;
             border: none;
             font-size: 36px;
             color: white;
-            backdrop-filter: blur(2px);
         }
 
         .heart-fab:hover {
             transform: scale(1.08);
             background: #ff5c5b;
-            box-shadow: 0 18px 32px rgba(255, 85, 85, 0.5);
-        }
-
-        .heart-fab:active {
-            transform: scale(0.94);
         }
 
         footer {
@@ -384,7 +307,49 @@
             color: #7da1bd;
             border-top: 1px solid #e2edf5;
             padding-top: 30px;
-            font-weight: 450;
+        }
+
+        /* 随机问答卡片 */
+        .random-card {
+            background: white;
+            border-radius: 36px;
+            box-shadow: 0 15px 32px -14px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e6eff7;
+            margin-bottom: 32px;
+            padding: 24px 28px;
+        }
+        .random-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .random-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f6382;
+            background: #ecf5fc;
+            padding: 6px 18px;
+            border-radius: 40px;
+        }
+        .random-question {
+            margin-bottom: 20px;
+            padding: 12px 0;
+            border-top: 1px solid #eff4fa;
+            border-bottom: 1px solid #eff4fa;
+        }
+        .random-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        #randomAnswerContainer {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eef3fa;
         }
 
         @media (max-width: 720px) {
@@ -422,6 +387,13 @@
             h1 {
                 font-size: 1.8rem;
             }
+            .random-card {
+                padding: 18px 20px;
+            }
+            .random-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
@@ -442,6 +414,23 @@
         </div>
     </div>
 
+    <!-- 随机问答模块 -->
+    <div class="random-card">
+        <div class="random-header">
+            <span class="random-title">🎲 随机抽题 · 自测专区</span>
+            <button id="randomPickBtn" class="btn btn-primary">🎲 随机抽题</button>
+        </div>
+        <div class="random-question">
+            <span class="q-text" id="randomQuestionText">加载中...</span>
+        </div>
+        <div class="random-actions">
+            <button id="randomToggleAnswerBtn" class="toggle-btn">查看答案</button>
+        </div>
+        <div class="answer-container" id="randomAnswerContainer">
+            <div class="answer-content" id="randomAnswerContent"></div>
+        </div>
+    </div>
+
     <div class="cards-grid" id="cardsContainer">
         <div class="empty-msg">✨ 加载题库中，请稍后...</div>
     </div>
@@ -449,7 +438,6 @@
 </div>
 
 <div class="heart-fab" id="globalHeartBtn" aria-label="全局展开/收起答案">❤️</div>
-
 <script>
     // --------------------------------------------------------------
     // 完整题库数据 (123道，基于原始复试文档整理，无删减)
@@ -584,52 +572,100 @@
 
 function formatAnswerWithHighlights(text) {
     if (!text) return '';
-    
-    // 1. 修复 JSON 中的 \n 字面量，变成真正换行
+
+    // 1. 修复 JSON 中的 \n 字面量
     text = text.replace(/\\n/g, '\n');
-    
-    // 2. 将连续的序号文本（如 "①... ②... ③..."）拆分为多行
-    //    匹配模式：① ...（非序号内容）直到遇到下一个序号或结束
-    text = text.replace(/([①-⑩])([^①-⑩]*?)(?=([①-⑩]|$))/g, function(match, num, content) {
-        // 如果序号前面不是换行符，则添加换行，保证每个序号独立成行
-        return (match.startsWith('\n') ? '' : '\n') + match;
-    });
-    
-    // 按行分割，过滤掉空行
-    const lines = text.split(/\r?\n/).map(line => line.trim()).filter(line => line !== '');
-    if (lines.length === 0) return '';
-    
-    const highlightTriggers = ['顺铣', '逆铣', '铰孔', '特点', '切削', '主运动', '进给运动'];
-    
-    return lines.map(line => {
-        const isBullet = /^·\s*/.test(line);
-        const cleanedLine = isBullet ? line.replace(/^·\s*/, '') : line;
-        
-        const colonIndex = cleanedLine.indexOf('：');
-        let lineContent = '';
-        if (colonIndex > -1) {
-            const label = cleanedLine.slice(0, colonIndex + 1);
-            const rest = cleanedLine.slice(colonIndex + 1).trim();
-            const labelHtml = `<span class="answer-label">${escapeHtml(label)}</span>`;
-            lineContent = rest ? `${labelHtml} ${escapeHtml(rest)}` : labelHtml;
-        } else {
-            lineContent = escapeHtml(cleanedLine);
-            if (highlightTriggers.some(keyword => cleanedLine.includes(keyword))) {
-                lineContent = `<span class="highlight-text">${lineContent}</span>`;
-            }
+
+    // 2. 按原始换行符拆分成行（保留原始结构）
+    let lines = text.split(/\r?\n/).map(line => line.trim()).filter(line => line !== '');
+
+    // 3. 只按序号拆分多序号行（单序号行不拆分）
+    const seqRegex = /([\u2460-\u2473]|\d+\.|\d+\))/g;
+    let processedLines = [];
+    for (let line of lines) {
+        let matches = [];
+        let match;
+        seqRegex.lastIndex = 0;
+        while ((match = seqRegex.exec(line)) !== null) {
+            matches.push({ index: match.index, text: match[0] });
         }
-        
-        // 判断是否为序号行（以 ①-⑩ 开头）
-        const isNumbered = /^[①-⑩]/.test(cleanedLine);
-        // 为序号行添加下边距，实现序号之间的空行效果
-        const extraStyle = isNumbered ? ' style="margin-bottom: 0rem;"' : '';
-        
+        if (matches.length <= 1) {
+            // 0 或 1 个序号，保留原行
+            processedLines.push(line);
+        } else {
+            // 有多个序号，按序号拆分，确保每个序号独占一行且内容完整
+            let segments = [];
+            let lastIdx = 0;
+            for (let i = 0; i < matches.length; i++) {
+                const m = matches[i];
+                if (lastIdx < m.index) {
+                    let prev = line.slice(lastIdx, m.index).trim();
+                    if (prev) segments.push(prev);
+                }
+                const nextIdx = i + 1 < matches.length ? matches[i + 1].index : line.length;
+                let segment = line.slice(m.index, nextIdx).trim();
+                if (segment) segments.push(segment);
+                lastIdx = nextIdx;
+            }
+            if (lastIdx < line.length) {
+                let remaining = line.slice(lastIdx).trim();
+                if (remaining) segments.push(remaining);
+            }
+            processedLines.push(...segments);
+        }
+    }
+
+    // 4. 定义高亮函数（先术语，后关键词）
+    const termRegex = /([\u4e00-\u9fa5a-zA-Z]+：)/g;
+    const highlightTriggers = ['磨削','顺铣', '逆铣', '铰孔', '特点', '切削', '主运动', '进给运动'];
+    const keywordRegex = new RegExp(`(${highlightTriggers.join('|')})`, 'g');
+
+    function highlightTermAndKeyword(line) {
+        // 先高亮术语（冒号前的词）
+        let withTerms = line.replace(termRegex, (match) => `<span class="answer-label">${match}</span>`);
+        // 再对非标签部分高亮关键词
+        // 简单实现：用一个临时占位符避免重复替换，但关键词可能出现在术语标签内，我们只对标签外的文本处理
+        // 使用临时分隔法：将已替换的标签保护起来
+        const temp = [];
+        let idx = 0;
+        const replaced = withTerms.replace(/<span class="answer-label">.*?<\/span>/g, (match) => {
+            const placeholder = `__TEMP_${idx++}__`;
+            temp.push(match);
+            return placeholder;
+        });
+        const finalWithKeywords = replaced.replace(keywordRegex, (match) => `<span class="highlight-text">${match}</span>`);
+        let final = finalWithKeywords;
+        for (let i = 0; i < temp.length; i++) {
+            final = final.replace(`__TEMP_${i}__`, temp[i]);
+        }
+        return final;
+    }
+
+    // 5. 处理每个段落
+    return processedLines.map(segment => {
+        const isBullet = /^·\s*/.test(segment);
+        const cleaned = isBullet ? segment.replace(/^·\s*/, '') : segment;
+
+        // 高亮术语和关键词
+        let lineContent = highlightTermAndKeyword(escapeHtml(cleaned));
+
+        // 判断是否为序号行
+        const isNumbered = /^[\u2460-\u2473]|^\d+\.|^\d+\)/.test(cleaned);
+        const extraStyle = isNumbered ? ' style="margin-bottom: 0.4rem;"' : '';
+
         if (isBullet) {
             return `<div class="answer-line bullet-line"${extraStyle}><span class="bullet-dot">•</span><span>${lineContent}</span></div>`;
         }
         return `<div class="answer-line"${extraStyle}>${lineContent}</div>`;
     }).join('');
 }
+
+
+
+
+
+
+
 function escapeHtml(str) {
         return str.replace(/[&<>]/g, function(m) {
             if (m === '&') return '&amp;';
@@ -638,7 +674,6 @@ function escapeHtml(str) {
             return m;
         });
     }
-
     let currentFilter = '';
 
     function renderCards(filterText = '') {
@@ -740,6 +775,53 @@ function escapeHtml(str) {
     });
 
     renderCards('');
+    // ================= 随机问答模块 =================
+let currentRandomItem = null;
+
+// 更新随机问答区域
+function updateRandomQuestion() {
+    const randomIndex = Math.floor(Math.random() * fullQAData.length);
+    currentRandomItem = fullQAData[randomIndex];
+    
+    // 更新问题文本
+    const questionElement = document.getElementById('randomQuestionText');
+    if (questionElement) questionElement.textContent = currentRandomItem.question;
+    
+    // 生成并填充答案 HTML
+    const formattedAnswer = formatAnswerWithHighlights(currentRandomItem.answer);
+    const answerContent = document.getElementById('randomAnswerContent');
+    if (answerContent) answerContent.innerHTML = formattedAnswer;
+    
+    // 重置答案显示状态（隐藏）
+    const answerContainer = document.getElementById('randomAnswerContainer');
+    const toggleBtn = document.getElementById('randomToggleAnswerBtn');
+    if (answerContainer) {
+        answerContainer.classList.remove('show');
+        if (toggleBtn) toggleBtn.textContent = '查看答案';
+    }
+}
+
+// 切换随机问答的答案显示
+function toggleRandomAnswer() {
+    const answerContainer = document.getElementById('randomAnswerContainer');
+    const toggleBtn = document.getElementById('randomToggleAnswerBtn');
+    if (!answerContainer) return;
+    
+    if (answerContainer.classList.contains('show')) {
+        answerContainer.classList.remove('show');
+        toggleBtn.textContent = '查看答案';
+    } else {
+        answerContainer.classList.add('show');
+        toggleBtn.textContent = '收起答案';
+    }
+}
+
+// 绑定事件
+document.getElementById('randomPickBtn')?.addEventListener('click', updateRandomQuestion);
+document.getElementById('randomToggleAnswerBtn')?.addEventListener('click', toggleRandomAnswer);
+
+// 初始化随机显示一道题
+updateRandomQuestion();
 </script>
 </body>
 </html>
