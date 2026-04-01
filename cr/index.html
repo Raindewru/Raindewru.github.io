@@ -357,11 +357,12 @@
             border: 1px solid #e6eff7;
             margin-bottom: 32px;
             padding: 24px 28px;
+            cursor: pointer;
         }
         .heart-fab {
             position: fixed;
-            bottom: 32px;
-            right: 20px;
+            bottom: 81px;
+            right: 81px;
             width: 68px;
             height: 68px;
             border-radius: 50%;
@@ -436,9 +437,6 @@
         </div>
         <div class="random-question" style="margin: 20px 0; padding: 12px 0; border-top: 1px solid #eff4fa; border-bottom: 1px solid #eff4fa;">
             <span class="q-text" id="randomQuestionText">加载中...</span>
-        </div>
-        <div class="random-actions" style="display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 16px;">
-            <button id="randomToggleAnswerBtn" class="toggle-btn">查看答案</button>
         </div>
         <div class="answer-container" id="randomAnswerContainer">
             <div class="answer-content" id="randomAnswerContent"></div>
@@ -634,18 +632,10 @@ function formatAnswerWithHighlights(text) {
         document.getElementById('randomAnswerContent').innerHTML = formatAnswerWithHighlights(currentRandomItem.answer);
         const randContainer = document.getElementById('randomAnswerContainer');
         randContainer.classList.remove('show');
-        document.getElementById('randomToggleAnswerBtn').textContent = '查看答案';
     }
     function toggleRandomAnswer() {
         const cont = document.getElementById('randomAnswerContainer');
-        const btn = document.getElementById('randomToggleAnswerBtn');
-        if (cont.classList.contains('show')) {
-            cont.classList.remove('show');
-            btn.textContent = '查看答案';
-        } else {
-            cont.classList.add('show');
-            btn.textContent = '收起答案';
-        }
+        cont.classList.toggle('show');
     }
     
     // ---------- 飘落动画引擎 (精致形状) ----------
@@ -848,7 +838,13 @@ function formatAnswerWithHighlights(text) {
     });
     document.getElementById('globalHeartBtn').addEventListener('click', toggleAllAnswers);
     document.getElementById('randomPickBtn').addEventListener('click', updateRandomQuestion);
-    document.getElementById('randomToggleAnswerBtn').addEventListener('click', toggleRandomAnswer);
+    const randomCard = document.querySelector('.random-card');
+    if (randomCard) {
+        randomCard.addEventListener('click', (event) => {
+            if (event.target.closest('#randomPickBtn')) return;
+            toggleRandomAnswer();
+        });
+    }
     
     document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.addEventListener('click', () => {
