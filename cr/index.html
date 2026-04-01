@@ -485,57 +485,98 @@
         });
     }
     
-    function formatAnswerWithHighlights(text) {
-        if (!text) return '';
-        text = text.replace(/\\n/g, '\n');
-        let lines = text.split(/\r?\n/).map(line => line.trim()).filter(line => line !== '');
-        const seqRegex = /([\u2460-\u2473]|\d+\.|\d+\))/g;
-        let processedLines = [];
-        for (let line of lines) {
-            let matches = [];
-            let match;
-            seqRegex.lastIndex = 0;
-            while ((match = seqRegex.exec(line)) !== null) matches.push({ index: match.index, text: match[0] });
-            if (matches.length <= 1) processedLines.push(line);
-            else {
-                let segments = [];
-                let lastIdx = 0;
-                for (let i = 0; i < matches.length; i++) {
-                    const m = matches[i];
-                    if (lastIdx < m.index) { let prev = line.slice(lastIdx, m.index).trim(); if (prev) segments.push(prev); }
-                    const nextIdx = i+1 < matches.length ? matches[i+1].index : line.length;
-                    let segment = line.slice(m.index, nextIdx).trim();
-                    if (segment) segments.push(segment);
-                    lastIdx = nextIdx;
-                }
-                if (lastIdx < line.length) { let remain = line.slice(lastIdx).trim(); if(remain) segments.push(remain); }
-                processedLines.push(...segments);
+
+
+
+function formatAnswerWithHighlights(text) {
+    if (!text) return '';
+    text = text.replace(/\\n/g, '\n');
+
+    let lines = text.split(/\r?\n/).map(line => line.trim()).filter(line => line !== '');
+
+    // 合并孤立序号行：仅序号的行与下一行合并
+    let merged = [];
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        // 匹配单独序号（带圈数字、数字加点、数字加括号）
+        if (/^[\u2460-\u2473]$/.test(line) || /^\d+\.$/.test(line) || /^\d+\)$/.test(line)) {
+            if (i + 1 < lines.length) {
+                merged.push(line + ' ' + lines[i + 1]);
+                i++;
+                continue;
             }
         }
-        const termRegex = /([\u4e00-\u9fa5a-zA-Z]+：)/g;
-        const highlightTriggers = ['磨削','顺铣','逆铣','铰孔','特点','切削','主运动','进给运动','积屑瘤','基准','公差'];
-        const keywordRegex = new RegExp(`(${highlightTriggers.join('|')})`, 'g');
-        function highlightTermAndKeyword(line) {
-            let withTerms = line.replace(termRegex, match => `<span class="answer-label">${match}</span>`);
-            const temp = [];
-            let idx = 0;
-            const replaced = withTerms.replace(/<span class="answer-label">.*?<\/span>/g, match => { temp.push(match); return `__TEMP_${idx++}__`; });
-            const finalWithKeywords = replaced.replace(keywordRegex, match => `<span class="highlight-text">${match}</span>`);
-            let final = finalWithKeywords;
-            for (let i=0; i<temp.length; i++) final = final.replace(`__TEMP_${i}__`, temp[i]);
-            return final;
-        }
-        return processedLines.map(segment => {
-            const isBullet = /^·\s*/.test(segment);
-            const cleaned = isBullet ? segment.replace(/^·\s*/, '') : segment;
-            let lineContent = highlightTermAndKeyword(escapeHtml(cleaned));
-            const isNumbered = /^[\u2460-\u2473]|^\d+\.|^\d+\)/.test(cleaned);
-            const extraStyle = isNumbered ? ' style="margin-bottom: 0.4rem;"' : '';
-            if (isBullet) return `<div class="answer-line bullet-line"${extraStyle}><span class="bullet-dot">•</span><span>${lineContent}</span></div>`;
-            return `<div class="answer-line"${extraStyle}>${lineContent}</div>`;
-        }).join('');
+        merged.push(line);
     }
-    
+
+    // 拆分多序号行（一行中有多个序号）
+    const seqRegex = /([\u2460-\u2473]|\d+\.|\d+\))/g;
+    let finalLines = [];
+    for (let line of merged) {
+        let matches = [];
+        let match;
+        seqRegex.lastIndex = 0;
+        while ((match = seqRegex.exec(line)) !== null) {
+            matches.push({ index: match.index, text: match[0] });
+        }
+        if (matches.length <= 1) {
+            finalLines.push(line);
+        } else {
+            let segments = [];
+            let lastIdx = 0;
+            for (let i = 0; i < matches.length; i++) {
+                const m = matches[i];
+                if (lastIdx < m.index) {
+                    let prev = line.slice(lastIdx, m.index).trim();
+                    if (prev) segments.push(prev);
+                }
+                const nextIdx = i + 1 < matches.length ? matches[i + 1].index : line.length;
+                let segment = line.slice(m.index, nextIdx).trim();
+                if (segment) segments.push(segment);
+                lastIdx = nextIdx;
+            }
+            if (lastIdx < line.length) {
+                let remain = line.slice(lastIdx).trim();
+                if (remain) segments.push(remain);
+            }
+            finalLines.push(...segments);
+        }
+    }
+
+    // 高亮处理
+    const termRegex = /([\u4e00-\u9fa5a-zA-Z]+：)/g;
+    const highlightTriggers = ['磨削','顺铣','逆铣','铰孔','特点','切削','主运动','进给运动','积屑瘤','基准','公差'];
+    const keywordRegex = new RegExp(`(${highlightTriggers.join('|')})`, 'g');
+
+    function highlightTermAndKeyword(line) {
+        let withTerms = line.replace(termRegex, match => `<span class="answer-label">${match}</span>`);
+        const temp = [];
+        let idx = 0;
+        const replaced = withTerms.replace(/<span class="answer-label">.*?<\/span>/g, match => {
+            temp.push(match);
+            return `__TEMP_${idx++}__`;
+        });
+        const finalWithKeywords = replaced.replace(keywordRegex, match => `<span class="highlight-text">${match}</span>`);
+        let final = finalWithKeywords;
+        for (let i = 0; i < temp.length; i++) {
+            final = final.replace(`__TEMP_${i}__`, temp[i]);
+        }
+        return final;
+    }
+
+    return finalLines.map(segment => {
+        const isBullet = /^·\s*/.test(segment);
+        const cleaned = isBullet ? segment.replace(/^·\s*/, '') : segment;
+        let lineContent = highlightTermAndKeyword(escapeHtml(cleaned));
+        const isNumbered = /^[\u2460-\u2473]|^\d+\.|^\d+\)/.test(cleaned);
+        const extraStyle = isNumbered ? ' style="margin-bottom: 0.4rem;"' : '';
+        if (isBullet) {
+            return `<div class="answer-line bullet-line"${extraStyle}><span class="bullet-dot">•</span><span>${lineContent}</span></div>`;
+        }
+        return `<div class="answer-line"${extraStyle}>${lineContent}</div>`;
+    }).join('');
+}
+
     function renderCards(filterText = '') {
         if (!fullQAData.length) return;
         const lower = filterText.toLowerCase().trim();
