@@ -1,0 +1,8 @@
+﻿name = "my-api"
+main = "src/index.js"
+compatibility_date = "2026-04-02"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tiaoji-db"
+database_id = "ba9a13d3-301c-4f34-a515-524165b74e90"

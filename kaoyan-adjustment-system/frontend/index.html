@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graduate Adjustment System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <style>
+      body {
+        background: radial-gradient(circle at top right, #e0f2fe 0%, #f0f9ff 35%, #f8fafc 100%);
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(6px);
+      }
+      .table-wrap {
+        max-height: 460px;
+        overflow: auto;
+      }
+      .table-wrap table {
+        min-width: 1400px;
+      }
+      .th-sticky {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen text-slate-800">
+    <div class="mx-auto w-full max-w-[1500px] px-4 py-8 md:px-8">
+      <header class="mb-5">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900 md:text-3xl">Graduate Adjustment System</h1>
+          <p class="mt-1 text-sm text-slate-600">Role based data query with user management</p>
+        </div>
+      </header>
+
+      <section id="messageBox" class="mb-3 hidden rounded-lg border px-4 py-3 text-sm"></section>
+      <section id="expireWarningBox" class="mb-4 hidden rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800"></section>
+
+      <section id="loginSection" class="card mx-auto mt-12 w-full max-w-md rounded-2xl border border-slate-200 p-6 shadow">
+        <h2 class="mb-4 text-lg font-semibold text-slate-900">Login</h2>
+        <form id="loginForm" class="space-y-3">
+          <input id="usernameInput" class="w-full rounded-md border border-slate-300 px-3 py-2" placeholder="Username" required />
+          <input id="passwordInput" type="password" class="w-full rounded-md border border-slate-300 px-3 py-2" placeholder="Password" required />
+          <button type="submit" class="w-full rounded-md bg-teal-700 px-4 py-2 font-medium text-white hover:bg-teal-800">Login</button>
+        </form>
+      </section>
+
+      <main id="appSection" class="hidden space-y-5">
+        <section class="card rounded-2xl border border-slate-200 p-4 shadow-sm">
+          <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div class="flex items-center gap-3">
+              <span class="rounded-md bg-slate-100 px-3 py-1 text-sm">User: <span id="currentUserText" class="font-semibold">-</span></span>
+              <span id="currentRoleBadge" class="rounded-md bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-700">-</span>
+            </div>
+            <button id="logoutBtn" class="rounded-md border border-rose-300 px-4 py-2 text-sm font-medium text-rose-700 hover:bg-rose-50">Logout</button>
+          </div>
+        </section>
+
+        <section class="card rounded-2xl border border-slate-200 p-2 shadow-sm">
+          <div class="flex gap-2">
+            <button id="dataTabBtn" class="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white">Data</button>
+            <button id="usersTabBtn" class="hidden rounded-md border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-100">Users</button>
+          </div>
+        </section>
+
+        <section id="dataTabPanel" class="space-y-5">
+          <section class="card rounded-2xl border border-slate-200 p-4 shadow-sm">
+            <div class="mb-3 flex items-center justify-between">
+              <h2 class="text-lg font-semibold">Filters</h2>
+              <div class="flex gap-2">
+                <button id="applyFiltersBtn" class="rounded-md bg-teal-700 px-4 py-2 text-sm font-medium text-white hover:bg-teal-800">Search</button>
+                <button id="resetFiltersBtn" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-100">Reset</button>
+              </div>
+            </div>
+            <form id="filtersForm" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <input name="year" type="number" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="Year" />
+              <input name="school" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="School (like)" />
+              <input name="region" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="Region" />
+              <input name="school_category" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="School category" />
+              <input name="college" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="College (like)" />
+              <select id="majorPrefixSelect" name="major_prefix" class="rounded-md border border-slate-300 px-3 py-2 text-sm"></select>
+              <input name="major_code" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="Major code exact" />
+              <input name="major_name" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="Major name (like)" />
+              <input name="study_form" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="Study form" />
+              <input name="student_id" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="Student id" />
+              <input name="first_choice_school" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="First choice school (like)" />
+              <input name="min_score" type="number" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="Min score" />
+              <input name="max_score" type="number" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="Max score" />
+            </form>
+          </section>
+
+          <section class="card rounded-2xl border border-slate-200 p-4 shadow-sm">
+            <div class="flex flex-wrap items-center gap-2">
+              <label class="text-sm text-slate-600">Order by</label>
+              <select id="orderBySelect" class="rounded-md border border-slate-300 px-3 py-2 text-sm">
+                <option value="total_score">total_score</option><option value="year">year</option><option value="school">school</option><option value="region">region</option><option value="school_category">school_category</option><option value="college">college</option><option value="major_code">major_code</option><option value="major_name">major_name</option><option value="study_form">study_form</option><option value="student_id">student_id</option><option value="first_choice_school">first_choice_school</option><option value="remark">remark</option><option value="id">id</option>
+              </select>
+              <button id="sortDescBtn" class="rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white">Desc</button>
+              <button id="sortAscBtn" class="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium">Asc</button>
+              <label class="ml-4 text-sm text-slate-600">Page size</label>
+              <select id="pageSizeSelect" class="rounded-md border border-slate-300 px-3 py-2 text-sm"><option value="20">20</option><option value="50">50</option><option value="100">100</option></select>
+            </div>
+          </section>
+
+          <section class="card rounded-2xl border border-slate-200 p-4 shadow-sm">
+            <div class="mb-3 flex items-center justify-between"><h2 class="text-lg font-semibold">Results</h2><p id="resultMeta" class="text-sm text-slate-500">-</p></div>
+            <div class="table-wrap rounded-lg border border-slate-200">
+              <table class="w-full border-collapse text-sm">
+                <thead><tr class="bg-slate-100 text-slate-700"><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">id</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">year</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">school</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">region</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">school_category</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">college</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">major_code</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">major_name</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">study_form</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">student_id</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">total_score</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">first_choice_school</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">remark</th></tr></thead>
+                <tbody id="tableBody"></tbody>
+              </table>
+            </div>
+            <div class="mt-3 flex items-center justify-between">
+              <div class="flex gap-2"><button id="prevPageBtn" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium">Prev</button><button id="nextPageBtn" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium">Next</button></div>
+              <p id="pageInfo" class="text-sm text-slate-600">Page 1</p>
+            </div>
+          </section>
+
+          <section class="card rounded-2xl border border-slate-200 p-4 shadow-sm">
+            <div class="mb-3 flex items-center justify-between"><h2 class="text-lg font-semibold">Chart</h2><select id="chartTypeSelect" class="rounded-md border border-slate-300 px-3 py-2 text-sm"><option value="score">Score buckets</option><option value="year">Year counts</option></select></div>
+            <div id="statsChart" class="h-[360px] w-full"></div>
+          </section>
+        </section>
+
+        <section id="usersTabPanel" class="hidden space-y-5">
+          <section class="card rounded-2xl border border-slate-200 p-4 shadow-sm">
+            <div class="mb-3 flex items-center justify-between"><h2 class="text-lg font-semibold">Users</h2><button id="refreshUsersBtn" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium">Refresh</button></div>
+            <div class="table-wrap rounded-lg border border-slate-200">
+              <table class="w-full border-collapse text-sm">
+                <thead><tr class="bg-slate-100 text-slate-700"><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">id</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">username</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">role</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">expire_date</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">allowed_prefixes</th><th class="th-sticky border-b border-slate-200 px-3 py-2 text-left">actions</th></tr></thead>
+                <tbody id="usersTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card rounded-2xl border border-slate-200 p-4 shadow-sm">
+            <div class="mb-3 flex items-center justify-between"><h2 id="userFormTitle" class="text-lg font-semibold">Create user</h2><button id="cancelEditUserBtn" class="hidden rounded-md border border-slate-300 px-3 py-2 text-sm">Cancel edit</button></div>
+            <form id="userForm" class="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <input id="userFormUsername" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="username" required />
+              <select id="userFormRole" class="rounded-md border border-slate-300 px-3 py-2 text-sm"><option value="user">user</option><option value="admin">admin</option></select>
+              <input id="userFormPassword" type="password" class="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="password (empty means unchanged while editing)" />
+              <input id="userFormExpireDate" type="date" class="rounded-md border border-slate-300 px-3 py-2 text-sm" />
+              <input id="userFormPrefixes" class="md:col-span-2 rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="prefixes, comma separated. Empty means no restriction" />
+              <button id="saveUserBtn" type="submit" class="md:col-span-2 rounded-md bg-teal-700 px-4 py-2 text-sm font-medium text-white hover:bg-teal-800">Save user</button>
+            </form>
+          </section>
+        </section>
+      </main>
+    </div>
+    <script src="./config.js"></script>
+    <script>
+      const STORAGE_TOKEN_KEY = 'kaoyan_token';
+      const STORAGE_USER_KEY = 'kaoyan_user';
+      const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL ? String(window.APP_CONFIG.API_BASE_URL) : '').trim();
+
+      const state = {
+        token: localStorage.getItem(STORAGE_TOKEN_KEY) || '',
+        apiBase: API_BASE_URL,
+        user: null,
+        activeTab: 'data',
+        orderBy: 'total_score',
+        order: 'desc',
+        pageSize: 20,
+        cursorStack: [0],
+        nextCursor: null,
+        hasMore: false,
+        stats: null,
+        users: [],
+        editingUserId: null
+      };
+
+      try {
+        const cachedUser = localStorage.getItem(STORAGE_USER_KEY);
+        state.user = cachedUser ? JSON.parse(cachedUser) : null;
+      } catch {
+        state.user = null;
+      }
+
+      const el = {
+        messageBox: document.getElementById('messageBox'),
+        expireWarningBox: document.getElementById('expireWarningBox'),
+        loginSection: document.getElementById('loginSection'),
+        appSection: document.getElementById('appSection'),
+        loginForm: document.getElementById('loginForm'),
+        usernameInput: document.getElementById('usernameInput'),
+        passwordInput: document.getElementById('passwordInput'),
+        currentUserText: document.getElementById('currentUserText'),
+        currentRoleBadge: document.getElementById('currentRoleBadge'),
+        logoutBtn: document.getElementById('logoutBtn'),
+        dataTabBtn: document.getElementById('dataTabBtn'),
+        usersTabBtn: document.getElementById('usersTabBtn'),
+        dataTabPanel: document.getElementById('dataTabPanel'),
+        usersTabPanel: document.getElementById('usersTabPanel'),
+        filtersForm: document.getElementById('filtersForm'),
+        majorPrefixSelect: document.getElementById('majorPrefixSelect'),
+        applyFiltersBtn: document.getElementById('applyFiltersBtn'),
+        resetFiltersBtn: document.getElementById('resetFiltersBtn'),
+        orderBySelect: document.getElementById('orderBySelect'),
+        sortDescBtn: document.getElementById('sortDescBtn'),
+        sortAscBtn: document.getElementById('sortAscBtn'),
+        pageSizeSelect: document.getElementById('pageSizeSelect'),
+        tableBody: document.getElementById('tableBody'),
+        resultMeta: document.getElementById('resultMeta'),
+        prevPageBtn: document.getElementById('prevPageBtn'),
+        nextPageBtn: document.getElementById('nextPageBtn'),
+        pageInfo: document.getElementById('pageInfo'),
+        chartTypeSelect: document.getElementById('chartTypeSelect'),
+        usersTableBody: document.getElementById('usersTableBody'),
+        refreshUsersBtn: document.getElementById('refreshUsersBtn'),
+        userFormTitle: document.getElementById('userFormTitle'),
+        userForm: document.getElementById('userForm'),
+        userFormUsername: document.getElementById('userFormUsername'),
+        userFormRole: document.getElementById('userFormRole'),
+        userFormPassword: document.getElementById('userFormPassword'),
+        userFormExpireDate: document.getElementById('userFormExpireDate'),
+        userFormPrefixes: document.getElementById('userFormPrefixes'),
+        cancelEditUserBtn: document.getElementById('cancelEditUserBtn')
+      };
+
+      const chart = echarts.init(document.getElementById('statsChart'));
+
+      const formatValue = (value) => (value === null || value === undefined || value === '' ? '-' : String(value));
+
+      const escapeHtml = (text) =>
+        String(text)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+
+      function normalizeApiBase(url) {
+        return (url || '').trim().replace(/\/$/, '');
+      }
+
+      function showMessage(message, type = 'info') {
+        const styles = {
+          info: 'border-slate-200 bg-slate-50 text-slate-700',
+          success: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+          error: 'border-rose-200 bg-rose-50 text-rose-700'
+        };
+        el.messageBox.className = `mb-3 rounded-lg border px-4 py-3 text-sm ${styles[type] || styles.info}`;
+        el.messageBox.textContent = message;
+        el.messageBox.classList.remove('hidden');
+      }
+
+      function hideMessage() {
+        el.messageBox.classList.add('hidden');
+      }
+
+      function setAuthView(isLoggedIn) {
+        el.loginSection.classList.toggle('hidden', isLoggedIn);
+        el.appSection.classList.toggle('hidden', !isLoggedIn);
+      }
+
+      function getApiBaseOrThrow() {
+        const apiBase = normalizeApiBase(state.apiBase);
+        if (!apiBase) {
+          throw new Error('Missing API base URL in frontend/config.js');
+        }
+        return apiBase;
+      }
+
+      function clearAuth(showLogin = true) {
+        state.token = '';
+        state.user = null;
+        state.users = [];
+        state.editingUserId = null;
+        localStorage.removeItem(STORAGE_TOKEN_KEY);
+        localStorage.removeItem(STORAGE_USER_KEY);
+        if (showLogin) setAuthView(false);
+      }
+
+      async function apiFetch(path, { method = 'GET', query = null, body = null } = {}) {
+        const apiBase = getApiBaseOrThrow();
+        const url = new URL(apiBase + path);
+        if (query) {
+          Object.entries(query).forEach(([key, value]) => {
+            if (value !== '' && value !== null && value !== undefined) url.searchParams.set(key, String(value));
+          });
+        }
+
+        const headers = { 'Content-Type': 'application/json' };
+        if (state.token) headers.Authorization = `Bearer ${state.token}`;
+
+        const response = await fetch(url.toString(), {
+          method,
+          headers,
+          body: body ? JSON.stringify(body) : null
+        });
+
+        let payload = null;
+        try {
+          payload = await response.json();
+        } catch {
+          payload = null;
+        }
+
+        if (!response.ok || !payload?.success) {
+          const message = payload?.message || `Request failed (${response.status})`;
+          if ((response.status === 401 || response.status === 403) && path !== '/api/login') clearAuth();
+          throw new Error(message);
+        }
+        return payload.data;
+      }
+
+      function parseJwtPayload(token) {
+        try {
+          const part = token.split('.')[1];
+          if (!part) return null;
+          const base64 = part.replace(/-/g, '+').replace(/_/g, '/');
+          const json = decodeURIComponent(
+            atob(base64)
+              .split('')
+              .map((c) => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`)
+              .join('')
+          );
+          return JSON.parse(json);
+        } catch {
+          return null;
+        }
+      }
+
+      function daysUntil(expireDate) {
+        if (!expireDate) return null;
+        const now = new Date();
+        const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+        const target = new Date(`${expireDate}T00:00:00Z`);
+        const diff = Math.floor((target.getTime() - today.getTime()) / 86400000);
+        return Number.isNaN(diff) ? null : diff;
+      }
+
+      function renderExpireWarning() {
+        el.expireWarningBox.classList.add('hidden');
+        const expireDate = state.user?.expire_date;
+        if (!expireDate) return;
+        const diff = daysUntil(expireDate);
+        if (diff === null) return;
+        if (diff < 0) {
+          el.expireWarningBox.textContent = 'Account is expired. Contact admin.';
+          el.expireWarningBox.classList.remove('hidden');
+          return;
+        }
+        if (diff < 7) {
+          el.expireWarningBox.textContent = `Account will expire on ${expireDate} (remaining ${diff} days).`;
+          el.expireWarningBox.classList.remove('hidden');
+        }
+      }
+
+      function renderUserHeader() {
+        el.currentUserText.textContent = state.user?.username || '-';
+        const isAdmin = state.user?.role === 'admin';
+        el.currentRoleBadge.textContent = isAdmin ? 'admin' : 'user';
+        el.currentRoleBadge.className = isAdmin
+          ? 'rounded-md bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-700'
+          : 'rounded-md bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-700';
+      }
+
+      function setActiveTab(tabName) {
+        state.activeTab = tabName;
+        const isDataTab = tabName === 'data';
+        el.dataTabPanel.classList.toggle('hidden', !isDataTab);
+        el.usersTabPanel.classList.toggle('hidden', isDataTab);
+        el.dataTabBtn.className = isDataTab
+          ? 'rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white'
+          : 'rounded-md border border-slate-300 px-4 py-2 text-sm font-medium';
+        el.usersTabBtn.className = !isDataTab
+          ? 'rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white'
+          : 'rounded-md border border-slate-300 px-4 py-2 text-sm font-medium';
+      }
+
+      function configureByRole() {
+        const isAdmin = state.user?.role === 'admin';
+        el.usersTabBtn.classList.toggle('hidden', !isAdmin);
+        if (!isAdmin && state.activeTab === 'users') setActiveTab('data');
+      }
+
+      function configureMajorPrefixFilter() {
+        const prefixes = Array.isArray(state.user?.allowed_major_prefixes) ? state.user.allowed_major_prefixes : [];
+        const isAdmin = state.user?.role === 'admin';
+        const options = ['<option value="">major_prefix (all)</option>'];
+        if (!isAdmin && prefixes.length > 0) {
+          prefixes.forEach((prefix) => options.push(`<option value="${escapeHtml(prefix)}">${escapeHtml(prefix)}</option>`));
+        }
+        el.majorPrefixSelect.innerHTML = options.join('');
+      }
+
+      function readFilters() {
+        const formData = new FormData(el.filtersForm);
+        const filters = {};
+        for (const [key, value] of formData.entries()) {
+          if (String(value).trim() !== '') filters[key] = String(value).trim();
+        }
+        return filters;
+      }
+
+      function renderRows(rows) {
+        if (!rows || rows.length === 0) {
+          el.tableBody.innerHTML = '<tr><td colspan="13" class="px-4 py-6 text-center text-slate-500">No data</td></tr>';
+          return;
+        }
+        el.tableBody.innerHTML = rows
+          .map((row) => {
+            const cells = [
+              row.id,
+              row.year,
+              row.school,
+              row.region,
+              row.school_category,
+              row.college,
+              row.major_code,
+              row.major_name,
+              row.study_form,
+              row.student_id,
+              row.total_score,
+              row.first_choice_school,
+              row.remark
+            ]
+              .map((value) => `<td class="border-b border-slate-100 px-3 py-2 align-top">${escapeHtml(formatValue(value))}</td>`)
+              .join('');
+            return `<tr class="hover:bg-slate-50">${cells}</tr>`;
+          })
+          .join('');
+      }
+
+      function updatePaginationUI() {
+        const pageNumber = state.cursorStack.length;
+        el.pageInfo.textContent = `Page ${pageNumber}`;
+        el.prevPageBtn.disabled = state.cursorStack.length <= 1;
+        el.nextPageBtn.disabled = !state.hasMore;
+      }
+
+      function updateSortButtons() {
+        const isDesc = state.order === 'desc';
+        el.sortDescBtn.className = isDesc
+          ? 'rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white'
+          : 'rounded-md border border-slate-300 px-3 py-2 text-sm font-medium';
+        el.sortAscBtn.className = !isDesc
+          ? 'rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white'
+          : 'rounded-md border border-slate-300 px-3 py-2 text-sm font-medium';
+      }
+
+      async function loadStudents({ reset = false } = {}) {
+        if (reset) state.cursorStack = [0];
+        const cursor = state.cursorStack[state.cursorStack.length - 1];
+        const data = await apiFetch('/api/students', {
+          query: {
+            ...readFilters(),
+            order_by: state.orderBy,
+            order: state.order,
+            cursor,
+            page_size: state.pageSize
+          }
+        });
+        const rows = data?.items || [];
+        const pagination = data?.pagination || {};
+        state.nextCursor = pagination.next_cursor;
+        state.hasMore = Boolean(pagination.has_more);
+        renderRows(rows);
+        updatePaginationUI();
+        el.resultMeta.textContent = `${rows.length} rows | ${state.orderBy} ${state.order.toUpperCase()}`;
+      }
+
+      async function loadStats() {
+        state.stats = await apiFetch('/api/stats');
+        renderChart();
+      }
+
+      function renderChart() {
+        if (!state.stats) {
+          chart.clear();
+          return;
+        }
+        const type = el.chartTypeSelect.value;
+        if (type === 'year') {
+          const years = (state.stats.year_distribution || []).map((item) => item.year);
+          const counts = (state.stats.year_distribution || []).map((item) => item.count);
+          chart.setOption({
+            tooltip: { trigger: 'axis' },
+            xAxis: { type: 'category', data: years },
+            yAxis: { type: 'value' },
+            series: [{ type: 'bar', data: counts, itemStyle: { color: '#0f766e' } }]
+          });
+          return;
+        }
+        const labels = (state.stats.score_distribution || []).map((item) => `${item.bucket_start}-${item.bucket_end}`);
+        const counts = (state.stats.score_distribution || []).map((item) => item.count);
+        chart.setOption({
+          tooltip: { trigger: 'axis' },
+          xAxis: { type: 'category', data: labels, axisLabel: { rotate: 45 } },
+          yAxis: { type: 'value' },
+          series: [{ type: 'bar', data: counts, itemStyle: { color: '#0891b2' } }]
+        });
+      }
+
+      function renderUsersTable() {
+        if (!state.users.length) {
+          el.usersTableBody.innerHTML = '<tr><td colspan="6" class="px-4 py-6 text-center text-slate-500">No users</td></tr>';
+          return;
+        }
+        el.usersTableBody.innerHTML = state.users
+          .map((user) => {
+            const prefixes = (user.allowed_major_prefixes || []).join(', ');
+            return `
+              <tr class="hover:bg-slate-50">
+                <td class="border-b border-slate-100 px-3 py-2">${escapeHtml(formatValue(user.id))}</td>
+                <td class="border-b border-slate-100 px-3 py-2">${escapeHtml(formatValue(user.username))}</td>
+                <td class="border-b border-slate-100 px-3 py-2">${escapeHtml(formatValue(user.role))}</td>
+                <td class="border-b border-slate-100 px-3 py-2">${escapeHtml(formatValue(user.expire_date))}</td>
+                <td class="border-b border-slate-100 px-3 py-2">${escapeHtml(formatValue(prefixes))}</td>
+                <td class="border-b border-slate-100 px-3 py-2">
+                  <button data-action="edit" data-id="${user.id}" class="rounded border border-slate-300 px-2 py-1 text-xs">Edit</button>
+                  <button data-action="delete" data-id="${user.id}" class="rounded border border-rose-300 px-2 py-1 text-xs text-rose-700">Delete</button>
+                </td>
+              </tr>
+            `;
+          })
+          .join('');
+      }
+
+      function resetUserForm() {
+        state.editingUserId = null;
+        el.userFormTitle.textContent = 'Create user';
+        el.cancelEditUserBtn.classList.add('hidden');
+        el.userForm.reset();
+        el.userFormRole.value = 'user';
+      }
+
+      function fillUserForm(user) {
+        state.editingUserId = Number(user.id);
+        el.userFormTitle.textContent = `Edit user #${user.id}`;
+        el.cancelEditUserBtn.classList.remove('hidden');
+        el.userFormUsername.value = user.username || '';
+        el.userFormRole.value = user.role || 'user';
+        el.userFormPassword.value = '';
+        el.userFormExpireDate.value = user.expire_date || '';
+        el.userFormPrefixes.value = (user.allowed_major_prefixes || []).join(',');
+      }
+
+      async function loadUsers() {
+        if (state.user?.role !== 'admin') return;
+        const data = await apiFetch('/api/users');
+        state.users = data?.items || [];
+        renderUsersTable();
+      }
+
+      async function refreshDataTab({ reset = false } = {}) {
+        hideMessage();
+        await Promise.all([loadStudents({ reset }), loadStats()]);
+      }
+
+      async function bootstrapAfterLogin() {
+        setAuthView(true);
+        renderUserHeader();
+        renderExpireWarning();
+        configureByRole();
+        configureMajorPrefixFilter();
+        setActiveTab('data');
+        state.cursorStack = [0];
+        await refreshDataTab({ reset: true });
+        if (state.user?.role === 'admin') await loadUsers();
+      }
+
+      el.loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        hideMessage();
+        try {
+          const data = await apiFetch('/api/login', {
+            method: 'POST',
+            body: { username: el.usernameInput.value.trim(), password: el.passwordInput.value }
+          });
+          state.token = data.token;
+          state.user = data.user;
+          localStorage.setItem(STORAGE_TOKEN_KEY, state.token);
+          localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(state.user));
+          await bootstrapAfterLogin();
+          showMessage('Login succeeded.', 'success');
+          el.passwordInput.value = '';
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      });
+
+      el.logoutBtn.addEventListener('click', () => {
+        clearAuth();
+        resetUserForm();
+        showMessage('Logged out.', 'info');
+      });
+
+      el.dataTabBtn.addEventListener('click', () => setActiveTab('data'));
+      el.usersTabBtn.addEventListener('click', async () => {
+        if (state.user?.role !== 'admin') return;
+        setActiveTab('users');
+        try {
+          await loadUsers();
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      });
+
+      el.applyFiltersBtn.addEventListener('click', async () => {
+        try {
+          await refreshDataTab({ reset: true });
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      });
+
+      el.resetFiltersBtn.addEventListener('click', async () => {
+        el.filtersForm.reset();
+        state.orderBy = 'total_score';
+        state.order = 'desc';
+        state.pageSize = 20;
+        el.orderBySelect.value = state.orderBy;
+        el.pageSizeSelect.value = String(state.pageSize);
+        updateSortButtons();
+        configureMajorPrefixFilter();
+        try {
+          await refreshDataTab({ reset: true });
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      });
+
+      el.orderBySelect.addEventListener('change', async () => {
+        state.orderBy = el.orderBySelect.value;
+        try {
+          await refreshDataTab({ reset: true });
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      });
+
+      el.sortDescBtn.addEventListener('click', async () => {
+        state.order = 'desc';
+        updateSortButtons();
+        try {
+          await refreshDataTab({ reset: true });
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      });
+
+      el.sortAscBtn.addEventListener('click', async () => {
+        state.order = 'asc';
+        updateSortButtons();
+        try {
+          await refreshDataTab({ reset: true });
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      });
+
+      el.pageSizeSelect.addEventListener('change', async () => {
+        state.pageSize = Number(el.pageSizeSelect.value);
+        try {
+          await refreshDataTab({ reset: true });
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      });
+
+      el.prevPageBtn.addEventListener('click', async () => {
+        if (state.cursorStack.length <= 1) return;
+        state.cursorStack.pop();
+        try {
+          await loadStudents();
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      });
+
+      el.nextPageBtn.addEventListener('click', async () => {
+        if (!state.hasMore || state.nextCursor === null || state.nextCursor === undefined) return;
+        state.cursorStack.push(state.nextCursor);
+        try {
+          await loadStudents();
+        } catch (error) {
+          state.cursorStack.pop();
+          showMessage(error.message, 'error');
+        }
+      });
+
+      el.chartTypeSelect.addEventListener('change', renderChart);
+
+      el.refreshUsersBtn.addEventListener('click', async () => {
+        try {
+          await loadUsers();
+          showMessage('Users refreshed.', 'success');
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      });
+
+      el.usersTableBody.addEventListener('click', async (event) => {
+        const target = event.target.closest('button[data-action]');
+        if (!target) return;
+        const id = Number(target.dataset.id);
+        const action = target.dataset.action;
+        const user = state.users.find((item) => Number(item.id) === id);
+        if (!user) return;
+
+        if (action === 'edit') {
+          fillUserForm(user);
+          return;
+        }
+
+        if (action === 'delete') {
+          if (!confirm(`Delete user ${user.username}?`)) return;
+          try {
+            await apiFetch(`/api/users/${id}`, { method: 'DELETE' });
+            await loadUsers();
+            showMessage('User deleted.', 'success');
+            if (state.editingUserId === id) resetUserForm();
+          } catch (error) {
+            showMessage(error.message, 'error');
+          }
+        }
+      });
+
+      el.cancelEditUserBtn.addEventListener('click', () => resetUserForm());
+
+      el.userForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        hideMessage();
+
+        const payload = {
+          username: el.userFormUsername.value.trim(),
+          role: el.userFormRole.value,
+          expire_date: el.userFormExpireDate.value || null,
+          allowed_major_prefixes: el.userFormPrefixes.value
+            .split(',')
+            .map((item) => item.trim())
+            .filter(Boolean)
+        };
+
+        const password = el.userFormPassword.value;
+        if (!state.editingUserId || password) payload.password = password;
+        if (!state.editingUserId && !payload.password) {
+          showMessage('Password is required for new user.', 'error');
+          return;
+        }
+
+        try {
+          if (state.editingUserId) {
+            const data = await apiFetch(`/api/users/${state.editingUserId}`, { method: 'PUT', body: payload });
+            showMessage('User updated.', 'success');
+            if (Number(state.user?.id) === Number(data?.user?.id)) {
+              state.user = data.user;
+              localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(state.user));
+              renderUserHeader();
+              renderExpireWarning();
+              configureMajorPrefixFilter();
+              await refreshDataTab({ reset: true });
+            }
+          } else {
+            await apiFetch('/api/users', { method: 'POST', body: payload });
+            showMessage('User created.', 'success');
+          }
+          await loadUsers();
+          resetUserForm();
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      });
+
+      window.addEventListener('resize', () => chart.resize());
+
+      async function bootstrap() {
+        el.orderBySelect.value = state.orderBy;
+        el.pageSizeSelect.value = String(state.pageSize);
+        updateSortButtons();
+
+        if (!state.token) {
+          setAuthView(false);
+          return;
+        }
+
+        if (!state.user) {
+          const decoded = parseJwtPayload(state.token);
+          if (decoded) {
+            state.user = {
+              id: decoded.user_id,
+              username: decoded.username,
+              role: decoded.role || 'user',
+              expire_date: decoded.expire_date || null,
+              allowed_major_prefixes: Array.isArray(decoded.allowed_major_prefixes) ? decoded.allowed_major_prefixes : []
+            };
+            localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(state.user));
+          }
+        }
+
+        try {
+          await bootstrapAfterLogin();
+          showMessage('Session restored.', 'success');
+        } catch (error) {
+          clearAuth();
+          showMessage(`Session invalid: ${error.message}`, 'error');
+        }
+      }
+
+      bootstrap();
+    </script>
+  </body>
+</html>
