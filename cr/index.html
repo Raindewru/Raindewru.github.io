@@ -321,6 +321,55 @@
             line-height: 1.7;
             color: #1e3b4f;
         }
+        .note-container {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px dashed #e6eef6;
+        }
+        .note-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #2b6a86;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .note-input {
+            width: 100%;
+            min-height: 90px;
+            resize: vertical;
+            border-radius: 18px;
+            border: 1px solid #d6e7f2;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            background: #f7fbff;
+            color: #1d3f53;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .note-input:focus {
+            border-color: #6fb4d4;
+            box-shadow: 0 0 0 3px rgba(111, 180, 212, 0.2);
+            background: #ffffff;
+        }
+        body.theme-pink .note-input {
+            background: #fff7fa;
+            border-color: #f5cbd8;
+        }
+        body.theme-pink .note-input:focus {
+            border-color: #f38ab5;
+            box-shadow: 0 0 0 3px rgba(243, 138, 181, 0.25);
+        }
+        body.theme-green .note-input {
+            background: #f4faf2;
+            border-color: #cfe3cf;
+        }
+        body.theme-green .note-input:focus {
+            border-color: #79b979;
+            box-shadow: 0 0 0 3px rgba(121, 185, 121, 0.22);
+        }
         .answer-label {
             font-weight: 700;
             color: #1f6082;
@@ -440,6 +489,10 @@
         </div>
         <div class="answer-container" id="randomAnswerContainer">
             <div class="answer-content" id="randomAnswerContent"></div>
+            <div class="note-container">
+                <div class="note-title">📝 笔记</div>
+                <textarea class="note-input" id="randomNoteInput" data-id="" placeholder="写下这道题的要点/易错点..."></textarea>
+            </div>
         </div>
     </div>
 
@@ -478,6 +531,50 @@
             if (m === '>') return '&gt;';
             return m;
         });
+    }
+
+    const noteStoragePrefix = 'cr_note_';
+    function getNoteKey(id) {
+        return `${noteStoragePrefix}${id}`;
+    }
+    function loadNoteValue(id) {
+        try {
+            return localStorage.getItem(getNoteKey(id)) || '';
+        } catch (e) {
+            return '';
+        }
+    }
+    function saveNoteValue(id, value) {
+        try {
+            localStorage.setItem(getNoteKey(id), value);
+        } catch (e) {}
+    }
+    function bindNoteInputs(root) {
+        const inputs = root.querySelectorAll('.note-input[data-id]');
+        inputs.forEach(input => {
+            const id = input.getAttribute('data-id');
+            if (!id) return;
+            input.value = loadNoteValue(id);
+            input.addEventListener('input', () => {
+                const currentId = input.getAttribute('data-id');
+                if (currentId) saveNoteValue(currentId, input.value);
+            });
+        });
+    }
+    function setupRandomNoteInput() {
+        const input = document.getElementById('randomNoteInput');
+        if (!input || input.dataset.bound) return;
+        input.addEventListener('input', () => {
+            const id = input.getAttribute('data-id');
+            if (id) saveNoteValue(id, input.value);
+        });
+        input.dataset.bound = '1';
+    }
+    function updateRandomNoteInput() {
+        const input = document.getElementById('randomNoteInput');
+        if (!input || !currentRandomItem) return;
+        input.setAttribute('data-id', currentRandomItem.id);
+        input.value = loadNoteValue(currentRandomItem.id);
     }
     
 
@@ -594,10 +691,15 @@ function formatAnswerWithHighlights(text) {
                         </div>
                         <div class="answer-container" id="answer-${item.id}">
                             <div class="answer-content">${formatAnswerWithHighlights(item.answer)}</div>
+                            <div class="note-container">
+                                <div class="note-title">📝 笔记</div>
+                                <textarea class="note-input" data-id="${item.id}" placeholder="写下这道题的要点/易错点..."></textarea>
+                            </div>
                         </div>
                     </div>`;
         });
         container.innerHTML = html;
+        bindNoteInputs(container);
         document.querySelectorAll('.toggle-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -630,6 +732,8 @@ function formatAnswerWithHighlights(text) {
         currentRandomItem = fullQAData[rand];
         document.getElementById('randomQuestionText').textContent = currentRandomItem.question;
         document.getElementById('randomAnswerContent').innerHTML = formatAnswerWithHighlights(currentRandomItem.answer);
+        updateRandomNoteInput();
+        setupRandomNoteInput();
         const randContainer = document.getElementById('randomAnswerContainer');
         randContainer.classList.remove('show');
     }
