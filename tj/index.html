@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>天津中德应用技术大学 | 机械工程专硕复试 · 抽题系统（带笔记缓存）</title>
+    <title>天津中德应用技术大学 | 机械工程专硕复试 · 抽题系统（答案&笔记同步隐藏/显示）</title>
     <style>
         * {
             margin: 0;
@@ -273,6 +273,12 @@
             overflow: hidden;
             transition: all 0.2s;
         }
+
+        /* 隐藏笔记区域（与答案遮盖同步） */
+        .note-hidden {
+            display: none !important;
+        }
+
         .note-header {
             background: #faf7e4;
             padding: 0.4rem 1rem;
@@ -377,8 +383,8 @@
                 </div>
                 <div id="topAnswerBlurZone" class="answer-content blur-answer">这里会显示当前题目的详细解答，点击模糊区域切换清晰。</div>
             </div>
-            <!-- 顶部笔记区 (与当前随机题目关联) -->
-            <div class="note-area" id="topNoteArea" style="margin-top: 1rem;">
+            <!-- 顶部笔记区 (与当前随机题目关联) 初始隐藏（与答案遮盖同步） -->
+            <div class="note-area note-hidden" id="topNoteArea" style="margin-top: 1rem;">
                 <div class="note-header">
                     <span>📝 我的笔记（自动保存）</span>
                     <span class="note-save-status" id="topNoteStatus">已同步</span>
@@ -391,19 +397,18 @@
     <!-- 完整题库区域 -->
     <div class="full-library">
         <div class="library-header">
-            <h2>📖 完整复试题库 <span style="font-size:0.9rem;">(点击答案区显示/隐藏答案，笔记自动缓存)</span></h2>
+            <h2>📖 完整复试题库 <span style="font-size:0.9rem;">(点击答案区单独切换，❤️一键同步)</span></h2>
             <div class="library-stats">✨ 共 <span id="fullCount">0</span> 道题目（含精简背&英语）</div>
         </div>
         <div id="questionsGridContainer" class="questions-grid"></div>
     </div>
-    <footer>💡 提示：点击答案可单独显示/隐藏；❤️ 右下角爱心一键开关所有答案；每个问题下方笔记区自动保存至本地，刷新页面不丢失。</footer>
+    <footer>💡 提示：❤️ 右下角爱心 → 一键同时显示/隐藏【所有答案+所有笔记】 | 笔记内容自动保存至本地</footer>
 </div>
 
-<button class="love-control" id="globalLoveBtn" aria-label="全部打开/关闭答案">❤️</button>
+<button class="love-control" id="globalLoveBtn" aria-label="全部打开/关闭答案和笔记">❤️</button>
 
 <script>
     // ======================= 题库构建 =======================
-    // 严格按照文档原文提取每个问题的答案，仅允许添加换行<br>、加粗<strong>、表情符号，不修改任何汉字、标点、字母顺序。
     const questionBank = [
         { q: "刀具的五个基本角度是什么？各有什么作用？", a: "<strong>前角、后角、主偏角、副偏角、刃倾角。</strong><br>前角影响切削变形和锋利度；后角减少摩擦；<br>主偏角影响径向力与散热；副偏角影响表面粗糙度；<br>刃倾角控制排屑方向与刀尖强度。" },
         { q: "什么是积屑瘤？怎么消除？", a: "当切削速度不高且又能形成连续切削的过程，通常在前刀面成三角形，稳定状态是能够代替刀具进行切削，这样一块冷焊在前刀面的金属称为积屑瘤<br>消除：提高或切削速度、加大前角、使用切削液、工件预先热处理" },
@@ -460,45 +465,28 @@
 
     // ---------- 笔记存储功能 ----------
     const NOTE_PREFIX = "me_note_";
-    function getNoteKey(index) {
-        return NOTE_PREFIX + index;
-    }
-    function loadNote(index) {
-        const key = getNoteKey(index);
-        const saved = localStorage.getItem(key);
-        return saved !== null ? saved : "";
-    }
-    function saveNote(index, content) {
-        const key = getNoteKey(index);
-        localStorage.setItem(key, content);
-    }
+    function getNoteKey(index) { return NOTE_PREFIX + index; }
+    function loadNote(index) { return localStorage.getItem(getNoteKey(index)) || ""; }
+    function saveNote(index, content) { localStorage.setItem(getNoteKey(index), content); }
 
-    // 为每个问题卡片绑定笔记区（初始化时加载内容，监听input保存）
     function bindNoteForCard(cardIndex, textareaElement, statusSpan = null) {
         if (!textareaElement) return;
-        // 加载已有笔记
-        const savedContent = loadNote(cardIndex);
-        textareaElement.value = savedContent;
+        textareaElement.value = loadNote(cardIndex);
         let timeoutId = null;
-        const saveHandler = () => {
+        textareaElement.addEventListener('input', () => {
             if (timeoutId) clearTimeout(timeoutId);
             timeoutId = setTimeout(() => {
-                const newContent = textareaElement.value;
-                saveNote(cardIndex, newContent);
+                saveNote(cardIndex, textareaElement.value);
                 if (statusSpan) {
                     statusSpan.innerText = "已保存";
                     setTimeout(() => { if(statusSpan) statusSpan.innerText = "已同步"; }, 800);
-                } else {
-                    // 对于动态卡片，我们可以更新状态，但为了简洁，保持静默保存
                 }
             }, 400);
-        };
-        textareaElement.addEventListener('input', saveHandler);
-        // 初始状态显示已同步
+        });
         if (statusSpan) statusSpan.innerText = "已同步";
     }
 
-    // 渲染完整题库列表（每个题目卡片 + 笔记区）
+    // 渲染完整题库（所有卡片默认答案模糊+笔记隐藏）
     function renderFullLibrary() {
         const container = document.getElementById('questionsGridContainer');
         let html = '';
@@ -516,7 +504,7 @@
                             ${item.a}
                         </div>
                     </div>
-                    <div class="note-area">
+                    <div class="note-area note-hidden">
                         <div class="note-header">
                             <span>📝 我的笔记（自动保存）</span>
                             <span class="note-save-status" id="noteStatus-${i}">已同步</span>
@@ -527,14 +515,10 @@
             `;
         }
         container.innerHTML = html;
-        // 为每个卡片绑定笔记功能 + 答案点击切换
         for (let i = 0; i < questionBank.length; i++) {
             const textarea = document.querySelector(`.note-${i}`);
             const statusSpan = document.getElementById(`noteStatus-${i}`);
-            if (textarea) {
-                bindNoteForCard(i, textarea, statusSpan);
-            }
-            // 答案点击切换 (原有逻辑)
+            if (textarea) bindNoteForCard(i, textarea, statusSpan);
             const answerDiv = document.querySelector(`.question-item[data-qidx="${i}"] .item-answer`);
             if (answerDiv) {
                 const contentDiv = answerDiv.querySelector('.answer-content-sm');
@@ -572,20 +556,16 @@
         topAnswerBlurZone.innerHTML = item.a;
         topAnswerBlurZone.classList.remove('clear-answer');
         topAnswerBlurZone.classList.add('blur-answer');
-        // 加载对应笔记
-        const noteContent = loadNote(currentRandomIndex);
-        topNoteInput.value = noteContent;
+        topNoteInput.value = loadNote(currentRandomIndex);
         topNoteStatus.innerText = "已同步";
     }
 
-    // 顶部笔记自动保存
     function bindTopNote() {
         let timeoutId = null;
         topNoteInput.addEventListener('input', () => {
             if (timeoutId) clearTimeout(timeoutId);
             timeoutId = setTimeout(() => {
-                const newContent = topNoteInput.value;
-                saveNote(currentRandomIndex, newContent);
+                saveNote(currentRandomIndex, topNoteInput.value);
                 topNoteStatus.innerText = "已保存";
                 setTimeout(() => { topNoteStatus.innerText = "已同步"; }, 800);
             }, 400);
@@ -617,41 +597,53 @@
         topAnswerBlurZone.innerHTML = firstItem.a;
         topAnswerBlurZone.classList.add('blur-answer');
         topAnswerBlurZone.classList.remove('clear-answer');
-        const noteContent = loadNote(0);
-        topNoteInput.value = noteContent;
+        topNoteInput.value = loadNote(0);
         topNoteStatus.innerText = "已同步";
     }
 
-    // 全局爱心按钮：全开 / 全关所有答案（顶部 + 下方）
+    // ========== 全局爱心：答案+笔记 完全同步显示/隐藏 ==========
     const loveBtn = document.getElementById('globalLoveBtn');
-    function toggleAllAnswers() {
-        const allAnswerElements = [topAnswerBlurZone, ...document.querySelectorAll('.answer-content-sm')];
-        const validAnswers = allAnswerElements.filter(el => el !== null);
+    function toggleAllAnswersAndNotes() {
+        // 所有答案区域（顶部+卡片内）
+        const allAnswers = [topAnswerBlurZone, ...document.querySelectorAll('.answer-content-sm')];
+        const validAnswers = allAnswers.filter(el => el !== null);
         if (validAnswers.length === 0) return;
-        const anyBlur = validAnswers.some(el => el.classList.contains('blur-answer'));
-        if (anyBlur) {
+
+        // 判断当前是否处于「遮盖」状态（存在任意一个 blur-answer）
+        const isCurrentlyBlurred = validAnswers.some(el => el.classList.contains('blur-answer'));
+
+        if (isCurrentlyBlurred) {
+            // 当前是遮盖状态 → 全部变为清晰（显示答案），同时显示所有笔记
             validAnswers.forEach(el => {
                 el.classList.remove('blur-answer');
                 el.classList.add('clear-answer');
             });
+            // 显示所有笔记区域
+            document.querySelectorAll('.note-area').forEach(area => area.classList.remove('note-hidden'));
         } else {
+            // 当前是清晰状态 → 全部变为模糊（遮盖答案），同时隐藏所有笔记
             validAnswers.forEach(el => {
                 el.classList.remove('clear-answer');
                 el.classList.add('blur-answer');
             });
+            // 隐藏所有笔记区域
+            document.querySelectorAll('.note-area').forEach(area => area.classList.add('note-hidden'));
         }
     }
+
     loveBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        toggleAllAnswers();
+        toggleAllAnswersAndNotes();
     });
 
-    // 初始化
+    // 初始化：所有答案默认模糊（遮盖），所有笔记默认隐藏（note-hidden），完全同步
     function init() {
-        renderFullLibrary();
-        initTopQuestion();
+        renderFullLibrary();      // 卡片答案模糊 + 笔记隐藏
+        initTopQuestion();        // 顶部答案模糊，顶部笔记也隐藏（因为初始有note-hidden类）
         bindTopAnswerToggle();
         bindTopNote();
+        // 额外确保顶部笔记初始隐藏（已在HTML中写好note-hidden）
+        // 同时确保所有答案都是模糊状态（已满足）
     }
     init();
 </script>
