@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>天津中德应用技术大学 | 机械工程专硕复试 · 抽题系统 | 全题库+爱心总控</title>
+    <title>天津中德应用技术大学 | 机械工程专硕复试 · 抽题系统（带笔记缓存）</title>
     <style>
         * {
             margin: 0;
@@ -19,22 +19,19 @@
             padding-bottom: 5rem;
         }
 
-        /* 主容器 */
         .master-container {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
             width: 100%;
         }
 
-        /* 顶部抽题卡片 (保留原风格) */
+        /* 顶部抽题卡片 */
         .exam-card {
             background: rgba(255, 255, 255, 0.96);
             border-radius: 2rem;
             box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
             margin-bottom: 2.5rem;
             overflow: hidden;
-            backdrop-filter: blur(1px);
-            transition: all 0.2s;
         }
 
         .hero {
@@ -47,7 +44,6 @@
         .hero h1 {
             font-size: 1.7rem;
             font-weight: 600;
-            letter-spacing: 1px;
         }
 
         .hero .sub {
@@ -131,7 +127,6 @@
             cursor: pointer;
             border: 1px solid #e2edf2;
             overflow: hidden;
-            transition: all 0.1s;
         }
 
         .answer-header {
@@ -175,7 +170,7 @@
             cursor: pointer;
         }
 
-        /* 全题库列表区域 */
+        /* 全题库列表 */
         .full-library {
             background: white;
             border-radius: 2rem;
@@ -210,14 +205,12 @@
             font-weight: 500;
         }
 
-        /* 题目网格: 大屏双列，小屏单列 */
         .questions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
             gap: 1.5rem;
         }
 
-        /* 单个题目卡片 */
         .question-item {
             background: #ffffff;
             border-radius: 1.5rem;
@@ -225,6 +218,8 @@
             box-shadow: 0 5px 12px rgba(0, 0, 0, 0.03);
             transition: all 0.2s;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .question-item:hover {
@@ -243,7 +238,7 @@
         }
 
         .item-answer {
-            margin: 0.8rem 1rem 1rem 1rem;
+            margin: 0.8rem 1rem 0rem 1rem;
             background: #fefefe;
             border-radius: 1rem;
             border: 1px solid #eef2f5;
@@ -269,7 +264,47 @@
             transition: filter 0.2s;
         }
 
-        /* 右下角爱心 */
+        /* 笔记区域样式 */
+        .note-area {
+            margin: 0.5rem 1rem 1rem 1rem;
+            background: #fffef7;
+            border-radius: 1rem;
+            border: 1px solid #e9e2c7;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .note-header {
+            background: #faf7e4;
+            padding: 0.4rem 1rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #b87c2e;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid #ede3c2;
+        }
+        .note-textarea {
+            width: 100%;
+            border: none;
+            padding: 0.7rem 1rem;
+            font-size: 0.85rem;
+            font-family: inherit;
+            line-height: 1.4;
+            color: #2c3e2f;
+            background: #fffff2;
+            resize: vertical;
+            outline: none;
+        }
+        .note-textarea:focus {
+            background: #fffef0;
+        }
+        .note-save-status {
+            font-size: 0.65rem;
+            margin-left: auto;
+            color: #9c7e4a;
+        }
+
         .love-control {
             position: fixed;
             bottom: 1.8rem;
@@ -293,32 +328,19 @@
         .love-control:hover {
             transform: scale(1.08);
             background: #e11d48;
-            box-shadow: 0 10px 22px rgba(225, 29, 72, 0.5);
-        }
-
-        .love-control:active {
-            transform: scale(0.96);
         }
 
         @media (max-width: 680px) {
-            body {
-                padding: 1rem;
-            }
             .questions-grid {
                 grid-template-columns: 1fr;
             }
             .question-text {
                 font-size: 1.2rem;
             }
-            .hero h1 {
-                font-size: 1.2rem;
-            }
             .love-control {
                 width: 48px;
                 height: 48px;
                 font-size: 1.5rem;
-                bottom: 1rem;
-                right: 1rem;
             }
         }
 
@@ -328,11 +350,14 @@
             font-size: 0.7rem;
             color: #6c8d9c;
         }
+        strong {
+            color: #1e6f5c;
+        }
     </style>
 </head>
 <body>
 <div class="master-container">
-    <!-- 顶部随机抽题模块（保留原始设计） -->
+    <!-- 随机抽题区域 -->
     <div class="exam-card">
         <div class="hero">
             <h1>🔧 机械制造技术基础 · 复试抽题</h1>
@@ -344,92 +369,143 @@
         </div>
         <div class="question-area">
             <div class="question-label">📌 今日随机抽题</div>
-            <div class="question-text" id="questionDisplay">
-                点击「随机抽题」开始练习
-            </div>
-            <!-- 答案卡片（毛玻璃） -->
+            <div class="question-text" id="questionDisplay">点击「随机抽题」开始练习</div>
             <div class="answer-glass" id="topAnswerCard">
                 <div class="answer-header">
                     <span>🔍 参考答案</span>
                     <span class="tap-hint">✨ 点击区域 → 显示/隐藏答案</span>
                 </div>
-                <div id="topAnswerBlurZone" class="answer-content blur-answer">
-                    这里会显示当前题目的详细解答，点击模糊区域切换清晰。
+                <div id="topAnswerBlurZone" class="answer-content blur-answer">这里会显示当前题目的详细解答，点击模糊区域切换清晰。</div>
+            </div>
+            <!-- 顶部笔记区 (与当前随机题目关联) -->
+            <div class="note-area" id="topNoteArea" style="margin-top: 1rem;">
+                <div class="note-header">
+                    <span>📝 我的笔记（自动保存）</span>
+                    <span class="note-save-status" id="topNoteStatus">已同步</span>
                 </div>
+                <textarea id="topNoteInput" class="note-textarea" rows="2" placeholder="记录你的理解、易错点或补充知识... 内容会自动保存在浏览器中"></textarea>
             </div>
         </div>
     </div>
 
-    <!-- 完整题库展示区 (所有题目，默认答案遮盖) -->
+    <!-- 完整题库区域 -->
     <div class="full-library">
         <div class="library-header">
-            <h2>📖 完整复试题库 <span style="font-size:0.9rem;">(点击每题答案区可单独开关)</span></h2>
-            <div class="library-stats">✨ 共 <span id="fullCount">0</span> 道经典题目</div>
+            <h2>📖 完整复试题库 <span style="font-size:0.9rem;">(点击答案区显示/隐藏答案，笔记自动缓存)</span></h2>
+            <div class="library-stats">✨ 共 <span id="fullCount">0</span> 道题目（含精简背&英语）</div>
         </div>
-        <div id="questionsGridContainer" class="questions-grid">
-            <!-- 动态js渲染所有题目卡片 -->
-        </div>
+        <div id="questionsGridContainer" class="questions-grid"></div>
     </div>
-    <footer>💡 提示：点击任意答案区域可单独显示/隐藏答案 | ❤️ 右下角爱心可一键全开/全关所有答案</footer>
+    <footer>💡 提示：点击答案可单独显示/隐藏；❤️ 右下角爱心一键开关所有答案；每个问题下方笔记区自动保存至本地，刷新页面不丢失。</footer>
 </div>
 
-<!-- 右下角爱心按钮 -->
 <button class="love-control" id="globalLoveBtn" aria-label="全部打开/关闭答案">❤️</button>
 
 <script>
-    // --------------------------------------------------------------
-    // 题库 (基于原有丰富内容，并整合所有题目)
-    // --------------------------------------------------------------
+    // ======================= 题库构建 =======================
+    // 严格按照文档原文提取每个问题的答案，仅允许添加换行<br>、加粗<strong>、表情符号，不修改任何汉字、标点、字母顺序。
     const questionBank = [
-        { q: "刀具的五个基本角度是什么？各有什么作用？", a: "✅ 五个基本角度：前角、后角、主偏角、副偏角、刃倾角。<br>• 前角：影响切削变形、锋利度及切削力；<br>• 后角：减少刀具后刀面与工件摩擦；<br>• 主偏角：影响径向力、切削层形状及散热；<br>• 副偏角：影响已加工表面残留面积及粗糙度；<br>• 刃倾角：控制切屑流出方向及刀尖强度。" },
-        { q: "什么是积屑瘤？如何消除？", a: "📌 积屑瘤：在切削塑性材料且速度不高时，切屑与前刀面高温高压冷焊形成的金属堆积块，稳定时可代替刀刃切削，但会恶化表面质量。<br>🚫 消除方法：提高切削速度；增大前角；充分使用切削液；工件预先热处理降低塑性；选用抗粘结刀具材料。" },
-        { q: "切削力由哪几部分组成？影响切削力的主要因素有哪些？", a: "⚙️ 组成来源：克服被加工材料弹性/塑性变形抗力；刀具与切屑、工件之间的摩擦力。<br>📊 影响因素：工件材料（硬度强度↑ 力↑）；切削用量（背吃刀量影响最显著）；刀具角度（前角↑ 力↓）；切削液及刀具磨损。" },
-        { q: "粗加工和精加工切削用量应如何选择？", a: "🔧 粗加工：优先选择大的背吃刀量，其次大的进给量，最后选用合理的切削速度（提高效率）。<br>✨ 精加工：采用高切削速度、小进给量、小背吃刀量，保证加工精度与表面质量。" },
-        { q: "刀具磨损有哪几种形式？各自原因是什么？", a: "🔩 磨损形式：<br>• 前刀面磨损（月牙洼）：切削塑性材料时，切屑与前刀面剧烈摩擦；<br>• 后刀面磨损：低速切削或脆性材料时，后刀面与已加工表面摩擦；<br>• 边界磨损：刀尖附近应力集中、散热差或硬皮划伤；<br>• 沟纹磨损：工件表面硬质点、氧化皮等造成局部沟槽。" },
-        { q: "切削液的主要作用有哪些？", a: "💧 四大作用：冷却、润滑、清洗、防锈。水基切削液冷却能力强，油基切削液润滑性好，应根据加工类型合理选用。" },
-        { q: "车、铣、钻、磨各自加工特点是什么？", a: "🔩 车：加工回转体（外圆、端面、螺纹等），精度好；<br>⚙️ 铣：加工平面、沟槽、轮廓，效率高，适合复杂外形；<br>🕳️ 钻：孔的粗加工，易引偏，精度较低；<br>✨ 磨：精加工方法，尺寸精度高、表面质量好，可加工淬硬钢。" },
-        { q: "顺铣与逆铣的区别是什么？", a: "🔄 顺铣：铣刀旋转方向与工件进给方向相同，切削厚度由厚变薄，表面质量好、切削平稳，但要求机床丝杠无间隙，易“啃刀”。<br>🔁 逆铣：方向相反，切削厚度由薄变厚，刀具易切入，适合旧机床及粗加工，但加工表面硬化严重。" },
-        { q: "主运动和进给运动的区别？", a: "🏃 主运动：切下切屑所需的最主要运动，速度最高、消耗功率最大（如车削时工件的旋转）。<br>🚶 进给运动：使切削层不断投入切削的运动，速度低、功耗小（如车刀纵向移动）。" },
-        { q: "砂轮的特性由哪些因素决定？", a: "🛠️ 砂轮特性由磨料、粒度、硬度、结合剂、组织以及形状尺寸共同决定。选用时需根据工件材料和加工要求匹配。" },
-        { q: "粗基准选择原则有哪些？", a: "📐 原则：①保证不加工表面位置准确；②保证重要加工表面余量均匀；③使加工总余量最小；④定位可靠、夹紧简单；⑤粗基准一般避免重复使用（同一自由度）。" },
-        { q: "精基准选择原则有哪些？", a: "🎯 基准重合原则（设计基准与定位基准重合）；基准统一原则（多工序用同一组基准）；自为基准（如铰孔）；互为基准（如齿轮齿面淬火后互研）；便于装夹且稳定可靠。" },
-        { q: "工序、工步、安装、工位的区别是什么？", a: "📌 工序：一个（或一组）工人在一台机床上对一个工件连续完成的部分工艺过程。<br>🔧 工步：在加工表面、刀具、切削用量不变情况下完成的那部分工序。<br>📦 安装：工件一次装夹后所完成的那部分工序。<br>🔄 工位：一次装夹后，工件在机床上占据不同位置进行加工，每个位置为一个工位。" },
-        { q: "什么是加工经济精度？", a: "💰 加工经济精度：在正常生产条件（设备完好、工人技术水平中等、合理工时）下，某种加工方法能够稳定、经济达到的精度等级。超出经济精度会显著提高成本。" },
-        { q: "影响加工精度的主要因素有哪些？", a: "⚠️ 主要因素：机床几何误差/传动误差；刀具制造与磨损误差；夹具误差；工艺系统受力变形、受热变形；工件残余应力引起的变形；测量误差等。" },
-        { q: "轴类零件典型工艺路线是怎样的？", a: "🔩 下料 → 锻造/正火 → 粗车外圆 → 调质处理 → 半精车（留磨量） → 铣键槽/花键 → 磨削外圆 → 检验。" },
-        { q: "什么是六点定位原理？", a: "🧩 六点定位原理：采用六个按一定规则布置的支承点，限制工件的六个自由度（三个移动自由度+三个转动自由度），使工件在空间获得完全确定的位置。" },
-        { q: "完全定位、不完全定位、欠定位、过定位分别指什么？", a: "✔️ 完全定位：6个自由度全部被限制；<br>✔️ 不完全定位：根据加工要求合理限制部分自由度（允许）；<br>❌ 欠定位：必须限制的自由度未限制，绝对不允许；<br>⚠️ 过定位（超定位）：同一自由度被多个定位元件重复限制，一般应避免，但特定条件可合理利用。" },
-        { q: "定位误差由哪些部分组成？", a: "📐 定位误差 = 基准不重合误差（设计基准与定位基准不重合导致） + 基准位移误差（定位副制造不准确引起）。仅在调整法加工中存在。" },
-        { q: "对夹紧装置的基本要求是什么？", a: "🔒 ①保证定位准确且不破坏定位；②夹紧力适当，不损伤已加工表面且变形小；③操作方便、安全省力；④具有良好的自锁性；⑤结构简单紧凑。" },
-        { q: "表面质量包括哪些内容？对零件使用性能有何影响？", a: "📊 表面质量包含：表面粗糙度、冷作硬化（加工硬化）程度、残余应力性质及大小、表层金相组织变化。<br>⚙️ 影响：耐磨性、耐腐蚀性、疲劳强度、配合性质（过盈/间隙变化）及密封性。" },
-        { q: "机械加工中的振动有哪几种？如何控制？", a: "🎵 振动类型：自由振动、强迫振动、自激振动（颤振）。<br>🛡️ 控制措施：提高工艺系统刚度；增加阻尼；避免共振区；合理选择切削用量（如减小切深）；采用减振刀具/装置。" },
-        { q: "尺寸链中封闭环、增环、减环的定义是什么？", a: "📏 封闭环：在加工或装配过程中最后自然形成（间接保证）的尺寸。<br>📈 增环：该环尺寸增大时，封闭环尺寸随之增大；<br>📉 减环：该环尺寸增大时，封闭环尺寸减小。" },
-        { q: "数控加工与普通加工相比有哪些优势？", a: "💡 优势：加工精度高且稳定；柔性好，适合复杂型面及频繁改型；生产效率高（多工序集中）；产品一致性好；减轻劳动强度，易于实现自动化。" },
-        { q: "箱体类零件的典型工艺路线是什么？", a: "🏭 下料 → 铸造 → 时效处理（消除内应力） → 粗铣基准面及平面 → 粗镗孔 → 半精加工（半精铣、半精镗） → 精加工（精镗孔、刮研平面） → 钳工去毛刺 → 检验。" },
-        { q: "What's your major? (英语面试)", a: "My major is Mechanical Engineering. I focus on manufacturing technology and equipment automation." },
-        { q: "Why do you choose our university? (天津中德应用技术大学)", a: "I highly appreciate the strong practical training system and the deep integration of industry and education. Your mechanical engineering program perfectly matches my career plan." },
-        { q: "Introduce yourself briefly. (英文自我介绍)", a: "My name is [Your Name]. I graduated from [Your University] with a major in Mechanical Engineering. I am passionate about advanced manufacturing and have strong hands-on ability. Thank you!" },
-        { q: "什么是加工硬化？对切削加工有何影响？", a: "🔨 加工硬化：切削过程中塑性变形导致表层硬度提高的现象。影响：增大后续切削力，加剧刀具磨损，恶化已加工表面质量，但有利于提高耐磨性（有时需要软化处理）。" },
-        { q: "简述周铣与端铣的差异。", a: "🔪 周铣：铣刀圆周表面刀刃进行铣削，铣削宽度可变；端铣：铣刀端面刀刃铣削，表面质量好，生产率高，适用于平面加工。端铣比周铣更易获得较高平面度。" },
-        { q: "影响切削变形的因素有哪些？", a: "主要因素：工件材料（塑性越大变形越大）；刀具前角（前角越大变形越小）；切削速度（速度提高，变形减小）；切削厚度以及切削液润滑条件。" },
-        { q: "刀具寿命与切削用量的关系是什么？", a: "📉 切削速度对刀具寿命影响最大（指数关系），进给量次之，背吃刀量影响最小。提高切削速度会显著降低刀具寿命，合理选择三要素才能兼顾效率与成本。" }
+        { q: "刀具的五个基本角度是什么？各有什么作用？", a: "<strong>前角、后角、主偏角、副偏角、刃倾角。</strong><br>前角影响切削变形和锋利度；后角减少摩擦；<br>主偏角影响径向力与散热；副偏角影响表面粗糙度；<br>刃倾角控制排屑方向与刀尖强度。" },
+        { q: "什么是积屑瘤？怎么消除？", a: "当切削速度不高且又能形成连续切削的过程，通常在前刀面成三角形，稳定状态是能够代替刀具进行切削，这样一块冷焊在前刀面的金属称为积屑瘤<br>消除：提高或切削速度、加大前角、使用切削液、工件预先热处理" },
+        { q: "切削力由哪几部分组成？影响切削力的因素？", a: "来源：弹性变形、塑性变形、刀具与切屑工件的摩擦力。<br>影响因素：工件材料、切削用量、刀具角度、切削液。" },
+        { q: "粗加工和精加工切削用量怎么选？", a: "粗加工：先选大背吃刀量，再选大进给量，最后选合理切削速度。<br>精加工：高切削速度、小进给量、小背吃刀量，保证精度和表面质量。" },
+        { q: "刀具磨损有哪几种形式？原因是什么？", a: "<strong>前刀面磨损</strong>：切削塑性材料，切屑与前刀面高温高压摩擦形成。<br><strong>后刀面磨损</strong>：刀具后刀面与工件表面摩擦，低速、切削脆性材料明显。<br><strong>边界磨损</strong>：刀尖应力集中、散热差，受硬皮摩擦导致。<br><strong>沟纹磨损</strong>：工件硬质点、氧化皮在切削边界造成局部磨损。" },
+        { q: "切削液的作用有哪些？", a: "冷却、润滑、清洗、防锈。水基冷却强，油基润滑好。" },
+        { q: "车、铣、钻、磨各自的加工特点？", a: "车：加工回转体，外圆、端面、螺纹，精度好。<br>铣：加工平面、沟槽、键槽、轮廓，效率高。<br>钻：孔的粗加工，精度低、钻孔易引偏。<br>磨：精加工，精度高、表面质量好，可淬硬钢。" },
+        { q: "顺铣和逆铣的区别？", a: "逆铣：切削厚度由薄变厚，刀具易切入，适合旧机床、粗加工。<br>顺铣：切削厚度由厚变薄，表面质量好，切削平稳，要求机床丝杠无间隙。" },
+        { q: "主运动和进给运动的区别？", a: "主运动：切下切屑最主要、速度最快的运动。<br>进给运动：不断把待加工层投入切削，速度低、功耗小。" },
+        { q: "砂轮的特性由哪些决定？", a: "磨料、粒度、硬度、结合剂、组织、形状尺寸。" },
+        { q: "粗基准选择原则", a: "保准不加工表面位置原则；保证重要表面余量均匀原则；余量最小原则；定位可靠原则；避免重复使用原则" },
+        { q: "精基准选择原则", a: "基准重合原则、基准统一原则、自为基准、互为基准、便于装夹。" },
+        { q: "工序、工步、安装、工位的区别", a: "工序：一台机床、一个工件、连续完成。<br>工步：表面、刀具、切削用量不变的情况下完成的那部分。<br>安装：工件<strong>一次装夹</strong>后所完成的那部分工序。<br>工位：一次装夹后，工件转到不同位置进行加工，每个位置就是一个工位。" },
+        { q: "什么是加工经济精度？", a: "某种加工方法在正常生产条件下，能经济、稳定达到的精度等级。" },
+        { q: "影响加工精度的主要因素？", a: "机床误差、刀具误差、夹具误差、工艺系统受力变形、受热变形、工件内应力。" },
+        { q: "轴类零件典型工艺路线", a: "下料→正火→粗车→调质→半精车→磨削→检验。" },
+        { q: "什么是六点定位原理？", a: "用六个支承点限制工件的六个自由度（3个移动、3个转动），实现完全定位。" },
+        { q: "完全定位、不完全定位、欠定位、过定位", a: "完全定位：6个自由度全部限制。<br>不完全定位：根据加工要求合理少限制。<br>欠定位：必须限制的自由度未限制，不允许。<br>过定位：同一自由度被多次限制，一般应避免。" },
+        { q: "定位误差由什么组成？", a: "基准位移误差 + 基准不重合误差。<br>仅在调整法加工中存在。" },
+        { q: "对夹紧装置的基本要求", a: "保证定位准确、不破坏已加工表面、夹紧变形小、操作方便安全、自锁可靠。" },
+        { q: "表面质量包括哪些内容？对零件有什么影响？", a: "包括：表面粗糙度、冷作硬化、残余应力、金相组织。<br>影响：耐磨性、耐腐蚀性、疲劳强度、配合性质。" },
+        { q: "机械加工中振动有哪几种？怎么控制？", a: "自由振动、强迫振动、自激振动。<br>控制：提高工艺系统刚度、增加阻尼、避开共振区、合理选择切削用量。" },
+        { q: "尺寸链中什么是封闭环、增环、减环？", a: "封闭环：间接获得、最后形成的尺寸。<br>增环：该环增大则封闭环增大。<br>减环：该环增大则封闭环减小。" },
+        { q: "数控加工与普通加工相比有什么优势？", a: "精度高、柔性好、适合复杂型面、生产效率高、一致性好、减轻劳动强度。" },
+        { q: "刀具五个角度及作用（精简背）", a: "<strong>前角</strong>（减切削力 / 摩擦）、<strong>后角</strong>（减刀具与工件摩擦）、<strong>主偏角</strong>（改变切削力分布）、<strong>副偏角</strong>（减小已加工面残留面积）、<strong>刃倾角</strong>（控制切屑流向）。" },
+        { q: "积屑瘤产生原因与消除（精简背）", a: "原因是切削塑性材料时，切屑与前刀面冷焊粘连；消除：提高切削速度 / 降低进给量、增大前角、使用切削液、选用耐磨刀具材料。" },
+        { q: "六点定位原理与四种定位（精简背）", a: "原理是用 6 个支承点限制工件 6 个自由度；四种定位：完全定位、不完全定位、过定位（超定位）、欠定位（不允许）。" },
+        { q: "粗精基准选择原则（精简背）", a: "<strong>粗基准</strong>：选未加工面、保证加工面余量均匀、避免重复使用；<strong>精基准</strong>：基准重合、基准统一、自为基准、互为基准。" },
+        { q: "粗精加工切削用量选择（精简背）", a: "粗加工：优先选大背吃刀量，次选大进给量，最后定合理切削速度（追求效率）；精加工：选小背吃刀量、小进给量、高切削速度（保证精度与表面质量）。" },
+        { q: "顺铣与逆铣区别（精简背）", a: "顺铣：刀齿旋转方向与工件进给方向相同，切削力小、表面质量好，易啃刀；逆铣：方向相反，切削力大、有硬化层，稳定性好，应用更广。" },
+        { q: "切削力来源及影响因素（精简背）", a: "来源：切削层变形抗力、刀具与工件 / 切屑间摩擦；影响因素：工件材料（硬度越高力越大）、切削用量（背吃刀量影响最显著）、刀具角度、刀具材料与磨损。" },
+        { q: "定位误差组成（精简背）", a: "基准不重合误差（设计基准与定位基准不一致）、基准位移误差（定位基准自身位置变动）。" },
+        { q: "表面质量及其影响（精简背）", a: "表面质量含表面粗糙度、加工硬化、残余应力等；影响：耐磨性、耐腐蚀性、疲劳强度、配合精度。" },
+        { q: "典型零件工艺路线（精简背）", a: "轴类：下料→锻造→退火→粗车→调质→半精车→磨外圆→精加工（铣键槽）；<br>箱体类：下料→铸造→时效处理→粗加工（铣平面、镗孔）→半精加工→精加工（刮研、精镗）。" },
+        { q: "What's your major? (英语面试)", a: "My major is Mechanical Engineering." },
+        { q: "Why do you choose our university? (英语面试)", a: "I like the strong practical training and mechanical major." },
+        { q: "Introduce yourself briefly. (英语面试)", a: "简单版：姓名+学校+专业+爱好机械。" }
     ];
 
-    // 更新数量显示
     const totalQ = questionBank.length;
     document.getElementById('totalCountSpan').innerText = totalQ;
     document.getElementById('fullCount').innerText = totalQ;
 
-    // ---------- 1. 渲染全量题库列表 (每个卡片独立答案区，默认毛玻璃) ----------
-    const gridContainer = document.getElementById('questionsGridContainer');
+    function escapeHtml(plainText) {
+        if (!plainText) return '';
+        return plainText.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
 
+    // ---------- 笔记存储功能 ----------
+    const NOTE_PREFIX = "me_note_";
+    function getNoteKey(index) {
+        return NOTE_PREFIX + index;
+    }
+    function loadNote(index) {
+        const key = getNoteKey(index);
+        const saved = localStorage.getItem(key);
+        return saved !== null ? saved : "";
+    }
+    function saveNote(index, content) {
+        const key = getNoteKey(index);
+        localStorage.setItem(key, content);
+    }
+
+    // 为每个问题卡片绑定笔记区（初始化时加载内容，监听input保存）
+    function bindNoteForCard(cardIndex, textareaElement, statusSpan = null) {
+        if (!textareaElement) return;
+        // 加载已有笔记
+        const savedContent = loadNote(cardIndex);
+        textareaElement.value = savedContent;
+        let timeoutId = null;
+        const saveHandler = () => {
+            if (timeoutId) clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                const newContent = textareaElement.value;
+                saveNote(cardIndex, newContent);
+                if (statusSpan) {
+                    statusSpan.innerText = "已保存";
+                    setTimeout(() => { if(statusSpan) statusSpan.innerText = "已同步"; }, 800);
+                } else {
+                    // 对于动态卡片，我们可以更新状态，但为了简洁，保持静默保存
+                }
+            }, 400);
+        };
+        textareaElement.addEventListener('input', saveHandler);
+        // 初始状态显示已同步
+        if (statusSpan) statusSpan.innerText = "已同步";
+    }
+
+    // 渲染完整题库列表（每个题目卡片 + 笔记区）
     function renderFullLibrary() {
+        const container = document.getElementById('questionsGridContainer');
         let html = '';
         for (let i = 0; i < questionBank.length; i++) {
             const item = questionBank[i];
-            // 每个答案容器独立 id 或 data-index，便于单独控制。用 class + dataset 控制切换
             html += `
-                <div class="question-item" data-index="${i}">
+                <div class="question-item" data-qidx="${i}">
                     <div class="item-question">${escapeHtml(item.q)}</div>
                     <div class="item-answer" data-answer-idx="${i}">
                         <div class="answer-header-sm">
@@ -440,52 +516,53 @@
                             ${item.a}
                         </div>
                     </div>
+                    <div class="note-area">
+                        <div class="note-header">
+                            <span>📝 我的笔记（自动保存）</span>
+                            <span class="note-save-status" id="noteStatus-${i}">已同步</span>
+                        </div>
+                        <textarea class="note-textarea note-${i}" rows="2" placeholder="记录你的理解、易错点或补充知识... 内容会自动保存在浏览器中"></textarea>
+                    </div>
                 </div>
             `;
         }
-        gridContainer.innerHTML = html;
-        // 为每个答案区绑定独立点击事件 (委派或者单独绑定)
-        // 使用事件委托: 监听 .item-answer 区域，点击切换内部 .answer-content-sm 的 blur/clear 类
-        gridContainer.addEventListener('click', (e) => {
-            // 向上查找到 .item-answer 层
-            let targetAnswerDiv = e.target.closest('.item-answer');
-            if (!targetAnswerDiv) return;
-            const contentDiv = targetAnswerDiv.querySelector('.answer-content-sm');
-            if (contentDiv) {
-                // 切换模糊和清晰
-                if (contentDiv.classList.contains('blur-answer')) {
-                    contentDiv.classList.remove('blur-answer');
-                    contentDiv.classList.add('clear-answer');
-                } else if (contentDiv.classList.contains('clear-answer')) {
-                    contentDiv.classList.remove('clear-answer');
-                    contentDiv.classList.add('blur-answer');
-                } else {
-                    // 初始默认保证有 blur-answer，但以防万一
-                    contentDiv.classList.add('blur-answer');
-                }
-                e.stopPropagation();
+        container.innerHTML = html;
+        // 为每个卡片绑定笔记功能 + 答案点击切换
+        for (let i = 0; i < questionBank.length; i++) {
+            const textarea = document.querySelector(`.note-${i}`);
+            const statusSpan = document.getElementById(`noteStatus-${i}`);
+            if (textarea) {
+                bindNoteForCard(i, textarea, statusSpan);
             }
-        });
+            // 答案点击切换 (原有逻辑)
+            const answerDiv = document.querySelector(`.question-item[data-qidx="${i}"] .item-answer`);
+            if (answerDiv) {
+                const contentDiv = answerDiv.querySelector('.answer-content-sm');
+                if (contentDiv) {
+                    answerDiv.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (contentDiv.classList.contains('blur-answer')) {
+                            contentDiv.classList.remove('blur-answer');
+                            contentDiv.classList.add('clear-answer');
+                        } else if (contentDiv.classList.contains('clear-answer')) {
+                            contentDiv.classList.remove('clear-answer');
+                            contentDiv.classList.add('blur-answer');
+                        } else {
+                            contentDiv.classList.add('blur-answer');
+                        }
+                    });
+                }
+            }
+        }
     }
 
-    // 辅助防XSS
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
-        });
-    }
-
-    // ---------- 2. 顶部随机抽题模块逻辑 (基于同样questionBank) ----------
+    // ---------- 顶部随机抽题模块 ----------
     let currentRandomIndex = 0;
     const topQuestionDisplay = document.getElementById('questionDisplay');
     const topAnswerBlurZone = document.getElementById('topAnswerBlurZone');
     const randomBtn = document.getElementById('randomBtn');
+    const topNoteInput = document.getElementById('topNoteInput');
+    const topNoteStatus = document.getElementById('topNoteStatus');
 
     function setRandomQuestion() {
         const newIdx = Math.floor(Math.random() * totalQ);
@@ -493,16 +570,31 @@
         const item = questionBank[newIdx];
         topQuestionDisplay.innerHTML = escapeHtml(item.q);
         topAnswerBlurZone.innerHTML = item.a;
-        // 重置为毛玻璃状态 (模糊)
         topAnswerBlurZone.classList.remove('clear-answer');
         topAnswerBlurZone.classList.add('blur-answer');
+        // 加载对应笔记
+        const noteContent = loadNote(currentRandomIndex);
+        topNoteInput.value = noteContent;
+        topNoteStatus.innerText = "已同步";
     }
 
-    // 顶部答案单独点击切换 (模糊/清晰)
+    // 顶部笔记自动保存
+    function bindTopNote() {
+        let timeoutId = null;
+        topNoteInput.addEventListener('input', () => {
+            if (timeoutId) clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                const newContent = topNoteInput.value;
+                saveNote(currentRandomIndex, newContent);
+                topNoteStatus.innerText = "已保存";
+                setTimeout(() => { topNoteStatus.innerText = "已同步"; }, 800);
+            }, 400);
+        });
+    }
+
     function bindTopAnswerToggle() {
         const topCard = document.getElementById('topAnswerCard');
         topCard.addEventListener('click', (e) => {
-            // 防止点到内部冒泡误判，直接针对答案区域
             if (topAnswerBlurZone) {
                 if (topAnswerBlurZone.classList.contains('blur-answer')) {
                     topAnswerBlurZone.classList.remove('blur-answer');
@@ -516,11 +608,8 @@
         });
     }
 
-    randomBtn.addEventListener('click', () => {
-        setRandomQuestion();
-    });
+    randomBtn.addEventListener('click', setRandomQuestion);
 
-    // 初始化顶部题目 (默认展示第一个题目)
     function initTopQuestion() {
         currentRandomIndex = 0;
         const firstItem = questionBank[0];
@@ -528,49 +617,42 @@
         topAnswerBlurZone.innerHTML = firstItem.a;
         topAnswerBlurZone.classList.add('blur-answer');
         topAnswerBlurZone.classList.remove('clear-answer');
+        const noteContent = loadNote(0);
+        topNoteInput.value = noteContent;
+        topNoteStatus.innerText = "已同步";
     }
 
-    // ---------- 3. 全局爱心按钮：全开/全关所有答案 (包括顶部+下方所有卡片) ----------
+    // 全局爱心按钮：全开 / 全关所有答案（顶部 + 下方）
     const loveBtn = document.getElementById('globalLoveBtn');
-
     function toggleAllAnswers() {
-        // 收集所有答案元素: 顶部的 .answer-content (即topAnswerBlurZone) 和下方所有 .answer-content-sm
         const allAnswerElements = [topAnswerBlurZone, ...document.querySelectorAll('.answer-content-sm')];
-        // 过滤掉null
         const validAnswers = allAnswerElements.filter(el => el !== null);
         if (validAnswers.length === 0) return;
-
-        // 判断当前是否存在任何一个答案是模糊(遮盖)状态
         const anyBlur = validAnswers.some(el => el.classList.contains('blur-answer'));
         if (anyBlur) {
-            // 存在模糊 -> 全部变清晰 (全开)
             validAnswers.forEach(el => {
                 el.classList.remove('blur-answer');
                 el.classList.add('clear-answer');
             });
         } else {
-            // 全部已经是清晰 -> 全部变为模糊 (全关)
             validAnswers.forEach(el => {
                 el.classList.remove('clear-answer');
                 el.classList.add('blur-answer');
             });
         }
     }
-
     loveBtn.addEventListener('click', (e) => {
         e.preventDefault();
         toggleAllAnswers();
     });
 
-    // ---------- 4. 初始化页面, 渲染全题库 + 顶部默认 + 事件绑定 ----------
+    // 初始化
     function init() {
-        renderFullLibrary();     // 生成全部题目卡片(默认每个答案都是blur-answer)
-        initTopQuestion();       // 顶部默认题目
-        bindTopAnswerToggle();   // 绑定顶部答案点击切换
-        // 注意: 因为renderFullLibrary已通过委托处理下方点击切换，无需额外绑定
-        // 额外确保顶部随机抽题后，爱心按钮依旧能作用到新的顶部答案区 (因为topAnswerBlurZone不变)
+        renderFullLibrary();
+        initTopQuestion();
+        bindTopAnswerToggle();
+        bindTopNote();
     }
-
     init();
 </script>
 </body>
