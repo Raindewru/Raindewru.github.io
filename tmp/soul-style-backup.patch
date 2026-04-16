@@ -1,0 +1,762 @@
+diff --git a/soul/animal/index.html b/soul/animal/index.html
+index fff3bd0..4998301 100644
+--- a/soul/animal/index.html
++++ b/soul/animal/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+   
+ <head>
+@@ -9,7 +9,8 @@
+     <link rel="stylesheet" href="styles.css" />
+     <link rel="stylesheet" href="../authorization/auth-modal.css"/>
+     <link rel="icon" href="../static/images/favicon.png" type="image/png">
+-  </head>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
++</head>
+   <body>
+     <header class="nav">
+       <div class="nav__brand">
+@@ -22,7 +23,7 @@
+       <!-- 移动端菜单切换按钮 -->
+       <button class="nav__toggle" id="nav-toggle" aria-label="打开菜单">☰</button>
+       <nav class="nav__links" id="nav-links">
+-        <a href="../../index.html" class="nav__link"><span>🏠</span> Web首页</a>
++        <a href="../../index.html" class="nav__link"><span>🏠</span> Web首页</a>
+       </nav>
+     </header>
+ 
+@@ -115,6 +116,10 @@
+     data-start-button="#startTest"
+     data-redirect="quiz.html"
+     data-session-hours="6"></script>
+-  </body>
++    <script src="../static/theme/visual-refresh.js" defer></script>
++</body>
+ 
+ </html>
++
++
++
+diff --git a/soul/animal/quiz.html b/soul/animal/quiz.html
+index 101ab10..5b7c91d 100644
+--- a/soul/animal/quiz.html
++++ b/soul/animal/quiz.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+   <head>
+     <meta charset="UTF-8" />
+@@ -170,7 +170,8 @@
+         font-size: 18px;
+       }
+     </style>
+-  </head>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
++</head>
+   <body>
+     <header class="nav">
+       <div class="nav__brand">
+@@ -420,5 +421,9 @@
+       data-auth-context="start"
+       data-auto-run="true"
+       data-on-authorized="loadQuestions"></script>
+-  </body>
++    <script src="../static/theme/visual-refresh.js" defer></script>
++</body>
+ </html>
++
++
++
+diff --git a/soul/animal/result.html b/soul/animal/result.html
+index 0c30dd2..fc76bd0 100644
+--- a/soul/animal/result.html
++++ b/soul/animal/result.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+   <head>
+     <meta charset="UTF-8" />
+@@ -242,7 +242,8 @@
+       
+ 
+     </style>
+-  </head>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
++</head>
+   <body>
+     <header class="nav">
+       <div class="nav__brand">
+@@ -1178,5 +1179,9 @@
+       // 初始化
+       initPage();
+     </script>
+-  </body>
++    <script src="../static/theme/visual-refresh.js" defer></script>
++</body>
+ </html>
++
++
++
+diff --git a/soul/authorization/authorization-sdk.js b/soul/authorization/authorization-sdk.js
+index 86a4abb..5e7639b 100644
+--- a/soul/authorization/authorization-sdk.js
++++ b/soul/authorization/authorization-sdk.js
+@@ -4,6 +4,78 @@
+     .then((res) => res.json())
+     .catch(() => ({}));
+   const controllers = new Set();
++  const LOCAL_CODE_FORMAT = /^[a-z0-9]{8}$/;
++  const LOCAL_AUTH_HASHES = Object.freeze({
++    animal: "6295474ba83ca8ff94411deef5f032466db32c48bad202fa2c7b4a6e8177ba87",
++    heian: "f00dca6ee7bea660c2e25eeeea4524e80d3ec1dfeb4106912f59b81f5d5cf933",
++    mbtia: "9b9ceffc2954a938fcd6a2add583574c87e8e8ed885708ac4644b523b0b05eff",
++    nxfg: "f38ebdcc98ea0f4515d4a517ed087bc637cd332ea848c1181ae24d3e400ffc77",
++    nxxg: "49a3f878e3e492d7e392b5c4a9a7547844111626c3308f9f1acd2384e3b2f207",
++    rskx: "d3ad922ab2996f77e2cea3a8d8496cfb7efd2d0126d77fde783aa63a7be2a240",
++    shh: "724b1608f323de8398dc8fd24b490c08ad244834bb0ae86eec2ee7c5aca66412",
++    sl90: "b91a3dbf5667bcbccf53f016c3c40a77e2df3fb255547032e00f3cc2dcaffa3e",
++    tianfu: "ba131838709b07770cd513fab07fce3c915591f93227e78f1b3f2e7197858fd0",
++    xgcs: "da9ef1c062ef9bc66361fc1046986ff1bf5157d254cfd30ab325f196ceb40720",
++    xlnl: "89dcb9fc339a456864f73b7752a892141b558d433937490e70fbf3f19780e959",
++    xpcs: "2b36e45c575a77c4d2437665c47d94b5df9da7e40ada7ecaba3c88a48bd89620",
++    year: "727904916e50e2c19243e8088bf225c0a0262b4ef32961b7d7f637135ab3fb51",
++    ysjt: "0d77e2b5292f2db9f15c106ec770d91c81bc3c7a9c5f0cad0217485d34f52a25",
++    yzcs: "9c23efc8ed4dd5c8666e8f57a5f2d88d4f5fc9a67b6d1a44937cb5b98734c6da",
++    zaqx: "73573da486888655998062088311a4466c2a6147334835ddf11ef0db548d47d3",
++  });
++
++  function parseBoolean(value, fallback) {
++    if (typeof value === "undefined" || value === null) return fallback;
++    return ["true", "1", "yes", "on"].includes(String(value).toLowerCase());
++  }
++
++  function getLocalPepper() {
++    return ["5ics", "local", "auth", "v1#2026"].join(".");
++  }
++
++  function toHex(bytes) {
++    return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
++  }
++
++  function fallbackHash(input) {
++    let h1 = 0x811c9dc5;
++    let h2 = 0x9e3779b9;
++    for (let i = 0; i < input.length; i += 1) {
++      const code = input.charCodeAt(i);
++      h1 ^= code;
++      h1 = Math.imul(h1, 0x01000193) >>> 0;
++      h2 ^= code + ((h2 << 5) >>> 0) + (h2 >>> 2);
++      h2 >>>= 0;
++    }
++    let out = "";
++    for (let i = 0; i < 8; i += 1) {
++      h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822519) >>> 0;
++      h2 = Math.imul(h2 ^ (h2 >>> 13), 3266489917) >>> 0;
++      out += h1.toString(16).padStart(8, "0");
++      out += h2.toString(16).padStart(8, "0");
++    }
++    return out.slice(0, 64);
++  }
++
++  async function sha256Hex(input) {
++    if (global.crypto && global.crypto.subtle && global.TextEncoder) {
++      const bytes = new global.TextEncoder().encode(input);
++      const digest = await global.crypto.subtle.digest("SHA-256", bytes);
++      return toHex(new Uint8Array(digest));
++    }
++    return fallbackHash(input);
++  }
++
++  async function validateLocalCode(testType, rawCode) {
++    const normalizedType = String(testType || "").trim().toLowerCase();
++    const expected = LOCAL_AUTH_HASHES[normalizedType];
++    if (!expected) return false;
++    const code = String(rawCode || "").trim().toLowerCase();
++    if (!LOCAL_CODE_FORMAT.test(code)) return false;
++    const source = `${normalizedType}|${code}|${getLocalPepper()}`;
++    const digest = await sha256Hex(source);
++    return digest === expected;
++  }
+ 
+   class AuthorizationController {
+     constructor(options) {
+@@ -18,7 +90,7 @@
+           redirect: null,
+           startButtons: [],
+           autoRun: false,
+-          useServerValidation: true,
++          useServerValidation: false,
+           authContext: "start",
+         },
+         options || {}
+@@ -97,13 +169,10 @@
+     }
+ 
+     async ensureAuthorized(callback) {
+-      // Local offline mirror: bypass remote authorization so tests can be opened directly.
+-      this.grantSession();
+-      this.handleAuthorized(callback);
+-      return true;
+-
+       const hasConfig = Boolean(this.state.config);
+-      const authRequired = !(hasConfig && this.state.config.auth_required === 0);
++      const authRequired = this.options.useServerValidation
++        ? !(hasConfig && this.state.config.auth_required === 0)
++        : true;
+       const configMode = hasConfig && this.state.config.auth_mode ? this.state.config.auth_mode : "start";
+       const context = this.options.authContext || "start";
+       if (!authRequired) {
+@@ -111,7 +180,7 @@
+         this.handleAuthorized(callback);
+         return true;
+       }
+-      if (hasConfig && configMode !== context) {
++      if (this.options.useServerValidation && hasConfig && configMode !== context) {
+         this.handleAuthorized(callback);
+         return true;
+       }
+@@ -150,6 +219,11 @@
+             errorEl.style.display = "block";
+             return;
+           }
++          if (!LOCAL_CODE_FORMAT.test(code.toLowerCase())) {
++            errorEl.textContent = "授权码需为8位小写字母或数字";
++            errorEl.style.display = "block";
++            return;
++          }
+           const passed = await this.validateCode(code);
+           if (passed) {
+             this.grantSession();
+@@ -171,7 +245,7 @@
+ 
+     async validateCode(code) {
+       if (!this.options.useServerValidation) {
+-        return Boolean(code);
++        return validateLocalCode(this.options.testType, code);
+       }
+       try {
+         if (this.options.autoConsume) {
+@@ -311,9 +385,9 @@
+ 
+   function normalizeOptions(dataset) {
+     const opts = Object.assign({}, dataset);
+-    if (typeof opts.autoRun !== "undefined") {
+-      opts.autoRun = ["true", "1", "yes", "on"].includes(String(opts.autoRun).toLowerCase());
+-    }
++    opts.autoRun = parseBoolean(opts.autoRun, false);
++    opts.useServerValidation = parseBoolean(opts.useServerValidation, false);
++    opts.autoConsume = parseBoolean(opts.autoConsume, true);
+     if (typeof opts.authContext !== "undefined") {
+       opts.authContext = String(opts.authContext).toLowerCase();
+     }
+@@ -358,6 +432,8 @@
+         redirect: dataset.redirect || null,
+         onAuthorized: dataset.onAuthorized || null,
+         authContext: dataset.authContext || "start",
++        useServerValidation: dataset.useServerValidation,
++        autoConsume: dataset.autoConsume,
+       };
+       if (typeof dataset.sessionHours !== "undefined") {
+         opts.sessionHours = dataset.sessionHours || DEFAULT_SESSION_HOURS;
+diff --git a/soul/heian/index.html b/soul/heian/index.html
+index 62f6088..8f0a564 100644
+--- a/soul/heian/index.html
++++ b/soul/heian/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -81,6 +81,7 @@
+   }
+ }
+ </script>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body class="min-h-screen selection:bg-red-900 selection:text-white pb-10 flex flex-col">
+ 
+@@ -882,6 +883,10 @@
+   data-start-button="#start-btn"
+   data-on-authorized="startHeianQuiz">
+ </script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/index.html b/soul/index.html
+index efa3362..8704cbe 100644
+--- a/soul/index.html
++++ b/soul/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ <head>
+     <meta charset="UTF-8">
+@@ -408,6 +408,7 @@
+   }
+ }
+ </script>
++    <link rel="stylesheet" href="static/theme/visual-refresh.css">
+ </head>
+ <body>
+ 
+@@ -623,5 +624,9 @@
+             grid.innerHTML = html;
+         });
+     </script>
++    <script src="static/theme/visual-refresh.js" defer></script>
+ </body>
+ </html>
++
++
++
+diff --git a/soul/mbtia/index.html b/soul/mbtia/index.html
+index d1152b3..9ef8a44 100644
+--- a/soul/mbtia/index.html
++++ b/soul/mbtia/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -110,6 +110,7 @@
+   }
+ }
+ </script>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body class="flex flex-col">
+ 
+@@ -866,6 +867,10 @@
+       data-start-button="#startBtn"
+       data-on-authorized="startQuiz"
+       data-session-hours="6"></script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/nxfg/index.html b/soul/nxfg/index.html
+index 2c99d79..297cbca 100644
+--- a/soul/nxfg/index.html
++++ b/soul/nxfg/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+   
+ <head>
+@@ -54,6 +54,7 @@
+   }
+ }
+ </script>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body class="min-h-screen text-gray-800 font-sans selection:bg-rose-200">
+ 
+@@ -1165,6 +1166,10 @@
+     data-on-authorized="startNxfgTest"
+     data-session-hours="6"
+ ></script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/nxxg/index.html b/soul/nxxg/index.html
+index 9932037..fc2ba07 100644
+--- a/soul/nxxg/index.html
++++ b/soul/nxxg/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -55,6 +55,7 @@
+   }
+ }
+ </script>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body>
+     <div id="app" class="min-h-screen relative"></div>
+@@ -660,6 +661,10 @@
+       data-start-button="#startBtn"
+       data-on-authorized="startNxxgQuiz"
+       data-session-hours="6"></script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/rskx/index.html b/soul/rskx/index.html
+index 27a7455..764e10c 100644
+--- a/soul/rskx/index.html
++++ b/soul/rskx/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -74,6 +74,7 @@
+       data-start-button="#startTestBtn"
+       data-auto-run="false"
+       data-on-authorized="startRskx"></script>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body>
+     <div id="root"></div>
+@@ -1929,6 +1930,10 @@
+             </React.StrictMode>
+         );
+     </script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/shh/index.html b/soul/shh/index.html
+index ff9323c..4efd149 100644
+--- a/soul/shh/index.html
++++ b/soul/shh/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -36,6 +36,7 @@
+         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+     </style>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body>
+ 
+@@ -1002,6 +1003,10 @@
+   data-start-button="#startBtn"
+   data-on-authorized="startQuiz">
+ </script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/sl90/index.html b/soul/sl90/index.html
+index 0668a55..bf6d43b 100644
+--- a/soul/sl90/index.html
++++ b/soul/sl90/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -625,6 +625,7 @@
+       }
+     }
+   </style>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body>
+   <div class="container view" id="homeView">
+@@ -1550,6 +1551,10 @@
+         data-start-button="#startTest"
+         data-on-authorized="loadQuestions"
+         data-session-hours="6"></script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/tg/index.html b/soul/tg/index.html
+index 8812ca1..35887f1 100644
+--- a/soul/tg/index.html
++++ b/soul/tg/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -239,6 +239,7 @@
+       }
+     }
+   </style>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body>
+   <div class="container">
+@@ -303,6 +304,10 @@
+       });
+     }
+   </script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/tianfu/index.html b/soul/tianfu/index.html
+index 8aa6694..05dafae 100644
+--- a/soul/tianfu/index.html
++++ b/soul/tianfu/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -8,6 +8,7 @@
+     <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="../authorization/auth-modal.css"/>
+     <link rel="icon" href="../static/images/favicon.png" type="image/png">
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body>
+     <!-- 主页 -->
+@@ -272,6 +273,10 @@
+         data-start-button="#startTest"
+         data-on-authorized="loadQuestions"
+         data-session-hours="6"></script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/xgcs/index.html b/soul/xgcs/index.html
+index 26f33d5..05dc9c5 100644
+--- a/soul/xgcs/index.html
++++ b/soul/xgcs/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -411,6 +411,7 @@
+   }
+ }
+ </script>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body>
+ 
+@@ -1423,6 +1424,10 @@
+       data-start-button="#start-btn"
+       data-on-authorized="startXgcsFlow">
+     </script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/xlnl/index.html b/soul/xlnl/index.html
+index 37508b8..73ae2f9 100644
+--- a/soul/xlnl/index.html
++++ b/soul/xlnl/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -140,6 +140,7 @@
+             color: #4f46e5;
+         }
+     </style>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
+ 
+@@ -980,6 +981,10 @@
+       data-start-button="#start-btn"
+       data-on-authorized="startXlnlFlow">
+     </script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/xpcs/index.html b/soul/xpcs/index.html
+index 4132f52..bfa5b58 100644
+--- a/soul/xpcs/index.html
++++ b/soul/xpcs/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -572,6 +572,7 @@
+     }
+ 
+   </style>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body>
+   <!-- 首页视图 -->
+@@ -1358,6 +1359,10 @@
+     data-start-button=".start-btn"
+     data-on-authorized="startTest"
+     data-session-hours="6"></script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/year/index.html b/soul/year/index.html
+index 0821c15..f6e4607 100644
+--- a/soul/year/index.html
++++ b/soul/year/index.html
+@@ -1,4 +1,4 @@
+-
++﻿
+     <!DOCTYPE html>
+     <html lang="zh-CN">
+     
+@@ -6,7 +6,8 @@
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>年上年下恋爱倾向测试 AYP专业测评</title>
+-    </head>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
++</head>
+     <body>
+       <!DOCTYPE html>
+ <html lang="zh-CN">
+@@ -4539,7 +4540,11 @@
+         data-start-button="#startTest2"
+         data-on-authorized="loadQuestions"
+         data-session-hours="6"></script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
+   
++
++
++
+diff --git a/soul/ysjt/index.html b/soul/ysjt/index.html
+index 69e6b94..40787c8 100644
+--- a/soul/ysjt/index.html
++++ b/soul/ysjt/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -133,6 +133,7 @@
+             }
+         }
+     </style>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body class="bg-slate-50 font-sans text-slate-900 min-h-screen flex flex-col">
+ 
+@@ -961,6 +962,10 @@
+       data-start-button="#start-btn"
+       data-on-authorized="startYsjtQuiz">
+     </script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/yzcs/index.html b/soul/yzcs/index.html
+index 751004b..5832781 100644
+--- a/soul/yzcs/index.html
++++ b/soul/yzcs/index.html
+@@ -1,4 +1,4 @@
+-
++﻿
+     <!DOCTYPE html>
+     <html lang="zh-CN">
+     
+@@ -6,8 +6,8 @@
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>高颜值测试</title>
+-      
+-    </head>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
++</head>
+     <body>
+       <!DOCTYPE html>
+ <html lang="zh-CN">
+@@ -2202,6 +2202,10 @@
+     data-start-button="#startTest"
+     data-on-authorized="onYzcsAuthorized"
+     data-session-hours="6"></script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++
+diff --git a/soul/zaqx/index.html b/soul/zaqx/index.html
+index b2f14bf..4580251 100644
+--- a/soul/zaqx/index.html
++++ b/soul/zaqx/index.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++﻿<!DOCTYPE html>
+ <html lang="zh-CN">
+ 
+ <head>
+@@ -122,6 +122,7 @@
+             .nav-button { padding: 8px 10px; font-size: 13px; }
+         }
+     </style>
++    <link rel="stylesheet" href="../static/theme/visual-refresh.css">
+ </head>
+ <body class="bg-rose-50 text-slate-800 antialiased selection:bg-rose-200 selection:text-rose-900">
+     
+@@ -941,6 +942,10 @@
+         renderWelcome();
+ 
+     </script>
++    <script src="../static/theme/visual-refresh.js" defer></script>
+ </body>
+ 
+ </html>
++
++
++

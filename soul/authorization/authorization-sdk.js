@@ -4,6 +4,78 @@
     .then((res) => res.json())
     .catch(() => ({}));
   const controllers = new Set();
+  const LOCAL_CODE_FORMAT = /^[a-z0-9]{8}$/;
+  const LOCAL_AUTH_HASHES = Object.freeze({
+    animal: "6295474ba83ca8ff94411deef5f032466db32c48bad202fa2c7b4a6e8177ba87",
+    heian: "f00dca6ee7bea660c2e25eeeea4524e80d3ec1dfeb4106912f59b81f5d5cf933",
+    mbtia: "9b9ceffc2954a938fcd6a2add583574c87e8e8ed885708ac4644b523b0b05eff",
+    nxfg: "f38ebdcc98ea0f4515d4a517ed087bc637cd332ea848c1181ae24d3e400ffc77",
+    nxxg: "49a3f878e3e492d7e392b5c4a9a7547844111626c3308f9f1acd2384e3b2f207",
+    rskx: "d3ad922ab2996f77e2cea3a8d8496cfb7efd2d0126d77fde783aa63a7be2a240",
+    shh: "724b1608f323de8398dc8fd24b490c08ad244834bb0ae86eec2ee7c5aca66412",
+    sl90: "b91a3dbf5667bcbccf53f016c3c40a77e2df3fb255547032e00f3cc2dcaffa3e",
+    tianfu: "ba131838709b07770cd513fab07fce3c915591f93227e78f1b3f2e7197858fd0",
+    xgcs: "da9ef1c062ef9bc66361fc1046986ff1bf5157d254cfd30ab325f196ceb40720",
+    xlnl: "89dcb9fc339a456864f73b7752a892141b558d433937490e70fbf3f19780e959",
+    xpcs: "2b36e45c575a77c4d2437665c47d94b5df9da7e40ada7ecaba3c88a48bd89620",
+    year: "727904916e50e2c19243e8088bf225c0a0262b4ef32961b7d7f637135ab3fb51",
+    ysjt: "0d77e2b5292f2db9f15c106ec770d91c81bc3c7a9c5f0cad0217485d34f52a25",
+    yzcs: "9c23efc8ed4dd5c8666e8f57a5f2d88d4f5fc9a67b6d1a44937cb5b98734c6da",
+    zaqx: "73573da486888655998062088311a4466c2a6147334835ddf11ef0db548d47d3",
+  });
+
+  function parseBoolean(value, fallback) {
+    if (typeof value === "undefined" || value === null) return fallback;
+    return ["true", "1", "yes", "on"].includes(String(value).toLowerCase());
+  }
+
+  function getLocalPepper() {
+    return ["5ics", "local", "auth", "v1#2026"].join(".");
+  }
+
+  function toHex(bytes) {
+    return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  function fallbackHash(input) {
+    let h1 = 0x811c9dc5;
+    let h2 = 0x9e3779b9;
+    for (let i = 0; i < input.length; i += 1) {
+      const code = input.charCodeAt(i);
+      h1 ^= code;
+      h1 = Math.imul(h1, 0x01000193) >>> 0;
+      h2 ^= code + ((h2 << 5) >>> 0) + (h2 >>> 2);
+      h2 >>>= 0;
+    }
+    let out = "";
+    for (let i = 0; i < 8; i += 1) {
+      h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822519) >>> 0;
+      h2 = Math.imul(h2 ^ (h2 >>> 13), 3266489917) >>> 0;
+      out += h1.toString(16).padStart(8, "0");
+      out += h2.toString(16).padStart(8, "0");
+    }
+    return out.slice(0, 64);
+  }
+
+  async function sha256Hex(input) {
+    if (global.crypto && global.crypto.subtle && global.TextEncoder) {
+      const bytes = new global.TextEncoder().encode(input);
+      const digest = await global.crypto.subtle.digest("SHA-256", bytes);
+      return toHex(new Uint8Array(digest));
+    }
+    return fallbackHash(input);
+  }
+
+  async function validateLocalCode(testType, rawCode) {
+    const normalizedType = String(testType || "").trim().toLowerCase();
+    const expected = LOCAL_AUTH_HASHES[normalizedType];
+    if (!expected) return false;
+    const code = String(rawCode || "").trim().toLowerCase();
+    if (!LOCAL_CODE_FORMAT.test(code)) return false;
+    const source = `${normalizedType}|${code}|${getLocalPepper()}`;
+    const digest = await sha256Hex(source);
+    return digest === expected;
+  }
 
   class AuthorizationController {
     constructor(options) {
@@ -18,7 +90,7 @@
           redirect: null,
           startButtons: [],
           autoRun: false,
-          useServerValidation: true,
+          useServerValidation: false,
           authContext: "start",
         },
         options || {}
@@ -97,13 +169,10 @@
     }
 
     async ensureAuthorized(callback) {
-      // Local offline mirror: bypass remote authorization so tests can be opened directly.
-      this.grantSession();
-      this.handleAuthorized(callback);
-      return true;
-
       const hasConfig = Boolean(this.state.config);
-      const authRequired = !(hasConfig && this.state.config.auth_required === 0);
+      const authRequired = this.options.useServerValidation
+        ? !(hasConfig && this.state.config.auth_required === 0)
+        : true;
       const configMode = hasConfig && this.state.config.auth_mode ? this.state.config.auth_mode : "start";
       const context = this.options.authContext || "start";
       if (!authRequired) {
@@ -111,7 +180,7 @@
         this.handleAuthorized(callback);
         return true;
       }
-      if (hasConfig && configMode !== context) {
+      if (this.options.useServerValidation && hasConfig && configMode !== context) {
         this.handleAuthorized(callback);
         return true;
       }
@@ -150,6 +219,11 @@
             errorEl.style.display = "block";
             return;
           }
+          if (!LOCAL_CODE_FORMAT.test(code.toLowerCase())) {
+            errorEl.textContent = "授权码需为8位小写字母或数字";
+            errorEl.style.display = "block";
+            return;
+          }
           const passed = await this.validateCode(code);
           if (passed) {
             this.grantSession();
@@ -171,7 +245,7 @@
 
     async validateCode(code) {
       if (!this.options.useServerValidation) {
-        return Boolean(code);
+        return validateLocalCode(this.options.testType, code);
       }
       try {
         if (this.options.autoConsume) {
@@ -311,9 +385,9 @@
 
   function normalizeOptions(dataset) {
     const opts = Object.assign({}, dataset);
-    if (typeof opts.autoRun !== "undefined") {
-      opts.autoRun = ["true", "1", "yes", "on"].includes(String(opts.autoRun).toLowerCase());
-    }
+    opts.autoRun = parseBoolean(opts.autoRun, false);
+    opts.useServerValidation = parseBoolean(opts.useServerValidation, false);
+    opts.autoConsume = parseBoolean(opts.autoConsume, true);
     if (typeof opts.authContext !== "undefined") {
       opts.authContext = String(opts.authContext).toLowerCase();
     }
@@ -358,6 +432,8 @@
         redirect: dataset.redirect || null,
         onAuthorized: dataset.onAuthorized || null,
         authContext: dataset.authContext || "start",
+        useServerValidation: dataset.useServerValidation,
+        autoConsume: dataset.autoConsume,
       };
       if (typeof dataset.sessionHours !== "undefined") {
         opts.sessionHours = dataset.sessionHours || DEFAULT_SESSION_HOURS;
