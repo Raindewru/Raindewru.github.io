@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141710" />
+    <title>扫雷</title>
+    <meta
+      name="description"
+      content="网页扫雷。左键翻开，右键或长按插旗。第一下不会踩雷。"
+    />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="brython.min.js"></script>
+  </head>
+  <body onload="brython({cache: false, debug: 0})">
+    <div class="page">
+      <header class="mast">
+        <p class="eyebrow">夜班排雷室</p>
+        <h1>扫雷</h1>
+        <p class="lede">第一下不会踩到雷。之后每一格，都是数出来的。</p>
+        <p class="lede"><a class="other-game" href="index.html">去玩羊了个羊</a></p>
+      </header>
+
+      <div class="diffs" role="group" aria-label="难度">
+        <button type="button" id="diff-beginner" class="diff is-on">
+          初级
+          <span>9×9 · 10 雷</span>
+        </button>
+        <button type="button" id="diff-intermediate" class="diff">
+          中级
+          <span>16×16 · 40 雷</span>
+        </button>
+        <button type="button" id="diff-expert" class="diff">
+          高级
+          <span>16×30 · 99 雷</span>
+        </button>
+      </div>
+
+      <div class="layout">
+        <section class="cabinet is-ready" id="cabinet" aria-label="雷区操作台">
+          <span class="screw a" aria-hidden="true"></span>
+          <span class="screw b" aria-hidden="true"></span>
+          <span class="screw c" aria-hidden="true"></span>
+          <span class="screw d" aria-hidden="true"></span>
+          <div class="panel">
+            <div class="hud">
+              <div class="meter">
+                <span id="mines-label">剩余</span>
+                <div class="lcd" id="lcd-mines" aria-labelledby="mines-label">010</div>
+              </div>
+              <button type="button" id="face" aria-label="重新开始">
+                <svg viewBox="0 0 64 64" class="face" aria-hidden="true">
+                  <circle cx="24" cy="28" r="3.2" fill="#2a2114" />
+                  <circle cx="40" cy="28" r="3.2" fill="#2a2114" />
+                  <path
+                    d="M22 40c2.8 6 17.2 6 20 0"
+                    fill="none"
+                    stroke="#2a2114"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </button>
+              <div class="meter">
+                <span id="time-label">用时</span>
+                <div class="lcd" id="lcd-time" aria-labelledby="time-label">000</div>
+              </div>
+            </div>
+            <p class="status" id="status" aria-live="polite">正在布设雷区…</p>
+            <div class="well">
+              <div id="board" class="board" role="grid" aria-label="雷区"></div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="aside">
+          <section class="card">
+            <h2>本机纪录</h2>
+            <ul class="records">
+              <li><span>初级</span><strong id="rec-beginner">—</strong></li>
+              <li><span>中级</span><strong id="rec-intermediate">—</strong></li>
+              <li><span>高级</span><strong id="rec-expert">—</strong></li>
+            </ul>
+            <p class="fine">只存在这台浏览器里。点笑脸可以重开这一档。</p>
+          </section>
+          <section class="card">
+            <h2>怎么玩</h2>
+            <ol class="rules">
+              <li>点开一格。数字是周围八格里的雷数。</li>
+              <li>右键，或按住不放，用来插旗。再来一次变成问号，第三次取消。</li>
+              <li>一个数字周围的旗子数量对上之后，再点这个数字，会把其余格子一起掀开。</li>
+              <li>旗子插错时这样做，会直接踩雷。</li>
+            </ol>
+            <p class="fine">
+              方向键移动，空格翻开，<kbd>F</kbd> 插旗，<kbd>R</kbd> 重开，<kbd>1</kbd>
+              <kbd>2</kbd> <kbd>3</kbd> 换难度。
+            </p>
+          </section>
+        </aside>
+      </div>
+    </div>
+    <noscript><p class="noscript">需要开启脚本才能排雷。</p></noscript>
+    <script type="text/python" src="app.py"></script>
+  </body>
+</html>
