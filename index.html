@@ -7,13 +7,15 @@
     <title>羊了个羊</title>
     <meta name="description" content="叠牌三消。只点没被压住的牌，三张一样的收进七格槽里。" />
     <link rel="icon" href="sheep.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="sheep.css" />
+    <link rel="stylesheet" href="sheep.css?v=3" />
     <script src="brython.min.js"></script>
   </head>
   <body onload="brython({cache: false, debug: 0})">
     <div class="sky">
       <header class="top">
-        <a class="jump" href="saolei.html">扫雷</a>
+        <div class="top-links">
+          <a class="jump" href="saolei.html">扫雷</a>
+        </div>
         <div class="brand">
           <svg class="logo" viewBox="0 0 72 72" aria-hidden="true">
             <ellipse cx="22" cy="28" rx="10" ry="12" fill="#fffaf3" />
@@ -51,7 +53,9 @@
       </div>
 
       <div id="table" class="table">
-        <div id="board" class="board"></div>
+        <div id="board-fit" class="board-fit">
+          <div id="board" class="board"></div>
+        </div>
       </div>
 
       <div id="banner" class="banner" role="dialog" aria-modal="false">

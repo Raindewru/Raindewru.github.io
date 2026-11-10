@@ -105,18 +105,50 @@ def build():
 
 
 def fit():
-    width = ui.get("board_w") or 1
-    height = ui.get("board_h") or 1
+    width = float(ui.get("board_w") or 1)
+    height = float(ui.get("board_h") or 1)
+    box = document["board-fit"]
     table = document["table"]
-    avail = table.clientWidth or window.innerWidth or width
-    scale = avail / float(width)
+    box.attrs["style"] = "width:0;height:0;"
+    avail_w = table.clientWidth
+    if not avail_w:
+        try:
+            avail_w = int(window.innerWidth or 360)
+        except Exception:
+            avail_w = 360
+    if avail_w < 1:
+        avail_w = width
+    scale = avail_w / width
+    try:
+        view_w = int(window.innerWidth or avail_w)
+        view_h = int(window.innerHeight or 700)
+    except Exception:
+        view_w = int(avail_w)
+        view_h = 700
+    if view_w <= 720:
+        reserve = 220 if ui.get("level") == "mountain" else 250
+        avail_h = view_h - reserve
+        if avail_h < 160:
+            avail_h = 160
+        height_scale = avail_h / height
+        if height_scale < scale:
+            scale = height_scale
     if scale > 1:
         scale = 1
+    if width * scale > avail_w:
+        scale = avail_w / width
+    scaled_w = width * scale
+    scaled_h = height * scale
+    box.attrs["style"] = "width:%.1fpx;height:%.1fpx;" % (scaled_w, scaled_h)
     document["board"].attrs["style"] = (
-        "width:%dpx;height:%dpx;transform:scale(%.4f);transform-origin:top center;"
+        "width:%.1fpx;height:%.1fpx;transform:scale(%.4f);transform-origin:0 0;"
         % (width, height, scale)
     )
-    table.attrs["style"] = "height:%dpx;" % int(height * scale + 12)
+    table.attrs["style"] = "height:%.0fpx;" % (scaled_h + 10)
+    try:
+        document.body.attrs["data-level"] = ui.get("level") or "meadow"
+    except Exception:
+        pass
 
 
 def paint():
@@ -507,6 +539,12 @@ def main():
     document["chicken"].bind("click", catch_chicken)
     try:
         window.bind("resize", lambda ev: fit())
+    except Exception:
+        pass
+    try:
+        viewport = window.visualViewport
+        if viewport is not None:
+            viewport.bind("resize", lambda ev: fit())
     except Exception:
         pass
     start("meadow")
